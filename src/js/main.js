@@ -383,8 +383,12 @@ document.addEventListener("mousemove", debounce((e) => {
   moveY = (e.clientY - window.innerHeight / 2) * 0.005;
 }, 10), passiveListener);
 
-// Optimize initial section reveal animation
+// Smooth reveal for sections when they come into view - optimized to avoid layout shifts
 document.addEventListener("DOMContentLoaded", () => {
+  // Pre-calculate all positions first to avoid forced reflow
+  const sections = document.querySelectorAll('.section');
+  
+  // Use transform for animations to avoid layout shifts
   requestAnimationFrame(() => {
     anime({
       targets: ".section",
@@ -393,6 +397,10 @@ document.addEventListener("DOMContentLoaded", () => {
       duration: 1200,
       easing: "easeOutExpo",
       delay: anime.stagger(150),
+      // Use complete callback to add active class after animation for better stability
+      complete: (anim) => {
+        sections.forEach(section => section.classList.add('animation-complete'));
+      }
     });
   });
 });
