@@ -1,5 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .cursor, .overlay-gradient, .particles-container, .scroll-indicator {
+    display: none !important;
+  }
+  
+  header, nav, footer {
+    display: none !important;
+  }
+  
+  section {
+    page-break-inside: avoid;
+    display: block !important;
+    position: relative !important;
+    opacity: 1 !important;
+    transform: none !important;
+    page-break-after: always;
+    min-height: auto !important;
+  }
+  
+  .section-header {
+    position: relative !important;
+  }
+  
+  .project-image, .skill-category, .service-item, .about-text,
+  .contact-item, .contact-title, .about-title, .skill-category h3, 
+  .team-title, .project-meta, .project-content {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    page-break-inside: avoid;
+  }
+  
+  .project-image::before, .project-image::after, .skill-category::before,
+  .service-item h3::before, .about-title::after, .section-label::before,
+  .logo span::after {
+    display: none !important;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+    color: #000;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  a[href^="#"]:after, 
+  a[href^="javascript:"]:after {
+    content: "";
+  }
+}
+/* Fonts are now loaded in HTML with preload */
+
+/* Accessibility - visually hidden content */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 
 :root {
