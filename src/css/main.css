@@ -54,7 +54,6 @@
     opacity: 1 !important;
     transform: none !important;
     page-break-after: always;
-    min-height: auto !important;
   }
   
   .section-header {
