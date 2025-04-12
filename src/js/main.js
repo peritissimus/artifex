@@ -146,6 +146,12 @@ function initNavigation() {
     link.style.setProperty("--index", index);
   });
 
+  // After page loads, enable transitions to prevent flashing
+  // Wait a bit to ensure everything is fully rendered
+  setTimeout(() => {
+    mainNav.classList.add("transition-enabled");
+  }, 300);
+  
   menuToggle.addEventListener("click", () => {
     menuToggle.classList.toggle("active");
     mainNav.classList.toggle("active");
@@ -193,59 +199,19 @@ function initNavigation() {
   });
 }
 
-// Animate hero title - optimized
+// Animate hero title - simplified without movement
 function animateHeroTitle() {
   const titleLines = document.querySelectorAll(".title-line");
-  const heroTitle = document.querySelector(".hero-title");
   
-  if (!titleLines.length || !heroTitle) return; // Guard clause
+  if (!titleLines.length) return; // Guard clause
 
-  // Set initial index for staggered animations
+  // Just add active class to show the text
   titleLines.forEach((line, index) => {
     line.style.setProperty("--index", index);
     line.classList.add("active");
   });
-
-  // Use RAF for smoother animation
-  let moveX = 0;
-  let moveY = 0;
-  let animationFrameId;
-
-  const updateHeroPosition = () => {
-    heroTitle.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    animationFrameId = requestAnimationFrame(updateHeroPosition);
-  };
-
-  // Only run the magnetic effect on desktop
-  if (window.innerWidth > 768) {
-    // Add magnetic effect to hero title with debounce
-    const handleMouseMove = debounce((e) => {
-      const { clientX, clientY } = e;
-      const { left, top, width, height } = heroTitle.getBoundingClientRect();
-      const centerX = left + width / 2;
-      const centerY = top + height / 2;
-
-      const deltaX = (clientX - centerX) / (width / 2);
-      const deltaY = (clientY - centerY) / (height / 2);
-
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-      const maxDistance = 2;
-      const scaleFactor = Math.min(distance / maxDistance, 1);
-
-      moveX = deltaX * 20 * scaleFactor;
-      moveY = deltaY * 10 * scaleFactor;
-    }, 10);
-
-    document.addEventListener("mousemove", handleMouseMove, passiveListener);
-
-    document.addEventListener("mouseleave", () => {
-      moveX = 0;
-      moveY = 0;
-    });
-
-    // Start the animation loop
-    animationFrameId = requestAnimationFrame(updateHeroPosition);
-  }
+  
+  // No magnetic effect - removed to prevent movement
 }
 
 // Initialize scroll animations - optimized with IntersectionObserver
@@ -343,7 +309,7 @@ function createParticles() {
 }
 
 // Add parallax effect on mouse move - optimized with debounce and RAF
-const parallaxItems = { projectImages: [], heroTitle: null };
+const parallaxItems = { projectImages: [] };
 
 // Add requestAnimationFrame for smoother parallax
 let rafId = null;
@@ -357,21 +323,15 @@ function updateParallaxElements() {
     });
   }
 
-  if (parallaxItems.heroTitle) {
-    parallaxItems.heroTitle.style.transform = `translate(${moveX * 2}px, ${moveY * 2}px)`;
-  }
-
   rafId = requestAnimationFrame(updateParallaxElements);
 }
 
 // Cache DOM references on load
 document.addEventListener("DOMContentLoaded", () => {
   parallaxItems.projectImages = Array.from(document.querySelectorAll(".project-image"));
-  parallaxItems.heroTitle = document.querySelector(".hero-title");
   
   // Only start parallax on desktop
-  if (window.innerWidth > 768 && 
-      (parallaxItems.projectImages.length || parallaxItems.heroTitle)) {
+  if (window.innerWidth > 768 && parallaxItems.projectImages.length) {
     // Start animation loop
     rafId = requestAnimationFrame(updateParallaxElements);
   }
