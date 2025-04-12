@@ -4,24 +4,289 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Name | Developer</title>
+  <title>Kushal | Fullstack Developer & Designer</title>
+  <meta name="description" content="Kushal is a passionate fullstack developer and designer specializing in creating clean, functional, and visually appealing digital experiences.">
+  <meta name="keywords" content="fullstack developer, web designer, React developer, Node.js developer, UI/UX designer, frontend developer, backend developer">
+  <meta name="author" content="Kushal">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourwebsite.com/">
+  <meta property="og:title" content="Kushal | Fullstack Developer & Designer">
+  <meta property="og:description" content="Creating clean, functional, and visually appealing digital experiences that solve real problems.">
+  <meta property="og:image" content="https://yourwebsite.com/thumbnail.jpg">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://yourwebsite.com/">
+  <meta property="twitter:title" content="Kushal | Fullstack Developer & Designer">
+  <meta property="twitter:description" content="Creating clean, functional, and visually appealing digital experiences that solve real problems.">
+  <meta property="twitter:image" content="https://yourwebsite.com/thumbnail.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- CSS -->
   <link rel="stylesheet" href="./src/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://yourwebsite.com/">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Kushal",
+    "url": "https://yourwebsite.com",
+    "image": "https://yourwebsite.com/profile-image.jpg",
+    "jobTitle": "Fullstack Developer & Designer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Freelance"
+    },
+    "sameAs": [
+      "https://linkedin.com/in/yourprofile",
+      "https://github.com/peritissimus",
+      "https://twitter.com/yourprofile"
+    ],
+    "knowsAbout": ["Web Development", "UI/UX Design", "React", "Node.js", "JavaScript", "TypeScript", "CSS", "HTML", "Mobile Development"]
+  }
+  </script>
 </head>
 
 <body>
-  <!-- Clouds background -->
-  <div class="cloud cloud-1"></div>
-  <div class="cloud cloud-2"></div>
-  <div class="cloud cloud-3"></div>
-  <div class="cloud cloud-4"></div>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="overlay-gradient" aria-hidden="true"></div>
 
-  <div class="container">
-    <div class="content">
-      <h1 class="name">Peritissimus</h1>
-      <div class="divider"></div>
-      <p class="profession">Developer</p>
+  <header role="banner">
+    <div class="logo" aria-label="peritissimus">
+      peritissimus<span>.</span>
     </div>
-  </div>
+    <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <nav class="main-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-content">
+      <div class="nav-header">
+        <span id="menu-heading">MENU</span>
+      </div>
+      <ul class="nav-links" aria-labelledby="menu-heading">
+        <li><a href="#home" class="nav-link" aria-current="page">home</a></li>
+        <li><a href="#projects" class="nav-link">projects</a></li>
+        <li><a href="#about" class="nav-link">about me</a></li>
+        <li><a href="#skills" class="nav-link">skills</a></li>
+        <li><a href="#contact" class="nav-link">contact</a></li>
+      </ul>
+      <div class="nav-footer">
+        <span id="social-heading">CONNECT</span>
+        <div class="social-links" aria-labelledby="social-heading">
+          <a href="https://linkedin.com/in/yourprofile" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LINKEDIN</a>
+          <a href="https://github.com/peritissimus" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">GITHUB</a>
+          <a href="https://twitter.com/yourprofile" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter Profile">TWITTER</a>
+          <a href="https://behance.net/yourprofile" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Behance Profile">BEHANCE</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" role="main">
+    <!-- Home/Hero Section -->
+    <section id="home" class="section active" aria-labelledby="home-title">
+      <div class="hero-content">
+        <h1 id="home-title" class="hero-title">
+          <div class="title-line">fullstack</div>
+          <div class="title-line">developer</div>
+          <div class="title-line">& designer<span>.</span></div>
+        </h1>
+      </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
+    </section>
+
+    <!-- Projects Section (Horizontal Scroll) -->
+    <section id="projects" class="section" aria-labelledby="projects-heading">
+      <div class="section-header">
+        <h2 id="projects-heading" class="section-label">projects</h2>
+      </div>
+      
+      <div class="projects-container">
+        <!-- Project 1 -->
+        <article class="project-item">
+          <div class="project-meta">
+            <span class="project-category">FULL STACK APPLICATION</span>
+            <span class="project-category">REACT & NODE.JS</span>
+            <span class="project-category">E-COMMERCE PLATFORM</span>
+          </div>
+          <div class="project-content">
+            <a href="#project1" class="project-link">
+              <div class="project-image project-image-1" aria-label="E-commerce platform project">
+                <!-- This will be a colored box placeholder -->
+              </div>
+            </a>
+            <h3 class="visually-hidden">E-commerce Platform</h3>
+          </div>
+        </article>
+        
+        <!-- Project 2 -->
+        <article class="project-item">
+          <div class="project-meta">
+            <span class="project-category">UI/UX DESIGN</span>
+            <span class="project-category">MOBILE APPLICATION</span>
+            <span class="project-category">FINANCIAL SERVICES</span>
+          </div>
+          <div class="project-content">
+            <a href="#project2" class="project-link">
+              <div class="project-image project-image-2" aria-label="Financial services mobile app project">
+                <!-- This will be a colored box placeholder -->
+              </div>
+            </a>
+            <h3 class="visually-hidden">Financial Services Mobile App</h3>
+          </div>
+        </article>
+        
+        <!-- Project 3 -->
+        <article class="project-item">
+          <div class="project-meta">
+            <span class="project-category">INTERACTIVE EXPERIENCE</span>
+            <span class="project-category">THREE.JS & WEBGL</span>
+            <span class="project-category">DATA VISUALIZATION</span>
+          </div>
+          <div class="project-content">
+            <a href="#project3" class="project-link">
+              <div class="project-image project-image-3" aria-label="Data visualization interactive experience project">
+                <!-- This will be a colored box placeholder -->
+              </div>
+            </a>
+            <h3 class="visually-hidden">Data Visualization Experience</h3>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section" aria-labelledby="about-heading">
+      <div class="section-header">
+        <h2 id="about-heading" class="section-label">about</h2>
+      </div>
+      
+      <div class="about-container">
+        <div class="about-content">
+          <div class="about-text">
+            <h2 class="about-title">Hi, I'm Kushal</h2>
+            <p>I'm a passionate fullstack developer with a keen eye for design. I create clean, functional, and visually appealing digital experiences that solve real problems.</p>
+            <p>With expertise in both frontend and backend technologies, I enjoy bringing ideas to life from concept to execution, focusing on performance, usability, and aesthetic detail.</p>
+          </div>
+          
+          <div class="services-grid">
+            <div class="service-item">
+              <h3>Web Development</h3>
+              <p>Building modern, responsive web applications with React, Node.js, and other cutting-edge technologies.</p>
+            </div>
+            <div class="service-item">
+              <h3>UI/UX Design</h3>
+              <p>Creating intuitive interfaces and thoughtful user experiences that balance form and function.</p>
+            </div>
+            <div class="service-item">
+              <h3>Mobile Development</h3>
+              <p>Developing cross-platform mobile applications with React Native and Flutter.</p>
+            </div>
+            <div class="service-item">
+              <h3>Interactive Experiences</h3>
+              <p>Crafting engaging interactive elements and animations that enhance user engagement.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section" aria-labelledby="skills-heading">
+      <div class="section-header">
+        <h2 id="skills-heading" class="section-label">skills</h2>
+      </div>
+      
+      <div class="team-container">
+        <h2 class="team-title">Technical Toolkit</h2>
+        <div class="skills-grid">
+          <div class="skill-category">
+            <h3>Frontend</h3>
+            <ul class="skill-list">
+              <li><span>React / Next.js</span></li>
+              <li><span>JavaScript / TypeScript</span></li>
+              <li><span>HTML5 / CSS3 / SASS</span></li>
+              <li><span>Three.js / WebGL</span></li>
+              <li><span>Animation Libraries</span></li>
+            </ul>
+          </div>
+          <div class="skill-category">
+            <h3>Backend</h3>
+            <ul class="skill-list">
+              <li><span>Node.js / Express</span></li>
+              <li><span>Python / Django</span></li>
+              <li><span>RESTful APIs</span></li>
+              <li><span>GraphQL</span></li>
+              <li><span>Database Design</span></li>
+            </ul>
+          </div>
+          <div class="skill-category">
+            <h3>Design</h3>
+            <ul class="skill-list">
+              <li><span>UI/UX Principles</span></li>
+              <li><span>Figma / Sketch</span></li>
+              <li><span>Adobe Creative Suite</span></li>
+              <li><span>Design Systems</span></li>
+              <li><span>Motion Design</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section" aria-labelledby="contact-heading">
+      <div class="section-header">
+        <h2 id="contact-heading" class="section-label">contact</h2>
+      </div>
+      
+      <div class="contact-container">
+        <h2 class="contact-title">Let's Create Something Together</h2>
+        <div class="contact-content">
+          <div class="contact-info">
+            <div class="contact-item">
+              <h3 id="email-label">Email</h3>
+              <a href="mailto:hello@example.com" aria-labelledby="email-label">hello@example.com</a>
+            </div>
+            <div class="contact-item">
+              <h3 id="github-label">GitHub</h3>
+              <a href="https://github.com/peritissimus" target="_blank" rel="noopener noreferrer" aria-labelledby="github-label">github.com/peritissimus</a>
+            </div>
+            <div class="contact-item">
+              <h3 id="location-label">Based in</h3>
+              <p aria-labelledby="location-label">New York, NY</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo" class="site-footer">
+    <div class="footer-content">
+      <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
+    </div>
+  </footer>
+
   <script type="module" src="./src/js/main.js"></script>
 </body>
 
