@@ -1,0 +1,112 @@
+/**
+ * Skills section styles
+ */
+
+#skills {
+  padding: 8rem 0 4rem;
+}
+
+.team-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 2rem 4rem;
+}
+
+.team-title {
+  font-size: 3rem;
+  font-weight: 400;
+  margin-bottom: 4rem;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all var(--transition-long) ease;
+}
+
+.team-title.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 3rem;
+}
+
+.skill-category {
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all var(--transition-long) ease;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  /* Set explicit dimensions to prevent layout shift */
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-category::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background-color: var(--accent-blue);
+  opacity: 0.7;
+}
+
+.skill-category:nth-child(2)::before {
+  background-color: var(--accent-red);
+}
+
+.skill-category:nth-child(3)::before {
+  background-color: var(--accent-green);
+}
+
+.skill-category.active {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: calc(0.1s * var(--index, 0));
+}
+
+.skill-category h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.skill-category h3:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: var(--accent-color);
+}
+
+.skill-list {
+  list-style: none;
+  padding: 0;
+}
+
+.skill-list li {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.skill-list li:before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-size: 1.2rem;
+}

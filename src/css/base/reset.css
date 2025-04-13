@@ -1,0 +1,161 @@
+/**
+ * Reset and base styles
+ */
+
+:root {
+  --bg-color: #000000;
+  --bg-color-alt: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --accent-color: #ffffff;
+  --accent-red: #ff2e2e;
+  --accent-blue: #89cffd;
+  --accent-yellow: #ffd646;
+  --accent-green: #4eff8a;
+  --transition-speed: 0.3s;
+  --transition-long: 0.6s;
+  --spacing-unit: 1rem;
+  --font-mono: 'Space Mono', monospace, 'Courier New', Courier, monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Reserve space for fonts to prevent layout shift */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  font-display: swap; /* Improves font rendering */
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+  /* Set explicit min-heights for elements that might shift during font loading */
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--transition-speed) ease;
+}
+
+ul {
+  list-style: none;
+}
+
+.overlay-gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(255, 46, 46, 0.05) 0%, transparent 40%), 
+                radial-gradient(circle at bottom left, rgba(78, 255, 138, 0.05) 0%, transparent 40%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Accessibility - visually hidden content */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Section base styles */
+.section {
+  position: relative;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+.section.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-header {
+  position: absolute;
+  top: 8rem;
+  left: 2rem;
+  z-index: 2;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  opacity: 0.8;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.section-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1rem;
+  height: 1px;
+  background-color: var(--accent-color);
+  transform: translateY(-50%);
+}
+
+/* Optimize for off-screen content to improve performance */
+.section:not(.active) {
+  content-visibility: auto;
+  contain-intrinsic-size: 100vh;
+}
+
+/* Ensure precise height calculations */
+.hero-title, .project-image, .about-title, .service-item h3,
+.team-title, .contact-title, .contact-item h3 {
+  height: auto;
+  overflow: visible;
+}
+
+/* Optimize font rendering */
+.title-line, .about-title, .team-title, .contact-title, h3 {
+  font-display: block;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* Add CSS containment for better layout stability */
+.section, .hero-content, .project-content, .about-container, .team-container, .contact-container {
+  contain: layout style paint;
+}

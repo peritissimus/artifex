@@ -1,0 +1,203 @@
+/**
+ * Header and navigation styles
+ */
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--accent-color);
+  position: relative;
+}
+
+.logo span::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background-color: var(--accent-red);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px 2px var(--accent-red);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    box-shadow: 0 0 8px 2px var(--accent-red);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 15px 4px var(--accent-red);
+  }
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 30px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--text-primary);
+  transition: all var(--transition-speed) ease;
+}
+
+.menu-toggle.active span:first-child {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.menu-toggle.active span:last-child {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Navigation */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg-color);
+  z-index: 90;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  /* Transitions controlled via JS to prevent flashing */
+  display: none;
+  transition: none;
+}
+
+.main-nav.transition-enabled {
+  display: flex;
+  transition: opacity var(--transition-long) ease, visibility var(--transition-long) ease;
+}
+
+.main-nav.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.nav-header {
+  margin-bottom: 5rem;
+}
+
+.nav-header span {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.nav-links {
+  flex-grow: 1;
+}
+
+.nav-link {
+  font-size: 3.5rem;
+  font-weight: 400;
+  display: inline-block;
+  margin-bottom: 1rem;
+  position: relative;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all var(--transition-speed) ease;
+}
+
+.main-nav.active .nav-link {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: calc(0.1s * var(--index, 0));
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+.nav-link:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--text-primary);
+  transition: width var(--transition-speed) ease;
+}
+
+.nav-link:hover:before {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-link.active:before {
+  width: 100%;
+}
+
+.nav-footer {
+  padding-top: 3rem;
+}
+
+.nav-footer span {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.social-link {
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: opacity var(--transition-speed) ease;
+}
+
+.social-link:hover {
+  opacity: 0.7;
+}

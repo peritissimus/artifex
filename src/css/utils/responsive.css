@@ -1,0 +1,78 @@
+/**
+ * Responsive design styles
+ */
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .about-content {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .hero-title {
+    font-size: 6rem;
+  }
+  
+  .nav-link {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 767px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  
+  .section-header {
+    top: 6rem;
+    left: 1.5rem;
+  }
+  
+  .about-title,
+  .team-title,
+  .contact-title {
+    font-size: 2.5rem;
+  }
+  
+  .projects-container,
+  .about-container,
+  .team-container,
+  .contact-container {
+    padding: 7rem 1.5rem 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .nav-link {
+    font-size: 2.5rem;
+  }
+  
+  .about-title,
+  .team-title,
+  .contact-title {
+    font-size: 2rem;
+  }
+  
+  .section-header {
+    top: 5rem;
+    left: 1rem;
+  }
+  
+  .projects-container,
+  .about-container,
+  .team-container,
+  .contact-container {
+    padding: 6rem 1rem 3rem;
+  }
+}
