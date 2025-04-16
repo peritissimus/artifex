@@ -6,13 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "animejs": "^3.2.2",
     "three": "^0.175.0"
   },
   "devDependencies": {
+    "prettier": "^3.5.3",
     "terser": "^5.27.2",
     "vite": "^6.2.0",
     "vite-plugin-compression": "^0.5.1"

@@ -12,6 +12,7 @@ import {
   initParallax,
   initEntranceAnimations,
 } from "./modules/animations.js";
+import { initCubeBackground } from "./modules/cube-bg.js"; // Import the cube background module
 
 /**
  * Initialize the site when DOM is fully loaded
@@ -23,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize scrolling animations
   initScrollAnimations();
 
-  // Initialize parallax effects
+  // Initialize parallax effects (Consider if this conflicts visually with cube bg)
   initParallax();
 
   // Animate hero section elements with slight delay for smoother loading
@@ -31,9 +32,18 @@ document.addEventListener("DOMContentLoaded", () => {
     animateHeroTitle();
   }, 500);
 
-  // Initialize particles effect on desktop devices
+  // Initialize particles effect OR Cube Background on desktop devices
+  // Choose one or adjust styling if using both
   if (window.innerWidth > 768) {
-    createParticles();
+    // Option 1: Only Cube Background
+    initCubeBackground();
+
+    // Option 2: Only Particles (Keep original code)
+    // createParticles();
+
+    // Option 3: Both (Ensure they don't visually clash heavily)
+    // initCubeBackground();
+    // createParticles(); // You might want to reduce particle count/opacity if using both
   }
 
   // Initialize entrance animations for sections
