@@ -6,7 +6,7 @@
 @import './base/reset.css';
 
 /* Component Styles */
-@import './components/cursor.css';
+@import './components/cube-bg.css';
 @import './components/header.css';
 @import './components/hero.css';
 @import './components/projects.css';

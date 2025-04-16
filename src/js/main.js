@@ -4,29 +4,25 @@
  */
 
 // Import utility modules
-import { initCursor } from './modules/cursor.js';
-import { initNavigation } from './modules/navigation.js';
-import { 
-  animateHeroTitle, 
+import { initNavigation } from "./modules/navigation.js";
+import {
+  animateHeroTitle,
   initScrollAnimations,
   createParticles,
   initParallax,
-  initEntranceAnimations
-} from './modules/animations.js';
+  initEntranceAnimations,
+} from "./modules/animations.js";
 
 /**
  * Initialize the site when DOM is fully loaded
  */
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize custom cursor
-  initCursor();
-
   // Initialize navigation menu
   initNavigation();
 
   // Initialize scrolling animations
   initScrollAnimations();
-  
+
   // Initialize parallax effects
   initParallax();
 

@@ -1,0 +1,105 @@
+/**
+ * Cube Background Animation
+ * Creates a 3D cube grid that moves on scroll
+ */
+
+.cube-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.cube-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.cube-grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateZ(45deg);
+  will-change: transform;
+}
+
+.cube {
+  position: absolute;
+  transform-style: preserve-3d;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.cube-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.02);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.cube-face--front {
+  transform: translateZ(var(--cube-size));
+}
+
+.cube-face--back {
+  transform: rotateY(180deg) translateZ(var(--cube-size));
+}
+
+.cube-face--right {
+  transform: rotateY(90deg) translateZ(var(--cube-size));
+}
+
+.cube-face--left {
+  transform: rotateY(-90deg) translateZ(var(--cube-size));
+}
+
+.cube-face--top {
+  transform: rotateX(90deg) translateZ(var(--cube-size));
+}
+
+.cube-face--bottom {
+  transform: rotateX(-90deg) translateZ(var(--cube-size));
+}
+
+/* Special accent cubes */
+.cube--accent .cube-face {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cube--accent-red .cube-face {
+  border-color: rgba(255, 46, 46, 0.3);
+}
+
+.cube--accent-blue .cube-face {
+  border-color: rgba(137, 207, 253, 0.3);
+}
+
+.cube--accent-yellow .cube-face {
+  border-color: rgba(255, 214, 70, 0.3);
+}
+
+.cube--accent-green .cube-face {
+  border-color: rgba(78, 255, 138, 0.3);
+}
+
+/* Media queries for performance on mobile */
+@media (max-width: 768px) {
+  .cube-grid {
+    transform: rotateX(60deg) rotateZ(45deg) scale(0.8);
+  }
+  
+  .cube-bg {
+    opacity: 0.5;
+  }
+}

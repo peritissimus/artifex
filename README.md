@@ -5,7 +5,6 @@ A modern, responsive portfolio website built with a focus on performance and cle
 ## Features
 
 - Responsive design that works on all device sizes
-- Custom cursor and smooth animations using Anime.js
 - Modular code architecture for better maintainability
 - Component-based HTML structure with includes
 - Optimized for performance with techniques like:
@@ -37,7 +36,6 @@ artifex/
 │   ├── js/
 │   │   ├── modules/    # JavaScript modules
 │   │   │   ├── utils.js
-│   │   │   ├── cursor.js
 │   │   │   ├── navigation.js
 │   │   │   └── animations.js
 │   │   └── main.js     # Main JavaScript entry point
@@ -118,7 +116,6 @@ Styles are organized into logical groups:
 JavaScript functionality is split into focused modules:
 
 - **utils.js**: Helper functions like debounce and event handling
-- **cursor.js**: Custom cursor implementation
 - **navigation.js**: Navigation and menu functionality
 - **animations.js**: All animation logic and effects
 
