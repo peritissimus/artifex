@@ -13,10 +13,10 @@ export const passiveSupported = () => {
       get passive() {
         passive = true;
         return true;
-      }
+      },
     };
-    window.addEventListener("test", null, options);
-    window.removeEventListener("test", null, options);
+    window.addEventListener('test', null, options);
+    window.removeEventListener('test', null, options);
   } catch (err) {}
   return passive;
 };

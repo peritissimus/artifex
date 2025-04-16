@@ -55,17 +55,20 @@ artifex/
 ### Installation
 
 1. Clone the repository
+
    ```
    git clone https://github.com/yourusername/artifex.git
    cd artifex
    ```
 
 2. Install dependencies
+
    ```
    npm install
    ```
 
 3. Start the development server
+
    ```
    npm run dev
    ```
@@ -122,6 +125,7 @@ JavaScript functionality is split into focused modules:
 ## Browser Support
 
 The site is optimized for modern browsers, including:
+
 - Chrome (latest)
 - Firefox (latest)
 - Safari (latest)

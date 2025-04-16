@@ -30,7 +30,7 @@
   overflow: hidden;
   opacity: 0;
   /* No transform or movement */
-  transform: none !important; 
+  transform: none !important;
 }
 
 .title-line.active {

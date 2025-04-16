@@ -3,7 +3,7 @@
  * Handles navigation menu interactions
  */
 
-import anime from "animejs/lib/anime.es.js";
+import anime from 'animejs/lib/anime.es.js';
 import { debounce, passiveListener } from './utils.js';
 
 /**
@@ -11,38 +11,42 @@ import { debounce, passiveListener } from './utils.js';
  * Handles mobile menu toggle and smooth scrolling to sections
  */
 export function initNavigation() {
-  const menuToggle = document.querySelector(".menu-toggle");
-  const mainNav = document.querySelector(".main-nav");
-  const navLinks = document.querySelectorAll(".nav-link");
-  
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mainNav = document.querySelector('.main-nav');
+  const navLinks = document.querySelectorAll('.nav-link');
+
   if (!menuToggle || !mainNav) return; // Guard clause
 
   // Set initial index for staggered animations
   navLinks.forEach((link, index) => {
-    link.style.setProperty("--index", index);
+    link.style.setProperty('--index', index);
   });
 
   // After page loads, enable transitions to prevent flashing
   // Wait a bit to ensure everything is fully rendered
   setTimeout(() => {
-    mainNav.classList.add("transition-enabled");
+    mainNav.classList.add('transition-enabled');
   }, 300);
-  
-  menuToggle.addEventListener("click", () => {
+
+  menuToggle.addEventListener('click', () => {
     toggleMenu(menuToggle, mainNav);
   });
 
   // Close menu when clicking a link
   navLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
+    link.addEventListener('click', (e) => {
       handleNavLinkClick(e, link, menuToggle, mainNav);
     });
   });
 
   // Add active class to navigation links based on scroll position - debounced for performance
-  window.addEventListener("scroll", debounce(() => {
-    updateActiveNavLink();
-  }, 100), passiveListener);
+  window.addEventListener(
+    'scroll',
+    debounce(() => {
+      updateActiveNavLink();
+    }, 100),
+    passiveListener,
+  );
 }
 
 /**
@@ -51,22 +55,22 @@ export function initNavigation() {
  * @param {HTMLElement} mainNav - The main navigation element
  */
 function toggleMenu(menuToggle, mainNav) {
-  menuToggle.classList.toggle("active");
-  mainNav.classList.toggle("active");
-  
+  menuToggle.classList.toggle('active');
+  mainNav.classList.toggle('active');
+
   // Update ARIA attributes for accessibility
-  const isExpanded = mainNav.classList.contains("active");
-  menuToggle.setAttribute("aria-expanded", isExpanded);
+  const isExpanded = mainNav.classList.contains('active');
+  menuToggle.setAttribute('aria-expanded', isExpanded);
 
   if (isExpanded) {
     // Animate nav links when menu opens
     anime({
-      targets: ".nav-link",
+      targets: '.nav-link',
       translateY: [30, 0],
       opacity: [0, 1],
       duration: 800,
       delay: anime.stagger(80),
-      easing: "easeOutExpo",
+      easing: 'easeOutExpo',
     });
   }
 }
@@ -81,21 +85,21 @@ function toggleMenu(menuToggle, mainNav) {
 function handleNavLinkClick(e, link, menuToggle, mainNav) {
   e.preventDefault();
 
-  const targetId = link.getAttribute("href");
+  const targetId = link.getAttribute('href');
   const targetElement = document.querySelector(targetId);
-  
+
   if (!targetElement) return;
 
   // Close menu
-  menuToggle.classList.remove("active");
-  mainNav.classList.remove("active");
-  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.classList.remove('active');
+  mainNav.classList.remove('active');
+  menuToggle.setAttribute('aria-expanded', 'false');
 
   // Scroll to section after menu closes
   setTimeout(() => {
     targetElement.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
+      behavior: 'smooth',
+      block: 'start',
     });
   }, 300);
 }
@@ -107,21 +111,18 @@ function updateActiveNavLink() {
   const scrollPosition = window.scrollY;
 
   // Determine which section is visible
-  document.querySelectorAll("section").forEach((section) => {
+  document.querySelectorAll('section').forEach((section) => {
     const sectionTop = section.offsetTop - 100;
     const sectionHeight = section.offsetHeight;
 
-    if (
-      scrollPosition >= sectionTop &&
-      scrollPosition < sectionTop + sectionHeight
-    ) {
-      const currentId = section.getAttribute("id");
+    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+      const currentId = section.getAttribute('id');
 
       // Update navigation links
-      document.querySelectorAll(".nav-link").forEach((link) => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === `#${currentId}`) {
-          link.classList.add("active");
+      document.querySelectorAll('.nav-link').forEach((link) => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentId}`) {
+          link.classList.add('active');
         }
       });
     }

@@ -2,6 +2,6 @@
   "name": "artifex",
   "compatibility_date": "2025-04-12",
   "assets": {
-    "directory": "./dist"
-  }
+    "directory": "./dist",
+  },
 }

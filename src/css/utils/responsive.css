@@ -7,11 +7,11 @@
   .about-content {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .hero-title {
     font-size: 6rem;
   }
-  
+
   .nav-link {
     font-size: 4rem;
   }
@@ -21,22 +21,22 @@
   html {
     font-size: 14px;
   }
-  
+
   .hero-title {
     font-size: 3.5rem;
   }
-  
+
   .section-header {
     top: 6rem;
     left: 1.5rem;
   }
-  
+
   .about-title,
   .team-title,
   .contact-title {
     font-size: 2.5rem;
   }
-  
+
   .projects-container,
   .about-container,
   .team-container,
@@ -49,26 +49,26 @@
   html {
     font-size: 12px;
   }
-  
+
   .hero-title {
     font-size: 3rem;
   }
-  
+
   .nav-link {
     font-size: 2.5rem;
   }
-  
+
   .about-title,
   .team-title,
   .contact-title {
     font-size: 2rem;
   }
-  
+
   .section-header {
     top: 5rem;
     left: 1rem;
   }
-  
+
   .projects-container,
   .about-container,
   .team-container,

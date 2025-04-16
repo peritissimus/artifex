@@ -42,7 +42,8 @@ header {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.5;
     box-shadow: 0 0 8px 2px var(--accent-red);
   }
@@ -101,7 +102,9 @@ header {
 
 .main-nav.transition-enabled {
   display: flex;
-  transition: opacity var(--transition-long) ease, visibility var(--transition-long) ease;
+  transition:
+    opacity var(--transition-long) ease,
+    visibility var(--transition-long) ease;
 }
 
 .main-nav.active {

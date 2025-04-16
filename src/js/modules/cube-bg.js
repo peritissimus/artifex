@@ -3,7 +3,7 @@
  * Creates and animates the 3D cube grid that responds to scrolling
  */
 
-import { debounce, passiveListener } from "./utils.js";
+import { debounce, passiveListener } from './utils.js';
 
 // Configuration
 const CUBE_CONFIG = {
@@ -36,14 +36,14 @@ export function initCubeBackground() {
   if (isInitialized) return;
 
   // Create container
-  const cubeContainer = document.createElement("div");
-  cubeContainer.className = "cube-bg";
+  const cubeContainer = document.createElement('div');
+  cubeContainer.className = 'cube-bg';
 
-  const cubeWrapper = document.createElement("div");
-  cubeWrapper.className = "cube-wrapper";
+  const cubeWrapper = document.createElement('div');
+  cubeWrapper.className = 'cube-wrapper';
 
-  cubeGrid = document.createElement("div");
-  cubeGrid.className = "cube-grid";
+  cubeGrid = document.createElement('div');
+  cubeGrid.className = 'cube-grid';
 
   cubeWrapper.appendChild(cubeGrid);
   cubeContainer.appendChild(cubeWrapper);
@@ -53,13 +53,9 @@ export function initCubeBackground() {
   createCubes();
 
   // Set up event listeners
-  window.addEventListener("scroll", handleScroll, passiveListener);
-  window.addEventListener(
-    "mousemove",
-    debounce(handleMouseMove, 10),
-    passiveListener,
-  );
-  window.addEventListener("resize", debounce(handleResize, 200));
+  window.addEventListener('scroll', handleScroll, passiveListener);
+  window.addEventListener('mousemove', debounce(handleMouseMove, 10), passiveListener);
+  window.addEventListener('resize', debounce(handleResize, 200));
 
   // Start animation loop
   startAnimationLoop();
@@ -82,11 +78,11 @@ function createCubes() {
   for (let x = 0; x < gridSize.x; x++) {
     for (let y = 0; y < gridSize.y; y++) {
       // Create cube element
-      const cube = document.createElement("div");
-      cube.className = "cube";
+      const cube = document.createElement('div');
+      cube.className = 'cube';
 
       // Set cube CSS variables
-      cube.style.setProperty("--cube-size", `${cubeSize / 2}px`);
+      cube.style.setProperty('--cube-size', `${cubeSize / 2}px`);
 
       // Position in 3D space
       const posX = x * spacing - totalWidth / 2;
@@ -100,21 +96,20 @@ function createCubes() {
       // Add special styling to some cubes
       if (Math.random() > 0.85) {
         const accentTypes = [
-          "accent",
-          "accent-red",
-          "accent-blue",
-          "accent-yellow",
-          "accent-green",
+          'accent',
+          'accent-red',
+          'accent-blue',
+          'accent-yellow',
+          'accent-green',
         ];
-        const randomAccent =
-          accentTypes[Math.floor(Math.random() * accentTypes.length)];
+        const randomAccent = accentTypes[Math.floor(Math.random() * accentTypes.length)];
         cube.classList.add(`cube--${randomAccent}`);
       }
 
       // Create cube faces
-      const faces = ["front", "back", "right", "left", "top", "bottom"];
+      const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
       faces.forEach((face) => {
-        const cubeFace = document.createElement("div");
+        const cubeFace = document.createElement('div');
         cubeFace.className = `cube-face cube-face--${face}`;
         cube.appendChild(cubeFace);
       });
@@ -142,7 +137,7 @@ function createCubes() {
     setTimeout(
       () => {
         cube.element.style.opacity = 0.5 + Math.random() * 0.5;
-        cube.element.style.transition = "opacity 1s ease, transform 0.6s ease";
+        cube.element.style.transition = 'opacity 1s ease, transform 0.6s ease';
       },
       100 + index * 50,
     );
@@ -229,9 +224,9 @@ export function destroyCubeBackground() {
   if (!isInitialized) return;
 
   // Clean up event listeners
-  window.removeEventListener("scroll", handleScroll, passiveListener);
-  window.removeEventListener("mousemove", handleMouseMove, passiveListener);
-  window.removeEventListener("resize", handleResize);
+  window.removeEventListener('scroll', handleScroll, passiveListener);
+  window.removeEventListener('mousemove', handleMouseMove, passiveListener);
+  window.removeEventListener('resize', handleResize);
 
   // Cancel animation frame
   if (rafId) {
@@ -240,7 +235,7 @@ export function destroyCubeBackground() {
   }
 
   // Remove elements
-  const cubeContainer = document.querySelector(".cube-bg");
+  const cubeContainer = document.querySelector('.cube-bg');
   if (cubeContainer) {
     document.body.removeChild(cubeContainer);
   }

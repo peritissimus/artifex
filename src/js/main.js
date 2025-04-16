@@ -4,20 +4,20 @@
  */
 
 // Import utility modules
-import { initNavigation } from "./modules/navigation.js";
+import { initNavigation } from './modules/navigation.js';
 import {
   animateHeroTitle,
   initScrollAnimations,
   createParticles,
   initParallax,
   initEntranceAnimations,
-} from "./modules/animations.js";
-import { initCubeBackground } from "./modules/cube-bg.js"; // Import the cube background module
+} from './modules/animations.js';
+import { initCubeBackground } from './modules/cube-bg.js'; // Import the cube background module
 
 /**
  * Initialize the site when DOM is fully loaded
  */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Initialize navigation menu
   initNavigation();
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * Updates the current year in the footer
  */
 function updateFooterYear() {
-  const yearEl = document.getElementById("current-year");
+  const yearEl = document.getElementById('current-year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
