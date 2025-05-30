@@ -1,0 +1,97 @@
+{
+  "skillCategories": [
+    {
+      "id": "frontend",
+      "title": "Frontend",
+      "skills": [
+        {
+          "name": "React / Next.js",
+          "level": "expert",
+          "years": 4
+        },
+        {
+          "name": "JavaScript / TypeScript",
+          "level": "expert",
+          "years": 5
+        },
+        {
+          "name": "HTML5 / CSS3 / SASS",
+          "level": "expert",
+          "years": 6
+        },
+        {
+          "name": "Three.js / WebGL",
+          "level": "advanced",
+          "years": 2
+        },
+        {
+          "name": "Animation Libraries",
+          "level": "advanced",
+          "years": 3
+        }
+      ]
+    },
+    {
+      "id": "backend",
+      "title": "Backend",
+      "skills": [
+        {
+          "name": "Node.js / Express",
+          "level": "expert",
+          "years": 4
+        },
+        {
+          "name": "Python / Django",
+          "level": "advanced",
+          "years": 3
+        },
+        {
+          "name": "RESTful APIs",
+          "level": "expert",
+          "years": 4
+        },
+        {
+          "name": "GraphQL",
+          "level": "intermediate",
+          "years": 2
+        },
+        {
+          "name": "Database Design",
+          "level": "advanced",
+          "years": 3
+        }
+      ]
+    },
+    {
+      "id": "design",
+      "title": "Design",
+      "skills": [
+        {
+          "name": "UI/UX Principles",
+          "level": "expert",
+          "years": 5
+        },
+        {
+          "name": "Figma / Sketch",
+          "level": "expert",
+          "years": 4
+        },
+        {
+          "name": "Adobe Creative Suite",
+          "level": "advanced",
+          "years": 4
+        },
+        {
+          "name": "Design Systems",
+          "level": "advanced",
+          "years": 3
+        },
+        {
+          "name": "Motion Design",
+          "level": "advanced",
+          "years": 2
+        }
+      ]
+    }
+  ]
+}

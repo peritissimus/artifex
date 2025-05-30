@@ -1,0 +1,33 @@
+{
+  "site": {
+    "title": "Kushal | Fullstack Developer & Designer",
+    "description": "Kushal is a passionate fullstack developer and designer specializing in creating clean, functional, and visually appealing digital experiences.",
+    "keywords": "fullstack developer, web designer, React developer, Node.js developer, UI/UX designer, frontend developer, backend developer",
+    "author": "Kushal",
+    "url": "https://peritissimus.com",
+    "image": "https://peritissimus.com/thumbnail.jpg"
+  },
+  "person": {
+    "name": "Kushal",
+    "jobTitle": "Fullstack Developer & Designer",
+    "company": "Freelance",
+    "image": "https://peritissimus.com/profile-image.jpg",
+    "expertise": [
+      "Web Development",
+      "UI/UX Design",
+      "React",
+      "Node.js",
+      "JavaScript",
+      "TypeScript",
+      "CSS",
+      "HTML",
+      "Mobile Development"
+    ]
+  },
+  "branding": {
+    "logo": "peritissimus",
+    "tagline": "fullstack developer & designer.",
+    "primaryColor": "#FFD700",
+    "secondaryColor": "#0066FF"
+  }
+}

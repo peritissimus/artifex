@@ -2,6 +2,11 @@
  * Main CSS file that imports all modular CSS components
  */
 
+/* Base Styles (Foundation) */
+@import './base/variables.css';
+@import './base/reset.css';
+@import './base/typography.css';
+
 /* Component Styles */
 @import './components/cube-bg.css';
 @import './components/header.css';

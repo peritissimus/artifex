@@ -1,56 +1,34 @@
 /**
  * Main JavaScript file
- * Initializes all components and features
+ * Initializes the new component-based application
  */
 
-// Import utility modules
-import { initNavigation } from './modules/navigation.js';
-import {
-  animateHeroTitle,
-  initScrollAnimations,
-  createParticles,
-  initParallax,
-  initEntranceAnimations,
-} from './modules/animations.js';
-import { initCubeBackground } from './modules/cube-bg.js'; // Import the cube background module
+import { app } from './app.js';
+import { eventBus } from './modules/eventBus.js';
 
 /**
- * Initialize the site when DOM is fully loaded
+ * Initialize the application when DOM is fully loaded
  */
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize navigation menu
-  initNavigation();
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log('🚀 Starting Artifex Portfolio Application...');
 
-  // Initialize scrolling animations
-  initScrollAnimations();
+  try {
+    // Initialize the main application
+    await app.init();
 
-  // Initialize parallax effects (Consider if this conflicts visually with cube bg)
-  initParallax();
+    // Setup additional initialization after app is ready
+    eventBus.on('app:ready', () => {
+      console.log('🎉 Application is ready!');
 
-  // Animate hero section elements with slight delay for smoother loading
-  setTimeout(() => {
-    animateHeroTitle();
-  }, 500);
+      // Update footer year
+      updateFooterYear();
 
-  // Initialize particles effect OR Cube Background on desktop devices
-  // Choose one or adjust styling if using both
-  if (window.innerWidth > 768) {
-    // Option 1: Only Cube Background
-    initCubeBackground();
-
-    // Option 2: Only Particles (Keep original code)
-    // createParticles();
-
-    // Option 3: Both (Ensure they don't visually clash heavily)
-    // initCubeBackground();
-    // createParticles(); // You might want to reduce particle count/opacity if using both
+      // Add any additional post-initialization logic here
+      handlePostInitialization();
+    });
+  } catch (error) {
+    console.error('Failed to initialize application:', error);
   }
-
-  // Initialize entrance animations for sections
-  initEntranceAnimations();
-
-  // Update footer year
-  updateFooterYear();
 });
 
 /**
@@ -62,3 +40,62 @@ function updateFooterYear() {
     yearEl.textContent = new Date().getFullYear();
   }
 }
+
+/**
+ * Handle any additional logic after app initialization
+ */
+function handlePostInitialization() {
+  // Add any additional setup that should happen after the app is fully loaded
+
+  // Example: Setup analytics
+  // setupAnalytics();
+
+  // Example: Setup third-party integrations
+  // setupThirdPartyServices();
+
+  // Example: Setup A/B testing
+  // setupABTesting();
+
+  console.log('✅ Post-initialization setup completed');
+}
+
+/**
+ * Performance monitoring
+ */
+if ('performance' in window) {
+  window.addEventListener('load', () => {
+    // Log performance metrics
+    const navigation = performance.getEntriesByType('navigation')[0];
+    const paint = performance.getEntriesByType('paint');
+
+    console.log('📊 Performance Metrics:');
+    console.log(`- DOM Content Loaded: ${navigation.domContentLoadedEventEnd}ms`);
+    console.log(`- Load Complete: ${navigation.loadEventEnd}ms`);
+
+    if (paint.length > 0) {
+      paint.forEach((entry) => {
+        console.log(`- ${entry.name}: ${entry.startTime}ms`);
+      });
+    }
+  });
+}
+
+/**
+ * Export app instance for external access
+ */
+export { app };
+
+/**
+ * Legacy support - maintain backwards compatibility during transition
+ * Remove this section once migration is complete
+ */
+window.initLegacySupport = () => {
+  console.warn('⚠️ Legacy support is deprecated. Please use the new component system.');
+
+  // If needed, you can provide fallbacks here
+  return {
+    app,
+    eventBus,
+    // Add other exports as needed
+  };
+};

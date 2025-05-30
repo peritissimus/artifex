@@ -3,7 +3,7 @@
  * Manages all animations throughout the site
  */
 
-import anime from 'animejs/lib/anime.es.js';
+import anime from 'animejs';
 import { debounce, passiveListener } from './utils.js';
 
 /**
@@ -48,6 +48,11 @@ export function initScrollAnimations() {
     .forEach((element) => {
       observer.observe(element);
     });
+
+  // Immediately activate visible elements on page load
+  document.querySelectorAll('.project-item, .section').forEach((element) => {
+    element.classList.add('active');
+  });
 
   // Set index for staggered animations
   document.querySelectorAll('.skill-category').forEach((category, index) => {
@@ -193,4 +198,20 @@ export function initEntranceAnimations() {
       },
     });
   });
+}
+
+/**
+ * Initialize all animations
+ */
+export function initAnimations() {
+  console.log('🎬 Initializing animations...');
+  
+  // Initialize all animation modules
+  animateHeroTitle();
+  initScrollAnimations();
+  createParticles();
+  initParallax();
+  initEntranceAnimations();
+  
+  console.log('✅ Animations initialized');
 }
