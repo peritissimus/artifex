@@ -19,7 +19,8 @@
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  perspective: 1500px; /* Increased perspective for more dramatic effect */
+  perspective: 2000px; /* Enhanced perspective for better 3D effect */
+  perspective-origin: center center;
 }
 
 .cube-grid {
@@ -36,18 +37,21 @@
   transform-style: preserve-3d;
   opacity: 0;
   will-change: transform, opacity;
+  filter: blur(0); /* Prevent blur on transform */
 }
 
 .cube-face {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 2px solid rgba(255, 255, 255, 0.15); /* Thicker borders */
-  background-color: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
   transform-style: preserve-3d;
-  backface-visibility: hidden;
+  backface-visibility: visible; /* Show all faces for better 3D perception */
   transition: all 0.3s ease;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    inset 0 0 30px rgba(255, 255, 255, 0.08),
+    0 0 15px rgba(255, 255, 255, 0.1); /* Enhanced shadows for depth */
 }
 
 .cube-face--front {
@@ -74,71 +78,35 @@
   transform: rotateX(-90deg) translateZ(var(--cube-size));
 }
 
-/* Special accent cubes with more vibrant colors and effects */
+/* Special accent cubes with enhanced 3D effects */
 .cube--accent .cube-face {
-  border-color: rgba(255, 255, 255, 0.6);
-  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.12);
   box-shadow:
-    inset 0 0 30px rgba(255, 255, 255, 0.1),
-    0 0 20px rgba(255, 255, 255, 0.2);
-}
-
-.cube--accent-red .cube-face {
-  border-color: rgba(255, 46, 46, 0.8);
-  background-color: rgba(255, 46, 46, 0.1);
-  box-shadow:
-    inset 0 0 30px rgba(255, 46, 46, 0.2),
-    0 0 30px rgba(255, 46, 46, 0.3);
+    inset 0 0 40px rgba(255, 255, 255, 0.15),
+    0 0 25px rgba(255, 255, 255, 0.25); /* Stronger glow for depth */
 }
 
 .cube--accent-blue .cube-face {
-  border-color: rgba(137, 207, 253, 0.8);
-  background-color: rgba(137, 207, 253, 0.1);
+  border-color: rgba(137, 207, 253, 0.9);
+  background-color: rgba(137, 207, 253, 0.15);
   box-shadow:
-    inset 0 0 30px rgba(137, 207, 253, 0.2),
-    0 0 30px rgba(137, 207, 253, 0.3);
-}
-
-.cube--accent-yellow .cube-face {
-  border-color: rgba(255, 214, 70, 0.8);
-  background-color: rgba(255, 214, 70, 0.1);
-  box-shadow:
-    inset 0 0 30px rgba(255, 214, 70, 0.2),
-    0 0 30px rgba(255, 214, 70, 0.3);
-}
-
-.cube--accent-green .cube-face {
-  border-color: rgba(78, 255, 138, 0.8);
-  background-color: rgba(78, 255, 138, 0.1);
-  box-shadow:
-    inset 0 0 30px rgba(78, 255, 138, 0.2),
-    0 0 30px rgba(78, 255, 138, 0.3);
-}
-
-.cube--accent-purple .cube-face {
-  border-color: rgba(168, 85, 247, 0.8);
-  background-color: rgba(168, 85, 247, 0.1);
-  box-shadow:
-    inset 0 0 30px rgba(168, 85, 247, 0.2),
-    0 0 30px rgba(168, 85, 247, 0.3);
-}
-
-.cube--accent-orange .cube-face {
-  border-color: rgba(251, 146, 60, 0.8);
-  background-color: rgba(251, 146, 60, 0.1);
-  box-shadow:
-    inset 0 0 30px rgba(251, 146, 60, 0.2),
-    0 0 30px rgba(251, 146, 60, 0.3);
+    inset 0 0 40px rgba(137, 207, 253, 0.25),
+    0 0 35px rgba(137, 207, 253, 0.4); /* Enhanced blue glow */
 }
 
 /* Media queries for performance on mobile */
 @media (max-width: 768px) {
+  .cube-wrapper {
+    perspective: 1200px; /* Reduced perspective for mobile */
+  }
+  
   .cube-grid {
-    transform: rotateX(60deg) rotateZ(45deg) scale(0.6); /* Smaller scale for mobile */
+    transform: rotateX(60deg) rotateZ(45deg) scale(0.7); /* Smaller scale for mobile */
   }
 
   .cube-bg {
-    opacity: 0.4; /* More subtle on mobile */
+    opacity: 0.5; /* More subtle on mobile */
   }
 
   .cube-face {
@@ -147,11 +115,15 @@
 }
 
 @media (max-width: 480px) {
+  .cube-wrapper {
+    perspective: 800px; /* Further reduced perspective */
+  }
+  
   .cube-grid {
-    transform: rotateX(60deg) rotateZ(45deg) scale(0.4); /* Even smaller on very small screens */
+    transform: rotateX(60deg) rotateZ(45deg) scale(0.5); /* Even smaller on very small screens */
   }
 
   .cube-bg {
-    opacity: 0.3;
+    opacity: 0.4;
   }
 }
