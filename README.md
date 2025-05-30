@@ -1,19 +1,20 @@
-# Artifex
+# Artifex - Modern Portfolio Website
 
-A modern, responsive portfolio website built with a focus on performance and clean animations.
+[![CI](https://github.com/peritissimus/artifex/actions/workflows/ci.yml/badge.svg)](https://github.com/peritissimus/artifex/actions/workflows/ci.yml)
+[![Deploy](https://github.com/peritissimus/artifex/actions/workflows/deploy.yml/badge.svg)](https://github.com/peritissimus/artifex/actions/workflows/deploy.yml)
+[![Release](https://github.com/peritissimus/artifex/actions/workflows/release.yml/badge.svg)](https://github.com/peritissimus/artifex/actions/workflows/release.yml)
 
-## Features
+A stunning, modern portfolio website featuring an interactive 3D cube background animation. Built with Vite, vanilla JavaScript, and modern CSS for optimal performance.
 
-- Responsive design that works on all device sizes
-- Modular code architecture for better maintainability
-- Component-based HTML structure with includes
-- Optimized for performance with techniques like:
-  - Debouncing for scroll events
-  - RequestAnimationFrame for smoother animations
-  - Passive event listeners
-  - IntersectionObserver for lazy loading animations
-  - Content-visibility optimizations
-  - Optimized font loading strategy
+## ✨ Features
+
+- **Interactive 3D Animation**: Dynamic cube grid background that responds to mouse movement and scrolling
+- **Responsive Design**: Optimized for all devices from mobile to desktop
+- **Modern Architecture**: Component-based JavaScript with modular CSS
+- **Performance Optimized**: Static build with minimal runtime dependencies
+- **Smooth Animations**: CSS and JavaScript animations with 60fps performance
+- **SEO Ready**: Proper meta tags and semantic HTML structure
+- **Automated Releases**: Semantic versioning with GitHub Actions
 
 ## Project Structure
 
