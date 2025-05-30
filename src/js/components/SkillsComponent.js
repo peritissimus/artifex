@@ -5,7 +5,7 @@ export class SkillsComponent extends ComponentBase {
     return {
       containerSelector: '.skills-grid',
       autoRender: true,
-      animateOnScroll: true
+      animateOnScroll: true,
     };
   }
 
@@ -17,7 +17,7 @@ export class SkillsComponent extends ComponentBase {
 
   render() {
     if (!this.options.autoRender) return;
-    
+
     // Activate existing static skills content
     this.activateSkills();
   }
@@ -30,45 +30,48 @@ export class SkillsComponent extends ComponentBase {
         category.classList.add('active');
       }, index * 100);
     });
-    
+
     this.setupSkillEvents();
   }
 
   setupSkillEvents() {
     const skillItems = this.$$('.skill-list li');
-    
+
     skillItems.forEach((item, index) => {
       this.addEventListener(item, 'mouseenter', this.handleSkillHover);
       this.addEventListener(item, 'mouseleave', this.handleSkillLeave);
-      
+
       // Add animation delay based on index
       item.style.setProperty('--animation-delay', `${index * 100}ms`);
     });
   }
 
   setupScrollAnimation() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.animateSkillsIn();
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.2,
-      rootMargin: '0px 0px -100px 0px'
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.animateSkillsIn();
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px',
+      },
+    );
 
     observer.observe(this.element);
   }
 
   animateSkillsIn() {
     const skillCategories = this.$$('.skill-category');
-    
+
     skillCategories.forEach((category, index) => {
       setTimeout(() => {
         category.classList.add('animate-in');
-        
+
         const skillItems = category.querySelectorAll('.skill-list li');
         skillItems.forEach((item, itemIndex) => {
           setTimeout(() => {
@@ -84,7 +87,7 @@ export class SkillsComponent extends ComponentBase {
   handleSkillHover(event) {
     const skillItem = event.currentTarget;
     const skillName = skillItem.querySelector('span').textContent;
-    
+
     skillItem.classList.add('hovered');
     this.emit('skill:hover', { skillName, element: skillItem });
   }
@@ -99,8 +102,8 @@ export class SkillsComponent extends ComponentBase {
 
   highlightSkillsByTechnology(technology) {
     const skillItems = this.$$('.skill-list li');
-    
-    skillItems.forEach(item => {
+
+    skillItems.forEach((item) => {
       const skillName = item.querySelector('span').textContent.toLowerCase();
       if (skillName.includes(technology.toLowerCase())) {
         item.classList.add('highlighted');
@@ -114,7 +117,7 @@ export class SkillsComponent extends ComponentBase {
 
   clearHighlights() {
     const skillItems = this.$$('.skill-list li');
-    skillItems.forEach(item => {
+    skillItems.forEach((item) => {
       item.classList.remove('highlighted');
     });
 

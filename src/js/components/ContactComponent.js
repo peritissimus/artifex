@@ -5,7 +5,7 @@ export class ContactComponent extends ComponentBase {
     return {
       contactInfoSelector: '.contact-info',
       socialLinksSelector: '.social-links',
-      autoRender: true
+      autoRender: true,
     };
   }
 
@@ -15,7 +15,7 @@ export class ContactComponent extends ComponentBase {
 
   render() {
     if (!this.options.autoRender) return;
-    
+
     // Activate existing static contact content
     this.activateContact();
   }
@@ -28,15 +28,15 @@ export class ContactComponent extends ComponentBase {
         item.classList.add('active');
       }, index * 100);
     });
-    
+
     this.setupContactEvents();
     this.setupSocialEvents();
   }
 
   setupContactEvents() {
     const contactLinks = this.$$('.contact-info a');
-    
-    contactLinks.forEach(link => {
+
+    contactLinks.forEach((link) => {
       this.addEventListener(link, 'click', this.handleContactClick);
       this.addEventListener(link, 'mouseenter', this.handleContactHover);
       this.addEventListener(link, 'mouseleave', this.handleContactLeave);
@@ -45,8 +45,8 @@ export class ContactComponent extends ComponentBase {
 
   setupSocialEvents() {
     const socialLinks = this.$$('.social-link');
-    
-    socialLinks.forEach(link => {
+
+    socialLinks.forEach((link) => {
       this.addEventListener(link, 'click', this.handleSocialClick);
       this.addEventListener(link, 'mouseenter', this.handleSocialHover);
       this.addEventListener(link, 'mouseleave', this.handleSocialLeave);
@@ -56,11 +56,11 @@ export class ContactComponent extends ComponentBase {
   handleContactClick(event) {
     const href = event.currentTarget.getAttribute('href');
     const type = href.startsWith('mailto:') ? 'email' : 'link';
-    
-    this.emit('contact:click', { 
-      type, 
-      href, 
-      element: event.currentTarget 
+
+    this.emit('contact:click', {
+      type,
+      href,
+      element: event.currentTarget,
     });
 
     // Analytics tracking could go here
@@ -80,11 +80,11 @@ export class ContactComponent extends ComponentBase {
   handleSocialClick(event) {
     const href = event.currentTarget.getAttribute('href');
     const platform = this.extractPlatformFromUrl(href);
-    
-    this.emit('social:click', { 
-      platform, 
-      href, 
-      element: event.currentTarget 
+
+    this.emit('social:click', {
+      platform,
+      href,
+      element: event.currentTarget,
     });
 
     // Analytics tracking could go here
@@ -122,7 +122,7 @@ export class ContactComponent extends ComponentBase {
   animateIn() {
     const contactItems = this.$$('.contact-item');
     const socialLinks = this.$$('.social-link');
-    
+
     contactItems.forEach((item, index) => {
       setTimeout(() => {
         item.classList.add('animate-in');

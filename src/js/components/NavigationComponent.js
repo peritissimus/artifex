@@ -302,4 +302,3 @@ export class NavigationComponent extends ComponentBase {
 }
 
 export default NavigationComponent;
-

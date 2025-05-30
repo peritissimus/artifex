@@ -234,10 +234,18 @@
   animation: fadeInUp 0.8s var(--ease-in-out-cubic) forwards;
 }
 
-.about-services.animate-in .about-service:nth-child(1) { animation-delay: 0.1s; }
-.about-services.animate-in .about-service:nth-child(2) { animation-delay: 0.2s; }
-.about-services.animate-in .about-service:nth-child(3) { animation-delay: 0.3s; }
-.about-services.animate-in .about-service:nth-child(4) { animation-delay: 0.4s; }
+.about-services.animate-in .about-service:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.about-services.animate-in .about-service:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.about-services.animate-in .about-service:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.about-services.animate-in .about-service:nth-child(4) {
+  animation-delay: 0.4s;
+}
 
 @keyframes slideInLeft {
   from {
@@ -279,7 +287,7 @@
     gap: var(--spacing-2xl);
     text-align: center;
   }
-  
+
   .about-image-container {
     width: 300px;
     height: 300px;
@@ -290,25 +298,25 @@
   .about-section {
     padding: var(--spacing-2xl) var(--spacing-md);
   }
-  
+
   .about-title {
     font-size: var(--font-size-4xl);
   }
-  
+
   .about-description {
     font-size: var(--font-size-base);
   }
-  
+
   .about-stats {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
   }
-  
+
   .about-image-container {
     width: 250px;
     height: 250px;
   }
-  
+
   .about-services-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
@@ -319,12 +327,12 @@
   .about-stats {
     grid-template-columns: 1fr;
   }
-  
+
   .about-image-container {
     width: 200px;
     height: 200px;
   }
-  
+
   .about-service {
     padding: var(--spacing-md);
   }
@@ -335,7 +343,7 @@
   .about-decorative-elements::before {
     animation: none;
   }
-  
+
   .about-content.animate-in .about-text,
   .about-content.animate-in .about-image,
   .about-services.animate-in .about-service {
@@ -351,7 +359,7 @@
   .about-service {
     border-width: 2px;
   }
-  
+
   .about-image-container::before {
     border: 2px solid var(--color-text-primary);
   }

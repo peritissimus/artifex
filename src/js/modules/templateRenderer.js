@@ -108,4 +108,3 @@ templateRenderer.registerTemplate('contactItem', contactItemTemplate);
 templateRenderer.registerTemplate('socialLink', socialLinkTemplate);
 
 export default templateRenderer;
-

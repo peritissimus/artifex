@@ -300,21 +300,24 @@ a:focus-visible {
   .hero-title {
     font-size: clamp(2.5rem, 10vw, 5rem);
   }
-  
+
   .team-title,
   .contact-title {
     font-size: var(--font-size-4xl);
   }
-  
-  h1, .h1 {
+
+  h1,
+  .h1 {
     font-size: var(--font-size-4xl);
   }
-  
-  h2, .h2 {
+
+  h2,
+  .h2 {
     font-size: var(--font-size-3xl);
   }
-  
-  h3, .h3 {
+
+  h3,
+  .h3 {
     font-size: var(--font-size-xl);
   }
 }
@@ -323,12 +326,12 @@ a:focus-visible {
   .hero-title {
     font-size: clamp(2rem, 12vw, 4rem);
   }
-  
+
   .team-title,
   .contact-title {
     font-size: var(--font-size-3xl);
   }
-  
+
   .nav-link {
     font-size: var(--font-size-base);
   }
@@ -341,17 +344,22 @@ a:focus-visible {
     line-height: 1.4;
     color: black;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     page-break-after: avoid;
     color: black;
   }
-  
+
   p {
     orphans: 3;
     widows: 3;
   }
-  
+
   .hero-title {
     font-size: 24pt;
   }

@@ -12,7 +12,7 @@ class EventBus {
 
   off(event, callback) {
     if (!this.events.has(event)) return;
-    
+
     const callbacks = this.events.get(event);
     const index = callbacks.indexOf(callback);
     if (index > -1) {
@@ -22,8 +22,8 @@ class EventBus {
 
   emit(event, data = null) {
     if (!this.events.has(event)) return;
-    
-    this.events.get(event).forEach(callback => {
+
+    this.events.get(event).forEach((callback) => {
       try {
         callback(data);
       } catch (error) {

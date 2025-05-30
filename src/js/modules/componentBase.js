@@ -7,7 +7,7 @@ export class ComponentBase {
     this.initialized = false;
     this.destroyed = false;
     this.eventListeners = [];
-    
+
     this.init();
   }
 
@@ -17,11 +17,11 @@ export class ComponentBase {
 
   init() {
     if (this.initialized) return;
-    
+
     this.setupEvents();
     this.render();
     this.afterInit();
-    
+
     this.initialized = true;
     this.emit('component:initialized', { component: this });
   }
@@ -41,22 +41,21 @@ export class ComponentBase {
   addEventListener(element, event, handler, options = {}) {
     const boundHandler = handler.bind(this);
     element.addEventListener(event, boundHandler, options);
-    
+
     this.eventListeners.push({
       element,
       event,
       handler: boundHandler,
-      options
+      options,
     });
   }
 
   removeEventListener(element, event, handler) {
     const index = this.eventListeners.findIndex(
-      listener => listener.element === element && 
-                 listener.event === event && 
-                 listener.handler === handler
+      (listener) =>
+        listener.element === element && listener.event === event && listener.handler === handler,
     );
-    
+
     if (index > -1) {
       const listener = this.eventListeners[index];
       element.removeEventListener(event, listener.handler, listener.options);
@@ -80,16 +79,16 @@ export class ComponentBase {
 
   destroy() {
     if (this.destroyed) return;
-    
+
     // Remove all event listeners
     this.eventListeners.forEach(({ element, event, handler, options }) => {
       element.removeEventListener(event, handler, options);
     });
     this.eventListeners = [];
-    
+
     // Override for custom cleanup
     this.beforeDestroy();
-    
+
     this.destroyed = true;
     this.emit('component:destroyed', { component: this });
   }

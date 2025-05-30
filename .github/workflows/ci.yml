@@ -13,7 +13,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "Build completed successfully"
           ls -la dist/
-          
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:

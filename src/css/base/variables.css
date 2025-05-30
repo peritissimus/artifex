@@ -5,76 +5,76 @@
   --color-accent-red: #ff6b6b;
   --color-accent-blue: #4ecdc4;
   --color-accent-yellow: #ffd700;
-  
+
   /* Text Colors */
   --color-text-primary: #ffffff;
   --color-text-secondary: #b0b0b0;
   --color-text-muted: #808080;
   --color-text-dark: #1a1a1a;
-  
+
   /* Background Colors */
   --color-bg-primary: #0a0a0a;
   --color-bg-secondary: #1a1a1a;
   --color-bg-tertiary: #2a2a2a;
   --color-bg-overlay: rgba(0, 0, 0, 0.8);
-  
+
   /* Border Colors */
   --color-border-primary: #333333;
   --color-border-secondary: #444444;
   --color-border-accent: var(--color-primary);
-  
+
   /* Typography */
   --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-family-mono: 'Space Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
-  
+
   /* Font Sizes */
-  --font-size-xs: 0.75rem;    /* 12px */
-  --font-size-sm: 0.875rem;   /* 14px */
-  --font-size-base: 1rem;     /* 16px */
-  --font-size-lg: 1.125rem;   /* 18px */
-  --font-size-xl: 1.25rem;    /* 20px */
-  --font-size-2xl: 1.5rem;    /* 24px */
-  --font-size-3xl: 1.875rem;  /* 30px */
-  --font-size-4xl: 2.25rem;   /* 36px */
-  --font-size-5xl: 3rem;      /* 48px */
-  --font-size-6xl: 4rem;      /* 64px */
-  --font-size-7xl: 5rem;      /* 80px */
-  
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: 3rem; /* 48px */
+  --font-size-6xl: 4rem; /* 64px */
+  --font-size-7xl: 5rem; /* 80px */
+
   /* Font Weights */
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  
+
   /* Line Heights */
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
-  
+
   /* Spacing */
-  --spacing-xs: 0.5rem;    /* 8px */
-  --spacing-sm: 1rem;      /* 16px */
-  --spacing-md: 1.5rem;    /* 24px */
-  --spacing-lg: 2rem;      /* 32px */
-  --spacing-xl: 3rem;      /* 48px */
-  --spacing-2xl: 4rem;     /* 64px */
-  --spacing-3xl: 6rem;     /* 96px */
-  --spacing-4xl: 8rem;     /* 128px */
-  
+  --spacing-xs: 0.5rem; /* 8px */
+  --spacing-sm: 1rem; /* 16px */
+  --spacing-md: 1.5rem; /* 24px */
+  --spacing-lg: 2rem; /* 32px */
+  --spacing-xl: 3rem; /* 48px */
+  --spacing-2xl: 4rem; /* 64px */
+  --spacing-3xl: 6rem; /* 96px */
+  --spacing-4xl: 8rem; /* 128px */
+
   /* Layout */
   --container-max-width: 1200px;
   --container-padding: var(--spacing-lg);
   --header-height: 80px;
   --section-padding-y: var(--spacing-4xl);
   --section-padding-x: var(--spacing-lg);
-  
+
   /* Breakpoints (for use in CSS) */
   --breakpoint-mobile: 768px;
   --breakpoint-tablet: 1024px;
   --breakpoint-desktop: 1200px;
   --breakpoint-wide: 1440px;
-  
+
   /* Z-Index Scale */
   --z-index-behind: -1;
   --z-index-base: 0;
@@ -82,62 +82,62 @@
   --z-index-navigation: 200;
   --z-index-modal: 300;
   --z-index-tooltip: 400;
-  
+
   /* Border Radius */
-  --border-radius-sm: 0.25rem;  /* 4px */
-  --border-radius-md: 0.5rem;   /* 8px */
-  --border-radius-lg: 1rem;     /* 16px */
-  --border-radius-xl: 1.5rem;   /* 24px */
+  --border-radius-sm: 0.25rem; /* 4px */
+  --border-radius-md: 0.5rem; /* 8px */
+  --border-radius-lg: 1rem; /* 16px */
+  --border-radius-xl: 1.5rem; /* 24px */
   --border-radius-full: 9999px;
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
-  
+
   /* Transitions */
   --transition-fast: 0.15s ease-in-out;
   --transition-normal: 0.3s ease-in-out;
   --transition-slow: 0.6s ease-in-out;
   --transition-extra-slow: 1s ease-in-out;
-  
+
   /* Easing Functions */
   --ease-in-out-cubic: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  
+
   /* Animation Durations */
   --animation-duration-fast: 300ms;
   --animation-duration-normal: 600ms;
   --animation-duration-slow: 1000ms;
   --animation-duration-extra-slow: 1500ms;
-  
+
   /* Component Specific Variables */
-  
+
   /* Navigation */
   --nav-link-hover-color: var(--color-primary);
   --nav-overlay-bg: var(--color-bg-overlay);
   --nav-transition: var(--transition-normal);
-  
+
   /* Hero Section */
   --hero-title-size: clamp(3rem, 8vw, 8rem);
   --hero-gradient: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  
+
   /* Projects */
   --project-hover-scale: 1.05;
   --project-transition: var(--transition-normal);
   --project-border-radius: var(--border-radius-lg);
-  
+
   /* Skills */
   --skill-item-bg: var(--color-bg-secondary);
   --skill-item-hover-bg: var(--color-bg-tertiary);
   --skill-item-border: var(--color-border-primary);
-  
+
   /* Contact */
   --contact-link-color: var(--color-primary);
   --contact-link-hover-color: var(--color-secondary);
-  
+
   /* Cube Background */
   --cube-primary-color: var(--color-primary);
   --cube-secondary-color: var(--color-secondary);
@@ -153,11 +153,11 @@
     --section-padding-y: var(--spacing-2xl);
     --section-padding-x: var(--spacing-md);
     --header-height: 60px;
-    
+
     /* Mobile-specific font sizes */
-    --font-size-5xl: 2.5rem;   /* 40px */
-    --font-size-6xl: 3rem;     /* 48px */
-    --font-size-7xl: 3.5rem;   /* 56px */
+    --font-size-5xl: 2.5rem; /* 40px */
+    --font-size-6xl: 3rem; /* 48px */
+    --font-size-7xl: 3.5rem; /* 56px */
   }
 }
 
@@ -166,11 +166,11 @@
     --container-padding: var(--spacing-sm);
     --section-padding-y: var(--spacing-xl);
     --section-padding-x: var(--spacing-sm);
-    
+
     /* Small mobile adjustments */
     --font-size-4xl: 1.875rem; /* 30px */
-    --font-size-5xl: 2.25rem;  /* 36px */
-    --font-size-6xl: 2.5rem;   /* 40px */
+    --font-size-5xl: 2.25rem; /* 36px */
+    --font-size-6xl: 2.5rem; /* 40px */
   }
 }
 

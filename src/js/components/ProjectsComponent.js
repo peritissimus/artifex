@@ -4,7 +4,7 @@ export class ProjectsComponent extends ComponentBase {
   get defaultOptions() {
     return {
       containerSelector: '.projects-container',
-      autoRender: true
+      autoRender: true,
     };
   }
 
@@ -14,7 +14,7 @@ export class ProjectsComponent extends ComponentBase {
 
   render() {
     if (!this.options.autoRender) return;
-    
+
     // Simply activate the existing static project items
     this.activateProjects();
   }
@@ -23,8 +23,8 @@ export class ProjectsComponent extends ComponentBase {
 
   setupProjectEvents() {
     const projectLinks = this.$$('.project-link');
-    
-    projectLinks.forEach(link => {
+
+    projectLinks.forEach((link) => {
       this.addEventListener(link, 'click', this.handleProjectClick);
       this.addEventListener(link, 'mouseenter', this.handleProjectHover);
       this.addEventListener(link, 'mouseleave', this.handleProjectLeave);
@@ -61,7 +61,7 @@ export class ProjectsComponent extends ComponentBase {
         item.classList.add('active');
       }, index * 100); // Staggered animation
     });
-    
+
     this.setupProjectEvents();
   }
 

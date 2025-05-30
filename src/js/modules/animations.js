@@ -205,13 +205,13 @@ export function initEntranceAnimations() {
  */
 export function initAnimations() {
   console.log('🎬 Initializing animations...');
-  
+
   // Initialize all animation modules
   animateHeroTitle();
   initScrollAnimations();
   createParticles();
   initParallax();
   initEntranceAnimations();
-  
+
   console.log('✅ Animations initialized');
 }

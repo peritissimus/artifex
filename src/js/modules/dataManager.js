@@ -4,7 +4,7 @@ class DataManager {
       projects: null,
       skills: null,
       contact: null,
-      meta: null
+      meta: null,
     };
     this.loaded = false;
     this.loading = false;
@@ -21,7 +21,7 @@ class DataManager {
         fetch('/src/data/projects.json'),
         fetch('/src/data/skills.json'),
         fetch('/src/data/contact.json'),
-        fetch('/src/data/meta.json')
+        fetch('/src/data/meta.json'),
       ]);
 
       this.data.projects = await projectsRes.json();
@@ -45,7 +45,7 @@ class DataManager {
   }
 
   getFeaturedProjects() {
-    return this.getProjects().filter(project => project.featured);
+    return this.getProjects().filter((project) => project.featured);
   }
 
   getSkillCategories() {

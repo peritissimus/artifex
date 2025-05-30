@@ -86,7 +86,7 @@ function createCubes() {
       // Vary cube sizes for more dynamic look
       const sizeVariation = 0.6 + Math.random() * 0.8; // 60% to 140% of base size
       const actualSize = cubeSize * sizeVariation;
-      
+
       // Set cube CSS variables
       cube.style.setProperty('--cube-size', `${actualSize / 2}px`);
 
@@ -100,7 +100,8 @@ function createCubes() {
       cube.style.transform = `translate3d(${posX}px, ${posY}px, ${posZ}px)`;
 
       // Add special styling to more cubes for more drama
-      if (Math.random() > 0.6) { // Increased from 0.85 to 0.6
+      if (Math.random() > 0.6) {
+        // Increased from 0.85 to 0.6
         const accentTypes = [
           'accent',
           'accent-red',
@@ -205,7 +206,7 @@ function startAnimationLoop() {
   // Calculate target rotation based on scroll and mouse position
   function updateRotation() {
     const time = Date.now() * 0.001; // Time in seconds
-    
+
     // Calculate rotation based on scroll and mouse with more intensity
     targetRotationX = 60 + scrollY * CUBE_CONFIG.scrollFactor + Math.sin(time * 0.1) * 10;
     targetRotationY = mouseX * 3 + Math.cos(time * 0.15) * 5;
@@ -226,19 +227,18 @@ function startAnimationLoop() {
     // Much more dynamic movement for each cube
     cubes.forEach((cube, index) => {
       const cubeTime = time + index * 0.1; // Offset timing per cube
-      
+
       // Complex movement patterns
-      const moveZ = cube.depth + 
+      const moveZ =
+        cube.depth +
         Math.sin(cubeTime * cube.rotationSpeed) * CUBE_CONFIG.driftRange +
         Math.cos(cubeTime * 0.5) * 20;
-        
-      const moveX = cube.initialX + 
-        Math.sin(cubeTime * 0.7 + cube.y) * 30 +
-        Math.cos(cubeTime * 0.3) * 15;
-        
-      const moveY = cube.initialY + 
-        Math.cos(cubeTime * 0.8 + cube.x) * 25 +
-        Math.sin(cubeTime * 0.4) * 10;
+
+      const moveX =
+        cube.initialX + Math.sin(cubeTime * 0.7 + cube.y) * 30 + Math.cos(cubeTime * 0.3) * 15;
+
+      const moveY =
+        cube.initialY + Math.cos(cubeTime * 0.8 + cube.x) * 25 + Math.sin(cubeTime * 0.4) * 10;
 
       // Individual cube rotation
       const rotateX = Math.sin(cubeTime * cube.rotationSpeed) * 360;
