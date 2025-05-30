@@ -1,7 +1,6 @@
 # Artifex - Modern Portfolio Website
 
 [![CI](https://github.com/peritissimus/artifex/actions/workflows/ci.yml/badge.svg)](https://github.com/peritissimus/artifex/actions/workflows/ci.yml)
-[![Deploy](https://github.com/peritissimus/artifex/actions/workflows/deploy.yml/badge.svg)](https://github.com/peritissimus/artifex/actions/workflows/deploy.yml)
 [![Release](https://github.com/peritissimus/artifex/actions/workflows/release.yml/badge.svg)](https://github.com/peritissimus/artifex/actions/workflows/release.yml)
 
 A stunning, modern portfolio website featuring an interactive 3D cube background animation. Built with Vite, vanilla JavaScript, and modern CSS for optimal performance.
