@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial portfolio website with 3D cube background animations
 - Responsive design with modern CSS
 - Component-based JavaScript architecture
@@ -16,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Static build configuration
 
 ### Features
+
 - Interactive 3D cube grid background
 - Smooth scroll navigation
 - Project showcase section
