@@ -7,13 +7,15 @@ import { debounce, passiveListener } from './utils.js';
 
 // Configuration
 const CUBE_CONFIG = {
-  gridSize: { x: 6, y: 4 }, // Number of cubes in grid (reduced for performance)
-  cubeSize: 60, // Size of each cube in pixels
-  spacing: 150, // Spacing between cubes
-  maxRotation: 0.15, // Maximum rotation value
-  scrollFactor: 0.004, // How much scroll affects rotation
-  mouseFactor: 0.003, // How much mouse movement affects rotation
-  animationDuration: 1000, // Animation duration in ms
+  gridSize: { x: 8, y: 6 }, // More cubes for fuller coverage
+  cubeSize: 120, // Much bigger cubes
+  spacing: 200, // More spacing for the bigger cubes
+  maxRotation: 0.3, // More dramatic rotation
+  scrollFactor: 0.008, // More scroll sensitivity
+  mouseFactor: 0.006, // More mouse sensitivity
+  animationDuration: 1500, // Longer animation duration
+  pulseIntensity: 0.3, // How much cubes pulse in size
+  driftRange: 50, // How far cubes drift from their position
 };
 
 let cubes = [];
@@ -81,26 +83,32 @@ function createCubes() {
       const cube = document.createElement('div');
       cube.className = 'cube';
 
+      // Vary cube sizes for more dynamic look
+      const sizeVariation = 0.6 + Math.random() * 0.8; // 60% to 140% of base size
+      const actualSize = cubeSize * sizeVariation;
+      
       // Set cube CSS variables
-      cube.style.setProperty('--cube-size', `${cubeSize / 2}px`);
+      cube.style.setProperty('--cube-size', `${actualSize / 2}px`);
 
-      // Position in 3D space
-      const posX = x * spacing - totalWidth / 2;
-      const posY = y * spacing - totalHeight / 2;
-      const posZ = 0;
+      // Position in 3D space with some random offset
+      const posX = x * spacing - totalWidth / 2 + (Math.random() - 0.5) * 40;
+      const posY = y * spacing - totalHeight / 2 + (Math.random() - 0.5) * 40;
+      const posZ = (Math.random() - 0.5) * 100; // Random Z positioning
 
-      cube.style.width = `${cubeSize}px`;
-      cube.style.height = `${cubeSize}px`;
+      cube.style.width = `${actualSize}px`;
+      cube.style.height = `${actualSize}px`;
       cube.style.transform = `translate3d(${posX}px, ${posY}px, ${posZ}px)`;
 
-      // Add special styling to some cubes
-      if (Math.random() > 0.85) {
+      // Add special styling to more cubes for more drama
+      if (Math.random() > 0.6) { // Increased from 0.85 to 0.6
         const accentTypes = [
           'accent',
           'accent-red',
           'accent-blue',
           'accent-yellow',
           'accent-green',
+          'accent-purple',
+          'accent-orange',
         ];
         const randomAccent = accentTypes[Math.floor(Math.random() * accentTypes.length)];
         cube.classList.add(`cube--${randomAccent}`);
@@ -122,7 +130,11 @@ function createCubes() {
         initialX: posX,
         initialY: posY,
         initialZ: posZ,
-        depth: Math.random() * 200 - 100, // Random depth for parallax effect
+        size: actualSize,
+        baseOpacity: 0.3 + Math.random() * 0.7, // Varied opacity
+        rotationSpeed: 0.5 + Math.random() * 1.5, // Individual rotation speeds
+        depth: Math.random() * 400 - 200, // Deeper parallax effect
+        pulsePhase: Math.random() * Math.PI * 2, // Random pulse timing
       });
 
       fragment.appendChild(cube);
@@ -132,14 +144,15 @@ function createCubes() {
   // Append all cubes at once
   cubeGrid.appendChild(fragment);
 
-  // Animate cubes in with staggered delay for initial appearance
+  // Animate cubes in with more dramatic staggered delay
   cubes.forEach((cube, index) => {
     setTimeout(
       () => {
-        cube.element.style.opacity = 0.5 + Math.random() * 0.5;
-        cube.element.style.transition = 'opacity 1s ease, transform 0.6s ease';
+        cube.element.style.opacity = cube.baseOpacity;
+        cube.element.style.transition = 'opacity 2s ease, transform 1.2s ease';
+        cube.element.style.transform += ' scale(1)';
       },
-      100 + index * 50,
+      50 + index * 30, // Faster stagger for more cubes
     );
   });
 }
@@ -191,24 +204,62 @@ function startAnimationLoop() {
 
   // Calculate target rotation based on scroll and mouse position
   function updateRotation() {
-    // Calculate rotation based on scroll
-    targetRotationX = 60 + scrollY * CUBE_CONFIG.scrollFactor;
-    targetRotationY = mouseX * 2;
+    const time = Date.now() * 0.001; // Time in seconds
+    
+    // Calculate rotation based on scroll and mouse with more intensity
+    targetRotationX = 60 + scrollY * CUBE_CONFIG.scrollFactor + Math.sin(time * 0.1) * 10;
+    targetRotationY = mouseX * 3 + Math.cos(time * 0.15) * 5;
+    currentRotationZ += 0.1; // Continuous Z rotation
 
     // Smooth interpolation for rotation
-    currentRotationX += (targetRotationX - currentRotationX) * 0.05;
-    currentRotationY += (targetRotationY - currentRotationY) * 0.05;
+    currentRotationX += (targetRotationX - currentRotationX) * 0.03; // Slower, more fluid
+    currentRotationY += (targetRotationY - currentRotationY) * 0.03;
 
-    // Apply rotation to grid
-    cubeGrid.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(${currentRotationZ}deg)`;
+    // Apply rotation to grid with more dramatic effects
+    cubeGrid.style.transform = `
+      rotateX(${currentRotationX}deg) 
+      rotateY(${currentRotationY}deg) 
+      rotateZ(${currentRotationZ}deg) 
+      scale(${1 + Math.sin(time * 0.2) * 0.05})
+    `;
 
-    // Subtle movement for each cube
-    cubes.forEach((cube) => {
-      const moveZ = cube.depth + Math.sin(Date.now() * 0.001 + cube.x) * 10;
-      const moveX = cube.initialX + Math.sin(Date.now() * 0.0005 + cube.y) * 5;
-      const moveY = cube.initialY;
+    // Much more dynamic movement for each cube
+    cubes.forEach((cube, index) => {
+      const cubeTime = time + index * 0.1; // Offset timing per cube
+      
+      // Complex movement patterns
+      const moveZ = cube.depth + 
+        Math.sin(cubeTime * cube.rotationSpeed) * CUBE_CONFIG.driftRange +
+        Math.cos(cubeTime * 0.5) * 20;
+        
+      const moveX = cube.initialX + 
+        Math.sin(cubeTime * 0.7 + cube.y) * 30 +
+        Math.cos(cubeTime * 0.3) * 15;
+        
+      const moveY = cube.initialY + 
+        Math.cos(cubeTime * 0.8 + cube.x) * 25 +
+        Math.sin(cubeTime * 0.4) * 10;
 
-      cube.element.style.transform = `translate3d(${moveX}px, ${moveY}px, ${moveZ}px)`;
+      // Individual cube rotation
+      const rotateX = Math.sin(cubeTime * cube.rotationSpeed) * 360;
+      const rotateY = Math.cos(cubeTime * cube.rotationSpeed * 0.7) * 360;
+      const rotateZ = time * cube.rotationSpeed * 20;
+
+      // Pulsing scale effect
+      const pulseScale = 1 + Math.sin(cubeTime * 2 + cube.pulsePhase) * CUBE_CONFIG.pulseIntensity;
+
+      // Apply all transformations
+      cube.element.style.transform = `
+        translate3d(${moveX}px, ${moveY}px, ${moveZ}px) 
+        rotateX(${rotateX}deg) 
+        rotateY(${rotateY}deg) 
+        rotateZ(${rotateZ}deg) 
+        scale(${pulseScale})
+      `;
+
+      // Dynamic opacity changes
+      const opacityVariation = Math.sin(cubeTime * 1.5 + cube.pulsePhase) * 0.3;
+      cube.element.style.opacity = Math.max(0.1, cube.baseOpacity + opacityVariation);
     });
 
     rafId = requestAnimationFrame(updateRotation);
