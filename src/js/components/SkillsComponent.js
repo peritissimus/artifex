@@ -1,6 +1,4 @@
 import { ComponentBase } from '../modules/componentBase.js';
-import { dataManager } from '../modules/dataManager.js';
-import { templateRenderer } from '../modules/templateRenderer.js';
 
 export class SkillsComponent extends ComponentBase {
   get defaultOptions() {
@@ -12,51 +10,28 @@ export class SkillsComponent extends ComponentBase {
   }
 
   setupEvents() {
-    this.on('data:loaded', this.handleDataLoaded.bind(this));
-    
     if (this.options.animateOnScroll) {
       this.setupScrollAnimation();
     }
   }
 
-  async render() {
+  render() {
     if (!this.options.autoRender) return;
-
-    try {
-      const data = await dataManager.loadAll();
-      const skillCategories = dataManager.getSkillCategories();
-      this.renderSkills(skillCategories);
-    } catch (error) {
-      console.error('Failed to render skills:', error);
-      this.renderError();
-    }
+    
+    // Activate existing static skills content
+    this.activateSkills();
   }
 
-  renderSkills(skillCategories) {
-    const container = this.$(this.options.containerSelector);
-    if (!container) {
-      console.error('Skills container not found');
-      return;
-    }
-
-    const skillsHTML = skillCategories.map(category => 
-      templateRenderer.render('skillCategory', category)
-    ).join('');
-
-    container.innerHTML = skillsHTML;
+  activateSkills() {
+    // Add active class to existing static skill categories
+    const skillCategories = this.$$('.skill-category');
+    skillCategories.forEach((category, index) => {
+      setTimeout(() => {
+        category.classList.add('active');
+      }, index * 100);
+    });
+    
     this.setupSkillEvents();
-    this.emit('skills:rendered', { skillCategories });
-  }
-
-  renderError() {
-    const container = this.$(this.options.containerSelector);
-    if (!container) return;
-
-    container.innerHTML = `
-      <div class="skills-error">
-        <p>Failed to load skills. Please try again later.</p>
-      </div>
-    `;
   }
 
   setupSkillEvents() {
@@ -120,44 +95,7 @@ export class SkillsComponent extends ComponentBase {
     this.emit('skill:leave', { element: skillItem });
   }
 
-  handleDataLoaded(data) {
-    if (this.options.autoRender) {
-      this.render();
-    }
-  }
-
-  filterSkillsByLevel(level) {
-    const skillItems = this.$$('.skill-list li');
-    
-    skillItems.forEach(item => {
-      const skillData = this.getSkillData(item);
-      if (!level || skillData.level === level) {
-        item.style.display = '';
-        item.classList.add('filtered-in');
-      } else {
-        item.style.display = 'none';
-        item.classList.remove('filtered-in');
-      }
-    });
-
-    this.emit('skills:filtered', { level });
-  }
-
-  getSkillData(skillElement) {
-    // In a real implementation, you might store this data as data attributes
-    // or maintain a mapping between elements and data
-    const skillName = skillElement.querySelector('span').textContent;
-    const categories = dataManager.getSkillCategories();
-    
-    for (const category of categories) {
-      const skill = category.skills.find(s => s.name === skillName);
-      if (skill) {
-        return skill;
-      }
-    }
-    
-    return null;
-  }
+  // Removed data-dependent methods for static version
 
   highlightSkillsByTechnology(technology) {
     const skillItems = this.$$('.skill-list li');

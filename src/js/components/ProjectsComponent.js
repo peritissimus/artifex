@@ -1,6 +1,4 @@
 import { ComponentBase } from '../modules/componentBase.js';
-import { dataManager } from '../modules/dataManager.js';
-import { templateRenderer } from '../modules/templateRenderer.js';
 
 export class ProjectsComponent extends ComponentBase {
   get defaultOptions() {
@@ -11,52 +9,17 @@ export class ProjectsComponent extends ComponentBase {
   }
 
   setupEvents() {
-    this.on('data:loaded', this.handleDataLoaded.bind(this));
+    // No data loading events needed for static version
   }
 
-  async render() {
+  render() {
     if (!this.options.autoRender) return;
-
-    try {
-      // For now, just activate the existing static project items
-      this.activateProjects();
-      
-      // Load data in background for future use
-      const data = await dataManager.loadAll();
-      const projects = dataManager.getFeaturedProjects();
-      console.log('Projects data loaded:', projects);
-    } catch (error) {
-      console.error('Failed to render projects:', error);
-      this.activateProjects(); // Still show static content even if data fails
-    }
+    
+    // Simply activate the existing static project items
+    this.activateProjects();
   }
 
-  renderProjects(projects) {
-    const container = this.$(this.options.containerSelector);
-    if (!container) {
-      console.error('Projects container not found');
-      return;
-    }
-
-    const projectsHTML = projects.map(project => 
-      templateRenderer.render('project', project)
-    ).join('');
-
-    container.innerHTML = projectsHTML;
-    this.setupProjectEvents();
-    this.emit('projects:rendered', { projects });
-  }
-
-  renderError() {
-    const container = this.$(this.options.containerSelector);
-    if (!container) return;
-
-    container.innerHTML = `
-      <div class="projects-error">
-        <p>Failed to load projects. Please try again later.</p>
-      </div>
-    `;
-  }
+  // Removed renderProjects and renderError methods as they're not needed for static version
 
   setupProjectEvents() {
     const projectLinks = this.$$('.project-link');
@@ -102,35 +65,7 @@ export class ProjectsComponent extends ComponentBase {
     this.setupProjectEvents();
   }
 
-  handleDataLoaded(data) {
-    if (this.options.autoRender) {
-      this.render();
-    }
-  }
-
-  addProject(project) {
-    const projects = dataManager.getProjects();
-    projects.push(project);
-    this.render();
-  }
-
-  removeProject(projectId) {
-    const projects = dataManager.getProjects();
-    const index = projects.findIndex(p => p.id === projectId);
-    if (index > -1) {
-      projects.splice(index, 1);
-      this.render();
-    }
-  }
-
-  updateProject(projectId, updates) {
-    const projects = dataManager.getProjects();
-    const project = projects.find(p => p.id === projectId);
-    if (project) {
-      Object.assign(project, updates);
-      this.render();
-    }
-  }
+  // Removed data management methods as they're not needed for static version
 }
 
 export default ProjectsComponent;

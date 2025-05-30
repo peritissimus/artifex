@@ -3,7 +3,6 @@
  * Orchestrates the entire application initialization and component management
  */
 
-import { dataManager } from './modules/dataManager.js';
 import { eventBus } from './modules/eventBus.js';
 import APP_CONFIG from '../config/app.config.js';
 
@@ -33,10 +32,7 @@ export class App {
       // Show loading state if needed
       this.showLoadingState();
 
-      // Load all data first
-      await this.loadData();
-
-      // Initialize components
+      // Initialize components (no data loading needed for static version)
       await this.initializeComponents();
 
       // Initialize legacy modules (during transition)
@@ -66,17 +62,7 @@ export class App {
     }
   }
 
-  async loadData() {
-    try {
-      console.log('📊 Loading application data...');
-      const data = await dataManager.loadAll();
-      eventBus.emit('data:loaded', data);
-      console.log('✅ Data loaded successfully');
-    } catch (error) {
-      console.error('❌ Failed to load data:', error);
-      throw new Error('Data loading failed');
-    }
-  }
+  // Removed loadData method - not needed for static version
 
   async initializeComponents() {
     console.log('🏗️ Initializing components...');
@@ -307,25 +293,7 @@ export class App {
     return navigation ? navigation.getCurrentActiveSection() : null;
   }
 
-  // Data management helpers
-  async refreshData() {
-    try {
-      const data = await dataManager.loadAll();
-      eventBus.emit('data:refreshed', data);
-
-      // Trigger re-render of components
-      this.components.forEach((component) => {
-        if (typeof component.render === 'function') {
-          component.render();
-        }
-      });
-
-      return data;
-    } catch (error) {
-      console.error('Failed to refresh data:', error);
-      throw error;
-    }
-  }
+  // Removed data management helpers - not needed for static version
 
   // Cleanup method
   cleanup() {
@@ -363,7 +331,6 @@ export class App {
       initialized: this.initialized,
       loading: this.loading,
       components: Array.from(this.components.keys()),
-      data: dataManager.data,
       config: APP_CONFIG,
     };
   }

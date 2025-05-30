@@ -1,5 +1,4 @@
 import { ComponentBase } from '../modules/componentBase.js';
-import { dataManager } from '../modules/dataManager.js';
 import { debounce, passiveListener } from '../modules/utils.js';
 import APP_CONFIG from '../../config/app.config.js';
 import anime from 'animejs';
