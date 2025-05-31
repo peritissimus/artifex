@@ -1,3 +1,11 @@
+# [1.1.0-beta.1](https://github.com/peritissimus/artifex/compare/v1.0.2...v1.1.0-beta.1) (2025-05-31)
+
+
+### Features
+
+* **blog:** add blog page with search and filtering functionality ([92af212](https://github.com/peritissimus/artifex/commit/92af212518d89c24369164b2eef516f0564d10c8))
+* **cube-bg:** enhance 3D cube background effects ([d25e226](https://github.com/peritissimus/artifex/commit/d25e2262b9d28220848e4209b5dd34dd625f99b9))
+
 ## [1.0.2](https://github.com/peritissimus/artifex/compare/v1.0.1...v1.0.2) (2025-05-30)
 
 ## [1.0.1](https://github.com/peritissimus/artifex/compare/v1.0.0...v1.0.1) (2025-05-30)
