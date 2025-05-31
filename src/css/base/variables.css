@@ -115,9 +115,10 @@
   --spacing-4xl: 8rem; /* 128px */
 
   /* Layout */
-  --container-max-width: 1200px;
+  --container-max-width: 1800px;
   --container-padding: var(--spacing-lg);
   --header-height: 60px;
+  --footer-height: 60px;
   --section-padding-y: var(--spacing-4xl);
   --section-padding-x: var(--spacing-lg);
 

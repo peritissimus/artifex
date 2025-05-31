@@ -21,6 +21,9 @@ body {
 
 /* 4. Improve text rendering */
 body {
+  magin: 0;
+  padding: 0;
+  border: 0;
   line-height: var(--line-height-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

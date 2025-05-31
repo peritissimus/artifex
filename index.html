@@ -120,12 +120,11 @@
   <body>
     <div class="overlay-gradient" aria-hidden="true"></div>
 
+    <header role="banner" class="app-header">
+      <div class="header-content">menu</div>
+    </header>
     <div class="app-container">
-      <header role="banner" class="app-header">
-        <div class="header-content">menu</div>
-      </header>
-
-      <main id="main-content" role="main" class="app-main">
+      <main role="main" class="app-main">
         <!-- Three Column Layout -->
         <div class="main-grid">
           <!-- Left Sidebar -->
@@ -133,11 +132,11 @@
             <div class="column-content">
               <!-- Intro Section -->
               <div class="intro-section">
-                <h1 class="company-name">Konel</h1>
+                <h1 class="company-name">peritissimus</h1>
 
                 <h2 class="main-tagline">
-                  Shaping Desire<br />
-                  with Art and Technology.
+                  Hello!<br />
+                  I am Kushal Patankar.
                 </h2>
 
                 <p class="intro-description">
@@ -214,8 +213,34 @@
           <!-- Center Content -->
           <section class="center-column">
             <div class="column-content">
-              <div class="center-placeholder">
-                <p>Center content area</p>
+              <div class="featured-works">
+                <article class="featured-work">
+                  <div class="featured-work-image">[Featured Project Image]</div>
+                  <div class="featured-work-content">
+                    <h2 class="featured-work-title">ZZZN SLEEP APPAREL SYSTEM</h2>
+                    <p class="featured-work-subtitle">
+                      Wearable device for sleep: Carry Your Rest Anywhere
+                    </p>
+                  </div>
+                </article>
+
+                <article class="featured-work">
+                  <div class="featured-work-image">[Featured Project Image]</div>
+                  <div class="featured-work-content">
+                    <h2 class="featured-work-title">Morph inn</h2>
+                    <p class="featured-work-subtitle">
+                      A Purpose-Free Space to Surrender Yourself to Soft Robotics
+                    </p>
+                  </div>
+                </article>
+
+                <article class="featured-work">
+                  <div class="featured-work-image">[Featured Project Image]</div>
+                  <div class="featured-work-content">
+                    <h2 class="featured-work-title">BWTC</h2>
+                    <p class="featured-work-subtitle">Brainwave Trading Center</p>
+                  </div>
+                </article>
               </div>
             </div>
           </section>
@@ -223,6 +248,65 @@
           <!-- Right Sidebar - Projects -->
           <aside class="right-column">
             <div class="column-content">
+              <!-- Left column content for tablet view -->
+              <div class="tablet-left-content">
+                <section class="content-section">
+                  <h2 class="section-title">News</h2>
+                  <div class="news-content">
+                    <p>Latest updates and announcements coming soon...</p>
+                  </div>
+                </section>
+
+                <section class="content-section">
+                  <h2 class="section-title">Recent Tweets</h2>
+                  <div class="tweets-container">
+                    <div class="tweet-placeholder">
+                      <p>Connect with me on Twitter for latest updates...</p>
+                      <a
+                        href="https://twitter.com/peritissimus_"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="twitter-link"
+                      >
+                        @peritissimus_
+                      </a>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="content-section">
+                  <h2 class="section-title">Skills</h2>
+                  <div class="skills-compact">
+                    <div class="skill-group">
+                      <h3>Frontend</h3>
+                      <div class="skill-tags">
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">CSS3</span>
+                      </div>
+                    </div>
+                    <div class="skill-group">
+                      <h3>Backend</h3>
+                      <div class="skill-tags">
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">APIs</span>
+                        <span class="skill-tag">Databases</span>
+                      </div>
+                    </div>
+                    <div class="skill-group">
+                      <h3>Design</h3>
+                      <div class="skill-tags">
+                        <span class="skill-tag">UI/UX</span>
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">Motion</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
               <section class="content-section">
                 <h2 class="section-title">Projects</h2>
                 <div class="projects-list">
@@ -273,17 +357,14 @@
             </div>
           </aside>
         </div>
-
-        <!-- Project Detail Component Container -->
-        <div id="project-detail-container"></div>
       </main>
-
-      <footer role="contentinfo" class="app-footer">
-        <div class="footer-content">
-          <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
+
+    <footer role="contentinfo" class="app-footer">
+      <div class="footer-content">
+        <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
+      </div>
+    </footer>
 
     <!-- Defer non-critical JavaScript -->
     <script type="module" src="./src/js/main.js" defer></script>
