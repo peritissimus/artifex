@@ -1,26 +1,24 @@
 :root {
-  /* Colors */
-  --color-primary: #ffd700;
-  --color-secondary: #0066ff;
-  --color-accent-red: #ff6b6b;
-  --color-accent-blue: #4ecdc4;
-  --color-accent-yellow: #ffd700;
+  /* Colors - Paper-like minimal palette */
+  --color-primary: #000000;
+  --color-secondary: #666666;
+  --color-accent: #000000;
 
-  /* Text Colors */
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #b0b0b0;
-  --color-text-muted: #808080;
-  --color-text-dark: #1a1a1a;
+  /* Text Colors - High contrast for readability */
+  --color-text-primary: #000000;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-text-light: #ffffff;
 
-  /* Background Colors */
-  --color-bg-primary: #0a0a0a;
-  --color-bg-secondary: #1a1a1a;
-  --color-bg-tertiary: #2a2a2a;
-  --color-bg-overlay: rgba(0, 0, 0, 0.8);
+  /* Background Colors - Single paper-like background */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #ffffff;
+  --color-bg-overlay: rgba(255, 255, 255, 0.95);
 
-  /* Border Colors */
-  --color-border-primary: #333333;
-  --color-border-secondary: #444444;
+  /* Border Colors - Minimal lines */
+  --color-border-primary: #e0e0e0;
+  --color-border-secondary: #cccccc;
   --color-border-accent: var(--color-primary);
 
   /* Typography */
@@ -83,18 +81,18 @@
   --z-index-modal: 300;
   --z-index-tooltip: 400;
 
-  /* Border Radius */
-  --border-radius-sm: 0.25rem; /* 4px */
-  --border-radius-md: 0.5rem; /* 8px */
-  --border-radius-lg: 1rem; /* 16px */
-  --border-radius-xl: 1.5rem; /* 24px */
-  --border-radius-full: 9999px;
+  /* Border Radius - Minimal/No radius for paper-like aesthetic */
+  --border-radius-sm: 0;
+  --border-radius-md: 0;
+  --border-radius-lg: 0;
+  --border-radius-xl: 0;
+  --border-radius-full: 0;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+  /* Shadows - Minimal paper-like shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.12);
 
   /* Transitions */
   --transition-fast: 0.15s ease-in-out;

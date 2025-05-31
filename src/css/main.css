@@ -16,6 +16,11 @@
 @import './components/skills.css';
 @import './components/contact.css';
 @import './components/footer.css';
+@import './components/dashboard.css';
+@import './components/project-detail.css';
+@import './components/projects-page.css';
+@import './components/blog-page.css';
+@import './components/project-detail-page.css';
 
 /* Utility Styles */
 @import './utils/responsive.css';

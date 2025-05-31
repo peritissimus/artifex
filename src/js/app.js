@@ -11,10 +11,12 @@ import { NavigationComponent } from './components/NavigationComponent.js';
 import { ProjectsComponent } from './components/ProjectsComponent.js';
 import { SkillsComponent } from './components/SkillsComponent.js';
 import { ContactComponent } from './components/ContactComponent.js';
+import { ProjectDetailComponent } from './components/ProjectDetailComponent.js';
 
 // Module imports (legacy support during transition)
 import { initAnimations } from './modules/animations.js';
 import { initCubeBackground } from './modules/cube-bg.js';
+import { initProjectInteractions } from './modules/projectInteractions.js';
 
 export class App {
   constructor() {
@@ -77,13 +79,13 @@ export class App {
       {
         name: 'projects',
         component: ProjectsComponent,
-        element: document.querySelector('#projects'),
+        element: document.querySelector('.projects-list'),
         options: { autoRender: true },
       },
       {
         name: 'skills',
         component: SkillsComponent,
-        element: document.querySelector('#skills'),
+        element: document.querySelector('.skills-compact'),
         options: {
           autoRender: true,
           animateOnScroll: true,
@@ -94,6 +96,12 @@ export class App {
         component: ContactComponent,
         element: document.querySelector('#contact'),
         options: { autoRender: true },
+      },
+      {
+        name: 'projectDetail',
+        component: ProjectDetailComponent,
+        element: document.querySelector('#project-detail-container'),
+        options: {},
       },
     ];
 
@@ -123,6 +131,10 @@ export class App {
       // Initialize animations
       initAnimations();
       console.log('✅ Animations initialized');
+
+      // Initialize project interactions
+      initProjectInteractions();
+      console.log('✅ Project interactions initialized');
     } catch (error) {
       console.error('❌ Failed to initialize legacy modules:', error);
     }

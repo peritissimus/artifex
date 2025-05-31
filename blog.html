@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | Kushal | Fullstack Developer & Designer</title>
+    <meta
+      name="description"
+      content="Thoughts on technology, design, and the intersection of art and engineering. Insights from a fullstack developer and designer."
+    />
+    <meta
+      name="keywords"
+      content="blog, technology, design, fullstack development, web design, programming, creative coding"
+    />
+    <meta name="author" content="Kushal" />
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://peritissimus.com/blog" />
+    <meta property="og:title" content="Blog | Kushal | Fullstack Developer & Designer" />
+    <meta
+      property="og:description"
+      content="Thoughts on technology, design, and the intersection of art and engineering."
+    />
+    <meta property="og:image" content="https://peritissimus.com/thumbnail.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://peritissimus.com/blog" />
+    <meta property="twitter:title" content="Blog | Kushal | Fullstack Developer & Designer" />
+    <meta
+      property="twitter:description"
+      content="Thoughts on technology, design, and the intersection of art and engineering."
+    />
+    <meta property="twitter:image" content="https://peritissimus.com/thumbnail.jpg" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <!-- Critical CSS -->
+    <link rel="stylesheet" href="./src/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://peritissimus.com/blog" />
+  </head>
+
+  <body>
+    <div class="overlay-gradient" aria-hidden="true"></div>
+    
+    <div class="app-container">
+      <header role="banner" class="app-header">
+        <div class="header-content">
+          <div class="logo" aria-label="peritissimus">
+            <a href="/">peritissimus<span>.</span></a>
+          </div>
+          <nav class="header-nav">
+            <a href="/" class="nav-item">Home</a>
+            <a href="/projects.html" class="nav-item">Projects</a>
+            <a href="/blog.html" class="nav-item active">Blog</a>
+            <a href="#about" class="nav-item">About</a>
+            <a href="#contact" class="nav-item">Contact</a>
+          </nav>
+          <div class="header-actions">
+            <span class="language-toggle">EN / JP</span>
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main id="main-content" role="main" class="blog-page">
+        <div class="page-header">
+          <div class="page-header-content">
+            <h1 class="page-title">Blog</h1>
+            <p class="page-subtitle">Thoughts on technology, design, and the future we're building</p>
+          </div>
+        </div>
+
+        <div class="blog-container">
+          <div class="blog-sidebar">
+            <div class="blog-search">
+              <input type="search" placeholder="Search articles..." class="search-input" />
+              <button class="search-btn" aria-label="Search">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+
+            <div class="blog-categories">
+              <h3 class="sidebar-title">Categories</h3>
+              <ul class="category-list">
+                <li><a href="#" class="category-link active">All Posts <span class="count">12</span></a></li>
+                <li><a href="#" class="category-link">Technology <span class="count">5</span></a></li>
+                <li><a href="#" class="category-link">Design <span class="count">4</span></a></li>
+                <li><a href="#" class="category-link">Programming <span class="count">3</span></a></li>
+                <li><a href="#" class="category-link">Creative Coding <span class="count">2</span></a></li>
+                <li><a href="#" class="category-link">Thoughts <span class="count">1</span></a></li>
+              </ul>
+            </div>
+
+            <div class="blog-archive">
+              <h3 class="sidebar-title">Archive</h3>
+              <ul class="archive-list">
+                <li><a href="#" class="archive-link">January 2025 <span class="count">3</span></a></li>
+                <li><a href="#" class="archive-link">December 2024 <span class="count">2</span></a></li>
+                <li><a href="#" class="archive-link">November 2024 <span class="count">4</span></a></li>
+                <li><a href="#" class="archive-link">October 2024 <span class="count">3</span></a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="blog-content">
+            <!-- Featured Article -->
+            <article class="blog-post featured">
+              <div class="post-image">
+                <div class="post-image-placeholder">
+                  [Featured Article Image]
+                </div>
+                <div class="post-badge">Featured</div>
+              </div>
+              <div class="post-content">
+                <div class="post-meta">
+                  <span class="post-category">Technology</span>
+                  <span class="post-date">January 15, 2025</span>
+                  <span class="post-read-time">8 min read</span>
+                </div>
+                <h2 class="post-title">
+                  <a href="#">The Future of Web Development: Bridging Art and Engineering</a>
+                </h2>
+                <p class="post-excerpt">
+                  Exploring how the convergence of artistic vision and technical precision is reshaping 
+                  the landscape of modern web development. From generative design systems to AI-assisted 
+                  creativity, we're entering an era where code becomes canvas.
+                </p>
+                <div class="post-tags">
+                  <span class="tag">Web Development</span>
+                  <span class="tag">Design Systems</span>
+                  <span class="tag">AI</span>
+                  <span class="tag">Creative Coding</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Regular Articles -->
+            <div class="blog-posts">
+              <article class="blog-post">
+                <div class="post-image">
+                  <div class="post-image-placeholder">
+                    [Article Image]
+                  </div>
+                </div>
+                <div class="post-content">
+                  <div class="post-meta">
+                    <span class="post-category">Design</span>
+                    <span class="post-date">January 10, 2025</span>
+                    <span class="post-read-time">5 min read</span>
+                  </div>
+                  <h3 class="post-title">
+                    <a href="#">Minimalism in Digital Interfaces: Less is Always More?</a>
+                  </h3>
+                  <p class="post-excerpt">
+                    A deep dive into minimalist design principles and when they serve users best. 
+                    Examining the balance between simplicity and functionality in modern interfaces.
+                  </p>
+                  <div class="post-tags">
+                    <span class="tag">UI Design</span>
+                    <span class="tag">Minimalism</span>
+                    <span class="tag">UX</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="blog-post">
+                <div class="post-image">
+                  <div class="post-image-placeholder">
+                    [Article Image]
+                  </div>
+                </div>
+                <div class="post-content">
+                  <div class="post-meta">
+                    <span class="post-category">Programming</span>
+                    <span class="post-date">January 5, 2025</span>
+                    <span class="post-read-time">12 min read</span>
+                  </div>
+                  <h3 class="post-title">
+                    <a href="#">Building Reactive Systems with Modern JavaScript</a>
+                  </h3>
+                  <p class="post-excerpt">
+                    Understanding reactive programming patterns and how they're transforming 
+                    front-end architecture. Practical examples using RxJS and reactive frameworks.
+                  </p>
+                  <div class="post-tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">RxJS</span>
+                    <span class="tag">Architecture</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="blog-post">
+                <div class="post-image">
+                  <div class="post-image-placeholder">
+                    [Article Image]
+                  </div>
+                </div>
+                <div class="post-content">
+                  <div class="post-meta">
+                    <span class="post-category">Creative Coding</span>
+                    <span class="post-date">December 28, 2024</span>
+                    <span class="post-read-time">7 min read</span>
+                  </div>
+                  <h3 class="post-title">
+                    <a href="#">Generative Art with WebGL Shaders</a>
+                  </h3>
+                  <p class="post-excerpt">
+                    Creating dynamic visual experiences using GLSL shaders. From basic patterns 
+                    to complex generative systems that respond to music and user interaction.
+                  </p>
+                  <div class="post-tags">
+                    <span class="tag">WebGL</span>
+                    <span class="tag">GLSL</span>
+                    <span class="tag">Generative Art</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="blog-post">
+                <div class="post-image">
+                  <div class="post-image-placeholder">
+                    [Article Image]
+                  </div>
+                </div>
+                <div class="post-content">
+                  <div class="post-meta">
+                    <span class="post-category">Technology</span>
+                    <span class="post-date">December 20, 2024</span>
+                    <span class="post-read-time">6 min read</span>
+                  </div>
+                  <h3 class="post-title">
+                    <a href="#">The Evolution of Design Systems</a>
+                  </h3>
+                  <p class="post-excerpt">
+                    How design systems have evolved from style guides to comprehensive 
+                    digital ecosystems. Building scalable, maintainable design languages.
+                  </p>
+                  <div class="post-tags">
+                    <span class="tag">Design Systems</span>
+                    <span class="tag">Component Libraries</span>
+                    <span class="tag">Scalability</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="blog-post">
+                <div class="post-image">
+                  <div class="post-image-placeholder">
+                    [Article Image]
+                  </div>
+                </div>
+                <div class="post-content">
+                  <div class="post-meta">
+                    <span class="post-category">Thoughts</span>
+                    <span class="post-date">December 15, 2024</span>
+                    <span class="post-read-time">4 min read</span>
+                  </div>
+                  <h3 class="post-title">
+                    <a href="#">On Digital Craftsmanship</a>
+                  </h3>
+                  <p class="post-excerpt">
+                    Reflecting on what it means to be a craftsperson in the digital age. 
+                    The intersection of traditional craftsmanship values with modern technology.
+                  </p>
+                  <div class="post-tags">
+                    <span class="tag">Philosophy</span>
+                    <span class="tag">Craftsmanship</span>
+                    <span class="tag">Digital Culture</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="blog-pagination">
+              <button class="pagination-btn" disabled>
+                <i class="fas fa-chevron-left"></i> Previous
+              </button>
+              <div class="pagination-numbers">
+                <span class="pagination-number active">1</span>
+                <span class="pagination-number">2</span>
+                <span class="pagination-number">3</span>
+              </div>
+              <button class="pagination-btn">
+                Next <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer role="contentinfo" class="app-footer">
+        <div class="footer-content">
+          <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="module" src="./src/js/pages/blog.js" defer></script>
+    <script>
+      // Update current year in footer
+      document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+      });
+    </script>
+  </body>
+</html>

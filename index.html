@@ -119,14 +119,27 @@
 
   <body>
     <div class="overlay-gradient" aria-hidden="true"></div>
-
-    <header role="banner">
-      <div class="logo" aria-label="peritissimus">peritissimus<span>.</span></div>
-      <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-      </button>
-    </header>
+    
+    <div class="app-container">
+      <header role="banner" class="app-header">
+        <div class="header-content">
+          <div class="logo" aria-label="peritissimus">peritissimus<span>.</span></div>
+          <nav class="header-nav">
+            <a href="#home" class="nav-item active">Home</a>
+            <a href="#projects" class="nav-item">Projects</a>
+            <a href="#blog" class="nav-item">Blog</a>
+            <a href="#about" class="nav-item">About</a>
+            <a href="#contact" class="nav-item">Contact</a>
+          </nav>
+          <div class="header-actions">
+            <span class="language-toggle">EN / JP</span>
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </header>
 
     <nav class="main-nav" role="navigation" aria-label="Main navigation">
       <div class="nav-content">
@@ -136,8 +149,8 @@
         <ul class="nav-links" aria-labelledby="menu-heading">
           <li><a href="#home" class="nav-link" aria-current="page">home</a></li>
           <li><a href="#projects" class="nav-link">projects</a></li>
-          <li><a href="#about" class="nav-link">about me</a></li>
-          <li><a href="#skills" class="nav-link">skills</a></li>
+          <li><a href="#blog" class="nav-link">blog</a></li>
+          <li><a href="#about" class="nav-link">about</a></li>
           <li><a href="#contact" class="nav-link">contact</a></li>
         </ul>
         <div class="nav-footer">
@@ -180,230 +193,178 @@
       </div>
     </nav>
 
-    <main id="main-content" role="main">
-      <!-- Home/Hero Section -->
-      <section id="home" class="section active" aria-labelledby="home-title">
-        <div class="hero-content">
-          <h1 id="home-title" class="hero-title">
-            <div class="title-line">fullstack</div>
-            <div class="title-line">developer</div>
-            <div class="title-line">& designer<span>.</span></div>
-          </h1>
-        </div>
-        <div class="scroll-indicator" aria-hidden="true">
-          <div class="scroll-line"></div>
-          <span>scroll</span>
-        </div>
-      </section>
-
-      <!-- Projects Section (Horizontal Scroll) -->
-      <section id="projects" class="section" aria-labelledby="projects-heading">
-        <div class="section-header">
-          <h2 id="projects-heading" class="section-label">projects</h2>
-        </div>
-
-        <div class="projects-container">
-          <!-- Project 1 -->
-          <article class="project-item">
-            <div class="project-meta">
-              <span class="project-category">FULL STACK APPLICATION</span>
-              <span class="project-category">REACT & NODE.JS</span>
-              <span class="project-category">E-COMMERCE PLATFORM</span>
-            </div>
-            <div class="project-content">
-              <a href="#project1" class="project-link">
-                <div class="project-image project-image-1" aria-label="E-commerce platform project">
-                  <!-- Use blurred SVGs as placeholders for faster CLS reduction -->
-                  <svg
-                    viewBox="0 0 16 9"
-                    preserveAspectRatio="xMidYMid meet"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    width="100%"
-                    height="100%"
-                    style="position: absolute; top: 0; left: 0"
-                  >
-                    <filter id="blur1" width="100%" height="100%">
-                      <feGaussianBlur stdDeviation="20"></feGaussianBlur>
-                    </filter>
-                    <rect
-                      width="100%"
-                      height="100%"
-                      fill="var(--accent-yellow)"
-                      filter="url(#blur1)"
-                    ></rect>
-                  </svg>
+      <main id="main-content" role="main" class="app-main">
+        <!-- Three Column Layout -->
+        <div class="main-grid">
+          <!-- Left Sidebar -->
+          <aside class="left-column">
+            <div class="column-content">
+              <!-- Recent Tweets Section -->
+              <section class="content-section">
+                <h2 class="section-title">Recent Tweets</h2>
+                <div class="tweets-container">
+                  <div class="tweet-placeholder">
+                    <p>Connect with me on Twitter for latest updates...</p>
+                    <a href="https://twitter.com/peritissimus_" target="_blank" rel="noopener noreferrer" class="twitter-link">
+                      @peritissimus_
+                    </a>
+                  </div>
                 </div>
-              </a>
-              <h3 class="visually-hidden">E-commerce Platform</h3>
-            </div>
-          </article>
+              </section>
 
-          <!-- Project 2 -->
-          <article class="project-item">
-            <div class="project-meta">
-              <span class="project-category">UI/UX DESIGN</span>
-              <span class="project-category">MOBILE APPLICATION</span>
-              <span class="project-category">FINANCIAL SERVICES</span>
-            </div>
-            <div class="project-content">
-              <a href="#project2" class="project-link">
-                <div
-                  class="project-image project-image-2"
-                  aria-label="Financial services mobile app project"
-                >
-                  <svg
-                    viewBox="0 0 16 9"
-                    preserveAspectRatio="xMidYMid meet"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    width="100%"
-                    height="100%"
-                    style="position: absolute; top: 0; left: 0"
-                  >
-                    <filter id="blur2" width="100%" height="100%">
-                      <feGaussianBlur stdDeviation="20"></feGaussianBlur>
-                    </filter>
-                    <rect
-                      width="100%"
-                      height="100%"
-                      fill="var(--accent-blue)"
-                      filter="url(#blur2)"
-                    ></rect>
-                  </svg>
+              <!-- Skills Section -->
+              <section class="content-section">
+                <h2 class="section-title">Skills</h2>
+                <div class="skills-compact">
+                  <div class="skill-group">
+                    <h3>Frontend</h3>
+                    <div class="skill-tags">
+                      <span class="skill-tag">React</span>
+                      <span class="skill-tag">JavaScript</span>
+                      <span class="skill-tag">TypeScript</span>
+                      <span class="skill-tag">CSS3</span>
+                    </div>
+                  </div>
+                  <div class="skill-group">
+                    <h3>Backend</h3>
+                    <div class="skill-tags">
+                      <span class="skill-tag">Node.js</span>
+                      <span class="skill-tag">Python</span>
+                      <span class="skill-tag">APIs</span>
+                      <span class="skill-tag">Databases</span>
+                    </div>
+                  </div>
+                  <div class="skill-group">
+                    <h3>Design</h3>
+                    <div class="skill-tags">
+                      <span class="skill-tag">UI/UX</span>
+                      <span class="skill-tag">Figma</span>
+                      <span class="skill-tag">Motion</span>
+                    </div>
+                  </div>
                 </div>
-              </a>
-              <h3 class="visually-hidden">Financial Services Mobile App</h3>
+              </section>
             </div>
-          </article>
+          </aside>
 
-          <!-- Project 3 -->
-          <article class="project-item">
-            <div class="project-meta">
-              <span class="project-category">INTERACTIVE EXPERIENCE</span>
-              <span class="project-category">THREE.JS & WEBGL</span>
-              <span class="project-category">DATA VISUALIZATION</span>
-            </div>
-            <div class="project-content">
-              <a href="#project3" class="project-link">
-                <div
-                  class="project-image project-image-3"
-                  aria-label="Data visualization interactive experience project"
-                >
-                  <svg
-                    viewBox="0 0 16 9"
-                    preserveAspectRatio="xMidYMid meet"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    width="100%"
-                    height="100%"
-                    style="position: absolute; top: 0; left: 0"
-                  >
-                    <filter id="blur3" width="100%" height="100%">
-                      <feGaussianBlur stdDeviation="20"></feGaussianBlur>
-                    </filter>
-                    <rect
-                      width="100%"
-                      height="100%"
-                      fill="var(--accent-red)"
-                      filter="url(#blur3)"
-                    ></rect>
-                  </svg>
+          <!-- Center Content -->
+          <section class="center-column">
+            <div class="column-content">
+              <div class="intro-section">
+                <h1 class="company-name">Konel</h1>
+                
+                <h2 class="main-tagline">
+                  Shaping Desire<br>
+                  with Art and Technology.
+                </h2>
+                
+                <p class="intro-description">
+                  We create new with new way, tradition, nature. We create future experiences with various partners, going back and forth between digital and analog.
+                </p>
+                
+                <div class="intro-action">
+                  <button class="about-btn">About</button>
                 </div>
-              </a>
-              <h3 class="visually-hidden">Data Visualization Experience</h3>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- Skills Section -->
-      <section id="skills" class="section" aria-labelledby="skills-heading">
-        <div class="section-header">
-          <h2 id="skills-heading" class="section-label">skills</h2>
-        </div>
-
-        <div class="team-container">
-          <h2 class="team-title">Technical Toolkit</h2>
-          <div class="skills-grid">
-            <div class="skill-category">
-              <h3>Frontend</h3>
-              <ul class="skill-list">
-                <li><span>React / Next.js</span></li>
-                <li><span>JavaScript / TypeScript</span></li>
-                <li><span>HTML5 / CSS3 / SASS</span></li>
-                <li><span>Three.js / WebGL</span></li>
-                <li><span>Animation Libraries</span></li>
-              </ul>
-            </div>
-            <div class="skill-category">
-              <h3>Backend</h3>
-              <ul class="skill-list">
-                <li><span>Node.js / Express</span></li>
-                <li><span>Python / Django</span></li>
-                <li><span>RESTful APIs</span></li>
-                <li><span>GraphQL</span></li>
-                <li><span>Database Design</span></li>
-              </ul>
-            </div>
-            <div class="skill-category">
-              <h3>Design</h3>
-              <ul class="skill-list">
-                <li><span>UI/UX Principles</span></li>
-                <li><span>Figma / Sketch</span></li>
-                <li><span>Adobe Creative Suite</span></li>
-                <li><span>Design Systems</span></li>
-                <li><span>Motion Design</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact Section -->
-      <section id="contact" class="section" aria-labelledby="contact-heading">
-        <div class="section-header">
-          <h2 id="contact-heading" class="section-label">contact</h2>
-        </div>
-
-        <div class="contact-container">
-          <h2 class="contact-title">Let's Create Something Together</h2>
-          <div class="contact-content">
-            <div class="contact-info">
-              <div class="contact-item">
-                <h3 id="email-label">Email</h3>
-                <a href="mailto:hello@example.com" aria-labelledby="email-label"
-                  >hello@example.com</a
-                >
               </div>
-              <div class="contact-item">
-                <h3 id="github-label">GitHub</h3>
-                <a
-                  href="https://github.com/peritissimus"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-labelledby="github-label"
-                  >github.com/peritissimus</a
-                >
-              </div>
-              <div class="contact-item">
-                <h3 id="location-label">Based in</h3>
-                <p aria-labelledby="location-label">New York, NY</p>
+
+              <div class="news-section">
+                <h2 class="section-heading">News</h2>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-    </main>
+          </section>
 
-    <footer role="contentinfo" class="site-footer">
-      <div class="footer-content">
-        <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
-      </div>
-    </footer>
+          <!-- Right Sidebar - Projects -->
+          <aside class="right-column">
+            <div class="column-content">
+              <section class="content-section">
+                <h2 class="section-title">Projects</h2>
+                <div class="projects-list">
+                  <article class="project-list-item" data-project="project-1">
+                    <h3>#Shikatanakunai</h3>
+                    <span class="project-description">#NotInevitable Let's elevat</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-2">
+                    <h3>Yuragi Kabe TOU</h3>
+                    <span class="project-description">Bringing Organic Motion</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-3">
+                    <h3>HANAMURASAKI</h3>
+                    <span class="project-description">Rebranding a Historic Ryokan</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-4">
+                    <h3>Bpass</h3>
+                    <span class="project-description">Bpass: Exploring New Paths for Resources</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-5">
+                    <h3>A Tearoom Without Language</h3>
+                    <span class="project-description">Words Are</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-6">
+                    <h3>IDEA ARENA</h3>
+                    <span class="project-description">A Voting-Based Idea Competition Platform</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-7">
+                    <h3>Amazon Bar</h3>
+                    <span class="project-description">A Bar Without a Menu</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-8">
+                    <h3>Onomatopoeic Treats</h3>
+                    <span class="project-description">Fun & Delicious</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-9">
+                    <h3>SPACE FOODSPHERE</h3>
+                    <span class="project-description">Saving Earth's Food from</span>
+                  </article>
+
+                  <article class="project-list-item" data-project="project-10">
+                    <h3>Log Flower</h3>
+                    <span class="project-description">A Digital Plant That Grows with the</span>
+                  </article>
+                </div>
+                
+                <div class="more-projects">
+                  <button class="more-projects-btn">More</button>
+                </div>
+              </section>
+
+              <!-- Service Section -->
+              <section class="content-section">
+                <h2 class="section-title">Service</h2>
+                <div class="service-content">
+                  <h3 class="service-tagline">Bringing the future closer</h3>
+                  <ul class="service-list">
+                    <li>Branding</li>
+                    <li>Future Experience</li>
+                    <li>Art</li>
+                    <li>Services & Products</li>
+                    <li>Spatial Design</li>
+                    <li>Contents & Community</li>
+                  </ul>
+                  <button class="more-service-btn">More →</button>
+                </div>
+              </section>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Project Detail Component Container -->
+        <div id="project-detail-container"></div>
+      </main>
+
+      <footer role="contentinfo" class="app-footer">
+        <div class="footer-content">
+          <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
 
     <!-- Defer non-critical JavaScript -->
     <script type="module" src="./src/js/main.js" defer></script>
