@@ -17,6 +17,7 @@ import { ProjectDetailComponent } from './components/ProjectDetailComponent.js';
 import { initAnimations } from './modules/animations.js';
 import { initCubeBackground } from './modules/cube-bg.js';
 import { initProjectInteractions } from './modules/projectInteractions.js';
+import { themeManager } from './modules/theme.js';
 
 export class App {
   constructor() {
@@ -124,6 +125,11 @@ export class App {
     console.log('🔄 Initializing legacy modules...');
 
     try {
+      // Initialize theme manager
+      if (themeManager) {
+        console.log('✅ Theme manager initialized');
+      }
+
       // Initialize cube background
       initCubeBackground();
       console.log('✅ Cube background initialized');

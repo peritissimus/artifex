@@ -47,6 +47,10 @@
             <a href="#contact" class="nav-item">Contact</a>
           </nav>
           <div class="header-actions">
+            <button class="theme-toggle" aria-label="Toggle theme" id="theme-toggle">
+              <span class="theme-icon light-icon">☀</span>
+              <span class="theme-icon dark-icon">☾</span>
+            </button>
             <span class="language-toggle">EN / JP</span>
           </div>
         </div>
@@ -192,7 +196,8 @@
       </footer>
     </div>
 
-    <script>
+    <script type="module">
+      import './src/js/modules/theme.js';
       document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
   </body>
