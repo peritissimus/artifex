@@ -8,7 +8,7 @@
 @import './base/typography.css';
 
 /* Component Styles */
-@import './components/cube-bg.css';
+@import './components/scroll-animations.css';
 @import './components/header.css';
 @import './components/hero.css';
 @import './components/projects.css';

@@ -14,7 +14,7 @@ import { ContactComponent } from './components/ContactComponent.js';
 
 // Module imports (legacy support during transition)
 import { initAnimations } from './modules/animations.js';
-import { initCubeBackground } from './modules/cube-bg.js';
+import { initScrollAnimations, destroyScrollAnimations } from './modules/scroll-animations.js';
 
 export class App {
   constructor() {
@@ -113,18 +113,18 @@ export class App {
   }
 
   initializeLegacyModules() {
-    console.log('🔄 Initializing legacy modules...');
+    console.log('🔄 Initializing animation modules...');
 
     try {
-      // Initialize cube background
-      initCubeBackground();
-      console.log('✅ Cube background initialized');
+      // Initialize scroll-controlled animations
+      initScrollAnimations();
+      console.log('✅ Scroll animations initialized');
 
       // Initialize animations
       initAnimations();
       console.log('✅ Animations initialized');
     } catch (error) {
-      console.error('❌ Failed to initialize legacy modules:', error);
+      console.error('❌ Failed to initialize animation modules:', error);
     }
   }
 
@@ -306,6 +306,14 @@ export class App {
 
     if (this.handleScroll) {
       window.removeEventListener('scroll', this.handleScroll);
+    }
+
+    // Destroy scroll animations
+    try {
+      destroyScrollAnimations();
+      console.log('✅ Scroll animations destroyed');
+    } catch (error) {
+      console.error('❌ Failed to destroy scroll animations:', error);
     }
 
     // Destroy all components
