@@ -1,3 +1,13 @@
+# [1.1.0-beta.2](https://github.com/peritissimus/artifex/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2025-06-02)
+
+
+### Features
+
+* **css:** add nowrap and overflow properties for dashboard layout ([c562695](https://github.com/peritissimus/artifex/commit/c5626950cad0d0b44bc9a4ce87f0e56df8dcbb10))
+* **html, css:** update dashboard content and styles for improved design ([d03ce4e](https://github.com/peritissimus/artifex/commit/d03ce4e00176883621c8488154892d8d62242e50))
+* **theme:** implement theme management with dark/light mode toggle ([2150eee](https://github.com/peritissimus/artifex/commit/2150eee090c405358632e26bd1b851cf9aa6f8a2))
+* **ui:** enhance dashboard layout with new sections and updated content ([8914cc3](https://github.com/peritissimus/artifex/commit/8914cc385afc8a9692b39e439a54e0cc41ac0750))
+
 # [1.1.0-beta.1](https://github.com/peritissimus/artifex/compare/v1.0.2...v1.1.0-beta.1) (2025-05-31)
 
 
