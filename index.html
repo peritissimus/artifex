@@ -119,93 +119,55 @@
 
   <body>
     <div class="overlay-gradient" aria-hidden="true"></div>
-    
+
+    <header role="banner" class="app-header">
+      <div class="header-content">menu</div>
+    </header>
     <div class="app-container">
-      <header role="banner" class="app-header">
-        <div class="header-content">
-          <div class="logo" aria-label="peritissimus">peritissimus<span>.</span></div>
-          <nav class="header-nav">
-            <a href="#home" class="nav-item active">Home</a>
-            <a href="#projects" class="nav-item">Projects</a>
-            <a href="#blog" class="nav-item">Blog</a>
-            <a href="#about" class="nav-item">About</a>
-            <a href="#contact" class="nav-item">Contact</a>
-          </nav>
-          <div class="header-actions">
-            <span class="language-toggle">EN / JP</span>
-            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-              <span></span>
-              <span></span>
-            </button>
-          </div>
-        </div>
-      </header>
-
-    <nav class="main-nav" role="navigation" aria-label="Main navigation">
-      <div class="nav-content">
-        <div class="nav-header">
-          <span id="menu-heading">MENU</span>
-        </div>
-        <ul class="nav-links" aria-labelledby="menu-heading">
-          <li><a href="#home" class="nav-link" aria-current="page">home</a></li>
-          <li><a href="#projects" class="nav-link">projects</a></li>
-          <li><a href="#blog" class="nav-link">blog</a></li>
-          <li><a href="#about" class="nav-link">about</a></li>
-          <li><a href="#contact" class="nav-link">contact</a></li>
-        </ul>
-        <div class="nav-footer">
-          <span id="social-heading">CONNECT</span>
-          <div class="social-links" aria-labelledby="social-heading">
-            <a
-              href="https://linkedin.com/in/peritissimus"
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              >LINKEDIN</a
-            >
-            <a
-              href="https://github.com/peritissimus"
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              >GITHUB</a
-            >
-            <a
-              href="https://twitter.com/peritissimus_"
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Twitter Profile"
-              >TWITTER</a
-            >
-            <a
-              href="https://behance.net/peritissimus"
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Behance Profile"
-              >BEHANCE</a
-            >
-          </div>
-        </div>
-      </div>
-    </nav>
-
-      <main id="main-content" role="main" class="app-main">
+      <main role="main" class="app-main">
         <!-- Three Column Layout -->
         <div class="main-grid">
           <!-- Left Sidebar -->
           <aside class="left-column">
             <div class="column-content">
+              <!-- Intro Section -->
+              <div class="intro-section">
+                <h1 class="company-name">peritissimus</h1>
+
+                <h2 class="main-tagline">
+                  Hello!<br />
+                  I am Kushal Patankar.
+                </h2>
+
+                <p class="intro-description">
+                  Developer focused on technical innovation and design. I thrive on pushing technical boundaries while maintaining an eye for design, combining technical expertise with forward-thinking product design principles.
+                </p>
+
+                <div class="intro-action">
+                  <button class="about-btn">About</button>
+                </div>
+              </div>
+
+              <!-- News Section -->
+              <section class="content-section">
+                <h2 class="section-title">Current</h2>
+                <div class="news-content">
+                  <p><strong>CTO at Brihaspati</strong> - Leveraging state-of-the-art LLM technologies to reshape AI interaction</p>
+                </div>
+              </section>
+
               <!-- Recent Tweets Section -->
               <section class="content-section">
                 <h2 class="section-title">Recent Tweets</h2>
                 <div class="tweets-container">
                   <div class="tweet-placeholder">
                     <p>Connect with me on Twitter for latest updates...</p>
-                    <a href="https://twitter.com/peritissimus_" target="_blank" rel="noopener noreferrer" class="twitter-link">
+                    <a
+                      href="https://twitter.com/peritissimus_"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="twitter-link"
+                    >
                       @peritissimus_
                     </a>
                   </div>
@@ -217,29 +179,26 @@
                 <h2 class="section-title">Skills</h2>
                 <div class="skills-compact">
                   <div class="skill-group">
-                    <h3>Frontend</h3>
+                    <h3>Languages</h3>
                     <div class="skill-tags">
-                      <span class="skill-tag">React</span>
+                      <span class="skill-tag">Python</span>
                       <span class="skill-tag">JavaScript</span>
                       <span class="skill-tag">TypeScript</span>
-                      <span class="skill-tag">CSS3</span>
                     </div>
                   </div>
                   <div class="skill-group">
-                    <h3>Backend</h3>
+                    <h3>Specialization</h3>
                     <div class="skill-tags">
-                      <span class="skill-tag">Node.js</span>
-                      <span class="skill-tag">Python</span>
-                      <span class="skill-tag">APIs</span>
-                      <span class="skill-tag">Databases</span>
+                      <span class="skill-tag">AI Technologies</span>
+                      <span class="skill-tag">LLM Integration</span>
+                      <span class="skill-tag">Enterprise Software</span>
                     </div>
                   </div>
                   <div class="skill-group">
-                    <h3>Design</h3>
+                    <h3>Focus</h3>
                     <div class="skill-tags">
-                      <span class="skill-tag">UI/UX</span>
-                      <span class="skill-tag">Figma</span>
-                      <span class="skill-tag">Motion</span>
+                      <span class="skill-tag">Product Design</span>
+                      <span class="skill-tag">Technical Innovation</span>
                     </div>
                   </div>
                 </div>
@@ -250,25 +209,34 @@
           <!-- Center Content -->
           <section class="center-column">
             <div class="column-content">
-              <div class="intro-section">
-                <h1 class="company-name">Konel</h1>
-                
-                <h2 class="main-tagline">
-                  Shaping Desire<br>
-                  with Art and Technology.
-                </h2>
-                
-                <p class="intro-description">
-                  We create new with new way, tradition, nature. We create future experiences with various partners, going back and forth between digital and analog.
-                </p>
-                
-                <div class="intro-action">
-                  <button class="about-btn">About</button>
-                </div>
-              </div>
+              <div class="featured-works">
+                <article class="featured-work">
+                  <div class="featured-work-image">[Featured Project Image]</div>
+                  <div class="featured-work-content">
+                    <h2 class="featured-work-title">Brihaspati</h2>
+                    <p class="featured-work-subtitle">
+                      CTO role leveraging state-of-the-art LLM technologies to reshape AI interaction
+                    </p>
+                  </div>
+                </article>
 
-              <div class="news-section">
-                <h2 class="section-heading">News</h2>
+                <article class="featured-work">
+                  <div class="featured-work-image">[Featured Project Image]</div>
+                  <div class="featured-work-content">
+                    <h2 class="featured-work-title">Dubverse</h2>
+                    <p class="featured-work-subtitle">
+                      Core Developer - AI video dubbing platform serving 1M+ users with 570K+ hours processed
+                    </p>
+                  </div>
+                </article>
+
+                <article class="featured-work">
+                  <div class="featured-work-image">[Featured Project Image]</div>
+                  <div class="featured-work-content">
+                    <h2 class="featured-work-title">CatrovaCer</h2>
+                    <p class="featured-work-subtitle">Co-Founder of SimpleSounds platform</p>
+                  </div>
+                </article>
               </div>
             </div>
           </section>
@@ -276,60 +244,94 @@
           <!-- Right Sidebar - Projects -->
           <aside class="right-column">
             <div class="column-content">
+              <!-- Left column content for tablet view -->
+              <div class="tablet-left-content">
+                <section class="content-section">
+                  <h2 class="section-title">Current</h2>
+                  <div class="news-content">
+                    <p><strong>CTO at Brihaspati</strong> - Leveraging state-of-the-art LLM technologies to reshape AI interaction</p>
+                  </div>
+                </section>
+
+                <section class="content-section">
+                  <h2 class="section-title">Recent Tweets</h2>
+                  <div class="tweets-container">
+                    <div class="tweet-placeholder">
+                      <p>Connect with me on Twitter for latest updates...</p>
+                      <a
+                        href="https://twitter.com/peritissimus_"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="twitter-link"
+                      >
+                        @peritissimus_
+                      </a>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="content-section">
+                  <h2 class="section-title">Skills</h2>
+                  <div class="skills-compact">
+                    <div class="skill-group">
+                      <h3>Languages</h3>
+                      <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                      </div>
+                    </div>
+                    <div class="skill-group">
+                      <h3>Specialization</h3>
+                      <div class="skill-tags">
+                        <span class="skill-tag">AI Technologies</span>
+                        <span class="skill-tag">LLM Integration</span>
+                        <span class="skill-tag">Enterprise Software</span>
+                      </div>
+                    </div>
+                    <div class="skill-group">
+                      <h3>Focus</h3>
+                      <div class="skill-tags">
+                        <span class="skill-tag">Product Design</span>
+                        <span class="skill-tag">Technical Innovation</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
               <section class="content-section">
                 <h2 class="section-title">Projects</h2>
                 <div class="projects-list">
                   <article class="project-list-item" data-project="project-1">
-                    <h3>#Shikatanakunai</h3>
-                    <span class="project-description">#NotInevitable Let's elevat</span>
+                    <h3>Brihaspati <span class="project-description">CTO - AI platform with LLM technologies</span></h3>
                   </article>
 
                   <article class="project-list-item" data-project="project-2">
-                    <h3>Yuragi Kabe TOU</h3>
-                    <span class="project-description">Bringing Organic Motion</span>
+                    <h3>Dubverse <span class="project-description">Core Developer - AI video dubbing (1M+ users)</span></h3>
                   </article>
 
                   <article class="project-list-item" data-project="project-3">
-                    <h3>HANAMURASAKI</h3>
-                    <span class="project-description">Rebranding a Historic Ryokan</span>
+                    <h3>CatrovaCer <span class="project-description">Co-Founder - SimpleSounds platform</span></h3>
                   </article>
 
                   <article class="project-list-item" data-project="project-4">
-                    <h3>Bpass</h3>
-                    <span class="project-description">Bpass: Exploring New Paths for Resources</span>
+                    <h3>Enterprise Dashboard <span class="project-description">Full-stack analytics with real-time data</span></h3>
                   </article>
 
                   <article class="project-list-item" data-project="project-5">
-                    <h3>A Tearoom Without Language</h3>
-                    <span class="project-description">Words Are</span>
+                    <h3>Neural Network API <span class="project-description">Scalable ML API for predictions</span></h3>
                   </article>
 
                   <article class="project-list-item" data-project="project-6">
-                    <h3>IDEA ARENA</h3>
-                    <span class="project-description">A Voting-Based Idea Competition Platform</span>
+                    <h3>Voice Assistant <span class="project-description">AI-powered voice interface with NLP</span></h3>
                   </article>
 
                   <article class="project-list-item" data-project="project-7">
-                    <h3>Amazon Bar</h3>
-                    <span class="project-description">A Bar Without a Menu</span>
-                  </article>
-
-                  <article class="project-list-item" data-project="project-8">
-                    <h3>Onomatopoeic Treats</h3>
-                    <span class="project-description">Fun & Delicious</span>
-                  </article>
-
-                  <article class="project-list-item" data-project="project-9">
-                    <h3>SPACE FOODSPHERE</h3>
-                    <span class="project-description">Saving Earth's Food from</span>
-                  </article>
-
-                  <article class="project-list-item" data-project="project-10">
-                    <h3>Log Flower</h3>
-                    <span class="project-description">A Digital Plant That Grows with the</span>
+                    <h3>Data Pipeline <span class="project-description">Automated ETL processing millions daily</span></h3>
                   </article>
                 </div>
-                
+
                 <div class="more-projects">
                   <button class="more-projects-btn">More</button>
                 </div>
@@ -339,14 +341,14 @@
               <section class="content-section">
                 <h2 class="section-title">Service</h2>
                 <div class="service-content">
-                  <h3 class="service-tagline">Bringing the future closer</h3>
+                  <h3 class="service-tagline">Technical expertise meets design innovation</h3>
                   <ul class="service-list">
-                    <li>Branding</li>
-                    <li>Future Experience</li>
-                    <li>Art</li>
-                    <li>Services & Products</li>
-                    <li>Spatial Design</li>
-                    <li>Contents & Community</li>
+                    <li>AI & LLM Integration</li>
+                    <li>Enterprise Software Development</li>
+                    <li>Product Design & Strategy</li>
+                    <li>Technical Leadership</li>
+                    <li>Full-Stack Development</li>
+                    <li>Platform Architecture</li>
                   </ul>
                   <button class="more-service-btn">More →</button>
                 </div>
@@ -354,17 +356,14 @@
             </div>
           </aside>
         </div>
-
-        <!-- Project Detail Component Container -->
-        <div id="project-detail-container"></div>
       </main>
-
-      <footer role="contentinfo" class="app-footer">
-        <div class="footer-content">
-          <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
+
+    <footer role="contentinfo" class="app-footer">
+      <div class="footer-content">
+        <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
+      </div>
+    </footer>
 
     <!-- Defer non-critical JavaScript -->
     <script type="module" src="./src/js/main.js" defer></script>
