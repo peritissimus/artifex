@@ -127,6 +127,7 @@ export class App {
     try {
       // Initialize theme manager
       if (themeManager) {
+        themeManager.init();
         console.log('✅ Theme manager initialized');
       }
 

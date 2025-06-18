@@ -3,6 +3,7 @@
   --color-primary: #000000;
   --color-secondary: #666666;
   --color-accent: #000000;
+  --color-accent-red: #ff0000;
 
   /* Text Colors */
   --color-text-primary: #000000;
@@ -20,6 +21,15 @@
   --color-border-primary: #e0e0e0;
   --color-border-secondary: #cccccc;
   --color-border-accent: var(--color-primary);
+
+  /* Legacy variable mappings for backward compatibility */
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --bg-color: var(--color-bg-primary);
+  --bg-secondary: var(--color-bg-secondary);
+  --accent-color: var(--color-accent);
+  --accent-red: #ff0000;
 }
 
 /* Dark Theme */
@@ -28,6 +38,7 @@
   --color-primary: #ffffff;
   --color-secondary: #cccccc;
   --color-accent: #ffffff;
+  --color-accent-red: #ff3333;
 
   /* Text Colors */
   --color-text-primary: #ffffff;
@@ -45,6 +56,15 @@
   --color-border-primary: #333333;
   --color-border-secondary: #555555;
   --color-border-accent: var(--color-primary);
+
+  /* Legacy variable mappings for backward compatibility */
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --bg-color: var(--color-bg-primary);
+  --bg-secondary: var(--color-bg-secondary);
+  --accent-color: var(--color-accent);
+  --accent-red: #ff3333;
 }
 
 /* System Theme Preference Support */
@@ -54,6 +74,7 @@
     --color-primary: #ffffff;
     --color-secondary: #cccccc;
     --color-accent: #ffffff;
+    --color-accent-red: #ff3333;
 
     /* Text Colors */
     --color-text-primary: #ffffff;
@@ -71,6 +92,15 @@
     --color-border-primary: #333333;
     --color-border-secondary: #555555;
     --color-border-accent: var(--color-primary);
+
+    /* Legacy variable mappings for backward compatibility */
+    --text-primary: var(--color-text-primary);
+    --text-secondary: var(--color-text-secondary);
+    --text-muted: var(--color-text-muted);
+    --bg-color: var(--color-bg-primary);
+    --bg-secondary: var(--color-bg-secondary);
+    --accent-color: var(--color-accent);
+    --accent-red: #ff3333;
   }
 }
 

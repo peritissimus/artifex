@@ -8,17 +8,23 @@ export class ThemeManager {
     this.storageKey = 'artifex-theme';
     this.themeToggle = null;
     this.currentTheme = this.getStoredTheme() || this.getSystemTheme();
-    
-    this.init();
+    this.initialized = false;
   }
 
   /**
    * Initialize theme manager
    */
   init() {
+    if (this.initialized) {
+      console.log('Theme manager already initialized');
+      return;
+    }
+    
+    console.log('Initializing theme manager...');
     this.setupDOM();
     this.applyTheme(this.currentTheme);
     this.bindEvents();
+    this.initialized = true;
   }
 
   /**
@@ -31,6 +37,8 @@ export class ThemeManager {
       console.warn('Theme toggle button not found');
       return;
     }
+    
+    console.log('Theme toggle button found:', this.themeToggle);
   }
 
   /**
@@ -38,9 +46,14 @@ export class ThemeManager {
    */
   bindEvents() {
     if (this.themeToggle) {
-      this.themeToggle.addEventListener('click', () => {
+      console.log('Binding click event to theme toggle button');
+      this.themeToggle.addEventListener('click', (e) => {
+        console.log('Theme toggle clicked!');
+        e.preventDefault();
         this.toggleTheme();
       });
+    } else {
+      console.warn('Cannot bind events - theme toggle button not found');
     }
 
     // Listen for system theme changes
@@ -95,14 +108,22 @@ export class ThemeManager {
   applyTheme(theme) {
     const root = document.documentElement;
     
+    console.log('Applying theme:', theme);
+    console.log('Document root:', root);
+    
     if (theme === 'dark') {
       root.setAttribute('data-theme', 'dark');
+      console.log('Set data-theme="dark" on root');
     } else {
       root.removeAttribute('data-theme');
+      console.log('Removed data-theme attribute from root');
     }
 
     this.currentTheme = theme;
     this.updateToggleState();
+    
+    // Check if theme was actually applied
+    console.log('Current data-theme attribute:', root.getAttribute('data-theme'));
   }
 
   /**
@@ -125,7 +146,9 @@ export class ThemeManager {
    * Toggle between light and dark themes
    */
   toggleTheme() {
+    console.log('Toggle theme called, current theme:', this.currentTheme);
     const newTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+    console.log('Switching to theme:', newTheme);
     this.setTheme(newTheme);
   }
 
