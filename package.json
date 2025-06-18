@@ -1,7 +1,7 @@
 {
   "name": "artifex",
   "private": false,
-  "version": "1.1.0-beta.2",
+  "version": "1.1.0-beta.3",
   "type": "module",
   "description": "Modern portfolio website with 3D cube background animations",
   "homepage": "https://peritissimus.github.io/artifex",

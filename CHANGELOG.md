@@ -1,3 +1,10 @@
+# [1.1.0-beta.3](https://github.com/peritissimus/artifex/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2025-06-18)
+
+
+### Features
+
+* **theme:** add theme toggle functionality and improve UI elements ([08234ed](https://github.com/peritissimus/artifex/commit/08234edf0d02e2ff0536b13804ec444e3d4712e0))
+
 # [1.1.0-beta.2](https://github.com/peritissimus/artifex/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2025-06-02)
 
 
