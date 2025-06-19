@@ -1,3 +1,5 @@
+# [1.1.0-beta.4](https://github.com/peritissimus/artifex/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2025-06-19)
+
 # [1.1.0-beta.3](https://github.com/peritissimus/artifex/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2025-06-18)
 
 
