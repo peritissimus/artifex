@@ -1,429 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kushal | Fullstack Developer & Designer</title>
-    <meta
-      name="description"
-      content="Kushal is a passionate fullstack developer and designer specializing in creating clean, functional, and visually appealing digital experiences."
-    />
-    <meta
-      name="keywords"
-      content="fullstack developer, web designer, React developer, Node.js developer, UI/UX designer, frontend developer, backend developer"
-    />
-    <meta name="author" content="Kushal" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js Sketches Gallery</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 2rem;
+    }
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://peritissimus.com/" />
-    <meta property="og:title" content="Kushal | Fullstack Developer & Designer" />
-    <meta
-      property="og:description"
-      content="Creating clean, functional, and visually appealing digital experiences that solve real problems."
-    />
-    <meta property="og:image" content="https://peritissimus.com/thumbnail.jpg" />
+    .container {
+      max-width: 1200px;
+      text-align: center;
+    }
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://peritissimus.com/" />
-    <meta property="twitter:title" content="Kushal | Fullstack Developer & Designer" />
-    <meta
-      property="twitter:description"
-      content="Creating clean, functional, and visually appealing digital experiences that solve real problems."
-    />
-    <meta property="twitter:image" content="https://peritissimus.com/thumbnail.jpg" />
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
 
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 3rem;
+      opacity: 0.9;
+    }
 
-    <!-- Critical CSS -->
-    <link rel="stylesheet" href="./src/css/main.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      />
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
-      />
-    </noscript>
+    .sketches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
 
-    <link rel="preload" href="./src/js/main.js" as="script" />
-    <link
-      rel="preload"
-      href="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"
-      as="script"
-    />
+    .sketch-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://peritissimus.com/" />
+    .sketch-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
 
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Kushal",
-        "url": "https://peritissimus.com",
-        "image": "https://peritissimus.com/profile-image.jpg",
-        "jobTitle": "Fullstack Developer & Designer",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Freelance"
-        },
-        "sameAs": [
-          "https://linkedin.com/in/peritissimus",
-          "https://github.com/peritissimus",
-          "https://twitter.com/peritissimus"
-        ],
-        "knowsAbout": [
-          "Web Development",
-          "UI/UX Design",
-          "React",
-          "Node.js",
-          "JavaScript",
-          "TypeScript",
-          "CSS",
-          "HTML",
-          "Mobile Development"
-        ]
-      }
-    </script>
-  </head>
+    .sketch-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
 
-  <body>
-    <div class="overlay-gradient" aria-hidden="true"></div>
+    .sketch-card p {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-bottom: 0;
+    }
 
-    <header role="banner">
-      <div class="logo" aria-label="peritissimus">peritissimus<span>.</span></div>
-      <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-      </button>
-    </header>
+    .coming-soon {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
-    <nav class="main-nav" role="navigation" aria-label="Main navigation">
-      <div class="nav-content">
-        <div class="nav-header">
-          <span id="menu-heading">MENU</span>
-        </div>
-        <ul class="nav-links" aria-labelledby="menu-heading">
-          <li><a href="#home" class="nav-link" aria-current="page">home</a></li>
-          <li><a href="#projects" class="nav-link">projects</a></li>
-          <li><a href="#about" class="nav-link">about me</a></li>
-          <li><a href="#skills" class="nav-link">skills</a></li>
-          <li><a href="#contact" class="nav-link">contact</a></li>
-        </ul>
-        <div class="nav-footer">
-          <span id="social-heading">CONNECT</span>
-          <div class="social-links" aria-labelledby="social-heading">
-            <a
-              href="https://linkedin.com/in/peritissimus"
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              >LINKEDIN</a
-            >
-            <a
-              href="https://github.com/peritissimus"
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              >GITHUB</a
-            >
-            <a
-              href="https://twitter.com/peritissimus_"
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Twitter Profile"
-              >TWITTER</a
-            >
-            <a
-              href="https://behance.net/peritissimus"
-              class="social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Behance Profile"
-              >BEHANCE</a
-            >
-          </div>
-        </div>
+    .coming-soon:hover {
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Three.js Sketches</h1>
+    <p>Interactive WebGL experiments and creative coding</p>
+
+    <div class="sketches-grid">
+      <div class="sketch-card coming-soon">
+        <h2>Flow Field</h2>
+        <p>150,000 particles flowing through a 3D noise field with GPU-based physics simulation</p>
       </div>
-    </nav>
 
-    <main id="main-content" role="main">
-      <!-- Home/Hero Section -->
-      <section id="home" class="section active" aria-labelledby="home-title">
-        <div class="hero-content">
-          <h1 id="home-title" class="hero-title">
-            <div class="title-line">fullstack</div>
-            <div class="title-line">developer</div>
-            <div class="title-line">& designer<span>.</span></div>
-          </h1>
-        </div>
-        <div class="scroll-indicator" aria-hidden="true">
-          <div class="scroll-line"></div>
-          <span>scroll</span>
-        </div>
-      </section>
-
-      <!-- Projects Section (Horizontal Scroll) -->
-      <section id="projects" class="section" aria-labelledby="projects-heading">
-        <div class="section-header">
-          <h2 id="projects-heading" class="section-label">projects</h2>
-        </div>
-
-        <div class="projects-container">
-          <!-- Project 1 -->
-          <article class="project-item">
-            <div class="project-meta">
-              <span class="project-category">FULL STACK APPLICATION</span>
-              <span class="project-category">REACT & NODE.JS</span>
-              <span class="project-category">E-COMMERCE PLATFORM</span>
-            </div>
-            <div class="project-content">
-              <a href="#project1" class="project-link">
-                <div class="project-image project-image-1" aria-label="E-commerce platform project">
-                  <!-- Use blurred SVGs as placeholders for faster CLS reduction -->
-                  <svg
-                    viewBox="0 0 16 9"
-                    preserveAspectRatio="xMidYMid meet"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    width="100%"
-                    height="100%"
-                    style="position: absolute; top: 0; left: 0"
-                  >
-                    <filter id="blur1" width="100%" height="100%">
-                      <feGaussianBlur stdDeviation="20"></feGaussianBlur>
-                    </filter>
-                    <rect
-                      width="100%"
-                      height="100%"
-                      fill="var(--accent-yellow)"
-                      filter="url(#blur1)"
-                    ></rect>
-                  </svg>
-                </div>
-              </a>
-              <h3 class="visually-hidden">E-commerce Platform</h3>
-            </div>
-          </article>
-
-          <!-- Project 2 -->
-          <article class="project-item">
-            <div class="project-meta">
-              <span class="project-category">UI/UX DESIGN</span>
-              <span class="project-category">MOBILE APPLICATION</span>
-              <span class="project-category">FINANCIAL SERVICES</span>
-            </div>
-            <div class="project-content">
-              <a href="#project2" class="project-link">
-                <div
-                  class="project-image project-image-2"
-                  aria-label="Financial services mobile app project"
-                >
-                  <svg
-                    viewBox="0 0 16 9"
-                    preserveAspectRatio="xMidYMid meet"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    width="100%"
-                    height="100%"
-                    style="position: absolute; top: 0; left: 0"
-                  >
-                    <filter id="blur2" width="100%" height="100%">
-                      <feGaussianBlur stdDeviation="20"></feGaussianBlur>
-                    </filter>
-                    <rect
-                      width="100%"
-                      height="100%"
-                      fill="var(--accent-blue)"
-                      filter="url(#blur2)"
-                    ></rect>
-                  </svg>
-                </div>
-              </a>
-              <h3 class="visually-hidden">Financial Services Mobile App</h3>
-            </div>
-          </article>
-
-          <!-- Project 3 -->
-          <article class="project-item">
-            <div class="project-meta">
-              <span class="project-category">INTERACTIVE EXPERIENCE</span>
-              <span class="project-category">THREE.JS & WEBGL</span>
-              <span class="project-category">DATA VISUALIZATION</span>
-            </div>
-            <div class="project-content">
-              <a href="#project3" class="project-link">
-                <div
-                  class="project-image project-image-3"
-                  aria-label="Data visualization interactive experience project"
-                >
-                  <svg
-                    viewBox="0 0 16 9"
-                    preserveAspectRatio="xMidYMid meet"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    focusable="false"
-                    width="100%"
-                    height="100%"
-                    style="position: absolute; top: 0; left: 0"
-                  >
-                    <filter id="blur3" width="100%" height="100%">
-                      <feGaussianBlur stdDeviation="20"></feGaussianBlur>
-                    </filter>
-                    <rect
-                      width="100%"
-                      height="100%"
-                      fill="var(--accent-red)"
-                      filter="url(#blur3)"
-                    ></rect>
-                  </svg>
-                </div>
-              </a>
-              <h3 class="visually-hidden">Data Visualization Experience</h3>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- Skills Section -->
-      <section id="skills" class="section" aria-labelledby="skills-heading">
-        <div class="section-header">
-          <h2 id="skills-heading" class="section-label">skills</h2>
-        </div>
-
-        <div class="team-container">
-          <h2 class="team-title">Technical Toolkit</h2>
-          <div class="skills-grid">
-            <div class="skill-category">
-              <h3>Frontend</h3>
-              <ul class="skill-list">
-                <li><span>React / Next.js</span></li>
-                <li><span>JavaScript / TypeScript</span></li>
-                <li><span>HTML5 / CSS3 / SASS</span></li>
-                <li><span>Three.js / WebGL</span></li>
-                <li><span>Animation Libraries</span></li>
-              </ul>
-            </div>
-            <div class="skill-category">
-              <h3>Backend</h3>
-              <ul class="skill-list">
-                <li><span>Node.js / Express</span></li>
-                <li><span>Python / Django</span></li>
-                <li><span>RESTful APIs</span></li>
-                <li><span>GraphQL</span></li>
-                <li><span>Database Design</span></li>
-              </ul>
-            </div>
-            <div class="skill-category">
-              <h3>Design</h3>
-              <ul class="skill-list">
-                <li><span>UI/UX Principles</span></li>
-                <li><span>Figma / Sketch</span></li>
-                <li><span>Adobe Creative Suite</span></li>
-                <li><span>Design Systems</span></li>
-                <li><span>Motion Design</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact Section -->
-      <section id="contact" class="section" aria-labelledby="contact-heading">
-        <div class="section-header">
-          <h2 id="contact-heading" class="section-label">contact</h2>
-        </div>
-
-        <div class="contact-container">
-          <h2 class="contact-title">Let's Create Something Together</h2>
-          <div class="contact-content">
-            <div class="contact-info">
-              <div class="contact-item">
-                <h3 id="email-label">Email</h3>
-                <a href="mailto:hello@example.com" aria-labelledby="email-label"
-                  >hello@example.com</a
-                >
-              </div>
-              <div class="contact-item">
-                <h3 id="github-label">GitHub</h3>
-                <a
-                  href="https://github.com/peritissimus"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-labelledby="github-label"
-                  >github.com/peritissimus</a
-                >
-              </div>
-              <div class="contact-item">
-                <h3 id="location-label">Based in</h3>
-                <p aria-labelledby="location-label">New York, NY</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer role="contentinfo" class="site-footer">
-      <div class="footer-content">
-        <p>&copy; <span id="current-year">2025</span> Kushal. All rights reserved.</p>
+      <div class="sketch-card coming-soon">
+        <h2>Skull</h2>
+        <p>Animated skull with glowing aura effect and Gaussian blur post-processing</p>
       </div>
-    </footer>
 
-    <!-- Defer non-critical JavaScript -->
-    <script type="module" src="./src/js/main.js" defer></script>
+      <div class="sketch-card coming-soon">
+        <h2>More Coming Soon</h2>
+        <p>Additional creative WebGL sketches in development</p>
+      </div>
+    </div>
+  </div>
 
-    <!-- Preload critical JavaScript -->
-    <script>
-      // Add font loading fallback
-      (function () {
-        var wf = document.createElement('script');
-        wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
-        wf.type = 'text/javascript';
-        wf.async = 'true';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(wf, s);
-
-        // Update current year in footer
-        document.addEventListener('DOMContentLoaded', function () {
-          document.getElementById('current-year').textContent = new Date().getFullYear();
-        });
-      })();
-    </script>
-  </body>
+  <script type="module" src="/src/js/main.js"></script>
+</body>
 </html>
