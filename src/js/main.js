@@ -1,6 +1,86 @@
 import * as THREE from 'three';
+import noiseVertexShader from './shaders/noise.vert?raw';
+import noiseFragmentShader from './shaders/noise.frag?raw';
+import displayVertexShader from './shaders/display.vert?raw';
+import displayFragmentShader from './shaders/display.frag?raw';
 
-class Artifex {
+// NoiseBackground class for animated wave pattern
+class NoiseBackground {
+  constructor(renderer) {
+    this.renderer = renderer;
+    this.width = 256;
+    this.height = 256;
+    this.count = 0;
+    this.isRender = true;
+    this.sepR = 7;
+    this.sepG = 5;
+    this.init();
+  }
+
+  init() {
+    // Setup camera
+    const aspectRatio = this.width / this.height;
+    const viewSize = this.height;
+    this.camera = new THREE.OrthographicCamera(
+      (-aspectRatio * viewSize) / 2,
+      (aspectRatio * viewSize) / 2,
+      viewSize / 2,
+      -viewSize / 2,
+      0,
+      10000
+    );
+    this.camera.position.set(0, 0, 100);
+
+    // Setup scene
+    this.scene = new THREE.Scene();
+
+    // Setup render target
+    this.renderTarget = new THREE.WebGLRenderTarget(this.width, this.height, {
+      magFilter: THREE.LinearFilter,
+      minFilter: THREE.LinearFilter,
+      wrapS: THREE.ClampToEdgeWrapping,
+      wrapT: THREE.ClampToEdgeWrapping,
+    });
+
+    // Setup shader
+    const geometry = new THREE.PlaneGeometry(this.width, this.height);
+    this.uniforms = {
+      texture: { value: null },
+      cr: { value: this.sepR },
+      cg: { value: this.sepG },
+      cb: { value: 0 },
+    };
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: noiseVertexShader,
+      fragmentShader: noiseFragmentShader,
+      uniforms: this.uniforms,
+    });
+
+    this.mesh = new THREE.Mesh(geometry, material);
+    this.scene.add(this.mesh);
+  }
+
+  update() {
+    if (this.isRender) {
+      this.renderer.setRenderTarget(this.renderTarget);
+      this.renderer.render(this.scene, this.camera);
+      this.renderer.setRenderTarget(null);
+
+      this.count += 0.01;
+      this.uniforms.cb.value = this.count;
+      this.isRender = false;
+    } else {
+      this.isRender = true;
+    }
+  }
+
+  getTexture() {
+    return this.renderTarget.texture;
+  }
+}
+
+class Peritissimus {
   constructor() {
     this.canvas = document.getElementById('world');
     this.width = window.innerWidth;
@@ -26,6 +106,9 @@ class Artifex {
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+    // Noise background
+    this.noiseBackground = new NoiseBackground(this.renderer);
+
     // Scene
     this.scene = new THREE.Scene();
 
@@ -42,8 +125,37 @@ class Artifex {
     );
     this.camera.position.set(0, 0, 100);
 
+    // Add noise background plane to scene
+    this.createBackgroundPlane();
+
     // Create particle pool
     this.createParticles();
+  }
+
+  createBackgroundPlane() {
+    const geometry = new THREE.PlaneGeometry(this.width, this.height);
+
+    // Create display shader material with wave distortions
+    this.displayUniforms = {
+      noise: { value: this.noiseBackground.getTexture() },
+      time: { value: 0 },
+      ease: { value: 0.06 },
+      alpha: { value: 0.85 },
+      distA: { value: 0.64 },
+      distB: { value: 2.5 },
+    };
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: displayVertexShader,
+      fragmentShader: displayFragmentShader,
+      uniforms: this.displayUniforms,
+      transparent: true,
+      side: THREE.DoubleSide,
+    });
+
+    this.backgroundMesh = new THREE.Mesh(geometry, material);
+    this.backgroundMesh.position.z = -10;
+    this.scene.add(this.backgroundMesh);
   }
 
   createParticles() {
@@ -185,6 +297,11 @@ class Artifex {
     this.camera.top = viewSize / 2;
     this.camera.bottom = -viewSize / 2;
     this.camera.updateProjectionMatrix();
+
+    // Update background plane size
+    if (this.backgroundMesh) {
+      this.backgroundMesh.scale.set(this.width / 256, this.height / 256, 1);
+    }
   }
 
   animate() {
@@ -194,6 +311,14 @@ class Artifex {
     this.mouse.x += (this.targetMouse.x - this.mouse.x) * 0.1;
     this.mouse.y += (this.targetMouse.y - this.mouse.y) * 0.1;
 
+    // Update noise background
+    this.noiseBackground.update();
+
+    // Update display shader time
+    if (this.displayUniforms) {
+      this.displayUniforms.time.value += 0.004;
+    }
+
     this.updateParticles();
 
     this.renderer.render(this.scene, this.camera);
@@ -202,5 +327,5 @@ class Artifex {
 
 // Initialize app
 window.addEventListener('DOMContentLoaded', () => {
-  new Artifex();
+  new Peritissimus();
 });
