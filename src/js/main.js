@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-class ArtifexApp {
+class Artifex {
   constructor() {
     this.canvas = document.getElementById('world');
     this.width = window.innerWidth;
@@ -202,5 +202,5 @@ class ArtifexApp {
 
 // Initialize app
 window.addEventListener('DOMContentLoaded', () => {
-  new ArtifexApp();
+  new Artifex();
 });
