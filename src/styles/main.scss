@@ -1,0 +1,235 @@
+// Variables
+$bg-primary: #0a0a0a;
+$bg-secondary: #1a1a1a;
+$text-primary: #ffffff;
+$text-secondary: #6b6b6b;
+$text-muted: #3a3a3a;
+
+// Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// Base
+body {
+  background: $bg-primary;
+  color: $text-primary;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+// WebGL Canvas
+.world {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+// Scroll Wrapper
+.scroll-wrapper {
+  position: relative;
+  z-index: 2;
+  min-height: 200vh;
+}
+
+.info-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+// Header
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .menu {
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+
+    .menu-item {
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $text-secondary;
+      }
+    }
+
+    .menu-separator {
+      margin: 0 0.5rem;
+      color: $text-muted;
+    }
+  }
+}
+
+// Footer
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  z-index: 100;
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: $text-muted;
+    letter-spacing: 0.05em;
+  }
+}
+
+// Main Title
+.main-title {
+  padding-top: 30vh;
+  text-align: center;
+  margin-bottom: 15rem;
+
+  h1 {
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: $text-secondary;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+// Projects Grid
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-bottom: 20rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.project-item {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.05);
+
+    .project-title {
+      color: $text-primary;
+    }
+  }
+
+  .project-number {
+    font-size: 0.875rem;
+    color: $text-muted;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  .project-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: $text-secondary;
+    transition: color 0.3s ease;
+  }
+
+  .project-image {
+    aspect-ratio: 4 / 3;
+    background: $bg-secondary;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .project-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, $bg-secondary 0%, $text-muted 100%);
+      opacity: 0.3;
+    }
+  }
+}
+
+// Scroll Indicator
+.scroll-indicator {
+  position: fixed;
+  bottom: 8rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 100;
+
+  .scroll-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $text-muted;
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: $text-muted;
+    position: relative;
+    overflow: hidden;
+
+    .scroll-line-inner {
+      position: absolute;
+      width: 100%;
+      height: 20px;
+      background: $text-primary;
+      animation: scrollLineAnim 2s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes scrollLineAnim {
+  0% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(80px);
+  }
+}
+
+// Canvas (for sketch pages)
+#canvas-webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

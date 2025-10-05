@@ -10,9 +10,9 @@ uniform vec2 multiTime;
 
 varying vec2 vUv;
 
-// Simple drag force implementation
-vec3 drag(vec3 force, float coefficient) {
-  return force * -1.0 * coefficient;
+// Simple drag force
+vec3 drag(vec3 force, float value) {
+  return force * -1.0 * value;
 }
 
 void main(void) {

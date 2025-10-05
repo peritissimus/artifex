@@ -10,7 +10,10 @@ export default class Points extends THREE.Points {
 
     // Define attributes of the geometry
     const edgeCount = 16;
-    const baPositions = new THREE.BufferAttribute(new Float32Array(Math.pow(edgeCount, 3) * 3), 3);
+    const baPositions = new THREE.BufferAttribute(
+      new Float32Array(Math.pow(edgeCount, 3) * 3),
+      3
+    );
     const baUvs = new THREE.BufferAttribute(new Float32Array(Math.pow(edgeCount, 3) * 3), 3);
     for (let x = 0; x < edgeCount; x++) {
       const uvX = x / (edgeCount - 1);
@@ -19,7 +22,7 @@ export default class Points extends THREE.Points {
         const uvY = y / (edgeCount - 1);
         const posY = (uvY * 2.0 - 1.0) * 30;
         for (let z = 0; z < edgeCount; z++) {
-          const i = x * Math.pow(edgeCount, 2) + y * edgeCount + z
+          const i = x * Math.pow(edgeCount, 2) + y * edgeCount + z;
           const uvZ = z / (edgeCount - 1);
           const posZ = (uvZ * 2.0 - 1.0) * 30;
           baPositions.setXYZ(i, posX, posY, posZ);
@@ -34,26 +37,26 @@ export default class Points extends THREE.Points {
     const material = new THREE.RawShaderMaterial({
       uniforms: {
         time: {
-          value: 0
+          value: 0,
         },
         resolution: {
-          value: new THREE.Vector2()
+          value: new THREE.Vector2(),
         },
         pixelRatio: {
-          value: window.devicePixelRatio
+          value: window.devicePixelRatio,
         },
         noiseTex: {
-          value: null
+          value: null,
         },
         multiTime: {
-          value: new THREE.Vector2()
-        }
+          value: new THREE.Vector2(),
+        },
       },
       vertexShader: vs,
       fragmentShader: fs,
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
     });
 
     // Create Object3D

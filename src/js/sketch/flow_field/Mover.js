@@ -1,6 +1,7 @@
 import * as THREE from 'three';
+import MathEx from '../../utils/MathEx';
 
-import PhysicsRenderer from './PhysicsRenderer.js';
+import PhysicsRenderer from './PhysicsRenderer';
 
 import vs from './glsl/Mover.vs';
 import fs from './glsl/Mover.fs';
@@ -9,16 +10,13 @@ import fsa from './glsl/physicsRendererAcceleration.fs';
 import vsv from './glsl/physicsRendererVelocity.vs';
 import fsv from './glsl/physicsRendererVelocity.fs';
 
-// Utility function from @ykob/js-util
-const radians = (degrees) => degrees * Math.PI / 180;
-
 export default class Mover extends THREE.Points {
   constructor() {
     // Define Geometry
     const geometry = new THREE.BufferGeometry();
 
     // Define attributes of the geometry
-    const count = 150000;
+    const count = 10000;
     const baPositions = new THREE.BufferAttribute(new Float32Array(count * 3), 3);
     for (let i = 0; i < count; i++) {
       baPositions.setXYZ(i, 0, 0, 0);
@@ -29,26 +27,26 @@ export default class Mover extends THREE.Points {
     const material = new THREE.RawShaderMaterial({
       uniforms: {
         time: {
-          value: 0
+          value: 0,
         },
         resolution: {
-          value: new THREE.Vector2()
+          value: new THREE.Vector2(),
         },
         pixelRatio: {
-          value: window.devicePixelRatio
+          value: window.devicePixelRatio,
         },
         acceleration: {
-          value: null
+          value: null,
         },
         velocity: {
-          value: null
-        }
+          value: null,
+        },
       },
       vertexShader: vs,
       fragmentShader: fs,
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
     });
 
     // Create Object3D
@@ -56,10 +54,7 @@ export default class Mover extends THREE.Points {
     this.name = 'Mover';
     this.frustumCulled = false;
     this.physicsRenderer;
-    this.multiTime = new THREE.Vector2(
-      Math.random() * 2 - 1,
-      Math.random() * 2 - 1
-    );
+    this.multiTime = new THREE.Vector2(Math.random() * 2 - 1, Math.random() * 2 - 1);
   }
   start(renderer, noiseTex) {
     const { uniforms } = this.material;
@@ -72,9 +67,9 @@ export default class Mover extends THREE.Points {
     const delayArray = [];
     const massArray = [];
 
-    for (var i = 0; i < verticesBase.length; i+= 3) {
-      const radian = radians(Math.random() * 360);
-      const radius = Math.random() * 1 + 2;
+    for (var i = 0; i < verticesBase.length; i += 3) {
+      const radian = MathEx.radians(Math.random() * 360);
+      const radius = Math.random() * 10 + 5;
 
       vArrayBase[i + 0] = -29.99;
       vArrayBase[i + 1] = Math.cos(radian) * radius;
@@ -94,34 +89,40 @@ export default class Mover extends THREE.Points {
     }
 
     this.physicsRenderer = new PhysicsRenderer(vsa, fsa, vsv, fsv);
-    this.physicsRenderer.start(
-      renderer,
-      aArrayBase,
-      vArrayBase
-    );
+    this.physicsRenderer.start(renderer, aArrayBase, vArrayBase);
     this.physicsRenderer.mergeAUniforms({
       noiseTex: {
-        value: noiseTex
+        value: noiseTex,
       },
       delay: {
-        value: this.physicsRenderer.createDataTexture(delayArray)
+        value: this.physicsRenderer.createDataTexture(delayArray),
       },
       mass: {
-        value: this.physicsRenderer.createDataTexture(massArray)
+        value: this.physicsRenderer.createDataTexture(massArray),
       },
       multiTime: {
-        value: this.multiTime
-      }
+        value: this.multiTime,
+      },
     });
     this.physicsRenderer.mergeVUniforms({
       velocityFirst: {
-        value: this.physicsRenderer.createDataTexture(velocityFirstArray)
-      }
+        value: this.physicsRenderer.createDataTexture(velocityFirstArray),
+      },
     });
+
+    const uvAttr = this.physicsRenderer.getBufferAttributeUv();
+    this.geometry.setAttribute('uvVelocity', uvAttr);
 
     uniforms.acceleration.value = this.physicsRenderer.getCurrentAcceleration();
     uniforms.velocity.value = this.physicsRenderer.getCurrentVelocity();
-    this.geometry.setAttribute('uvVelocity', this.physicsRenderer.getBufferAttributeUv());
+
+    console.log('Mover initialized');
+    console.log('Physics renderer side:', this.physicsRenderer.side);
+    console.log('Total particles:', verticesBase.length / 3);
+    console.log('UV count:', this.physicsRenderer.uvs.length / 2);
+    console.log('First 10 UVs:', this.physicsRenderer.uvs.slice(0, 20));
+    console.log('First 20 velocity values:', vArrayBase.slice(0, 60));
+    console.log('uvVelocity attribute:', uvAttr);
   }
   update(renderer, time) {
     const { uniforms } = this.material;

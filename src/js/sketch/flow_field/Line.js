@@ -10,7 +10,10 @@ export default class Line extends THREE.LineSegments {
 
     // Define attributes of the geometry
     const edgeCount = 16;
-    const baPositions = new THREE.BufferAttribute(new Float32Array(Math.pow(edgeCount * 2, 3) * 3), 3);
+    const baPositions = new THREE.BufferAttribute(
+      new Float32Array(Math.pow(edgeCount * 2, 3) * 3),
+      3
+    );
     const baUvs = new THREE.BufferAttribute(new Float32Array(Math.pow(edgeCount * 2, 3) * 3), 3);
     const baMovables = new THREE.BufferAttribute(new Float32Array(Math.pow(edgeCount * 2, 3)), 1);
     for (let x = 0; x < edgeCount; x++) {
@@ -40,31 +43,31 @@ export default class Line extends THREE.LineSegments {
     const material = new THREE.RawShaderMaterial({
       uniforms: {
         time: {
-          value: 0
+          value: 0,
         },
         resolution: {
-          value: new THREE.Vector2()
+          value: new THREE.Vector2(),
         },
         pixelRatio: {
-          value: window.devicePixelRatio
+          value: window.devicePixelRatio,
         },
         noiseTex: {
-          value: null
+          value: null,
         },
         multiTime: {
-          value: new THREE.Vector2()
-        }
+          value: new THREE.Vector2(),
+        },
       },
       vertexShader: vs,
       fragmentShader: fs,
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
     });
 
     // Create Object3D
     super(geometry, material);
-    this.name = 'Line';
+    this.name = 'Points';
   }
   start(noiseTex, multiTime) {
     const { uniforms } = this.material;

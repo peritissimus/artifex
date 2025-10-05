@@ -9,7 +9,7 @@ const createMesh = (uniforms, vs, fs) => {
     new THREE.RawShaderMaterial({
       uniforms,
       vertexShader: vs,
-      fragmentShader: fs
+      fragmentShader: fs,
     })
   );
 };
@@ -17,9 +17,11 @@ const createMesh = (uniforms, vs, fs) => {
 export default class PhysicsRenderer {
   constructor(avs, afs, vvs, vfs) {
     const option = {
-      type: (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) ? THREE.HalfFloatType : THREE.FloatType,
+      type: /(iPad|iPhone|iPod)/g.test(navigator.userAgent)
+        ? THREE.HalfFloatType
+        : THREE.FloatType,
       minFilter: THREE.NearestFilter,
-      magFilter: THREE.NearestFilter
+      magFilter: THREE.NearestFilter,
     };
 
     this.side = 0;
@@ -42,12 +44,12 @@ export default class PhysicsRenderer {
         value: null,
       },
       time: {
-        value: 0
-      }
+        value: 0,
+      },
     };
     this.vUniforms = {
       side: {
-        value: 0
+        value: 0,
       },
       velocity: {
         value: null,
@@ -56,8 +58,8 @@ export default class PhysicsRenderer {
         value: null,
       },
       time: {
-        value: 0
-      }
+        value: 0,
+      },
     };
     this.aMesh = createMesh(this.aUniforms, avs, afs);
     this.vMesh = createMesh(this.vUniforms, vvs, vfs);
@@ -76,33 +78,45 @@ export default class PhysicsRenderer {
     const aArray = [];
     const vArray = [];
 
-    for (var i = 0; i < Math.pow(this.side, 2) * 3; i += 3) {
+    for (var i = 0; i < Math.pow(this.side, 2); i++) {
+      const i3 = i * 3;
+      const i4 = i * 4;
+
       // set acceleration values from arguments.
-      if (aArrayBase && aArrayBase[i] != undefined) {
-        aArray[i + 0] = aArrayBase[i + 0];
-        aArray[i + 1] = aArrayBase[i + 1];
-        aArray[i + 2] = aArrayBase[i + 2];
+      if (aArrayBase && aArrayBase[i3] != undefined) {
+        aArray[i4 + 0] = aArrayBase[i3 + 0];
+        aArray[i4 + 1] = aArrayBase[i3 + 1];
+        aArray[i4 + 2] = aArrayBase[i3 + 2];
+        aArray[i4 + 3] = 1.0;
       } else {
-        aArray[i + 0] = 0;
-        aArray[i + 1] = 0;
-        aArray[i + 2] = 0;
+        aArray[i4 + 0] = 0;
+        aArray[i4 + 1] = 0;
+        aArray[i4 + 2] = 0;
+        aArray[i4 + 3] = 1.0;
       }
 
       // set velocity values from arguments.
-      if (vArrayBase && vArrayBase[i] != undefined) {
-        vArray[i + 0] = vArrayBase[i + 0];
-        vArray[i + 1] = vArrayBase[i + 1];
-        vArray[i + 2] = vArrayBase[i + 2];
+      if (vArrayBase && vArrayBase[i3] != undefined) {
+        vArray[i4 + 0] = vArrayBase[i3 + 0];
+        vArray[i4 + 1] = vArrayBase[i3 + 1];
+        vArray[i4 + 2] = vArrayBase[i3 + 2];
+        vArray[i4 + 3] = 1.0;
       } else {
-        vArray[i + 0] = 0;
-        vArray[i + 1] = 0;
-        vArray[i + 2] = 0;
+        vArray[i4 + 0] = 0;
+        vArray[i4 + 1] = 0;
+        vArray[i4 + 2] = 0;
+        vArray[i4 + 3] = 1.0;
       }
 
       // define UV to allow other objects to see the velocity value.
-      this.uvs[i / 3 * 2 + 0] = (i / 3) % this.side / (this.side - 1);
-      this.uvs[i / 3 * 2 + 1] = Math.floor((i / 3) / this.side) / (this.side - 1);
+      this.uvs[i * 2 + 0] = (i % this.side) / this.side;
+      this.uvs[i * 2 + 1] = Math.floor(i / this.side) / this.side;
     }
+
+    console.log('PhysicsRenderer initialized');
+    console.log('Side:', this.side);
+    console.log('Total texture size:', this.side * this.side);
+    console.log('vArray length:', vArray.length / 4);
 
     // set the buffer attribute of acceleration.
     if (aAttrBase) {
@@ -112,7 +126,11 @@ export default class PhysicsRenderer {
         for (var i = 0; i < aAttributeKeys.length; i++) {
           const aAttribute = aAttrBase[aAttributeKeys[i]];
 
-          for (var j = aAttribute.array.length; j < vArray.length / 3 * aAttribute.itemSize; j++) {
+          for (
+            var j = aAttribute.array.length;
+            j < (vArray.length / 3) * aAttribute.itemSize;
+            j++
+          ) {
             aAttribute.array.push(0);
           }
           this.aMesh.geometry.setAttribute(
@@ -131,7 +149,11 @@ export default class PhysicsRenderer {
         for (var i = 0; i < vAttributeKeys.length; i++) {
           const vAttribute = vAttrBase[vAttributeKeys[i]];
 
-          for (var j = vAttribute.array.length; j < vArray.length / 3 * vAttribute.itemSize; j++) {
+          for (
+            var j = vAttribute.array.length;
+            j < (vArray.length / 3) * vAttribute.itemSize;
+            j++
+          ) {
             vAttribute.array.push(0);
           }
           this.vMesh.geometry.setAttribute(
@@ -152,11 +174,11 @@ export default class PhysicsRenderer {
       new Float32Array(aArray),
       this.side,
       this.side,
-      THREE.RGBFormat,
+      THREE.RGBAFormat,
       THREE.FloatType
     );
 
-    aInitData.format = THREE.RGBFormat;
+    aInitData.format = THREE.RGBAFormat;
     aInitData.type = THREE.FloatType;
     aInitData.magFilter = THREE.NearestFilter;
     aInitData.minFilter = THREE.NearestFilter;
@@ -167,8 +189,8 @@ export default class PhysicsRenderer {
       new THREE.RawShaderMaterial({
         uniforms: {
           initData: {
-            value: aInitData
-          }
+            value: aInitData,
+          },
         },
         vertexShader: vs,
         fragmentShader: fs,
@@ -186,10 +208,12 @@ export default class PhysicsRenderer {
     const vInitData = new THREE.DataTexture(
       new Float32Array(vArray),
       this.side,
-      this.side
+      this.side,
+      THREE.RGBAFormat,
+      THREE.FloatType
     );
 
-    vInitData.format = THREE.RGBFormat;
+    vInitData.format = THREE.RGBAFormat;
     vInitData.type = THREE.FloatType;
     vInitData.magFilter = THREE.NearestFilter;
     vInitData.minFilter = THREE.NearestFilter;
@@ -200,8 +224,8 @@ export default class PhysicsRenderer {
       new THREE.RawShaderMaterial({
         uniforms: {
           initData: {
-            value: vInitData
-          }
+            value: vInitData,
+          },
         },
         vertexShader: vs,
         fragmentShader: fs,
@@ -256,15 +280,20 @@ export default class PhysicsRenderer {
   createDataTexture(arrayBase) {
     const array = [];
 
-    for (var i = 0; i < Math.pow(this.side, 2) * 3; i += 3) {
-      if (arrayBase[i] != undefined) {
-        array[i + 0] = arrayBase[i + 0];
-        array[i + 1] = arrayBase[i + 1];
-        array[i + 2] = arrayBase[i + 2];
+    for (var i = 0; i < Math.pow(this.side, 2); i++) {
+      const i3 = i * 3;
+      const i4 = i * 4;
+
+      if (arrayBase[i3] != undefined) {
+        array[i4 + 0] = arrayBase[i3 + 0];
+        array[i4 + 1] = arrayBase[i3 + 1];
+        array[i4 + 2] = arrayBase[i3 + 2];
+        array[i4 + 3] = 1.0;
       } else {
-        array[i + 0] = 0;
-        array[i + 1] = 0;
-        array[i + 2] = 0;
+        array[i4 + 0] = 0;
+        array[i4 + 1] = 0;
+        array[i4 + 2] = 0;
+        array[i4 + 3] = 1.0;
       }
     }
 
@@ -272,7 +301,7 @@ export default class PhysicsRenderer {
       new Float32Array(array),
       this.side,
       this.side,
-      THREE.RGBFormat,
+      THREE.RGBAFormat,
       THREE.FloatType
     );
   }
