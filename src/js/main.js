@@ -3,6 +3,8 @@ import noiseVertexShader from './shaders/noise.vert?raw';
 import noiseFragmentShader from './shaders/noise.frag?raw';
 import displayVertexShader from './shaders/display.vert?raw';
 import displayFragmentShader from './shaders/display.frag?raw';
+import blobVertexShader from './shaders/blob.vert?raw';
+import blobFragmentShader from './shaders/blob.frag?raw';
 
 // NoiseBackground class for animated wave pattern
 class NoiseBackground {
@@ -129,6 +131,9 @@ class Peritissimus {
 
     // Add noise background plane to scene
     this.createBackgroundPlane();
+
+    // Create glass blob in center
+    this.createGlassBlob();
   }
 
   createBackgroundPlane() {
@@ -155,6 +160,54 @@ class Peritissimus {
     this.backgroundMesh = new THREE.Mesh(geometry, material);
     this.backgroundMesh.position.z = -10;
     this.scene.add(this.backgroundMesh);
+  }
+
+  createGlassBlob() {
+    // Create blob geometry (ellipsoid/flattened sphere for pebble)
+    const geometry = new THREE.SphereGeometry(150, 64, 64);
+
+    // Flatten and add very subtle irregularity for pebble-like shape
+    const positions = geometry.attributes.position;
+    for (let i = 0; i < positions.count; i++) {
+      const x = positions.getX(i);
+      const y = positions.getY(i);
+      const z = positions.getZ(i);
+
+      // Flatten on Z-axis
+      const flatZ = z * 0.3;
+
+      // Very subtle irregularity - just gentle bumps like a real pebble
+      const angle = Math.atan2(y, x);
+      const noise = Math.sin(angle * 5.0) * 0.015 + Math.cos(angle * 7.0) * 0.012;
+
+      const scale = 1.0 + noise;
+
+      positions.setX(i, x * scale);
+      positions.setY(i, y * scale);
+      positions.setZ(i, flatZ);
+    }
+    positions.needsUpdate = true;
+    geometry.computeVertexNormals();
+
+    // Create blob material with glass shader
+    this.blobUniforms = {
+      noiseTexture: { value: this.noiseBackground.getTexture() },
+      time: { value: 0 },
+      resolution: { value: new THREE.Vector2(this.width, this.height) },
+    };
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: blobVertexShader,
+      fragmentShader: blobFragmentShader,
+      uniforms: this.blobUniforms,
+      transparent: true,
+      side: THREE.FrontSide,
+      depthWrite: true,
+    });
+
+    this.blobMesh = new THREE.Mesh(geometry, material);
+    this.blobMesh.position.set(0, 0, 0);
+    this.scene.add(this.blobMesh);
   }
 
   setupEventListeners() {
@@ -221,6 +274,15 @@ class Peritissimus {
       this.displayUniforms.distA.value = this.currentDistA;
       this.displayUniforms.distB.value = this.currentDistB;
       this.displayUniforms.ease.value = this.currentEase;
+    }
+
+    // Animate glass blob (subtle floating effect)
+    if (this.blobMesh && this.blobUniforms) {
+      this.blobUniforms.time.value += 0.01;
+      this.blobMesh.rotation.z += 0.001;
+      // Subtle breathing effect
+      const breathe = Math.sin(this.blobUniforms.time.value * 0.5) * 0.05 + 1;
+      this.blobMesh.scale.set(breathe, breathe, breathe);
     }
 
     this.renderer.render(this.scene, this.camera);
