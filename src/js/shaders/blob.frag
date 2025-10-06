@@ -7,18 +7,31 @@ varying vec3 vNormal;
 varying vec3 vPosition;
 
 void main() {
-  // UV-based distortion for lens effect
+  // Calculate screen-space UV for background sampling
+  vec2 screenUV = gl_FragCoord.xy / resolution;
+
+  // Normal-based refraction distortion
+  vec3 normal = normalize(vNormal);
+  float refractionStrength = 0.4;
+  vec2 refraction = normal.xy * refractionStrength;
+
+  // Additional lens distortion based on distance from center
   vec2 center = vec2(0.5, 0.5);
   vec2 toCenter = vUv - center;
   float dist = length(toCenter) * 2.0;
 
-  // Lens distortion - bulge effect like a glass pebble
-  float lensPower = 0.3;
-  float distortAmount = lensPower * (1.0 - dist * dist);
-  vec2 distortedUV = vUv - toCenter * distortAmount;
+  // Combine refraction with lens bulge
+  float lensEffect = 0.25 * (1.0 - dist * dist);
+  vec2 totalDistortion = refraction + toCenter * lensEffect;
 
-  // Sample background with distortion
-  vec3 noiseColor = texture2D(noiseTexture, distortedUV * 0.3).rgb;
+  // Add zoom/magnification effect
+  vec2 zoomedUV = screenUV + totalDistortion;
+  vec2 centerOffset = zoomedUV - vec2(0.5);
+  float zoomFactor = 0.85; // <1.0 = zoom in
+  zoomedUV = vec2(0.5) + centerOffset * zoomFactor;
+
+  // Sample background with distortion and zoom
+  vec3 noiseColor = texture2D(noiseTexture, zoomedUV * 0.3).rgb;
 
   // Fresnel for glassy rim
   vec3 viewDir = normalize(vec3(0.0, 0.0, 1.0));
