@@ -98,11 +98,14 @@ void main() {
 
   float val1 = snoise(vec3(vr * vUv.x, vg * vUv.y, vb));
 
-  // Normalize to 0-1 range and add subtle tint
+  // Normalize to 0-1 range
   float noise = (val1 + 1.0) * 0.5;
 
-  // More visible gray background
-  vec3 color = vec3(noise * 0.3);
+  // Increase contrast for sharper appearance
+  noise = smoothstep(0.3, 0.7, noise);
+
+  // Darker gray background
+  vec3 color = vec3(noise * 0.15);
 
   gl_FragColor = vec4(color, 1.0);
 }

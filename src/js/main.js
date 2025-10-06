@@ -8,12 +8,12 @@ import displayFragmentShader from './shaders/display.frag?raw';
 class NoiseBackground {
   constructor(renderer) {
     this.renderer = renderer;
-    this.width = 256;
-    this.height = 256;
+    this.width = 1024;
+    this.height = 1024;
     this.count = 0;
     this.isRender = true;
-    this.sepR = 7;
-    this.sepG = 5;
+    this.sepR = 14;
+    this.sepG = 10;
     this.init();
   }
 
@@ -36,10 +36,11 @@ class NoiseBackground {
 
     // Setup render target
     this.renderTarget = new THREE.WebGLRenderTarget(this.width, this.height, {
-      magFilter: THREE.LinearFilter,
-      minFilter: THREE.LinearFilter,
+      magFilter: THREE.NearestFilter,
+      minFilter: THREE.NearestFilter,
       wrapS: THREE.ClampToEdgeWrapping,
       wrapT: THREE.ClampToEdgeWrapping,
+      anisotropy: 1,
     });
 
     // Setup shader
@@ -67,7 +68,7 @@ class NoiseBackground {
       this.renderer.render(this.scene, this.camera);
       this.renderer.setRenderTarget(null);
 
-      this.count += 0.01;
+      this.count += 0.002;
       this.uniforms.cb.value = this.count;
       this.isRender = false;
     } else {
@@ -85,6 +86,12 @@ class Peritissimus {
     this.canvas = document.getElementById('world');
     this.width = window.innerWidth;
     this.height = window.innerHeight;
+    this.targetDistA = 0.64;
+    this.targetDistB = 2.5;
+    this.targetEase = 0.06;
+    this.currentDistA = 0.64;
+    this.currentDistB = 2.5;
+    this.currentEase = 0.06;
 
     this.init();
     this.setupEventListeners();
@@ -151,11 +158,22 @@ class Peritissimus {
   }
 
   setupEventListeners() {
-
     window.addEventListener('resize', () => this.onResize());
 
-    // Project item clicks
+    // Project item hover - distort field
     document.querySelectorAll('.project-item').forEach((item) => {
+      item.addEventListener('mouseenter', () => {
+        this.targetDistA = 0.8;
+        this.targetDistB = 15;
+        this.targetEase = 0.5;
+      });
+
+      item.addEventListener('mouseleave', () => {
+        this.targetDistA = 0.64;
+        this.targetDistB = 2.5;
+        this.targetEase = 0.06;
+      });
+
       item.addEventListener('click', () => {
         const path = item.getAttribute('data-path');
         if (path) {
@@ -182,7 +200,7 @@ class Peritissimus {
 
     // Update background plane size
     if (this.backgroundMesh) {
-      this.backgroundMesh.scale.set(this.width / 256, this.height / 256, 1);
+      this.backgroundMesh.scale.set(this.width / 1024, this.height / 1024, 1);
     }
   }
 
@@ -192,9 +210,17 @@ class Peritissimus {
     // Update noise background
     this.noiseBackground.update();
 
-    // Update display shader time
+    // Smooth interpolation for distortion values
+    this.currentDistA += (this.targetDistA - this.currentDistA) * 0.1;
+    this.currentDistB += (this.targetDistB - this.currentDistB) * 0.1;
+    this.currentEase += (this.targetEase - this.currentEase) * 0.1;
+
+    // Update display shader
     if (this.displayUniforms) {
       this.displayUniforms.time.value += 0.004;
+      this.displayUniforms.distA.value = this.currentDistA;
+      this.displayUniforms.distB.value = this.currentDistB;
+      this.displayUniforms.ease.value = this.currentEase;
     }
 
     this.renderer.render(this.scene, this.camera);
