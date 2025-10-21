@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/peritissimus/artifex/compare/v1.1.0...v1.2.0) (2025-10-21)
+
+
+### Features
+
+* **portfolio:** add functional About and Contact sections with navigation ([d929101](https://github.com/peritissimus/artifex/commit/d929101f2a6ccce32918130b41c154676d21f388))
+
 # [1.1.0](https://github.com/peritissimus/artifex/compare/v1.0.2...v1.1.0) (2025-10-06)
 
 
