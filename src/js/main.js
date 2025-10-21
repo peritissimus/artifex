@@ -213,21 +213,6 @@ class Peritissimus {
   setupEventListeners() {
     window.addEventListener('resize', () => this.onResize());
 
-    // Menu navigation - smooth scroll to sections
-    document.querySelectorAll('.menu-item').forEach((item) => {
-      item.addEventListener('click', (e) => {
-        const text = e.target.textContent.toLowerCase();
-        const targetSection = document.getElementById(text);
-
-        if (targetSection) {
-          targetSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-          });
-        }
-      });
-    });
-
     // Project item hover - distort field
     document.querySelectorAll('.project-item').forEach((item) => {
       item.addEventListener('mouseenter', () => {
