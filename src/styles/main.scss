@@ -175,9 +175,34 @@ body {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 1.5rem;
     font-weight: 500;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     color: $text-secondary;
     transition: color 0.3s ease;
+  }
+
+  .project-description {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: $text-muted;
+    margin-bottom: 1rem;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    .tag {
+      padding: 0.25rem 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: $text-secondary;
+      letter-spacing: 0.05em;
+    }
   }
 
   .project-image {
@@ -267,6 +292,143 @@ body {
 
     p {
       margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: $text-primary;
+    }
+
+    ul {
+      margin-bottom: 2rem;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.75rem;
+        line-height: 1.7;
+      }
+    }
+
+    strong {
+      color: $text-primary;
+      font-weight: 600;
+    }
+  }
+
+  // Project Meta
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    .meta-item {
+      font-size: 0.875rem;
+      color: $text-secondary;
+
+      strong {
+        color: $text-primary;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  // Project Links
+  .project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+  }
+
+  .project-link-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: $text-primary;
+    color: $bg-primary;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+
+    &:hover {
+      background: $text-secondary;
+      transform: translateY(-2px);
+    }
+
+    &.secondary {
+      background: transparent;
+      color: $text-primary;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+  }
+
+  // Experience
+  .experience {
+    margin-top: 4rem;
+
+    h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      color: $text-primary;
+    }
+  }
+
+  .experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .experience-item {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $text-primary;
+      margin-bottom: 0.5rem;
+    }
+
+    .role {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: $text-secondary;
+      margin-bottom: 0.25rem;
+    }
+
+    .period {
+      display: block;
+      font-size: 0.75rem;
+      color: $text-muted;
+      letter-spacing: 0.05em;
     }
   }
 
