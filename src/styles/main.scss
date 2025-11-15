@@ -1,11 +1,11 @@
-// OpenCode-inspired Variables (Monochromatic Blueprint)
-$blueprint-bg: #0f0f0f;
-$blueprint-paper: #1a1a1a;
-$blueprint-line: #3a3a3a;
-$blueprint-bright: #ffffff;
-$blueprint-text: #cfcecd;
-$blueprint-dim: #6b6b6b;
-$blueprint-accent: #8e8b8b;
+// Color Variables
+$bg-primary: #0f0f0f;
+$bg-secondary: #1a1a1a;
+$border-color: #3a3a3a;
+$text-bright: #ffffff;
+$text-primary: #cfcecd;
+$text-secondary: #6b6b6b;
+$accent-color: #8e8b8b;
 
 // Fonts
 $font-mono: 'Share Tech Mono', monospace;
@@ -20,8 +20,8 @@ $font-sans: 'Rajdhani', sans-serif;
 
 // Base
 body {
-  background: $blueprint-bg;
-  color: $blueprint-text;
+  background: $bg-primary;
+  color: $text-primary;
   font-family: $font-sans;
   font-weight: 400;
   overflow-x: hidden;
@@ -29,7 +29,7 @@ body {
   line-height: 1.6;
 }
 
-// Blueprint Grid Background
+// Grid Background
 .blueprint-grid {
   position: fixed;
   top: 0;
@@ -39,8 +39,8 @@ body {
   z-index: 0;
   opacity: 0.3;
   background-image:
-    linear-gradient(90deg, $blueprint-line 1px, transparent 1px),
-    linear-gradient(0deg, $blueprint-line 1px, transparent 1px);
+    linear-gradient(90deg, $border-color 1px, transparent 1px),
+    linear-gradient(0deg, $border-color 1px, transparent 1px);
   background-size: 20px 20px;
   pointer-events: none;
 }
@@ -82,8 +82,8 @@ body {
   justify-content: space-between;
   align-items: center;
   z-index: 100;
-  background: linear-gradient(to bottom, $blueprint-bg 0%, transparent 100%);
-  border-bottom: 1px solid $blueprint-line;
+  background: linear-gradient(to bottom, $bg-primary 0%, transparent 100%);
+  border-bottom: 1px solid $border-color;
 
   .logo-wrapper {
     display: flex;
@@ -97,18 +97,18 @@ body {
     font-weight: 700;
     letter-spacing: 0.2em;
     text-decoration: none;
-    color: $blueprint-bright;
+    color: $text-bright;
     transition: color 0.3s ease;
 
     &:hover {
-      color: $blueprint-accent;
+      color: $accent-color;
     }
   }
 
   .version {
     font-family: $font-mono;
     font-size: 0.7rem;
-    color: $blueprint-dim;
+    color: $text-secondary;
     letter-spacing: 0.1em;
   }
 
@@ -120,18 +120,18 @@ body {
     .menu-item {
       cursor: pointer;
       text-decoration: none;
-      color: $blueprint-text;
+      color: $text-primary;
       text-transform: uppercase;
       transition: color 0.3s ease;
 
       &:hover {
-        color: $blueprint-accent;
+        color: $accent-color;
       }
     }
 
     .menu-separator {
       margin: 0 1rem;
-      color: $blueprint-dim;
+      color: $text-secondary;
     }
   }
 }
@@ -144,8 +144,8 @@ body {
   right: 0;
   padding: 1.5rem 2rem;
   z-index: 100;
-  background: linear-gradient(to top, $blueprint-bg 0%, transparent 100%);
-  border-top: 1px solid $blueprint-line;
+  background: linear-gradient(to top, $bg-primary 0%, transparent 100%);
+  border-top: 1px solid $border-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -154,7 +154,7 @@ body {
   .footer-coords {
     font-family: $font-mono;
     font-size: 0.7rem;
-    color: $blueprint-dim;
+    color: $text-secondary;
     letter-spacing: 0.1em;
   }
 }
@@ -171,16 +171,16 @@ body {
 
 .blueprint-border {
   position: relative;
-  border: 2px solid $blueprint-bright;
+  border: 2px solid $text-bright;
   padding: 4rem 3rem;
-  background: rgba($blueprint-paper, 0.5);
+  background: rgba($bg-secondary, 0.5);
   backdrop-filter: blur(10px);
 
   &::before,
   &::after {
     content: '';
     position: absolute;
-    background: $blueprint-bg;
+    background: $bg-primary;
   }
 
   // Corner decoration lines
@@ -204,7 +204,7 @@ body {
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 2px solid $blueprint-accent;
+    border: 2px solid $accent-color;
 
     &.top-left {
       top: -2px;
@@ -243,7 +243,7 @@ body {
     font-family: $font-mono;
     font-size: 0.75rem;
     letter-spacing: 0.3em;
-    color: $blueprint-dim;
+    color: $text-secondary;
     margin-bottom: 2rem;
     text-transform: uppercase;
   }
@@ -257,8 +257,8 @@ body {
       display: block;
       font-size: clamp(3rem, 8vw, 6rem);
       letter-spacing: 0.3em;
-      color: $blueprint-bright;
-      text-shadow: 0 0 20px rgba($blueprint-bright, 0.5);
+      color: $text-bright;
+      text-shadow: 0 0 20px rgba($text-bright, 0.3);
       margin-left: 0.3em; // compensate for letter-spacing
     }
 
@@ -266,7 +266,7 @@ body {
       display: block;
       font-size: clamp(1.2rem, 3vw, 2rem);
       letter-spacing: 0.2em;
-      color: $blueprint-text;
+      color: $text-primary;
       font-weight: 400;
       margin-top: 0.5rem;
       margin-left: 0.2em;
@@ -277,7 +277,7 @@ body {
     font-family: $font-mono;
     font-size: 0.9rem;
     letter-spacing: 0.1em;
-    color: $blueprint-dim;
+    color: $text-secondary;
   }
 }
 
@@ -288,12 +288,12 @@ body {
   gap: 1.5rem;
   margin-bottom: 3rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid $blueprint-line;
+  border-bottom: 1px solid $border-color;
 
   .section-number {
     font-family: $font-mono;
     font-size: 1.5rem;
-    color: $blueprint-accent;
+    color: $accent-color;
     font-weight: 700;
   }
 
@@ -302,14 +302,14 @@ body {
     font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: 0.2em;
-    color: $blueprint-bright;
+    color: $text-bright;
     text-transform: uppercase;
   }
 
   .section-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(to right, $blueprint-line, transparent);
+    background: linear-gradient(to right, $border-color, transparent);
   }
 }
 
@@ -334,7 +334,7 @@ body {
 .placeholder-border {
   width: 100%;
   height: 100%;
-  border: 2px dashed $blueprint-line;
+  border: 2px dashed $border-color;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -342,8 +342,8 @@ body {
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: $blueprint-bright;
-    background: rgba($blueprint-bright, 0.05);
+    border-color: $text-bright;
+    background: rgba($text-bright, 0.05);
   }
 }
 
@@ -353,7 +353,7 @@ body {
   .placeholder-icon {
     font-family: $font-mono;
     font-size: 3rem;
-    color: $blueprint-dim;
+    color: $text-secondary;
     margin-bottom: 1rem;
   }
 
@@ -362,7 +362,7 @@ body {
     font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: $blueprint-text;
+    color: $text-primary;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
   }
@@ -370,7 +370,7 @@ body {
   .placeholder-desc {
     font-family: $font-mono;
     font-size: 0.8rem;
-    color: $blueprint-dim;
+    color: $text-secondary;
     letter-spacing: 0.05em;
   }
 }
@@ -388,8 +388,8 @@ body {
 
 .capability-item {
   padding: 2rem;
-  border: 1px solid $blueprint-line;
-  background: rgba($blueprint-paper, 0.3);
+  border: 1px solid $border-color;
+  background: rgba($bg-secondary, 0.3);
   position: relative;
   transition: all 0.3s ease;
 
@@ -400,27 +400,27 @@ body {
     left: 0;
     width: 4px;
     height: 0;
-    background: $blueprint-accent;
+    background: $accent-color;
     transition: height 0.3s ease;
   }
 
   &:hover {
-    border-color: $blueprint-bright;
-    background: rgba($blueprint-bright, 0.05);
+    border-color: $text-bright;
+    background: rgba($text-bright, 0.05);
 
     &::before {
       height: 100%;
     }
 
     .capability-icon {
-      color: $blueprint-accent;
+      color: $accent-color;
     }
   }
 
   .capability-icon {
     font-family: $font-mono;
     font-size: 1.5rem;
-    color: $blueprint-bright;
+    color: $text-bright;
     margin-bottom: 1rem;
     transition: color 0.3s ease;
   }
@@ -430,7 +430,7 @@ body {
     font-size: 1.3rem;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: $blueprint-text;
+    color: $text-primary;
     margin-bottom: 0.75rem;
     text-transform: uppercase;
   }
@@ -438,7 +438,7 @@ body {
   p {
     font-family: $font-mono;
     font-size: 0.85rem;
-    color: $blueprint-dim;
+    color: $text-secondary;
     line-height: 1.6;
   }
 }
@@ -460,11 +460,11 @@ body {
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 0.15em;
-    color: $blueprint-bright;
+    color: $text-bright;
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid $blueprint-line;
+    border-bottom: 1px solid $border-color;
   }
 
   ul {
@@ -473,7 +473,7 @@ body {
     li {
       font-family: $font-mono;
       font-size: 0.9rem;
-      color: $blueprint-text;
+      color: $text-primary;
       padding: 0.5rem 0;
       padding-left: 1.5rem;
       position: relative;
@@ -483,15 +483,15 @@ body {
         content: '→';
         position: absolute;
         left: 0;
-        color: $blueprint-dim;
+        color: $text-secondary;
         transition: color 0.3s ease;
       }
 
       &:hover {
-        color: $blueprint-accent;
+        color: $accent-color;
 
         &::before {
-          color: $blueprint-accent;
+          color: $accent-color;
         }
       }
     }
@@ -507,9 +507,9 @@ body {
 
   .section-inner {
     position: relative;
-    border: 2px solid $blueprint-line;
+    border: 2px solid $border-color;
     padding: 3rem;
-    background: rgba($blueprint-paper, 0.3);
+    background: rgba($bg-secondary, 0.3);
   }
 
   .section-title {
@@ -518,7 +518,7 @@ body {
     font-weight: 700;
     letter-spacing: 0.2em;
     margin-bottom: 2rem;
-    color: $blueprint-bright;
+    color: $text-bright;
     text-transform: uppercase;
   }
 
@@ -526,14 +526,14 @@ body {
     font-family: $font-mono;
     font-size: 1rem;
     line-height: 1.8;
-    color: $blueprint-text;
+    color: $text-primary;
 
     p {
       margin-bottom: 1.5rem;
     }
 
     strong {
-      color: $blueprint-accent;
+      color: $accent-color;
     }
   }
 
@@ -550,8 +550,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem;
-    background: rgba($blueprint-line, 0.3);
-    border: 1px solid $blueprint-line;
+    background: rgba($border-color, 0.3);
+    border: 1px solid $border-color;
     text-decoration: none;
     transition: all 0.3s ease;
     position: relative;
@@ -563,19 +563,19 @@ body {
       top: 0;
       width: 0;
       height: 100%;
-      background: rgba($blueprint-accent, 0.1);
+      background: rgba($accent-color, 0.1);
       transition: width 0.3s ease;
     }
 
     &:hover {
-      border-color: $blueprint-bright;
+      border-color: $text-bright;
 
       &::before {
         width: 100%;
       }
 
       .link-value {
-        color: $blueprint-accent;
+        color: $accent-color;
       }
     }
 
@@ -585,7 +585,7 @@ body {
       font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: $blueprint-dim;
+      color: $text-secondary;
       position: relative;
       z-index: 1;
     }
@@ -593,7 +593,7 @@ body {
     .link-value {
       font-family: $font-mono;
       font-size: 1rem;
-      color: $blueprint-text;
+      color: $text-primary;
       transition: color 0.3s ease;
       position: relative;
       z-index: 1;
