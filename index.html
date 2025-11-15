@@ -3,49 +3,153 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Peritissimus - WebGL Sketch Gallery</title>
+    <title>Artifex - Portfolio of Peritissimus</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/src/styles/main.scss" />
   </head>
   <body>
+    <div class="blueprint-grid"></div>
     <canvas id="world" class="world"></canvas>
 
     <div id="scroll-wrapper" class="scroll-wrapper">
       <div class="info-wrapper">
-        <div class="main-title">
-          <h1>Peritissimus</h1>
-          <p class="subtitle">Interactive WebGL Experiments</p>
-        </div>
-
-        <div class="projects-grid">
-          <!-- Projects will be added here -->
-        </div>
-
-        <div class="scroll-indicator">
-          <span class="scroll-text">scroll</span>
-          <div class="scroll-line">
-            <div class="scroll-line-inner"></div>
+        <!-- Hero Section -->
+        <section class="hero-section">
+          <div class="blueprint-border">
+            <div class="corner-marks">
+              <span class="mark top-left"></span>
+              <span class="mark top-right"></span>
+              <span class="mark bottom-left"></span>
+              <span class="mark bottom-right"></span>
+            </div>
+            <div class="hero-content">
+              <div class="label-text">SYSTEM ARCHITECT / ENGINEER</div>
+              <h1 class="main-title">
+                <span class="title-line">ARTIFEX</span>
+                <span class="subtitle-line">by Peritissimus</span>
+              </h1>
+              <div class="spec-text">
+                Creative Coding · System Design · Full-Stack Development
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="projects-section">
+          <div class="section-header">
+            <div class="section-number">01</div>
+            <h2 class="section-title">SELECTED WORKS</h2>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="projects-grid">
+            <!-- Projects will be added here -->
+            <div class="project-placeholder">
+              <div class="placeholder-border">
+                <div class="placeholder-content">
+                  <div class="placeholder-icon">[ + ]</div>
+                  <div class="placeholder-text">Projects Coming Soon</div>
+                  <div class="placeholder-desc">WebGL / Creative Coding / System Design</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Capabilities Section -->
+        <section class="capabilities-section">
+          <div class="section-header">
+            <div class="section-number">02</div>
+            <h2 class="section-title">CAPABILITIES</h2>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="capabilities-grid">
+            <div class="capability-item">
+              <div class="capability-icon">[CC]</div>
+              <h3>Creative Coding</h3>
+              <p>WebGL, Shaders, Generative Art, Interactive Experiences</p>
+            </div>
+            <div class="capability-item">
+              <div class="capability-icon">[SD]</div>
+              <h3>System Design</h3>
+              <p>Architecture, Scalability, Performance, Infrastructure</p>
+            </div>
+            <div class="capability-item">
+              <div class="capability-icon">[FS]</div>
+              <h3>Full-Stack Dev</h3>
+              <p>Frontend, Backend, APIs, Database, DevOps</p>
+            </div>
+            <div class="capability-item">
+              <div class="capability-icon">[PD]</div>
+              <h3>Product Development</h3>
+              <p>Strategy, Design, Implementation, Launch</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Technical Specs -->
+        <section class="specs-section">
+          <div class="section-header">
+            <div class="section-number">03</div>
+            <h2 class="section-title">TECHNICAL SPECIFICATIONS</h2>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="specs-grid">
+            <div class="spec-column">
+              <h3>Frontend</h3>
+              <ul>
+                <li>JavaScript / TypeScript</li>
+                <li>React / Vue / Svelte</li>
+                <li>Three.js / WebGL</li>
+                <li>GLSL Shaders</li>
+              </ul>
+            </div>
+            <div class="spec-column">
+              <h3>Backend</h3>
+              <ul>
+                <li>Node.js / Python</li>
+                <li>APIs / GraphQL</li>
+                <li>Databases</li>
+                <li>Cloud Services</li>
+              </ul>
+            </div>
+            <div class="spec-column">
+              <h3>Tools</h3>
+              <ul>
+                <li>Git / CI/CD</li>
+                <li>Docker / K8s</li>
+                <li>AWS / GCP</li>
+                <li>Monitoring</li>
+              </ul>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
 
     <header class="header">
-      <a href="/" class="logo">Peritissimus</a>
+      <div class="logo-wrapper">
+        <a href="/" class="logo">ARTIFEX</a>
+        <span class="version">v1.0</span>
+      </div>
       <nav class="menu">
         <a href="/about.html" class="menu-item">About</a>
-        <span class="menu-separator">/</span>
+        <span class="menu-separator">//</span>
         <a href="/contact.html" class="menu-item">Contact</a>
       </nav>
     </header>
 
     <footer class="footer">
-      <div class="footer-copy">©2025 Peritissimus</div>
+      <div class="footer-copy">ARTIFEX © 2025 // DESIGNED BY PERITISSIMUS</div>
+      <div class="footer-coords">LAT: 0.000° / LONG: 0.000°</div>
     </footer>
 
     <script type="module" src="/src/js/main.js"></script>

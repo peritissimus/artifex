@@ -1,9 +1,15 @@
-// Variables
-$bg-primary: #0a0a0a;
-$bg-secondary: #1a1a1a;
-$text-primary: #ffffff;
-$text-secondary: #6b6b6b;
-$text-muted: #3a3a3a;
+// OpenCode-inspired Variables (Monochromatic Blueprint)
+$blueprint-bg: #0f0f0f;
+$blueprint-paper: #1a1a1a;
+$blueprint-line: #3a3a3a;
+$blueprint-bright: #ffffff;
+$blueprint-text: #cfcecd;
+$blueprint-dim: #6b6b6b;
+$blueprint-accent: #8e8b8b;
+
+// Fonts
+$font-mono: 'Share Tech Mono', monospace;
+$font-sans: 'Rajdhani', sans-serif;
 
 // Reset
 * {
@@ -14,11 +20,29 @@ $text-muted: #3a3a3a;
 
 // Base
 body {
-  background: #0f0f0f;
-  color: $text-primary;
-  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: $blueprint-bg;
+  color: $blueprint-text;
+  font-family: $font-sans;
+  font-weight: 400;
   overflow-x: hidden;
   overflow-y: auto;
+  line-height: 1.6;
+}
+
+// Blueprint Grid Background
+.blueprint-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.3;
+  background-image:
+    linear-gradient(90deg, $blueprint-line 1px, transparent 1px),
+    linear-gradient(0deg, $blueprint-line 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
 }
 
 // WebGL Canvas
@@ -29,18 +53,21 @@ body {
   width: 100%;
   height: 100%;
   z-index: 1;
+  opacity: 0;
 }
 
 // Scroll Wrapper
 .scroll-wrapper {
   position: relative;
   z-index: 2;
-  min-height: 200vh;
+  min-height: 100vh;
 }
 
 .info-wrapper {
   position: relative;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 0 2rem;
 }
 
@@ -50,43 +77,61 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 100;
+  background: linear-gradient(to bottom, $blueprint-bg 0%, transparent 100%);
+  border-bottom: 1px solid $blueprint-line;
+
+  .logo-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
 
   .logo {
-    font-size: 1.5rem;
+    font-family: $font-mono;
+    font-size: 1.2rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.2em;
     text-decoration: none;
-    color: $text-primary;
+    color: $blueprint-bright;
     transition: color 0.3s ease;
 
     &:hover {
-      color: $text-secondary;
+      color: $blueprint-accent;
     }
   }
 
+  .version {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    color: $blueprint-dim;
+    letter-spacing: 0.1em;
+  }
+
   .menu {
-    font-size: 0.875rem;
-    letter-spacing: 0.05em;
+    font-family: $font-mono;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
 
     .menu-item {
       cursor: pointer;
       text-decoration: none;
-      color: $text-primary;
+      color: $blueprint-text;
+      text-transform: uppercase;
       transition: color 0.3s ease;
 
       &:hover {
-        color: $text-secondary;
+        color: $blueprint-accent;
       }
     }
 
     .menu-separator {
-      margin: 0 0.5rem;
-      color: $text-muted;
+      margin: 0 1rem;
+      color: $blueprint-dim;
     }
   }
 }
@@ -97,146 +142,359 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   z-index: 100;
+  background: linear-gradient(to top, $blueprint-bg 0%, transparent 100%);
+  border-top: 1px solid $blueprint-line;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  .footer-copy {
+  .footer-copy,
+  .footer-coords {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    color: $blueprint-dim;
+    letter-spacing: 0.1em;
+  }
+}
+
+// Hero Section
+.hero-section {
+  padding-top: 15vh;
+  padding-bottom: 10vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blueprint-border {
+  position: relative;
+  border: 2px solid $blueprint-bright;
+  padding: 4rem 3rem;
+  background: rgba($blueprint-paper, 0.5);
+  backdrop-filter: blur(10px);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: $blueprint-bg;
+  }
+
+  // Corner decoration lines
+  &::before {
+    top: -1px;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+  }
+
+  &::after {
+    left: -1px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+  }
+}
+
+.corner-marks {
+  .mark {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid $blueprint-accent;
+
+    &.top-left {
+      top: -2px;
+      left: -2px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    &.top-right {
+      top: -2px;
+      right: -2px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    &.bottom-left {
+      bottom: -2px;
+      left: -2px;
+      border-right: none;
+      border-top: none;
+    }
+
+    &.bottom-right {
+      bottom: -2px;
+      right: -2px;
+      border-left: none;
+      border-top: none;
+    }
+  }
+}
+
+.hero-content {
+  text-align: center;
+
+  .label-text {
+    font-family: $font-mono;
     font-size: 0.75rem;
-    color: $text-muted;
+    letter-spacing: 0.3em;
+    color: $blueprint-dim;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+  }
+
+  .main-title {
+    font-family: $font-sans;
+    font-weight: 700;
+    margin-bottom: 2rem;
+
+    .title-line {
+      display: block;
+      font-size: clamp(3rem, 8vw, 6rem);
+      letter-spacing: 0.3em;
+      color: $blueprint-bright;
+      text-shadow: 0 0 20px rgba($blueprint-bright, 0.5);
+      margin-left: 0.3em; // compensate for letter-spacing
+    }
+
+    .subtitle-line {
+      display: block;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      letter-spacing: 0.2em;
+      color: $blueprint-text;
+      font-weight: 400;
+      margin-top: 0.5rem;
+      margin-left: 0.2em;
+    }
+  }
+
+  .spec-text {
+    font-family: $font-mono;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: $blueprint-dim;
+  }
+}
+
+// Section Headers
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $blueprint-line;
+
+  .section-number {
+    font-family: $font-mono;
+    font-size: 1.5rem;
+    color: $blueprint-accent;
+    font-weight: 700;
+  }
+
+  .section-title {
+    font-family: $font-sans;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: $blueprint-bright;
+    text-transform: uppercase;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, $blueprint-line, transparent);
+  }
+}
+
+// Projects Section
+.projects-section {
+  padding: 5rem 0;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-placeholder {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-border {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed $blueprint-line;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $blueprint-bright;
+    background: rgba($blueprint-bright, 0.05);
+  }
+}
+
+.placeholder-content {
+  text-align: center;
+
+  .placeholder-icon {
+    font-family: $font-mono;
+    font-size: 3rem;
+    color: $blueprint-dim;
+    margin-bottom: 1rem;
+  }
+
+  .placeholder-text {
+    font-family: $font-sans;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: $blueprint-text;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .placeholder-desc {
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    color: $blueprint-dim;
     letter-spacing: 0.05em;
   }
 }
 
-// Main Title
-.main-title {
-  padding-top: 30vh;
-  text-align: center;
-  margin-bottom: 15rem;
-
-  h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(3rem, 10vw, 8rem);
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    margin-bottom: 1rem;
-  }
-
-  .subtitle {
-    font-family: 'Barlow', sans-serif;
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    font-weight: 400;
-    color: $text-secondary;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
+// Capabilities Section
+.capabilities-section {
+  padding: 5rem 0;
 }
 
-// Projects Grid
-.projects-grid {
+.capabilities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 4rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding-bottom: 20rem;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
 }
 
-.project-item {
-  cursor: pointer;
-  transition: transform 0.3s ease;
+.capability-item {
+  padding: 2rem;
+  border: 1px solid $blueprint-line;
+  background: rgba($blueprint-paper, 0.3);
   position: relative;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: $blueprint-accent;
+    transition: height 0.3s ease;
+  }
 
   &:hover {
-    transform: scale(1.05);
+    border-color: $blueprint-bright;
+    background: rgba($blueprint-bright, 0.05);
 
-    .project-title {
-      color: $text-primary;
+    &::before {
+      height: 100%;
+    }
+
+    .capability-icon {
+      color: $blueprint-accent;
     }
   }
 
-  .project-number {
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: $text-muted;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.1em;
-  }
-
-  .project-title {
-    font-family: 'Barlow Condensed', sans-serif;
+  .capability-icon {
+    font-family: $font-mono;
     font-size: 1.5rem;
-    font-weight: 500;
+    color: $blueprint-bright;
     margin-bottom: 1rem;
-    color: $text-secondary;
     transition: color 0.3s ease;
   }
 
-  .project-image {
-    aspect-ratio: 4 / 3;
-    background: $bg-secondary;
-    border-radius: 4px;
-    overflow: hidden;
-
-    .project-placeholder {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, $bg-secondary 0%, $text-muted 100%);
-      opacity: 0.3;
-    }
-  }
-}
-
-// Scroll Indicator
-.scroll-indicator {
-  position: fixed;
-  bottom: 8rem;
-  right: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  z-index: 100;
-
-  .scroll-text {
-    font-size: 0.75rem;
+  h3 {
+    font-family: $font-sans;
+    font-size: 1.3rem;
+    font-weight: 600;
     letter-spacing: 0.1em;
+    color: $blueprint-text;
+    margin-bottom: 0.75rem;
     text-transform: uppercase;
-    color: $text-muted;
-    writing-mode: vertical-rl;
   }
 
-  .scroll-line {
-    width: 1px;
-    height: 60px;
-    background: $text-muted;
-    position: relative;
-    overflow: hidden;
-
-    .scroll-line-inner {
-      position: absolute;
-      width: 100%;
-      height: 20px;
-      background: $text-primary;
-      animation: scrollLineAnim 2s ease-in-out infinite;
-    }
+  p {
+    font-family: $font-mono;
+    font-size: 0.85rem;
+    color: $blueprint-dim;
+    line-height: 1.6;
   }
 }
 
-@keyframes scrollLineAnim {
-  0% {
-    transform: translateY(-20px);
+// Specs Section
+.specs-section {
+  padding: 5rem 0 10rem 0;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+}
+
+.spec-column {
+  h3 {
+    font-family: $font-sans;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: $blueprint-bright;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $blueprint-line;
   }
-  100% {
-    transform: translateY(80px);
+
+  ul {
+    list-style: none;
+
+    li {
+      font-family: $font-mono;
+      font-size: 0.9rem;
+      color: $blueprint-text;
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      transition: color 0.3s ease;
+
+      &::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: $blueprint-dim;
+        transition: color 0.3s ease;
+      }
+
+      &:hover {
+        color: $blueprint-accent;
+
+        &::before {
+          color: $blueprint-accent;
+        }
+      }
+    }
   }
 }
 
@@ -244,64 +502,38 @@ body {
 .content-section {
   max-width: 900px;
   margin: 0 auto;
-  padding: 8rem 2rem;
-  scroll-margin-top: 6rem;
+  padding: 10rem 2rem 8rem 2rem;
+  min-height: 100vh;
 
   .section-inner {
     position: relative;
+    border: 2px solid $blueprint-line;
+    padding: 3rem;
+    background: rgba($blueprint-paper, 0.3);
   }
 
   .section-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-family: $font-sans;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 700;
-    letter-spacing: 0.02em;
-    margin-bottom: 3rem;
-    text-align: center;
+    letter-spacing: 0.2em;
+    margin-bottom: 2rem;
+    color: $blueprint-bright;
+    text-transform: uppercase;
   }
 
   .section-content {
-    font-size: 1.125rem;
+    font-family: $font-mono;
+    font-size: 1rem;
     line-height: 1.8;
-    color: $text-secondary;
+    color: $blueprint-text;
 
     p {
       margin-bottom: 1.5rem;
     }
-  }
 
-  // Skills
-  .skills {
-    margin-top: 4rem;
-
-    h3 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      color: $text-primary;
-    }
-  }
-
-  .skills-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .skill-tag {
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
+    strong {
+      color: $blueprint-accent;
     }
   }
 
@@ -309,7 +541,7 @@ body {
   .contact-links {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     margin-top: 3rem;
   }
 
@@ -318,39 +550,92 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
+    background: rgba($blueprint-line, 0.3);
+    border: 1px solid $blueprint-line;
     text-decoration: none;
     transition: all 0.3s ease;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 100%;
+      background: rgba($blueprint-accent, 0.1);
+      transition: width 0.3s ease;
+    }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.15);
-      transform: translateX(0.5rem);
+      border-color: $blueprint-bright;
+
+      &::before {
+        width: 100%;
+      }
+
+      .link-value {
+        color: $blueprint-accent;
+      }
     }
 
     .link-label {
-      font-size: 0.875rem;
+      font-family: $font-mono;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: $text-muted;
+      color: $blueprint-dim;
+      position: relative;
+      z-index: 1;
     }
 
     .link-value {
+      font-family: $font-mono;
       font-size: 1rem;
-      font-weight: 500;
-      color: $text-primary;
+      color: $blueprint-text;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
   }
 }
 
-// Canvas (for sketch pages)
-#canvas-webgl {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+// Responsive
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+
+    .menu {
+      font-size: 0.75rem;
+
+      .menu-separator {
+        margin: 0 0.5rem;
+      }
+    }
+  }
+
+  .footer {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .blueprint-border {
+    padding: 2rem 1.5rem;
+  }
+
+  .section-header {
+    flex-wrap: wrap;
+
+    .section-line {
+      display: none;
+    }
+  }
+
+  .specs-grid,
+  .capabilities-grid {
+    grid-template-columns: 1fr;
+  }
 }

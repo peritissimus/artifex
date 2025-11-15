@@ -3,26 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact - Peritissimus</title>
+    <title>Contact - Artifex</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/src/styles/main.scss" />
   </head>
   <body>
+    <div class="blueprint-grid"></div>
     <canvas id="world" class="world"></canvas>
 
     <div id="scroll-wrapper" class="scroll-wrapper">
       <div class="info-wrapper">
-        <!-- Contact Section -->
         <section id="contact" class="content-section">
           <div class="section-inner">
             <h2 class="section-title">Contact</h2>
             <div class="section-content">
-              <p>Interested in collaborating or have a project in mind? Let's connect.</p>
+              <p>
+                Interested in collaboration, have a project in mind, or just want to connect?
+                Feel free to reach out through any of the channels below.
+              </p>
 
               <div class="contact-links">
                 <a href="mailto:your.email@example.com" class="contact-link">
@@ -31,11 +34,15 @@
                 </a>
                 <a href="https://github.com/yourusername" target="_blank" rel="noopener" class="contact-link">
                   <span class="link-label">GitHub</span>
-                  <span class="link-value">@yourusername</span>
+                  <span class="link-value">github.com/yourusername</span>
                 </a>
                 <a href="https://twitter.com/yourusername" target="_blank" rel="noopener" class="contact-link">
                   <span class="link-label">Twitter</span>
                   <span class="link-value">@yourusername</span>
+                </a>
+                <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" class="contact-link">
+                  <span class="link-label">LinkedIn</span>
+                  <span class="link-value">linkedin.com/in/yourusername</span>
                 </a>
               </div>
             </div>
@@ -45,16 +52,20 @@
     </div>
 
     <header class="header">
-      <a href="/" class="logo">Peritissimus</a>
+      <div class="logo-wrapper">
+        <a href="/" class="logo">ARTIFEX</a>
+        <span class="version">v1.0</span>
+      </div>
       <nav class="menu">
         <a href="/about.html" class="menu-item">About</a>
-        <span class="menu-separator">/</span>
+        <span class="menu-separator">//</span>
         <a href="/contact.html" class="menu-item">Contact</a>
       </nav>
     </header>
 
     <footer class="footer">
-      <div class="footer-copy">©2025 Peritissimus</div>
+      <div class="footer-copy">ARTIFEX © 2025 // DESIGNED BY PERITISSIMUS</div>
+      <div class="footer-coords">LAT: 0.000° / LONG: 0.000°</div>
     </footer>
 
     <script type="module" src="/src/js/main.js"></script>
