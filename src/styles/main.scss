@@ -43,6 +43,26 @@ body {
     linear-gradient(0deg, $border-color 1px, transparent 1px);
   background-size: 20px 20px;
   pointer-events: none;
+
+  // Fade mask outside vertical boundaries (100px fade)
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent calc(50% - 800px),
+    black calc(50% - 700px),
+    black calc(50% + 700px),
+    transparent calc(50% + 800px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent calc(50% - 800px),
+    black calc(50% - 700px),
+    black calc(50% + 700px),
+    transparent calc(50% + 800px),
+    transparent 100%
+  );
 }
 
 // WebGL Canvas
