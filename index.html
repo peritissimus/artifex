@@ -12,9 +12,21 @@
     />
     <link rel="stylesheet" href="/src/styles/main.scss" />
   </head>
-  <body>
+  <body data-mode="human">
     <div class="blueprint-grid"></div>
     <canvas id="world" class="world"></canvas>
+
+    <!-- Mode Toggle -->
+    <div class="mode-toggle">
+      <a href="/" class="mode-btn active">
+        <span class="mode-indicator"></span>
+        <span class="mode-label">HUMAN</span>
+      </a>
+      <a href="/ai.html" class="mode-btn">
+        <span class="mode-indicator"></span>
+        <span class="mode-label">MACHINE</span>
+      </a>
+    </div>
 
     <div id="scroll-wrapper" class="scroll-wrapper">
       <div class="info-wrapper">
