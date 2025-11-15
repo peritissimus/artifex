@@ -69,6 +69,34 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
+
+  // Left boundary line (aligned to grid)
+  &::before {
+    content: '';
+    position: fixed;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: $text-secondary;
+    transform: translateX(calc(-700px));
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  // Right boundary line (aligned to grid)
+  &::after {
+    content: '';
+    position: fixed;
+    right: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: $text-secondary;
+    transform: translateX(calc(700px));
+    z-index: 1;
+    opacity: 0.8;
+  }
 }
 
 // Header
@@ -171,6 +199,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+
+  // Bottom separator line (aligned to grid)
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 1px;
+    background: $text-secondary;
+    opacity: 0.8;
+  }
 }
 
 .blueprint-border {
@@ -320,6 +362,20 @@ body {
 // Projects Section
 .projects-section {
   padding: 5rem 0;
+  position: relative;
+
+  // Bottom separator line (aligned to grid)
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 1px;
+    background: $text-secondary;
+    opacity: 0.8;
+  }
 }
 
 .projects-grid {
@@ -382,6 +438,20 @@ body {
 // Capabilities Section
 .capabilities-section {
   padding: 5rem 0;
+  position: relative;
+
+  // Bottom separator line (aligned to grid)
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 1px;
+    background: $text-secondary;
+    opacity: 0.8;
+  }
 }
 
 .capabilities-grid {
@@ -450,6 +520,20 @@ body {
 // Specs Section
 .specs-section {
   padding: 5rem 0 10rem 0;
+  position: relative;
+
+  // Bottom separator line (aligned to grid)
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 1px;
+    background: $text-secondary;
+    opacity: 0.8;
+  }
 }
 
 .specs-grid {
