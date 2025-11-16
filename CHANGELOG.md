@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/peritissimus/artifex/compare/v1.3.0...v1.3.1) (2025-11-16)
+
+
+### Bug Fixes
+
+* **vite:** change minification from terser to esbuild ([0d1bd3e](https://github.com/peritissimus/artifex/commit/0d1bd3e7b763faf209a77409ca6b7c782c8e4d1a))
+
 # [1.3.0](https://github.com/peritissimus/artifex/compare/v1.2.0...v1.3.0) (2025-11-16)
 
 
