@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/peritissimus/artifex/compare/v1.4.0...v1.5.0) (2025-11-16)
+
+
+### Features
+
+* **hero:** update hero section layout and styling for improved presentation ([59b8056](https://github.com/peritissimus/artifex/commit/59b805611541f174e07f5653ba07f4a0fca8a788))
+* **styles:** update font family to Barlow and Barlow Semi Condensed ([003459b](https://github.com/peritissimus/artifex/commit/003459b7030199e285a93863b6e2aa499b075965))
+
 # [1.4.0](https://github.com/peritissimus/artifex/compare/v1.3.1...v1.4.0) (2025-11-16)
 
 
