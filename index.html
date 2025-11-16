@@ -3,30 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Artifex - Portfolio of Peritissimus</title>
+
+    <!-- SEO Meta Tags -->
+    <title>Artifex - Portfolio of Peritissimus | Creative Coding & System Design</title>
+    <meta name="description" content="Portfolio of Peritissimus - System Architect & Engineer specializing in Creative Coding, WebGL, System Design, and Full-Stack Development." />
+    <meta name="keywords" content="creative coding, webgl, three.js, system design, full-stack development, portfolio, web development, shaders, GLSL" />
+    <meta name="author" content="Peritissimus" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://artifex.dev" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://artifex.dev" />
+    <meta property="og:title" content="Artifex - Portfolio of Peritissimus" />
+    <meta property="og:description" content="System Architect & Engineer specializing in Creative Coding, WebGL, System Design, and Full-Stack Development." />
+    <meta property="og:site_name" content="Artifex" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://artifex.dev" />
+    <meta name="twitter:title" content="Artifex - Portfolio of Peritissimus" />
+    <meta name="twitter:description" content="System Architect & Engineer specializing in Creative Coding, WebGL, System Design, and Full-Stack Development." />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f0f0f" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Fonts (preload for performance) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <link rel="stylesheet" href="/src/styles/main.scss" />
   </head>
   <body data-mode="human">
     <div class="blueprint-grid"></div>
     <canvas id="world" class="world"></canvas>
-
-    <!-- Mode Toggle -->
-    <div class="mode-toggle">
-      <a href="/" class="mode-btn active">
-        <span class="mode-indicator"></span>
-        <span class="mode-label">HUMAN</span>
-      </a>
-      <a href="/ai.html" class="mode-btn">
-        <span class="mode-indicator"></span>
-        <span class="mode-label">MACHINE</span>
-      </a>
-    </div>
 
     <div id="scroll-wrapper" class="scroll-wrapper">
       <div class="info-wrapper">
@@ -40,13 +66,13 @@
               <span class="mark bottom-right"></span>
             </div>
             <div class="hero-content">
-              <div class="label-text">SYSTEM ARCHITECT / ENGINEER</div>
+              <div class="label-text">DEVELOPER / ENTREPRENEUR / FOUNDING ENGINEER</div>
               <h1 class="main-title">
-                <span class="title-line">ARTIFEX</span>
-                <span class="subtitle-line">by Peritissimus</span>
+                <span class="title-line">KUSHAL PATANKAR</span>
+                <span class="subtitle-line">Peritissimus</span>
               </h1>
               <div class="spec-text">
-                Creative Coding · System Design · Full-Stack Development
+                Pushing technical boundaries while maintaining an eye for design
               </div>
             </div>
           </div>
@@ -84,24 +110,24 @@
 
           <div class="capabilities-grid">
             <div class="capability-item">
-              <div class="capability-icon">[CC]</div>
-              <h3>Creative Coding</h3>
-              <p>WebGL, Shaders, Generative Art, Interactive Experiences</p>
+              <div class="capability-icon">[AI]</div>
+              <h3>AI Integration</h3>
+              <p>LLM Technologies, Prompt Engineering, Context-Aware Systems, AI-Powered Platforms</p>
             </div>
             <div class="capability-item">
-              <div class="capability-icon">[SD]</div>
-              <h3>System Design</h3>
-              <p>Architecture, Scalability, Performance, Infrastructure</p>
+              <div class="capability-icon">[SA]</div>
+              <h3>System Architecture</h3>
+              <p>Microservices, Distributed Systems, Infrastructure as Code, Cloud Scaling</p>
             </div>
             <div class="capability-item">
               <div class="capability-icon">[FS]</div>
-              <h3>Full-Stack Dev</h3>
-              <p>Frontend, Backend, APIs, Database, DevOps</p>
+              <h3>Full-Stack Engineering</h3>
+              <p>Frontend (React/NextJS), Backend (Django/NestJS), Mobile (Flutter)</p>
             </div>
             <div class="capability-item">
-              <div class="capability-icon">[PD]</div>
-              <h3>Product Development</h3>
-              <p>Strategy, Design, Implementation, Launch</p>
+              <div class="capability-icon">[FE]</div>
+              <h3>Founding Engineer</h3>
+              <p>0-to-1 Products, Technical Leadership, Scaling Startups, Team Building</p>
             </div>
           </div>
         </section>
@@ -118,28 +144,37 @@
             <div class="spec-column">
               <h3>Frontend</h3>
               <ul>
-                <li>JavaScript / TypeScript</li>
-                <li>React / Vue / Svelte</li>
-                <li>Three.js / WebGL</li>
-                <li>GLSL Shaders</li>
+                <li>React / NextJS</li>
+                <li>Redux / State Management</li>
+                <li>TypeScript / JavaScript</li>
+                <li>HTML / CSS / SCSS</li>
               </ul>
             </div>
             <div class="spec-column">
               <h3>Backend</h3>
               <ul>
-                <li>Node.js / Python</li>
-                <li>APIs / GraphQL</li>
-                <li>Databases</li>
-                <li>Cloud Services</li>
+                <li>Python / Django / Flask / FastAPI</li>
+                <li>TypeScript / NestJS</li>
+                <li>NodeJS / ExpressJS</li>
+                <li>Celery / Redis</li>
               </ul>
             </div>
             <div class="spec-column">
-              <h3>Tools</h3>
+              <h3>Database & Infrastructure</h3>
               <ul>
-                <li>Git / CI/CD</li>
-                <li>Docker / K8s</li>
+                <li>PostgreSQL / Redis / Prisma</li>
                 <li>AWS / GCP</li>
-                <li>Monitoring</li>
+                <li>Docker / Terraform / Ansible</li>
+                <li>GitHub Actions</li>
+              </ul>
+            </div>
+            <div class="spec-column">
+              <h3>Mobile & Analytics</h3>
+              <ul>
+                <li>Flutter / Dart / Bloc</li>
+                <li>Firebase</li>
+                <li>Mixpanel / Segment / Posthog</li>
+                <li>Grafana / Sentry / Metabase</li>
               </ul>
             </div>
           </div>
@@ -162,6 +197,16 @@
     <footer class="footer">
       <div class="footer-copy">ARTIFEX © 2025 // DESIGNED BY PERITISSIMUS</div>
       <div class="footer-coords">LAT: 0.000° / LONG: 0.000°</div>
+      <div class="mode-toggle">
+        <a href="/" class="mode-btn active">
+          <span class="mode-indicator"></span>
+          <span class="mode-label">HUMAN</span>
+        </a>
+        <a href="/ai.html" class="mode-btn">
+          <span class="mode-indicator"></span>
+          <span class="mode-label">MACHINE</span>
+        </a>
+      </div>
     </footer>
 
     <script type="module" src="/src/js/main.js"></script>

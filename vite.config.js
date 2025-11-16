@@ -11,7 +11,7 @@ export default defineConfig({
         '**/*.vs',
         '**/*.fs'
       ],
-      compress: false,
+      compress: true, // Enable compression for production
       watch: true,
       root: '/'
     })
@@ -23,6 +23,22 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true
+    sourcemap: false, // Disable sourcemaps for production
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console logs in production
+        drop_debugger: true
+      }
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'three': ['three'] // Separate three.js into its own chunk
+        }
+      }
+    },
+    // Enable chunk size warnings
+    chunkSizeWarningLimit: 1000
   }
 });
