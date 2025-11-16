@@ -24,12 +24,9 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false, // Disable sourcemaps for production
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console logs in production
-        drop_debugger: true
-      }
+    minify: 'esbuild',
+    esbuild: {
+      drop: ['console', 'debugger'], // Remove console logs and debugger in production
     },
     rollupOptions: {
       output: {
