@@ -1,3 +1,14 @@
+# [1.3.0](https://github.com/peritissimus/artifex/compare/v1.2.0...v1.3.0) (2025-11-16)
+
+
+### Features
+
+* **ai:** add AI view page with mode toggle functionality ([15af134](https://github.com/peritissimus/artifex/commit/15af134325cd9f36313a0fbc44f8223fe9f68011))
+* **styles:** add boundary lines and separators to sections in main.scss ([7c9fe3c](https://github.com/peritissimus/artifex/commit/7c9fe3cd516fae317f1175daa121ba2cfd9a7805))
+* **styles:** add fade mask for vertical boundaries in main.scss ([cfa1f8f](https://github.com/peritissimus/artifex/commit/cfa1f8fcc469b53365a3a87cde9e57ab68562eb7))
+* **styles:** enhance background gradient with backdrop filter effects ([3de27e9](https://github.com/peritissimus/artifex/commit/3de27e93f57403567ca7c5319be66e65b0f7c792))
+* **ui:** update website content and structure for Artifex portfolio ([4a62858](https://github.com/peritissimus/artifex/commit/4a6285865a0e77cc8a5021ef6f39d716b9a413df))
+
 # [1.2.0](https://github.com/peritissimus/artifex/compare/v1.1.0...v1.2.0) (2025-10-21)
 
 
