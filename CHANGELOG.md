@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/peritissimus/artifex/compare/v1.6.0...v1.7.0) (2025-11-16)
+
+
+### Features
+
+* **build:** configure multiple entry points for application ([5200df5](https://github.com/peritissimus/artifex/commit/5200df5a443357aee038b5a1df846b5a733b3227))
+
 # [1.6.0](https://github.com/peritissimus/artifex/compare/v1.5.0...v1.6.0) (2025-11-16)
 
 
