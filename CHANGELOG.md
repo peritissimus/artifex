@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/peritissimus/artifex/compare/v1.3.1...v1.4.0) (2025-11-16)
+
+
+### Features
+
+* update social meta tags and canonical links ([79d73c6](https://github.com/peritissimus/artifex/commit/79d73c6e637e71b73764ea4635dca4999087b05d))
+
 ## [1.3.1](https://github.com/peritissimus/artifex/compare/v1.3.0...v1.3.1) (2025-11-16)
 
 
