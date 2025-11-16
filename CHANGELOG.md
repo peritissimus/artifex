@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/peritissimus/artifex/compare/v1.5.0...v1.6.0) (2025-11-16)
+
+
+### Features
+
+* **about:** update professional experience and roles ([a492776](https://github.com/peritissimus/artifex/commit/a492776a2a144f9733be1fe90db1fd978f21ffaa))
+
 # [1.5.0](https://github.com/peritissimus/artifex/compare/v1.4.0...v1.5.0) (2025-11-16)
 
 
