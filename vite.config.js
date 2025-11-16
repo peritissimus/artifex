@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 import glsl from 'vite-plugin-glsl';
 
 export default defineConfig({
@@ -29,6 +30,16 @@ export default defineConfig({
       drop: ['console', 'debugger'], // Remove console logs and debugger in production
     },
     rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        about: resolve(__dirname, 'about.html'),
+        contact: resolve(__dirname, 'contact.html'),
+        ai: resolve(__dirname, 'ai.html'),
+        brihaspati: resolve(__dirname, 'work/brihaspati.html'),
+        dubverse: resolve(__dirname, 'work/dubverse.html'),
+        simplesounds: resolve(__dirname, 'work/simplesounds.html'),
+        zoca: resolve(__dirname, 'work/zoca.html'),
+      },
       output: {
         manualChunks: {
           'three': ['three'] // Separate three.js into its own chunk
