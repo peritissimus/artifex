@@ -8,8 +8,8 @@ $text-secondary: #6b6b6b;
 $accent-color: #8e8b8b;
 
 // Fonts
-$font-mono: 'Share Tech Mono', monospace;
-$font-sans: 'Rajdhani', sans-serif;
+$font-mono: 'Barlow Semi Condensed', sans-serif;
+$font-sans: 'Barlow', sans-serif;
 
 // Reset
 * {
@@ -345,7 +345,6 @@ body {
     .subtitle-line {
       display: block;
       font-size: clamp(1.2rem, 3vw, 2rem);
-      letter-spacing: 0.2em;
       color: $text-primary;
       font-weight: 400;
       margin-top: 0.5rem;
