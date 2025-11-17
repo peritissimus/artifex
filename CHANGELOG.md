@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/peritissimus/artifex/compare/v1.8.0...v1.9.0) (2025-11-17)
+
+
+### Features
+
+* **blog:** add blog functionality with techy aesthetic ([0032239](https://github.com/peritissimus/artifex/commit/003223979de1258272a48c3db8d167f47f365b9c))
+
 # [1.8.0](https://github.com/peritissimus/artifex/compare/v1.7.2...v1.8.0) (2025-11-17)
 
 
