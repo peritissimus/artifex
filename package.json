@@ -10,6 +10,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@toon-format/toon": "^1.0.0",
     "gl-matrix": "^3.4.4",
     "glsl-noise": "^0.0.0",
     "three": "^0.180.0"

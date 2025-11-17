@@ -35,6 +35,7 @@ export default defineConfig({
         about: resolve(__dirname, 'about.html'),
         contact: resolve(__dirname, 'contact.html'),
         ai: resolve(__dirname, 'ai.html'),
+        converter: resolve(__dirname, 'converter.html'),
         brihaspati: resolve(__dirname, 'work/brihaspati.html'),
         dubverse: resolve(__dirname, 'work/dubverse.html'),
         simplesounds: resolve(__dirname, 'work/simplesounds.html'),

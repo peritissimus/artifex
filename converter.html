@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TOON Converter | Format Conversion Tool</title>
+    <link rel="stylesheet" href="/src/styles/main.scss" />
+    <link rel="stylesheet" href="/src/styles/converter.scss" />
+    <meta
+      name="description"
+      content="Convert JSON, CSV, YAML, and XML to TOON format - Token-Oriented Object Notation for efficient LLM prompts"
+    />
+  </head>
+  <body>
+    <div class="blueprint-grid"></div>
+    <canvas id="world" class="world"></canvas>
+
+    <div id="scroll-wrapper" class="scroll-wrapper">
+      <div class="info-wrapper">
+        <main class="converter-page">
+      <header class="converter-header">
+        <h1>TOON Format Converter</h1>
+        <p class="subtitle">
+          Convert JSON, CSV, YAML, and XML to Token-Oriented Object Notation
+        </p>
+      </header>
+
+      <div class="converter-container">
+        <!-- Input Section -->
+        <section class="input-section">
+          <div class="section-header">
+            <h2>Input</h2>
+            <div class="format-selector">
+              <label for="input-format">Format:</label>
+              <select id="input-format">
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+                <option value="yaml">YAML</option>
+                <option value="xml">XML</option>
+                <option value="toon">TOON</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="input-controls">
+            <button id="load-sample" class="btn-secondary" type="button">
+              Load Sample Data
+            </button>
+            <button id="clear-input" class="btn-secondary" type="button">
+              Clear
+            </button>
+            <label class="file-upload-btn">
+              <input type="file" id="file-input" accept=".json,.csv,.yaml,.yml,.xml,.toon" />
+              Upload File
+            </label>
+          </div>
+
+          <textarea
+            id="input-text"
+            placeholder="Paste your data here or upload a file..."
+            spellcheck="false"
+          ></textarea>
+
+          <div class="input-stats">
+            <span id="input-size">0 characters</span>
+            <span id="input-lines">0 lines</span>
+          </div>
+        </section>
+
+        <!-- Options Section -->
+        <section class="options-section">
+          <h3>Conversion Options</h3>
+
+          <div class="option-group">
+            <label for="delimiter">Array Delimiter:</label>
+            <select id="delimiter">
+              <option value=",">Comma (,)</option>
+              <option value="\t">Tab (\t)</option>
+              <option value="|">Pipe (|)</option>
+            </select>
+          </div>
+
+          <div class="option-group">
+            <label for="indent">Indentation:</label>
+            <input
+              type="number"
+              id="indent"
+              min="1"
+              max="8"
+              value="2"
+            />
+            <span>spaces</span>
+          </div>
+
+          <div class="option-group">
+            <label for="key-folding">Key Folding:</label>
+            <select id="key-folding">
+              <option value="off">Off</option>
+              <option value="safe">Safe</option>
+            </select>
+          </div>
+
+          <div class="option-group checkbox-group">
+            <label>
+              <input type="checkbox" id="show-stats" checked />
+              Show token statistics
+            </label>
+          </div>
+
+          <div class="option-group checkbox-group">
+            <label>
+              <input type="checkbox" id="strict-mode" checked />
+              Strict validation
+            </label>
+          </div>
+
+          <button id="convert-btn" class="btn-primary" type="button">
+            Convert to TOON
+          </button>
+
+          <button id="reverse-btn" class="btn-secondary" type="button">
+            Reverse (TOON → JSON)
+          </button>
+        </section>
+
+        <!-- Output Section -->
+        <section class="output-section">
+          <div class="section-header">
+            <h2>Output (TOON)</h2>
+            <div class="output-controls">
+              <button id="copy-output" class="btn-icon" type="button" title="Copy to clipboard">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <button id="download-output" class="btn-icon" type="button" title="Download as file">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <pre id="output-text" class="output-display"></pre>
+
+          <div class="output-stats" id="output-stats" style="display: none;">
+            <div class="stats-row">
+              <span class="stats-label">TOON tokens:</span>
+              <span id="toon-tokens" class="stats-value">-</span>
+            </div>
+            <div class="stats-row">
+              <span class="stats-label">JSON tokens:</span>
+              <span id="json-tokens" class="stats-value">-</span>
+            </div>
+            <div class="stats-row">
+              <span class="stats-label">Savings:</span>
+              <span id="token-savings" class="stats-value savings">-</span>
+            </div>
+          </div>
+
+          <div id="error-message" class="error-message" style="display: none;"></div>
+        </section>
+      </div>
+
+      <!-- Info Section -->
+      <section class="info-section">
+        <h2>About TOON Format</h2>
+        <p>
+          <strong>Token-Oriented Object Notation (TOON)</strong> is a compact, human-readable
+          encoding of the JSON data model for LLM prompts. It provides a lossless serialization
+          using fewer tokens than JSON by combining YAML's indentation-based structure with
+          CSV-style tabular arrays.
+        </p>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>💸 Token Efficient</h3>
+            <p>Typically 30-60% fewer tokens on large uniform arrays vs formatted JSON</p>
+          </div>
+          <div class="info-card">
+            <h3>🤿 LLM-Friendly</h3>
+            <p>Explicit lengths and fields enable validation and reduce generation errors</p>
+          </div>
+          <div class="info-card">
+            <h3>🍱 Minimal Syntax</h3>
+            <p>Removes redundant punctuation and quotes where possible</p>
+          </div>
+          <div class="info-card">
+            <h3>🧺 Tabular Arrays</h3>
+            <p>Declare keys once, stream data as rows for uniform object arrays</p>
+          </div>
+        </div>
+        <div class="info-links">
+          <a href="https://github.com/toon-format/toon" target="_blank" rel="noopener">
+            GitHub Repository
+          </a>
+          <a href="https://github.com/toon-format/spec/blob/main/SPEC.md" target="_blank" rel="noopener">
+            Full Specification
+          </a>
+        </div>
+      </section>
+        </main>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="logo-wrapper">
+        <a href="/" class="logo">ARTIFEX</a>
+        <span class="version">v1.0</span>
+      </div>
+      <nav class="menu">
+        <a href="/about.html" class="menu-item">About</a>
+        <span class="menu-separator">//</span>
+        <a href="/converter.html" class="menu-item active">TOON Converter</a>
+        <span class="menu-separator">//</span>
+        <a href="/contact.html" class="menu-item">Contact</a>
+      </nav>
+    </header>
+
+    <footer class="footer">
+      <div class="footer-copy">ARTIFEX © 2025 // TOON CONVERTER</div>
+      <div class="footer-coords">BUILT WITH PERFORMANCE IN MIND</div>
+      <div class="mode-toggle">
+        <a href="/" class="mode-btn">
+          <span class="mode-indicator"></span>
+          <span class="mode-label">HUMAN</span>
+        </a>
+        <a href="/ai.html" class="mode-btn">
+          <span class="mode-indicator"></span>
+          <span class="mode-label">MACHINE</span>
+        </a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/js/converter/main.js"></script>
+  </body>
+</html>
