@@ -1,3 +1,15 @@
+## [1.7.1](https://github.com/peritissimus/artifex/compare/v1.7.0...v1.7.1) (2025-11-17)
+
+
+### Bug Fixes
+
+* improve accessibility with WCAG AA compliant contrast and semantic landmarks ([4e66ec0](https://github.com/peritissimus/artifex/commit/4e66ec082cfbaadd347f8d46916f346719e6ddaa)), closes [#6b6b6b](https://github.com/peritissimus/artifex/issues/6b6b6b) [#959595](https://github.com/peritissimus/artifex/issues/959595) [#8e8b8b](https://github.com/peritissimus/artifex/issues/8e8b8b) [#a8a5a5](https://github.com/peritissimus/artifex/issues/a8a5a5)
+
+
+### Performance Improvements
+
+* optimize mobile performance with lazy loading and reduced resource usage ([4b5baff](https://github.com/peritissimus/artifex/commit/4b5baffc56e526079325a0b3574f409c4c7f5dc6))
+
 # [1.7.0](https://github.com/peritissimus/artifex/compare/v1.6.0...v1.7.0) (2025-11-16)
 
 
