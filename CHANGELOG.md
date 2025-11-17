@@ -1,3 +1,11 @@
+# [1.10.0](https://github.com/peritissimus/artifex/compare/v1.9.0...v1.10.0) (2025-11-17)
+
+
+### Features
+
+* blog via markdown ([fb3aaed](https://github.com/peritissimus/artifex/commit/fb3aaed1f739151dbd3c8f2a8fc71ae302d1dcd0))
+* **blog:** enhance blog card layout with link and styling ([bfe34c9](https://github.com/peritissimus/artifex/commit/bfe34c9fd4911516ab5b237721c5161f3f9db429))
+
 # [1.9.0](https://github.com/peritissimus/artifex/compare/v1.8.0...v1.9.0) (2025-11-17)
 
 
