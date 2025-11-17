@@ -1765,7 +1765,6 @@ body[data-mode="machine"] {
 
       .title-prefix {
         color: $accent-color;
-        font-size: 1.2em;
       }
     }
 
@@ -1789,14 +1788,14 @@ body[data-mode="machine"] {
 
   .post-content {
     .post-section {
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
 
       h2 {
         font-family: $font-mono;
         font-size: 1.3rem;
         font-weight: 600;
         color: $accent-color;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         letter-spacing: 0.1em;
       }
 
@@ -1805,12 +1804,32 @@ body[data-mode="machine"] {
         font-size: 1.05rem;
         line-height: 1.8;
         color: $text-primary;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.75rem;
       }
 
       strong {
         color: $text-bright;
         font-weight: 600;
+      }
+
+      a {
+        color: $accent-color;
+        text-decoration: none;
+        border-bottom: 1px solid $accent-color;
+        transition: all 0.3s ease;
+
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+
+      code {
+        font-family: $font-mono;
+        font-size: 0.9em;
+        background: rgba($accent-color, 0.1);
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        color: $accent-color;
       }
     }
 
@@ -1824,22 +1843,23 @@ body[data-mode="machine"] {
         font-size: 1rem;
         line-height: 1.8;
         color: $text-primary;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.75rem;
         padding-left: 2rem;
         position: relative;
 
         &::before {
-          content: '→';
+          content: '▸';
           position: absolute;
           left: 0;
+          top: 0;
           color: $accent-color;
-          font-size: 1.2rem;
+          line-height: 1.8;
         }
       }
     }
 
     .post-numbered-list {
-      margin: 1.5rem 0;
+      margin: 1rem 0;
       padding-left: 2rem;
 
       li {
@@ -1847,7 +1867,7 @@ body[data-mode="machine"] {
         font-size: 1rem;
         line-height: 1.8;
         color: $text-primary;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
 
         &::marker {
           color: $accent-color;
@@ -1858,36 +1878,62 @@ body[data-mode="machine"] {
 
     .code-block {
       margin: 2rem 0;
-      border: 1px solid $border-color;
-      background: rgba($bg-secondary, 0.5);
+      border: 1px solid rgba($accent-color, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
       .code-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid $border-color;
-        background: rgba($bg-secondary, 0.3);
+        padding: 0.75rem 1.25rem;
+        border-bottom: 1px solid rgba($accent-color, 0.2);
+        background: rgba(0, 0, 0, 0.4);
 
         .code-lang,
         .code-file {
           font-family: $font-mono;
-          font-size: 0.7rem;
-          color: $text-secondary;
+          font-size: 0.75rem;
+          color: $accent-color;
           letter-spacing: 0.1em;
+          font-weight: 600;
         }
       }
 
       pre {
         margin: 0;
-        padding: 1.5rem;
+        padding: 1.5rem 1.25rem;
         overflow-x: auto;
+        background: transparent;
+
+        &::-webkit-scrollbar {
+          height: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.2);
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: rgba($accent-color, 0.3);
+          border-radius: 4px;
+
+          &:hover {
+            background: rgba($accent-color, 0.5);
+          }
+        }
 
         code {
           font-family: $font-mono;
-          font-size: 0.9rem;
-          line-height: 1.6;
-          color: $text-primary;
+          font-size: 0.95rem;
+          line-height: 1.7;
+          color: rgba($text-primary, 0.95);
+          font-weight: 400;
+          background: none;
+          padding: 0;
+          border-radius: 0;
         }
       }
     }

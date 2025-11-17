@@ -1,6 +1,16 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import { readdirSync } from 'fs';
 import glsl from 'vite-plugin-glsl';
+
+// Auto-discover blog posts
+const blogPosts = readdirSync(resolve(__dirname, 'blog'))
+  .filter(file => file.endsWith('.html'))
+  .reduce((acc, file) => {
+    const name = file.replace('.html', '');
+    acc[`blog-${name}`] = resolve(__dirname, `blog/${file}`);
+    return acc;
+  }, {});
 
 export default defineConfig({
   plugins: [
@@ -41,7 +51,7 @@ export default defineConfig({
         dubverse: resolve(__dirname, 'work/dubverse.html'),
         simplesounds: resolve(__dirname, 'work/simplesounds.html'),
         zoca: resolve(__dirname, 'work/zoca.html'),
-        'blog-scaling-llm': resolve(__dirname, 'blog/scaling-llm-applications.html'),
+        ...blogPosts, // Automatically include all blog posts
       },
       output: {
         // Optimized code splitting strategy
