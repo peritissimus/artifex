@@ -242,23 +242,23 @@ function updateBlogIndex(posts) {
       (post) => `
               <!-- Blog Post -->
               <article class="blog-card">
-                <div class="blog-card-header">
-                  <span class="blog-date">[${post.date}]</span>
-                  <span class="blog-tag">[${post.category}]</span>
-                </div>
-                <h3 class="blog-title">
-                  <a href="/blog/${post.slug}.html">
+                <a href="/blog/${post.slug}.html" class="blog-card-link">
+                  <div class="blog-card-header">
+                    <span class="blog-date">[${post.date}]</span>
+                    <span class="blog-tag">[${post.category}]</span>
+                  </div>
+                  <h3 class="blog-title">
                     > ${post.title}
-                  </a>
-                </h3>
-                <p class="blog-excerpt">
-                  ${post.excerpt}
-                </p>
-                <div class="blog-meta">
-                  <span class="read-time">${post.readTime}</span>
-                  <span class="meta-separator">|</span>
-                  <span class="blog-topics">${Array.isArray(post.tags) ? post.tags.join(', ') : post.tags}</span>
-                </div>
+                  </h3>
+                  <p class="blog-excerpt">
+                    ${post.excerpt}
+                  </p>
+                  <div class="blog-meta">
+                    <span class="read-time">${post.readTime}</span>
+                    <span class="meta-separator">|</span>
+                    <span class="blog-topics">${Array.isArray(post.tags) ? post.tags.join(', ') : post.tags}</span>
+                  </div>
+                </a>
               </article>
 `,
     )

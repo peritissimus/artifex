@@ -1607,8 +1607,14 @@ body[data-mode="machine"] {
   position: relative;
   border: 1px solid $border-color;
   background: rgba($bg-secondary, 0.3);
-  padding: 2rem;
   transition: all 0.3s ease;
+
+  a.blog-card-link {
+    display: block;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+  }
 
   &::before {
     content: '';
@@ -1624,12 +1630,13 @@ body[data-mode="machine"] {
   &:hover {
     border-color: $text-secondary;
     background: rgba($bg-secondary, 0.5);
+    cursor: pointer;
 
     &::before {
       height: 100%;
     }
 
-    .blog-title a {
+    .blog-title {
       color: $accent-color;
     }
   }
@@ -1664,12 +1671,8 @@ body[data-mode="machine"] {
     font-weight: 600;
     margin-bottom: 1rem;
     line-height: 1.4;
-
-    a {
-      color: $text-bright;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
+    color: $text-bright;
+    transition: color 0.3s ease;
   }
 
   .blog-excerpt {
