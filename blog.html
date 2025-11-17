@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta Tags -->
+    <title>Blog - Artifex | Peritissimus</title>
+    <meta name="description" content="Technical writings and thoughts on AI, system architecture, and software engineering by Kushal Patankar." />
+    <meta name="author" content="Peritissimus" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://peritissimus.com/blog.html" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://peritissimus.com/blog.html" />
+    <meta property="og:title" content="Blog - Kushal Patankar" />
+    <meta property="og:description" content="Technical writings on AI, system architecture, and software engineering." />
+    <meta property="og:site_name" content="Peritissimus" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://peritissimus.com/blog.html" />
+    <meta name="twitter:title" content="Blog - Kushal Patankar" />
+    <meta name="twitter:description" content="Technical writings on AI, system architecture, and software engineering." />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f0f0f" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Semi+Condensed:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/main.scss" />
+  </head>
+  <body>
+    <div class="blueprint-grid"></div>
+    <canvas id="world" class="world"></canvas>
+
+    <div id="scroll-wrapper" class="scroll-wrapper">
+      <div class="info-wrapper">
+        <section id="blog" class="content-section">
+          <div class="section-inner">
+            <div class="blog-header">
+              <div class="blog-header-top">
+                <span class="blog-label">[SYS//BLOG]</span>
+                <span class="blog-count">
+                  <span class="count-indicator"></span>
+                  3 ENTRIES
+                </span>
+              </div>
+              <h2 class="section-title">Technical Log</h2>
+              <p class="blog-description">
+                Thoughts on AI, system architecture, and building scalable products.
+              </p>
+            </div>
+
+            <div class="blog-grid">
+              <!-- Blog Post 1 -->
+              <article class="blog-card">
+                <div class="blog-card-header">
+                  <span class="blog-date">[2025-01-15]</span>
+                  <span class="blog-tag">[AI/LLM]</span>
+                </div>
+                <h3 class="blog-title">
+                  <a href="/blog/scaling-llm-applications.html">
+                    > Scaling LLM Applications in Production
+                  </a>
+                </h3>
+                <p class="blog-excerpt">
+                  Lessons learned from building and scaling AI-powered platforms at Brihaspati and Zoca.
+                  Dynamic prompt engineering, context management, and optimization strategies.
+                </p>
+                <div class="blog-meta">
+                  <span class="read-time">5 min read</span>
+                  <span class="meta-separator">|</span>
+                  <span class="blog-topics">LLM, Architecture, Scaling</span>
+                </div>
+              </article>
+
+              <!-- Blog Post 2 -->
+              <article class="blog-card">
+                <div class="blog-card-header">
+                  <span class="blog-date">[2024-12-20]</span>
+                  <span class="blog-tag">[INFRASTRUCTURE]</span>
+                </div>
+                <h3 class="blog-title">
+                  <a href="/blog/terraform-deployment-optimization.html">
+                    > Infrastructure as Code: From 1.5min to 1-4sec Deployments
+                  </a>
+                </h3>
+                <p class="blog-excerpt">
+                  How we achieved 99% reduction in deployment time by migrating to Terraform and optimizing
+                  our build pipelines at Zoca. A deep dive into the architecture decisions.
+                </p>
+                <div class="blog-meta">
+                  <span class="read-time">8 min read</span>
+                  <span class="meta-separator">|</span>
+                  <span class="blog-topics">Terraform, DevOps, AWS</span>
+                </div>
+              </article>
+
+              <!-- Blog Post 3 -->
+              <article class="blog-card">
+                <div class="blog-card-header">
+                  <span class="blog-date">[2024-11-10]</span>
+                  <span class="blog-tag">[SYSTEM DESIGN]</span>
+                </div>
+                <h3 class="blog-title">
+                  <a href="/blog/microservices-at-scale.html">
+                    > Building Microservices that Actually Scale
+                  </a>
+                </h3>
+                <p class="blog-excerpt">
+                  From monolith to microservices: architecting Dubverse's platform to process 600K+ hours
+                  of content. Message queues, distributed systems, and lessons learned.
+                </p>
+                <div class="blog-meta">
+                  <span class="read-time">10 min read</span>
+                  <span class="meta-separator">|</span>
+                  <span class="blog-topics">Microservices, Celery, Redis</span>
+                </div>
+              </article>
+            </div>
+
+            <div class="blog-footer">
+              <span class="footer-info">SYSTEM_STATUS: More articles coming soon...</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="logo-wrapper">
+        <a href="/" class="logo">peritissimus</a>
+      </div>
+      <nav class="menu">
+        <a href="/blog.html" class="menu-item active">Blog</a>
+        <span class="menu-separator">//</span>
+        <a href="/about.html" class="menu-item">About</a>
+        <span class="menu-separator">//</span>
+        <a href="/contact.html" class="menu-item">Contact</a>
+      </nav>
+    </header>
+
+    <footer class="footer">
+      <div class="footer-copy">PERITISSIMUS © 2025</div>
+      <div class="footer-coords">LAT: 0.000° / LONG: 0.000°</div>
+      <div class="mode-toggle">
+        <a href="/" class="mode-btn">
+          <span class="mode-indicator"></span>
+          <span class="mode-label">HUMAN</span>
+        </a>
+        <a href="/ai.html" class="mode-btn">
+          <span class="mode-indicator"></span>
+          <span class="mode-label">MACHINE</span>
+        </a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>

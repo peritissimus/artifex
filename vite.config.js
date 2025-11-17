@@ -36,10 +36,12 @@ export default defineConfig({
         about: resolve(__dirname, 'about.html'),
         contact: resolve(__dirname, 'contact.html'),
         ai: resolve(__dirname, 'ai.html'),
+        blog: resolve(__dirname, 'blog.html'),
         brihaspati: resolve(__dirname, 'work/brihaspati.html'),
         dubverse: resolve(__dirname, 'work/dubverse.html'),
         simplesounds: resolve(__dirname, 'work/simplesounds.html'),
         zoca: resolve(__dirname, 'work/zoca.html'),
+        'blog-scaling-llm': resolve(__dirname, 'blog/scaling-llm-applications.html'),
       },
       output: {
         // Optimized code splitting strategy
