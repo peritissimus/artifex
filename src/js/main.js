@@ -1,9 +1,9 @@
-import { ParticleGrid } from './webgl/ParticleGrid.js';
-
 // Initialize app
-window.addEventListener('DOMContentLoaded', () => {
-  // Initialize WebGL background (only on HUMAN mode, not on ai.html)
+window.addEventListener('DOMContentLoaded', async () => {
+  // Lazy load WebGL only when needed (HUMAN mode)
   if (document.body.dataset.mode === 'human') {
+    // Dynamic import to avoid loading Three.js on pages that don't need it
+    const { ParticleGrid } = await import('./webgl/ParticleGrid.js');
     new ParticleGrid();
   }
 

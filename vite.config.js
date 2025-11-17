@@ -26,6 +26,7 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: false, // Disable sourcemaps for production
     minify: 'esbuild',
+    target: 'es2015', // Better browser compatibility
     esbuild: {
       drop: ['console', 'debugger'], // Remove console logs and debugger in production
     },
@@ -41,12 +42,30 @@ export default defineConfig({
         zoca: resolve(__dirname, 'work/zoca.html'),
       },
       output: {
-        manualChunks: {
-          'three': ['three'] // Separate three.js into its own chunk
-        }
+        // Optimized code splitting strategy
+        manualChunks(id) {
+          // Three.js in separate chunk (lazy loaded)
+          if (id.includes('node_modules/three')) {
+            return 'three';
+          }
+          // WebGL-related code in separate chunk
+          if (id.includes('webgl/ParticleGrid')) {
+            return 'webgl';
+          }
+          // Other vendor dependencies
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+        // Optimize chunk file names for caching
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
     // Enable chunk size warnings
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 500, // Stricter limit for better monitoring
+    // CSS code splitting
+    cssCodeSplit: true
   }
 });

@@ -10,10 +10,14 @@ export class ParticleGrid {
       0.1,
       1000
     );
+
+    // Optimize WebGL renderer for mobile
+    const isMobile = window.innerWidth < 768;
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       alpha: true,
-      antialias: true,
+      antialias: !isMobile, // Disable expensive antialiasing on mobile
+      powerPreference: 'high-performance',
     });
 
     this.mouse = new THREE.Vector2();
@@ -28,7 +32,12 @@ export class ParticleGrid {
 
   init() {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Limit pixel ratio on mobile for better performance
+    const isMobile = window.innerWidth < 768;
+    const maxPixelRatio = isMobile ? 1 : 2;
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio));
+
     this.camera.position.z = 50;
 
     // Fade in canvas once loaded
@@ -40,9 +49,9 @@ export class ParticleGrid {
   createParticles() {
     const geometry = new THREE.BufferGeometry();
 
-    // Reduce particle count on mobile for better performance
+    // Significantly reduce particle count on mobile for better performance
     const isMobile = window.innerWidth < 768;
-    const particleCount = isMobile ? 800 : 2000;
+    const particleCount = isMobile ? 400 : 2000;
 
     const positions = new Float32Array(particleCount * 3);
     const scales = new Float32Array(particleCount);
