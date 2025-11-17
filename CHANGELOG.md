@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/peritissimus/artifex/compare/v1.7.2...v1.8.0) (2025-11-17)
+
+
+### Features
+
+* **index.html, package.json:** enhance performance with critical CSS and Lighthouse integration ([9ca9779](https://github.com/peritissimus/artifex/commit/9ca97794ab1ea4c2f27449ba0c4edb15522e6268))
+
 ## [1.7.2](https://github.com/peritissimus/artifex/compare/v1.7.1...v1.7.2) (2025-11-17)
 
 ## [1.7.1](https://github.com/peritissimus/artifex/compare/v1.7.0...v1.7.1) (2025-11-17)
