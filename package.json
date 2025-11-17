@@ -7,7 +7,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lighthouse": "pnpm build && pnpm preview --port 4173 & sleep 3 && lighthouse http://localhost:4173 --view --output=html --output-path=./lighthouse-report.html --preset=desktop && kill $!",
+    "lighthouse:mobile": "pnpm build && pnpm preview --port 4173 & sleep 3 && lighthouse http://localhost:4173 --view --output=html --output-path=./lighthouse-mobile-report.html --preset=perf --throttling.cpuSlowdownMultiplier=4 --screenEmulation.mobile=true && kill $!"
   },
   "dependencies": {
     "gl-matrix": "^3.4.4",
@@ -15,6 +17,7 @@
     "three": "^0.180.0"
   },
   "devDependencies": {
+    "lighthouse": "^13.0.1",
     "prettier": "^3.6.2",
     "sass": "^1.93.2",
     "vite": "^6.3.5",

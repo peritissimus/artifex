@@ -65,7 +65,9 @@ export default defineConfig({
     },
     // Enable chunk size warnings
     chunkSizeWarningLimit: 500, // Stricter limit for better monitoring
-    // CSS code splitting
-    cssCodeSplit: true
+    // CSS code splitting - split per page for faster loading
+    cssCodeSplit: true,
+    // Inline small CSS chunks to reduce requests
+    assetsInlineLimit: 4096 // Inline assets < 4kb
   }
 });
