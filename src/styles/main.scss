@@ -4,8 +4,8 @@ $bg-secondary: #1a1a1a;
 $border-color: #3a3a3a;
 $text-bright: #ffffff;
 $text-primary: #cfcecd;
-$text-secondary: #6b6b6b;
-$accent-color: #8e8b8b;
+$text-secondary: #959595; // Updated from #6b6b6b for WCAG AA compliance (4.5:1 contrast ratio)
+$accent-color: #a8a5a5; // Updated from #8e8b8b for better contrast (5:1 contrast ratio)
 
 // Fonts
 $font-mono: 'Barlow Semi Condensed', sans-serif;
