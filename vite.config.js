@@ -1,16 +1,36 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import { readdirSync } from 'fs';
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
 import glsl from 'vite-plugin-glsl';
 
-// Auto-discover blog posts
-const blogPosts = readdirSync(resolve(__dirname, 'blog'))
-  .filter((file) => file.endsWith('.html'))
-  .reduce((acc, file) => {
-    const name = file.replace('.html', '');
-    acc[`blog-${name}`] = resolve(__dirname, `blog/${file}`);
-    return acc;
-  }, {});
+// Recursively discover all HTML files
+function discoverHtmlFiles(dir, baseDir = __dirname, prefix = '') {
+  const entries = readdirSync(dir, { withFileTypes: true });
+  const htmlFiles = {};
+
+  for (const entry of entries) {
+    const fullPath = join(dir, entry.name);
+    const relativePath = fullPath.replace(baseDir + '/', '');
+
+    if (entry.isDirectory()) {
+      // Skip node_modules, dist, and hidden directories
+      if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name.startsWith('.')) {
+        continue;
+      }
+      // Recursively process subdirectories
+      Object.assign(htmlFiles, discoverHtmlFiles(fullPath, baseDir, prefix));
+    } else if (entry.isFile() && entry.name.endsWith('.html')) {
+      // Create a unique key for this HTML file
+      const key = relativePath.replace(/\.html$/, '').replace(/\//g, '-');
+      htmlFiles[key] = resolve(baseDir, relativePath);
+    }
+  }
+
+  return htmlFiles;
+}
+
+const allHtmlFiles = discoverHtmlFiles(__dirname);
 
 export default defineConfig({
   plugins: [
@@ -35,18 +55,7 @@ export default defineConfig({
       drop: ['console', 'debugger'], // Remove console logs and debugger in production
     },
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        about: resolve(__dirname, 'about.html'),
-        contact: resolve(__dirname, 'contact.html'),
-        ai: resolve(__dirname, 'ai.html'),
-        blog: resolve(__dirname, 'blog.html'),
-        brihaspati: resolve(__dirname, 'work/brihaspati.html'),
-        dubverse: resolve(__dirname, 'work/dubverse.html'),
-        simplesounds: resolve(__dirname, 'work/simplesounds.html'),
-        zoca: resolve(__dirname, 'work/zoca.html'),
-        ...blogPosts, // Automatically include all blog posts
-      },
+      input: allHtmlFiles,
       output: {
         // Optimized code splitting strategy
         manualChunks(id) {
