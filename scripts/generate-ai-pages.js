@@ -8,6 +8,8 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { Readability } from '@mozilla/readability';
+import { parseHTML } from 'linkedom';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,41 +40,72 @@ function ensureAiDirectories() {
 }
 
 /**
- * Extract text content from HTML elements
+ * Extract text content from HTML using Mozilla Readability
  */
 function extractTextContent(html) {
-  // Remove script and style tags
-  let text = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-  text = text.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
-
-  // Remove HTML comments
-  text = text.replace(/<!--[\s\S]*?-->/g, '');
+  // Parse HTML with linkedom
+  const { document } = parseHTML(html);
 
   // Extract title
-  const titleMatch = text.match(/<title>(.*?)<\/title>/);
+  const titleMatch = html.match(/<title>(.*?)<\/title>/);
   const title = titleMatch ? titleMatch[1].replace(' - Artifex | Peritissimus', '') : '';
 
-  // Remove HTML tags but preserve structure with newlines
-  text = text.replace(/<br\s*\/?>/gi, '\n');
-  text = text.replace(/<\/p>/gi, '\n\n');
-  text = text.replace(/<\/div>/gi, '\n');
-  text = text.replace(/<\/h[1-6]>/gi, '\n\n');
-  text = text.replace(/<\/li>/gi, '\n');
-  text = text.replace(/<[^>]+>/g, '');
+  // Use Readability to extract main content
+  const reader = new Readability(document);
+  const article = reader.parse();
+
+  if (!article) {
+    // Fallback: extract main or content section
+    const main = document.querySelector('main, .content-section, .info-wrapper');
+    return {
+      title,
+      content: main ? main.textContent.trim() : document.body.textContent.trim(),
+    };
+  }
+
+  // Convert HTML content to better formatted text
+  let content = article.content;
+
+  // Add proper spacing for headings
+  content = content.replace(/<h1[^>]*>/gi, '\n\n# ');
+  content = content.replace(/<\/h1>/gi, '\n');
+  content = content.replace(/<h2[^>]*>/gi, '\n\n## ');
+  content = content.replace(/<\/h2>/gi, '\n');
+  content = content.replace(/<h3[^>]*>/gi, '\n\n### ');
+  content = content.replace(/<\/h3>/gi, '\n');
+  content = content.replace(/<h4[^>]*>/gi, '\n\n#### ');
+  content = content.replace(/<\/h4>/gi, '\n');
+
+  // Add spacing for paragraphs
+  content = content.replace(/<\/p>/gi, '\n\n');
+  content = content.replace(/<br\s*\/?>/gi, '\n');
+
+  // List items
+  content = content.replace(/<li[^>]*>/gi, '  • ');
+  content = content.replace(/<\/li>/gi, '\n');
+
+  // Sections
+  content = content.replace(/<\/section>/gi, '\n\n');
+  content = content.replace(/<\/div>/gi, '\n');
+
+  // Remove remaining HTML tags
+  content = content.replace(/<[^>]+>/g, '');
 
   // Decode HTML entities
-  text = text.replace(/&nbsp;/g, ' ');
-  text = text.replace(/&amp;/g, '&');
-  text = text.replace(/&lt;/g, '<');
-  text = text.replace(/&gt;/g, '>');
-  text = text.replace(/&quot;/g, '"');
-  text = text.replace(/&#039;/g, "'");
+  content = content.replace(/&nbsp;/g, ' ');
+  content = content.replace(/&amp;/g, '&');
+  content = content.replace(/&lt;/g, '<');
+  content = content.replace(/&gt;/g, '>');
+  content = content.replace(/&quot;/g, '"');
+  content = content.replace(/&#039;/g, "'");
+  content = content.replace(/&#x27;/g, "'");
 
   // Clean up whitespace
-  text = text.replace(/\n\s*\n\s*\n/g, '\n\n'); // Remove multiple blank lines
-  text = text.replace(/^\s+|\s+$/gm, ''); // Trim lines
+  content = content.replace(/\n\s*\n\s*\n+/g, '\n\n');
+  content = content.replace(/^\s+|\s+$/gm, '');
+  content = content.replace(/[ \t]+/g, ' ');
 
-  return { title, content: text.trim() };
+  return { title, content: content.trim() };
 }
 
 /**

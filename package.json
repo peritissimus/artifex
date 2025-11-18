@@ -22,7 +22,9 @@
     "three": "^0.180.0"
   },
   "devDependencies": {
+    "@mozilla/readability": "^0.6.0",
     "lighthouse": "^13.0.1",
+    "linkedom": "^0.18.12",
     "prettier": "^3.6.2",
     "sass": "^1.93.2",
     "vite": "^6.3.5",
