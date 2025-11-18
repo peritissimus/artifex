@@ -13,7 +13,8 @@
     "blog:new": "node scripts/generate-blog.js",
     "blog:build": "node scripts/generate-blog.js --all",
     "ai:generate": "node scripts/generate-ai-pages.js",
-    "sitemap:generate": "node scripts/generate-sitemap.js"
+    "sitemap:generate": "node scripts/generate-sitemap.js",
+    "og:generate": "node scripts/generate-og-images.js"
   },
   "dependencies": {
     "gl-matrix": "^3.4.4",
@@ -22,11 +23,16 @@
     "three": "^0.180.0"
   },
   "devDependencies": {
+    "@fontsource/barlow": "^5.2.8",
+    "@fontsource/barlow-semi-condensed": "^5.2.7",
     "@mozilla/readability": "^0.6.0",
+    "@resvg/resvg-js": "^2.6.2",
     "lighthouse": "^13.0.1",
     "linkedom": "^0.18.12",
     "prettier": "^3.6.2",
     "sass": "^1.93.2",
+    "satori": "^0.18.3",
+    "sharp": "^0.34.5",
     "vite": "^6.3.5",
     "vite-plugin-glsl": "^1.5.3"
   }
