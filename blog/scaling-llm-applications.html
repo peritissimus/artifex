@@ -6,10 +6,7 @@
 
     <!-- SEO Meta Tags -->
     <title>Scaling LLM Applications in Production - Blog | Peritissimus</title>
-    <meta
-      name="description"
-      content="Lessons learned from building and scaling AI-powered platforms at Brihaspati and Zoca. Dynamic prompt engineering, context management, and optimization strategies."
-    />
+    <meta name="description" content="Lessons learned from building and scaling AI-powered platforms at Brihaspati and Zoca. Dynamic prompt engineering, context management, and optimization strategies." />
     <meta name="author" content="Kushal Patankar" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://peritissimus.com/blog/scaling-llm-applications.html" />
@@ -63,49 +60,28 @@
 
             <div class="post-content">
               <div class="post-section">
-                <h2>[INTRODUCTION]</h2>
-                <p>
-                  Building LLM-powered applications is one thing. Scaling them to handle thousands
-                  of users with context-aware responses is an entirely different challenge. At
-                  Brihaspati and Zoca, we&#39;ve learned valuable lessons about what works and what
-                  doesn&#39;t.
-                </p>
-              </div>
+  <h2>[INTRODUCTION]</h2>
+<p>Building LLM-powered applications is one thing. Scaling them to handle thousands of users with context-aware responses is an entirely different challenge. At Brihaspati and Zoca, we&#39;ve learned valuable lessons about what works and what doesn&#39;t.</p>
+</div>
 
-              <div class="post-section">
-                <h2>[THE CONTEXT PROBLEM]</h2>
-                <p>
-                  One of the biggest challenges with LLM applications is managing context
-                  effectively. Unlike traditional stateless APIs, LLM interactions often require
-                  maintaining conversation history, user preferences, and domain-specific knowledge.
-                </p>
-                <ul class="post-list">
-                  <li>
-                    <em>Context Window Limits</em> — Most LLMs have token limits (4K, 8K, 32K).
-                    Smart context pruning and summarization is essential.
-                  </li>
-                  <li>
-                    <em>Memory Retrieval</em> — Implemented vector databases (Pinecone/Weaviate) for
-                    semantic search of historical conversations.
-                  </li>
-                  <li>
-                    <em>Dynamic Prompts</em> — Template-based prompts that adapt based on user
-                    behavior and conversation flow.
-                  </li>
-                </ul>
-              </div>
+<div class="post-section">
+  <h2>[THE CONTEXT PROBLEM]</h2>
+<p>One of the biggest challenges with LLM applications is managing context effectively. Unlike traditional stateless APIs, LLM interactions often require maintaining conversation history, user preferences, and domain-specific knowledge.</p>
+<ul class="post-list">
+  <li><em>Context Window Limits</em> — Most LLMs have token limits (4K, 8K, 32K). Smart context pruning and summarization is essential.</li>
+  <li><em>Memory Retrieval</em> — Implemented vector databases (Pinecone/Weaviate) for semantic search of historical conversations.</li>
+  <li><em>Dynamic Prompts</em> — Template-based prompts that adapt based on user behavior and conversation flow.</li>
+</ul>
+</div>
 
-              <div class="post-section">
-                <h2>[OPTIMIZATION STRATEGIES]</h2>
-                <p>
-                  At Brihaspati, we improved D7 retention by 20% through these optimization
-                  techniques:
-                </p>
-                <div class="code-block">
-                  <div class="code-header">
-                    <span class="code-lang">[PYTHON]</span>
-                  </div>
-                  <pre><code>class DynamicPromptEngine:
+<div class="post-section">
+  <h2>[OPTIMIZATION STRATEGIES]</h2>
+<p>At Brihaspati, we improved D7 retention by 20% through these optimization techniques:</p>
+<div class="code-block">
+  <div class="code-header">
+    <span class="code-lang">[PYTHON]</span>
+  </div>
+  <pre><code>class DynamicPromptEngine:
     def __init__(self, context_store):
         self.context_store = context_store
 
@@ -129,56 +105,37 @@
         """
 
         return prompt</code></pre>
-                </div>
-              </div>
+</div>
+</div>
 
-              <div class="post-section">
-                <h2>[SCALING INFRASTRUCTURE]</h2>
-                <p>Key infrastructure decisions that allowed us to scale:</p>
-                <ul class="post-list">
-                  <li>
-                    <strong>Async Processing</strong> — Using Celery + Redis for background LLM
-                    calls, preventing API timeouts
-                  </li>
-                  <li>
-                    <strong>Caching Layer</strong> — Redis caching for common queries reduced API
-                    costs by 40%
-                  </li>
-                  <li>
-                    <strong>Rate Limiting</strong> — Token bucket algorithm to manage API rate
-                    limits across multiple users
-                  </li>
-                  <li>
-                    <strong>Monitoring</strong> — Custom metrics for token usage, latency, and
-                    quality scores
-                  </li>
-                </ul>
-              </div>
+<div class="post-section">
+  <h2>[SCALING INFRASTRUCTURE]</h2>
+<p>Key infrastructure decisions that allowed us to scale:</p>
+<ul class="post-list">
+  <li><strong>Async Processing</strong> — Using Celery + Redis for background LLM calls, preventing API timeouts</li>
+  <li><strong>Caching Layer</strong> — Redis caching for common queries reduced API costs by 40%</li>
+  <li><strong>Rate Limiting</strong> — Token bucket algorithm to manage API rate limits across multiple users</li>
+  <li><strong>Monitoring</strong> — Custom metrics for token usage, latency, and quality scores</li>
+</ul>
+</div>
 
-              <div class="post-section">
-                <h2>[LESSONS LEARNED]</h2>
-                <p>After processing 100K+ daily requests, here&#39;s what we learned:</p>
-                <ol class="post-numbered-list">
-                  <li>Start with smaller models and scale up only when necessary</li>
-                  <li>Implement robust fallback mechanisms for API failures</li>
-                  <li>Monitor token usage obsessively - costs can spiral quickly</li>
-                  <li>User feedback loops are essential for prompt improvement</li>
-                  <li>Context-aware responses &gt; Generic responses (20% better retention)</li>
-                </ol>
-              </div>
+<div class="post-section">
+  <h2>[LESSONS LEARNED]</h2>
+<p>After processing 100K+ daily requests, here&#39;s what we learned:</p>
+<ol class="post-numbered-list">
+  <li>Start with smaller models and scale up only when necessary</li>
+  <li>Implement robust fallback mechanisms for API failures</li>
+  <li>Monitor token usage obsessively - costs can spiral quickly</li>
+  <li>User feedback loops are essential for prompt improvement</li>
+  <li>Context-aware responses &gt; Generic responses (20% better retention)</li>
+</ol>
+</div>
 
-              <div class="post-section">
-                <h2>[CONCLUSION]</h2>
-                <p>
-                  Scaling LLM applications requires a different mindset from traditional backend
-                  development. Focus on context management, optimize for costs, and always measure
-                  quality metrics alongside performance metrics.
-                </p>
-                <p>
-                  The field is evolving rapidly. What works today might be outdated in six months.
-                  Stay curious, experiment, and share learnings with the community.
-                </p>
-              </div>
+<div class="post-section">
+  <h2>[CONCLUSION]</h2>
+<p>Scaling LLM applications requires a different mindset from traditional backend development. Focus on context management, optimize for costs, and always measure quality metrics alongside performance metrics.</p>
+<p>The field is evolving rapidly. What works today might be outdated in six months. Stay curious, experiment, and share learnings with the community.</p>
+</div>
 
               <div class="post-footer-nav">
                 <a href="/blog.html" class="nav-link">← All Posts</a>
