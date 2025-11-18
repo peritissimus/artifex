@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/peritissimus/artifex/compare/v1.13.0...v1.13.1) (2025-11-18)
+
+
+### Bug Fixes
+
+* improve AI page structure with semantic HTML ([c3382ab](https://github.com/peritissimus/artifex/commit/c3382aba1caa9846b8cf54bf8b026f13c31b790b))
+
 # [1.13.0](https://github.com/peritissimus/artifex/compare/v1.12.0...v1.13.0) (2025-11-18)
 
 
