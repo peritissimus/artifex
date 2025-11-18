@@ -15,7 +15,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ROOT_DIR = path.join(__dirname, '..');
-const AI_DIR = path.join(ROOT_DIR, 'ai');
+const SRC_PAGES_DIR = path.join(ROOT_DIR, 'src/pages');
+const DIST_DIR = path.join(ROOT_DIR, 'dist');
+const AI_DIR = path.join(DIST_DIR, 'ai');
 
 // Pages to generate AI versions for
 const PAGES = ['index.html', 'blog.html', 'about.html', 'contact.html'];
@@ -203,7 +205,7 @@ function generateAiPage(pagePath, outputPath, relativePath = null) {
  * Generate AI versions of blog posts
  */
 function generateAiBlogPosts() {
-  const blogDir = path.join(ROOT_DIR, 'blog');
+  const blogDir = path.join(SRC_PAGES_DIR, 'blog');
   const aiBlogDir = path.join(AI_DIR, 'blog');
 
   if (!fs.existsSync(blogDir)) {
@@ -224,7 +226,7 @@ function generateAiBlogPosts() {
  * Generate AI versions of work pages
  */
 function generateAiWorkPages() {
-  const workDir = path.join(ROOT_DIR, 'work');
+  const workDir = path.join(SRC_PAGES_DIR, 'work');
   const aiWorkDir = path.join(AI_DIR, 'work');
 
   if (!fs.existsSync(workDir)) {
@@ -252,7 +254,7 @@ function main() {
 
   // Generate main pages
   PAGES.forEach((page) => {
-    const sourcePath = path.join(ROOT_DIR, page);
+    const sourcePath = path.join(SRC_PAGES_DIR, page);
     const destPath = path.join(AI_DIR, page);
 
     if (fs.existsSync(sourcePath)) {

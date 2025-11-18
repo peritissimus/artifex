@@ -13,6 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ROOT_DIR = path.join(__dirname, '..');
+const SRC_PAGES_DIR = path.join(ROOT_DIR, 'src/pages');
 const BASE_URL = 'https://peritissimus.com';
 
 // Get current date in ISO format
@@ -74,7 +75,7 @@ function getChangeFreq(url) {
 function generateSitemap() {
   console.log('🗺️  Generating sitemap...\n');
 
-  const htmlFiles = getHtmlFiles(ROOT_DIR);
+  const htmlFiles = getHtmlFiles(SRC_PAGES_DIR);
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
@@ -119,11 +120,11 @@ function generateSitemap() {
   xml += '</urlset>';
 
   // Write sitemap
-  const sitemapPath = path.join(ROOT_DIR, 'public', 'sitemap.xml');
+  const sitemapPath = path.join(ROOT_DIR, 'dist', 'sitemap.xml');
   fs.writeFileSync(sitemapPath, xml, 'utf-8');
 
   console.log(`✓ Generated sitemap with ${urls.length} URLs`);
-  console.log(`✓ Saved to: public/sitemap.xml\n`);
+  console.log(`✓ Saved to: dist/sitemap.xml\n`);
 
   // Display first few entries
   console.log('Top URLs:');

@@ -5,7 +5,7 @@ import { join } from 'path';
 import glsl from 'vite-plugin-glsl';
 
 // Recursively discover all HTML files
-function discoverHtmlFiles(dir, baseDir = __dirname, prefix = '') {
+function discoverHtmlFiles(dir, baseDir = dir, prefix = '') {
   const entries = readdirSync(dir, { withFileTypes: true });
   const htmlFiles = {};
 
@@ -30,9 +30,12 @@ function discoverHtmlFiles(dir, baseDir = __dirname, prefix = '') {
   return htmlFiles;
 }
 
-const allHtmlFiles = discoverHtmlFiles(__dirname);
+const pagesDir = resolve(__dirname, 'src/pages');
+const allHtmlFiles = discoverHtmlFiles(pagesDir);
 
 export default defineConfig({
+  root: 'src/pages',
+  publicDir: resolve(__dirname, 'public'),
   plugins: [
     glsl({
       include: ['**/*.glsl', '**/*.vert', '**/*.frag', '**/*.vs', '**/*.fs'],
@@ -46,7 +49,8 @@ export default defineConfig({
     open: true,
   },
   build: {
-    outDir: 'dist',
+    outDir: resolve(__dirname, 'dist'),
+    emptyOutDir: true,
     assetsDir: 'assets',
     sourcemap: true, // Enable sourcemaps for debugging
     minify: 'esbuild',
