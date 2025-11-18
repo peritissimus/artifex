@@ -1,3 +1,15 @@
+# [1.13.0](https://github.com/peritissimus/artifex/compare/v1.12.0...v1.13.0) (2025-11-18)
+
+
+### Bug Fixes
+
+* ensure blog output directory exists before writing ([ba5fa4c](https://github.com/peritissimus/artifex/commit/ba5fa4cc1d0532009141310ef4626b51abea9006))
+
+
+### Features
+
+* add OG image generation system ([770e5b5](https://github.com/peritissimus/artifex/commit/770e5b50a5a705a8b446f5f2c3441112ce503220))
+
 # [1.12.0](https://github.com/peritissimus/artifex/compare/v1.11.1...v1.12.0) (2025-11-18)
 
 ### Features
