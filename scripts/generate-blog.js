@@ -299,6 +299,9 @@ function main() {
   if (!fs.existsSync(POSTS_DIR)) {
     fs.mkdirSync(POSTS_DIR, { recursive: true });
   }
+  if (!fs.existsSync(BLOG_OUTPUT_DIR)) {
+    fs.mkdirSync(BLOG_OUTPUT_DIR, { recursive: true });
+  }
 
   if (args[0] === '--all') {
     // Process all markdown files (exclude README.md)
