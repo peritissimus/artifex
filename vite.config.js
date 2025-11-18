@@ -34,7 +34,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: false, // Disable sourcemaps for production
+    sourcemap: true, // Enable sourcemaps for debugging
     minify: 'esbuild',
     target: 'es2015', // Better browser compatibility
     esbuild: {

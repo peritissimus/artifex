@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-blog.js --all && node scripts/generate-ai-pages.js && vite build",
+    "build": "node scripts/generate-blog.js --all && node scripts/generate-ai-pages.js && node scripts/generate-sitemap.js && vite build",
     "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -12,7 +12,8 @@
     "lighthouse:mobile": "pnpm build && pnpm preview --port 4173 & sleep 3 && lighthouse http://localhost:4173 --view --output=html --output-path=./lighthouse-mobile-report.html --preset=perf --throttling.cpuSlowdownMultiplier=4 --screenEmulation.mobile=true && kill $!",
     "blog:new": "node scripts/generate-blog.js",
     "blog:build": "node scripts/generate-blog.js --all",
-    "ai:generate": "node scripts/generate-ai-pages.js"
+    "ai:generate": "node scripts/generate-ai-pages.js",
+    "sitemap:generate": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
     "gl-matrix": "^3.4.4",
