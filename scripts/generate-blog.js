@@ -14,9 +14,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Paths
-const POSTS_DIR = path.join(__dirname, '../blog/posts');
-const BLOG_OUTPUT_DIR = path.join(__dirname, '../blog');
-const BLOG_INDEX_PATH = path.join(__dirname, '../blog.html');
+const POSTS_DIR = path.join(__dirname, '../data/blog/posts');
+const BLOG_OUTPUT_DIR = path.join(__dirname, '../src/pages/blog');
+const BLOG_INDEX_PATH = path.join(__dirname, '../src/pages/blog.html');
 
 /**
  * Parse markdown frontmatter and content
@@ -152,7 +152,7 @@ function generateBlogPost(markdown, filename) {
       href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Semi+Condensed:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/src/styles/main.scss" />
+    <link rel="stylesheet" href="../../styles/main.scss" />
   </head>
   <body>
     <div class="blueprint-grid"></div>
@@ -225,7 +225,7 @@ function generateBlogPost(markdown, filename) {
       </div>
     </footer>
 
-    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="../../js/main.js"></script>
   </body>
 </html>
 `;

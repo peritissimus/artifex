@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Generated content (created by build scripts)
+/ai/
+/blog/*.html
+/src/pages/blog/*.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
