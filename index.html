@@ -47,13 +47,74 @@
 
     <!-- Critical inline CSS for instant render (system fonts fallback) -->
     <style>
-      *{margin:0;padding:0;box-sizing:border-box}
-      body{background:#0f0f0f;color:#cfcecd;font-family:system-ui,-apple-system,sans-serif;font-weight:400;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
-      .blueprint-grid{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.3;background-image:linear-gradient(90deg,#3a3a3a 1px,transparent 1px),linear-gradient(0deg,#3a3a3a 1px,transparent 1px);background-size:20px 20px;pointer-events:none}
-      .world{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;opacity:0}
-      .scroll-wrapper{position:relative;z-index:2;min-height:100vh}
-      .header{position:fixed;top:0;left:0;right:0;z-index:10;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}
-      .footer{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:.875rem}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #0f0f0f;
+        color: #cfcecd;
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        font-weight: 400;
+        overflow-x: hidden;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .blueprint-grid {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        opacity: 0.3;
+        background-image:
+          linear-gradient(90deg, #3a3a3a 1px, transparent 1px),
+          linear-gradient(0deg, #3a3a3a 1px, transparent 1px);
+        background-size: 20px 20px;
+        pointer-events: none;
+      }
+      .world {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0;
+      }
+      .scroll-wrapper {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+      }
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 1.5rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.875rem;
+      }
     </style>
 
     <!-- DNS Prefetch & Preconnect for external resources -->
@@ -63,7 +124,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Load full stylesheet asynchronously (non-blocking) -->
-    <link rel="preload" href="/src/styles/main.scss" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link
+      rel="preload"
+      href="/src/styles/main.scss"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
     <noscript><link rel="stylesheet" href="/src/styles/main.scss" /></noscript>
 
     <!-- Fonts (async loading with font-display swap) -->

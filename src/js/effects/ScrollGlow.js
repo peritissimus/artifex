@@ -3,7 +3,7 @@ export class ScrollGlow {
     this.gridElement = document.querySelector('.blueprint-grid');
     this.verticalLines = {
       left: null,
-      right: null
+      right: null,
     };
     this.sections = [];
     this.isInitialized = false;
@@ -46,24 +46,26 @@ export class ScrollGlow {
       '.hero-section',
       '.projects-section',
       '.capabilities-section',
-      '.specs-section'
+      '.specs-section',
     ];
 
-    this.sections = sectionSelectors.map(selector => {
-      const element = document.querySelector(selector);
-      if (!element) return null;
+    this.sections = sectionSelectors
+      .map((selector) => {
+        const element = document.querySelector(selector);
+        if (!element) return null;
 
-      // Create horizontal glow element for this section
-      const horizontalGlow = document.createElement('div');
-      horizontalGlow.className = 'horizontal-line-glow';
-      element.appendChild(horizontalGlow);
+        // Create horizontal glow element for this section
+        const horizontalGlow = document.createElement('div');
+        horizontalGlow.className = 'horizontal-line-glow';
+        element.appendChild(horizontalGlow);
 
-      return {
-        element,
-        horizontalGlow,
-        bottomY: 0 // Will be updated on scroll
-      };
-    }).filter(Boolean);
+        return {
+          element,
+          horizontalGlow,
+          bottomY: 0, // Will be updated on scroll
+        };
+      })
+      .filter(Boolean);
   }
 
   addScrollListener() {
@@ -94,7 +96,7 @@ export class ScrollGlow {
     this.updateGridGlow(scrollY, viewportHeight);
 
     // Check each section for intersection
-    this.sections.forEach(section => {
+    this.sections.forEach((section) => {
       const rect = section.element.getBoundingClientRect();
       const sectionBottom = rect.bottom + scrollY;
       section.bottomY = sectionBottom;
@@ -117,7 +119,7 @@ export class ScrollGlow {
     // Calculate glow intensity based on scroll position
     // The grid glows more as you scroll
     const scrollProgress = Math.min(scrollY / (viewportHeight * 2), 1);
-    const glowIntensity = 0.3 + (scrollProgress * 0.4); // 0.3 to 0.7
+    const glowIntensity = 0.3 + scrollProgress * 0.4; // 0.3 to 0.7
 
     this.gridElement.style.opacity = glowIntensity.toFixed(2);
   }
@@ -129,7 +131,7 @@ export class ScrollGlow {
     const maxDistance = viewportHeight / 2;
 
     // Glow intensity increases as line approaches center
-    const intensity = 1 - (distanceFromCenter / maxDistance);
+    const intensity = 1 - distanceFromCenter / maxDistance;
     const clampedIntensity = Math.max(0, Math.min(1, intensity));
 
     // Apply glow with smooth transition
@@ -137,7 +139,7 @@ export class ScrollGlow {
 
     // Calculate width animation (expands from intersection points toward center)
     // When at center, width should be 100%
-    const widthPercent = 50 + (clampedIntensity * 50); // 50% to 100%
+    const widthPercent = 50 + clampedIntensity * 50; // 50% to 100%
     section.horizontalGlow.style.width = `${widthPercent}%`;
   }
 
@@ -148,7 +150,7 @@ export class ScrollGlow {
     const maxDistance = viewportHeight / 2;
 
     // Glow intensity for vertical lines at intersection
-    const intensity = 1 - (distanceFromCenter / maxDistance);
+    const intensity = 1 - distanceFromCenter / maxDistance;
     const clampedIntensity = Math.max(0, Math.min(1, intensity));
 
     // Update both vertical line glows

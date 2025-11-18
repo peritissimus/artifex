@@ -81,7 +81,7 @@ marked.use({
     list({ ordered, items }) {
       const type = ordered ? 'ol' : 'ul';
       const className = ordered ? 'post-numbered-list' : 'post-list';
-      const body = items.map(item => this.listitem(item)).join('');
+      const body = items.map((item) => this.listitem(item)).join('');
       return `<${type} class="${className}">\n${body}</${type}>\n`;
     },
 
@@ -93,8 +93,8 @@ marked.use({
     paragraph({ tokens }) {
       const text = this.parser.parseInline(tokens);
       return `<p>${text}</p>\n`;
-    }
-  }
+    },
+  },
 });
 
 /**
@@ -260,7 +260,7 @@ function updateBlogIndex(posts) {
                   </div>
                 </a>
               </article>
-`,
+`
     )
     .join('\n');
 
@@ -277,7 +277,7 @@ function updateBlogIndex(posts) {
     `<div class="blog-grid">${blogCardsHtml}
             </div>
 
-            <div class="blog-footer">`,
+            <div class="blog-footer">`
   );
 
   fs.writeFileSync(BLOG_INDEX_PATH, blogIndexContent, 'utf-8');

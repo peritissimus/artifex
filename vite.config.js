@@ -5,7 +5,7 @@ import glsl from 'vite-plugin-glsl';
 
 // Auto-discover blog posts
 const blogPosts = readdirSync(resolve(__dirname, 'blog'))
-  .filter(file => file.endsWith('.html'))
+  .filter((file) => file.endsWith('.html'))
   .reduce((acc, file) => {
     const name = file.replace('.html', '');
     acc[`blog-${name}`] = resolve(__dirname, `blog/${file}`);
@@ -15,21 +15,15 @@ const blogPosts = readdirSync(resolve(__dirname, 'blog'))
 export default defineConfig({
   plugins: [
     glsl({
-      include: [
-        '**/*.glsl',
-        '**/*.vert',
-        '**/*.frag',
-        '**/*.vs',
-        '**/*.fs'
-      ],
+      include: ['**/*.glsl', '**/*.vert', '**/*.frag', '**/*.vs', '**/*.fs'],
       compress: true, // Enable compression for production
       watch: true,
-      root: '/'
-    })
+      root: '/',
+    }),
   ],
   server: {
     port: 3000,
-    open: true
+    open: true,
   },
   build: {
     outDir: 'dist',
@@ -72,14 +66,14 @@ export default defineConfig({
         // Optimize chunk file names for caching
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
-      }
+        assetFileNames: 'assets/[name]-[hash].[ext]',
+      },
     },
     // Enable chunk size warnings
     chunkSizeWarningLimit: 500, // Stricter limit for better monitoring
     // CSS code splitting - split per page for faster loading
     cssCodeSplit: true,
     // Inline small CSS chunks to reduce requests
-    assetsInlineLimit: 4096 // Inline assets < 4kb
-  }
+    assetsInlineLimit: 4096, // Inline assets < 4kb
+  },
 });

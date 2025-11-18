@@ -99,7 +99,7 @@ function generateSitemap() {
       loc: `${BASE_URL}${url}`,
       lastmod: currentDate,
       changefreq,
-      priority
+      priority,
     });
   });
 

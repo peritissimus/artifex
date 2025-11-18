@@ -82,7 +82,9 @@ body {
   z-index: 1;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s ease, height 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    height 0.2s ease;
   transform: translateY(-50%);
 
   &.left {
@@ -135,7 +137,9 @@ body {
     0 0 40px rgba($accent-color, 0.4),
     0 0 60px rgba($accent-color, 0.2);
   opacity: 0;
-  transition: opacity 0.3s ease, width 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    width 0.3s ease;
   pointer-events: none;
   z-index: 2;
 }
@@ -375,7 +379,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -1215,7 +1220,7 @@ body {
 }
 
 // Machine Mode Styles
-body[data-mode="machine"] {
+body[data-mode='machine'] {
   // Increase grid visibility
   .blueprint-grid {
     opacity: 0.5;
@@ -1238,7 +1243,12 @@ body[data-mode="machine"] {
   // Monospace everything
   .main-title,
   .section-title,
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: $font-mono;
     font-weight: 400;
   }
