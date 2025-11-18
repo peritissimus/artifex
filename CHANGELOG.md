@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/peritissimus/artifex/compare/v1.11.1...v1.12.0) (2025-11-18)
+
+
+### Features
+
+* **vite:** implement recursive HTML file discovery in configuration ([987e7d1](https://github.com/peritissimus/artifex/commit/987e7d19a05bc4313739396797e3b8266172d65d))
+
 ## [1.11.1](https://github.com/peritissimus/artifex/compare/v1.11.0...v1.11.1) (2025-11-18)
 
 # [1.11.0](https://github.com/peritissimus/artifex/compare/v1.10.0...v1.11.0) (2025-11-18)
