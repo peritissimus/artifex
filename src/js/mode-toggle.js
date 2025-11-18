@@ -14,7 +14,7 @@ class ModeToggle {
    */
   getCurrentMode() {
     const path = window.location.pathname;
-    return path === '/ai.html' || path.endsWith('/ai.html') ? 'machine' : 'human';
+    return path.startsWith('/ai/') || path === '/ai.html' ? 'machine' : 'human';
   }
 
   /**
@@ -23,19 +23,19 @@ class ModeToggle {
   getOppositePageUrl() {
     const path = window.location.pathname;
 
-    // If we're on ai.html, go to index
-    if (path === '/ai.html' || path.endsWith('/ai.html')) {
-      return '/';
+    // If we're in /ai/ directory, remove /ai/ prefix
+    if (path.startsWith('/ai/')) {
+      return path.replace('/ai/', '/');
     }
 
-    // If we're on index, go to ai.html
-    if (path === '/' || path === '/index.html' || path.endsWith('/index.html')) {
-      return '/ai.html';
+    // If we're on a regular page, add /ai/ prefix
+    // Special case: index.html maps to ai/index.html (which becomes ai/)
+    if (path === '/' || path === '/index.html') {
+      return '/ai/';
     }
 
-    // For other pages (blog, about, contact, work), stay on the same page
-    // but could be extended to have machine versions
-    return this.currentMode === 'human' ? '/ai.html' : '/';
+    // For other pages, prepend /ai/ to the path
+    return '/ai' + path;
   }
 
   /**
