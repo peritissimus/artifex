@@ -102,18 +102,18 @@ function transformToAiMode(htmlContent, originalPath) {
       margin: 40px auto;
       padding: 20px;
       line-height: 1.6;
-      background: #000;
-      color: #0f0;
+      background: #0f0f0f;
+      color: #cfcecd;
     }
     a {
-      color: #0ff;
+      color: #a8a5a5;
       text-decoration: none;
     }
     a:hover {
       text-decoration: underline;
     }
     .header {
-      border-bottom: 1px solid #0f0;
+      border-bottom: 1px solid #3a3a3a;
       padding-bottom: 20px;
       margin-bottom: 40px;
     }
@@ -124,7 +124,7 @@ function transformToAiMode(htmlContent, originalPath) {
     .footer {
       margin-top: 60px;
       padding-top: 20px;
-      border-top: 1px solid #0f0;
+      border-top: 1px solid #3a3a3a;
       font-size: 0.9em;
     }
   </style>
