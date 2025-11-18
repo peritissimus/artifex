@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ROOT_DIR = path.join(__dirname, '..');
-const SRC_PAGES_DIR = path.join(ROOT_DIR, 'src/pages');
+const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const BASE_URL = 'https://peritissimus.com';
 
 // Get current date in ISO format
@@ -75,7 +75,7 @@ function getChangeFreq(url) {
 function generateSitemap() {
   console.log('🗺️  Generating sitemap...\n');
 
-  const htmlFiles = getHtmlFiles(SRC_PAGES_DIR);
+  const htmlFiles = getHtmlFiles(DIST_DIR);
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
