@@ -42,7 +42,7 @@ function ensureAiDirectories() {
 }
 
 /**
- * Extract text content from HTML using Mozilla Readability
+ * Extract and structure content from HTML using Mozilla Readability
  */
 function extractTextContent(html) {
   // Parse HTML with linkedom
@@ -50,7 +50,7 @@ function extractTextContent(html) {
 
   // Extract title
   const titleMatch = html.match(/<title>(.*?)<\/title>/);
-  const title = titleMatch ? titleMatch[1].replace(' - Artifex | Peritissimus', '') : '';
+  const title = titleMatch ? titleMatch[1].replace(' - Artifex | Peritissimus', '').replace(' | Peritissimus', '') : '';
 
   // Use Readability to extract main content
   const reader = new Readability(document);
@@ -61,60 +61,22 @@ function extractTextContent(html) {
     const main = document.querySelector('main, .content-section, .info-wrapper');
     return {
       title,
-      content: main ? main.textContent.trim() : document.body.textContent.trim(),
+      htmlContent: main ? main.innerHTML : document.body.innerHTML,
     };
   }
 
-  // Convert HTML content to better formatted text
-  let content = article.content;
-
-  // Add proper spacing for headings
-  content = content.replace(/<h1[^>]*>/gi, '\n\n# ');
-  content = content.replace(/<\/h1>/gi, '\n');
-  content = content.replace(/<h2[^>]*>/gi, '\n\n## ');
-  content = content.replace(/<\/h2>/gi, '\n');
-  content = content.replace(/<h3[^>]*>/gi, '\n\n### ');
-  content = content.replace(/<\/h3>/gi, '\n');
-  content = content.replace(/<h4[^>]*>/gi, '\n\n#### ');
-  content = content.replace(/<\/h4>/gi, '\n');
-
-  // Add spacing for paragraphs
-  content = content.replace(/<\/p>/gi, '\n\n');
-  content = content.replace(/<br\s*\/?>/gi, '\n');
-
-  // List items
-  content = content.replace(/<li[^>]*>/gi, '  • ');
-  content = content.replace(/<\/li>/gi, '\n');
-
-  // Sections
-  content = content.replace(/<\/section>/gi, '\n\n');
-  content = content.replace(/<\/div>/gi, '\n');
-
-  // Remove remaining HTML tags
-  content = content.replace(/<[^>]+>/g, '');
-
-  // Decode HTML entities
-  content = content.replace(/&nbsp;/g, ' ');
-  content = content.replace(/&amp;/g, '&');
-  content = content.replace(/&lt;/g, '<');
-  content = content.replace(/&gt;/g, '>');
-  content = content.replace(/&quot;/g, '"');
-  content = content.replace(/&#039;/g, "'");
-  content = content.replace(/&#x27;/g, "'");
-
-  // Clean up whitespace
-  content = content.replace(/\n\s*\n\s*\n+/g, '\n\n');
-  content = content.replace(/^\s+|\s+$/gm, '');
-  content = content.replace(/[ \t]+/g, ' ');
-
-  return { title, content: content.trim() };
+  // Return the HTML content directly from Readability (it preserves structure)
+  return {
+    title,
+    htmlContent: article.content
+  };
 }
 
 /**
  * Transform HTML content to machine-readable format
  */
 function transformToAiMode(htmlContent, originalPath) {
-  const { title, content } = extractTextContent(htmlContent);
+  const { title, htmlContent: content } = extractTextContent(htmlContent);
 
   // Determine human URL
   let humanUrl = '/';
@@ -122,7 +84,7 @@ function transformToAiMode(htmlContent, originalPath) {
     humanUrl = `/${originalPath}`;
   }
 
-  // Create simple, machine-readable HTML
+  // Create simple, machine-readable HTML with semantic structure
   const aiHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,35 +94,78 @@ function transformToAiMode(htmlContent, originalPath) {
   <title>${title} - Machine Readable</title>
   <style>
     body {
-      font-family: monospace;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       max-width: 800px;
       margin: 40px auto;
       padding: 20px;
-      line-height: 1.6;
-      background: #0f0f0f;
-      color: #cfcecd;
+      line-height: 1.7;
+      background: #ffffff;
+      color: #333333;
     }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    h1 { font-size: 2em; border-bottom: 2px solid #eee; padding-bottom: 0.3em; }
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.25em; }
+    p { margin: 1em 0; }
+    ul, ol { margin: 1em 0; padding-left: 2em; }
+    li { margin: 0.5em 0; }
     a {
-      color: #a8a5a5;
+      color: #0066cc;
       text-decoration: none;
     }
     a:hover {
       text-decoration: underline;
     }
     .header {
-      border-bottom: 1px solid #3a3a3a;
+      border-bottom: 2px solid #eee;
       padding-bottom: 20px;
       margin-bottom: 40px;
     }
+    .header h1 {
+      margin: 0;
+      border: none;
+      font-size: 2.5em;
+    }
+    .header nav {
+      margin-top: 1em;
+      font-size: 0.9em;
+    }
     .content {
-      white-space: pre-wrap;
-      word-wrap: break-word;
+      font-size: 16px;
+    }
+    .content img {
+      max-width: 100%;
+      height: auto;
     }
     .footer {
       margin-top: 60px;
       padding-top: 20px;
-      border-top: 1px solid #3a3a3a;
+      border-top: 2px solid #eee;
       font-size: 0.9em;
+      color: #666;
+    }
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 1em;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    blockquote {
+      border-left: 4px solid #ddd;
+      padding-left: 1em;
+      margin-left: 0;
+      color: #666;
     }
   </style>
 </head>
@@ -175,9 +180,9 @@ function transformToAiMode(htmlContent, originalPath) {
     </nav>
   </div>
 
-  <div class="content">
+  <article class="content">
 ${content}
-  </div>
+  </article>
 
   <div class="footer">
     <p><a href="${humanUrl}">← Switch to Human Mode</a></p>
