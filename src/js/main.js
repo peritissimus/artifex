@@ -1,3 +1,6 @@
+// Initialize mode toggle
+import('./mode-toggle.js');
+
 // Initialize app
 window.addEventListener('DOMContentLoaded', async () => {
   // Lazy load WebGL only when needed (HUMAN mode)
@@ -6,6 +9,10 @@ window.addEventListener('DOMContentLoaded', async () => {
     const { ParticleGrid } = await import('./webgl/ParticleGrid.js');
     new ParticleGrid();
   }
+
+  // Initialize scroll glow effects
+  const { ScrollGlow } = await import('./effects/ScrollGlow.js');
+  new ScrollGlow();
 
   // Project item click navigation
   document.querySelectorAll('.project-item').forEach((item) => {

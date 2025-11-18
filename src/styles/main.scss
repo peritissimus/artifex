@@ -50,6 +50,7 @@ body {
     linear-gradient(0deg, $border-color 1px, transparent 1px);
   background-size: 20px 20px;
   pointer-events: none;
+  transition: opacity 0.3s ease;
 
   // Fade mask outside vertical boundaries (100px fade)
   mask-image: linear-gradient(
@@ -70,6 +71,73 @@ body {
     transparent calc(50% + 800px),
     transparent 100%
   );
+}
+
+// Vertical Line Glows (for intersection effects)
+.vertical-line-glow {
+  position: fixed;
+  width: 3px;
+  height: 0;
+  top: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, height 0.2s ease;
+  transform: translateY(-50%);
+
+  &.left {
+    left: 50%;
+    transform: translateX(-700px) translateY(-50%);
+    background: radial-gradient(
+      ellipse at center,
+      rgba($accent-color, 0.8) 0%,
+      rgba($accent-color, 0.4) 30%,
+      transparent 70%
+    );
+    box-shadow:
+      0 0 20px rgba($accent-color, 0.6),
+      0 0 40px rgba($accent-color, 0.4),
+      0 0 60px rgba($accent-color, 0.2);
+  }
+
+  &.right {
+    right: 50%;
+    transform: translateX(700px) translateY(-50%);
+    background: radial-gradient(
+      ellipse at center,
+      rgba($accent-color, 0.8) 0%,
+      rgba($accent-color, 0.4) 30%,
+      transparent 70%
+    );
+    box-shadow:
+      0 0 20px rgba($accent-color, 0.6),
+      0 0 40px rgba($accent-color, 0.4),
+      0 0 60px rgba($accent-color, 0.2);
+  }
+}
+
+// Horizontal Line Glows (for section separators)
+.horizontal-line-glow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(
+    to left,
+    transparent 0%,
+    rgba($accent-color, 0.8) 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 20px rgba($accent-color, 0.6),
+    0 0 40px rgba($accent-color, 0.4),
+    0 0 60px rgba($accent-color, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease, width 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
 }
 
 // WebGL Canvas
@@ -1239,6 +1307,15 @@ body[data-mode="machine"] {
   .info-wrapper::after {
     transform: translateX(calc(500px));
   }
+
+  // Adjust vertical line glows
+  .vertical-line-glow.left {
+    transform: translateX(-500px) translateY(-50%);
+  }
+
+  .vertical-line-glow.right {
+    transform: translateX(500px) translateY(-50%);
+  }
 }
 
 @media (max-width: 1024px) {
@@ -1250,6 +1327,11 @@ body[data-mode="machine"] {
   // Remove vertical boundaries on tablets
   .info-wrapper::before,
   .info-wrapper::after {
+    display: none;
+  }
+
+  // Hide vertical line glows on tablets
+  .vertical-line-glow {
     display: none;
   }
 

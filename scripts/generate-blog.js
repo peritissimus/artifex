@@ -214,11 +214,11 @@ function generateBlogPost(markdown, filename) {
       <div class="footer-copy">PERITISSIMUS © 2025</div>
       <div class="footer-coords">LAT: 0.000° / LONG: 0.000°</div>
       <div class="mode-toggle">
-        <a href="/" class="mode-btn">
+        <a href="/blog/${slug}.html" class="mode-btn active" data-mode="human">
           <span class="mode-indicator"></span>
           <span class="mode-label">HUMAN</span>
         </a>
-        <a href="/ai.html" class="mode-btn">
+        <a href="/ai/blog/${slug}.html" class="mode-btn" data-mode="machine">
           <span class="mode-indicator"></span>
           <span class="mode-label">MACHINE</span>
         </a>
