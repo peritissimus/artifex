@@ -1,9 +1,8 @@
 # [1.11.0](https://github.com/peritissimus/artifex/compare/v1.10.0...v1.11.0) (2025-11-18)
 
-
 ### Features
 
-* **sitemap:** generate sitemap and update build scripts ([e36f4b4](https://github.com/peritissimus/artifex/commit/e36f4b4d5334b953226a2317488db0e11a42a3a3))
+- **sitemap:** generate sitemap and update build scripts ([e36f4b4](https://github.com/peritissimus/artifex/commit/e36f4b4d5334b953226a2317488db0e11a42a3a3))
 
 # [1.10.0](https://github.com/peritissimus/artifex/compare/v1.9.0...v1.10.0) (2025-11-17)
 
