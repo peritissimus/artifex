@@ -152,7 +152,7 @@ function generateBlogPost(markdown, filename) {
       href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Semi+Condensed:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../styles/main.scss" />
+    <link rel="stylesheet" href="/styles/main.scss" />
   </head>
   <body>
     <div class="blueprint-grid"></div>
@@ -225,7 +225,7 @@ function generateBlogPost(markdown, filename) {
       </div>
     </footer>
 
-    <script type="module" src="../../js/main.js"></script>
+    <script type="module" src="/js/main.js"></script>
   </body>
 </html>
 `;

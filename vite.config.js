@@ -36,6 +36,12 @@ const allHtmlFiles = discoverHtmlFiles(pagesDir);
 export default defineConfig({
   root: 'src/pages',
   publicDir: resolve(__dirname, 'public'),
+  resolve: {
+    alias: {
+      '/js': resolve(__dirname, 'src/js'),
+      '/styles': resolve(__dirname, 'src/styles'),
+    },
+  },
   plugins: [
     glsl({
       include: ['**/*.glsl', '**/*.vert', '**/*.frag', '**/*.vs', '**/*.fs'],
