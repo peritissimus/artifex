@@ -1,3 +1,10 @@
+## [1.13.2](https://github.com/peritissimus/artifex/compare/v1.13.1...v1.13.2) (2025-11-25)
+
+
+### Bug Fixes
+
+* use vite aliases for js/styles paths ([f87c242](https://github.com/peritissimus/artifex/commit/f87c2428297ace50075b36dab69ba9d5ee3bf699))
+
 ## [1.13.1](https://github.com/peritissimus/artifex/compare/v1.13.0...v1.13.1) (2025-11-18)
 
 
