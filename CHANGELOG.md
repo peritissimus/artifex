@@ -1,3 +1,10 @@
+## [1.13.3](https://github.com/peritissimus/artifex/compare/v1.13.2...v1.13.3) (2025-11-29)
+
+
+### Bug Fixes
+
+* **pages:** update SEO titles and footer branding across pages ([7983927](https://github.com/peritissimus/artifex/commit/798392742aafae6cf4ec10dedea295be3add35da))
+
 ## [1.13.2](https://github.com/peritissimus/artifex/compare/v1.13.1...v1.13.2) (2025-11-25)
 
 
