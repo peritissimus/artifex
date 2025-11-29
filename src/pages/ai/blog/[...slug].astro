@@ -1,0 +1,39 @@
+---
+import AI from '../../../layouts/AI.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<AI
+  title={post.data.title}
+  description={post.data.description}
+  humanUrl={`/blog/${post.slug}`}
+>
+  <p class="meta">
+    <strong>Category:</strong> {post.data.category || 'Article'}<br />
+    <strong>Date:</strong> {formatDate(post.data.date)}<br />
+    <strong>Author:</strong> {post.data.author}<br />
+    <strong>Read Time:</strong> {post.data.readTime || '5 min read'}<br />
+    <strong>Tags:</strong> {post.data.tags.join(', ')}
+  </p>
+
+  <Content />
+</AI>

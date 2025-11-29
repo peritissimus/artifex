@@ -1,0 +1,40 @@
+---
+import AI from '../../../layouts/AI.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort(
+  (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<AI
+  title="Blog"
+  description="Technical articles on AI, System Architecture, Full-Stack Development, and Engineering insights."
+  humanUrl="/blog"
+>
+  <h2>Blog Posts</h2>
+  <p>Technical articles and engineering insights. {sortedPosts.length} entries.</p>
+
+  <ul>
+    {sortedPosts.map((post) => (
+      <li>
+        <strong><a href={`/ai/blog/${post.slug}`}>{post.data.title}</a></strong>
+        <br />
+        <em>{formatDate(post.data.date)}</em> | {post.data.category || 'Article'} | {post.data.readTime || '5 min read'}
+        <br />
+        {post.data.description}
+        <br />
+        Tags: {post.data.tags.join(', ')}
+      </li>
+    ))}
+  </ul>
+</AI>

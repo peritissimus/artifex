@@ -1,0 +1,411 @@
+---
+import SEO from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/main.scss';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  showParticles?: boolean;
+  currentPath?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  showParticles = true,
+  currentPath = Astro.url.pathname,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <SEO title={title} description={description} ogImage={ogImage} />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f0f0f" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- DNS Prefetch & Preconnect for fonts -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Critical inline CSS -->
+    <style is:inline>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        background: #0f0f0f;
+        color: #cfcecd;
+        font-family: system-ui, -apple-system, sans-serif;
+        font-weight: 400;
+        overflow-x: hidden;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .blueprint-grid {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+        opacity: 0.3;
+        background-image:
+          linear-gradient(90deg, #3a3a3a 1px, transparent 1px),
+          linear-gradient(0deg, #3a3a3a 1px, transparent 1px);
+        background-size: 20px 20px;
+        pointer-events: none;
+      }
+      .world {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0;
+      }
+      .scroll-wrapper {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+      }
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 1.5rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.875rem;
+      }
+    </style>
+
+    <!-- Async font loading -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+  </head>
+  <body data-mode="human">
+    <!-- Blueprint grid background (commented out for now) -->
+    <!-- <div class="blueprint-grid"></div> -->
+
+    <!-- WebGL canvas -->
+    <canvas id="world" class="world"></canvas>
+
+    <!-- Main content -->
+    <div id="scroll-wrapper" class="scroll-wrapper">
+      <main class="info-wrapper">
+        <slot />
+      </main>
+    </div>
+
+    <!-- Fixed header -->
+    <Header currentPath={currentPath} />
+
+    <!-- Fixed footer -->
+    <Footer currentPath={currentPath} />
+
+    <!-- Client-side scripts -->
+    <script>
+      // ScrollGlow effect
+      class ScrollGlow {
+        gridElement: HTMLElement | null;
+        verticalLines: { left: HTMLElement | null; right: HTMLElement | null };
+        sections: Array<{ element: HTMLElement; horizontalGlow: HTMLElement; bottomY: number }>;
+        isInitialized: boolean;
+
+        constructor() {
+          this.gridElement = document.querySelector('.blueprint-grid');
+          this.verticalLines = { left: null, right: null };
+          this.sections = [];
+          this.isInitialized = false;
+          this.init();
+        }
+
+        init() {
+          if (!this.gridElement) return;
+          this.createVerticalLineGlows();
+          this.cacheSectionElements();
+          this.addScrollListener();
+          this.isInitialized = true;
+        }
+
+        createVerticalLineGlows() {
+          const leftGlow = document.createElement('div');
+          leftGlow.className = 'vertical-line-glow left';
+          document.body.appendChild(leftGlow);
+          this.verticalLines.left = leftGlow;
+
+          const rightGlow = document.createElement('div');
+          rightGlow.className = 'vertical-line-glow right';
+          document.body.appendChild(rightGlow);
+          this.verticalLines.right = rightGlow;
+        }
+
+        cacheSectionElements() {
+          const sectionSelectors = [
+            '.hero-section',
+            '.projects-section',
+            '.capabilities-section',
+            '.specs-section',
+          ];
+
+          this.sections = sectionSelectors
+            .map((selector) => {
+              const element = document.querySelector(selector) as HTMLElement;
+              if (!element) return null;
+
+              const horizontalGlow = document.createElement('div');
+              horizontalGlow.className = 'horizontal-line-glow';
+              element.appendChild(horizontalGlow);
+
+              return { element, horizontalGlow, bottomY: 0 };
+            })
+            .filter((s): s is { element: HTMLElement; horizontalGlow: HTMLElement; bottomY: number } => s !== null);
+        }
+
+        addScrollListener() {
+          let ticking = false;
+
+          const handleScroll = () => {
+            if (!ticking) {
+              window.requestAnimationFrame(() => {
+                this.updateGlowEffects();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          };
+
+          window.addEventListener('scroll', handleScroll, { passive: true });
+          this.updateGlowEffects();
+        }
+
+        updateGlowEffects() {
+          const viewportHeight = window.innerHeight;
+          const scrollY = window.scrollY;
+
+          this.updateGridGlow(scrollY, viewportHeight);
+
+          this.sections.forEach((section) => {
+            const rect = section.element.getBoundingClientRect();
+            const sectionBottom = rect.bottom + scrollY;
+            section.bottomY = sectionBottom;
+
+            const linePositionInViewport = rect.bottom;
+
+            if (linePositionInViewport >= 0 && linePositionInViewport <= viewportHeight) {
+              this.updateHorizontalGlow(section, linePositionInViewport, viewportHeight);
+              this.updateVerticalIntersectionGlow(linePositionInViewport, viewportHeight);
+            } else {
+              section.horizontalGlow.style.opacity = '0';
+            }
+          });
+        }
+
+        updateGridGlow(scrollY: number, viewportHeight: number) {
+          const scrollProgress = Math.min(scrollY / (viewportHeight * 2), 1);
+          const glowIntensity = 0.3 + scrollProgress * 0.4;
+          if (this.gridElement) {
+            this.gridElement.style.opacity = glowIntensity.toFixed(2);
+          }
+        }
+
+        updateHorizontalGlow(section: { horizontalGlow: HTMLElement }, linePositionInViewport: number, viewportHeight: number) {
+          const viewportCenter = viewportHeight / 2;
+          const distanceFromCenter = Math.abs(linePositionInViewport - viewportCenter);
+          const maxDistance = viewportHeight / 2;
+
+          const intensity = 1 - distanceFromCenter / maxDistance;
+          const clampedIntensity = Math.max(0, Math.min(1, intensity));
+
+          section.horizontalGlow.style.opacity = clampedIntensity.toFixed(2);
+
+          const widthPercent = 50 + clampedIntensity * 50;
+          section.horizontalGlow.style.width = `${widthPercent}%`;
+        }
+
+        updateVerticalIntersectionGlow(linePositionInViewport: number, viewportHeight: number) {
+          const viewportCenter = viewportHeight / 2;
+          const distanceFromCenter = Math.abs(linePositionInViewport - viewportCenter);
+          const maxDistance = viewportHeight / 2;
+
+          const intensity = 1 - distanceFromCenter / maxDistance;
+          const clampedIntensity = Math.max(0, Math.min(1, intensity));
+
+          if (this.verticalLines.left && this.verticalLines.right) {
+            const glowHeight = 200 * clampedIntensity;
+            const topPosition = linePositionInViewport;
+
+            this.verticalLines.left.style.top = `${topPosition}px`;
+            this.verticalLines.left.style.height = `${glowHeight}px`;
+            this.verticalLines.left.style.opacity = clampedIntensity.toFixed(2);
+
+            this.verticalLines.right.style.top = `${topPosition}px`;
+            this.verticalLines.right.style.height = `${glowHeight}px`;
+            this.verticalLines.right.style.opacity = clampedIntensity.toFixed(2);
+          }
+        }
+      }
+
+      // ParticleGrid (Three.js)
+      async function initParticleGrid() {
+        if (document.body.dataset.mode !== 'human') return;
+        if (window.innerWidth < 768) return; // Skip on mobile
+
+        const canvas = document.getElementById('world') as HTMLCanvasElement;
+        if (!canvas) return;
+
+        const THREE = await import('three');
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        const renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: true,
+          powerPreference: 'high-performance',
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        camera.position.z = 50;
+
+        // Create particles
+        const geometry = new THREE.BufferGeometry();
+        const particleCount = 2000;
+        const positions = new Float32Array(particleCount * 3);
+        const scales = new Float32Array(particleCount);
+
+        for (let i = 0; i < particleCount; i++) {
+          const i3 = i * 3;
+          positions[i3] = (Math.random() - 0.5) * 100;
+          positions[i3 + 1] = (Math.random() - 0.5) * 100;
+          positions[i3 + 2] = (Math.random() - 0.5) * 30;
+          scales[i] = Math.random();
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+
+        const material = new THREE.ShaderMaterial({
+          uniforms: {
+            uTime: { value: 0 },
+            uMouse: { value: new THREE.Vector2() },
+            uOpacity: { value: 0.5 },
+          },
+          vertexShader: `
+            attribute float scale;
+            uniform float uTime;
+            uniform vec2 uMouse;
+            varying float vScale;
+
+            void main() {
+              vScale = scale;
+              vec3 pos = position;
+              pos.z += sin(uTime * 0.5 + position.x * 0.1) * 0.5;
+              pos.z += cos(uTime * 0.3 + position.y * 0.1) * 0.5;
+              float dist = distance(position.xy, uMouse * 50.0);
+              float force = smoothstep(10.0, 0.0, dist);
+              pos.z += force * 2.0;
+              vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+              gl_PointSize = scale * 2.0 * (50.0 / -mvPosition.z);
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+          fragmentShader: `
+            uniform float uOpacity;
+            varying float vScale;
+
+            void main() {
+              vec2 uv = gl_PointCoord - vec2(0.5);
+              float dist = length(uv);
+              float alpha = smoothstep(0.5, 0.1, dist);
+              vec3 color = vec3(0.81, 0.81, 0.79);
+              gl_FragColor = vec4(color, alpha * uOpacity * vScale);
+            }
+          `,
+          transparent: true,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        });
+
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        let time = 0;
+        const mouse = new THREE.Vector2();
+        const targetMouse = new THREE.Vector2();
+
+        window.addEventListener('mousemove', (e) => {
+          targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+          targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        window.addEventListener('resize', () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Fade in canvas
+        setTimeout(() => canvas.classList.add('loaded'), 100);
+
+        function animate() {
+          requestAnimationFrame(animate);
+          time += 0.01;
+          mouse.x += (targetMouse.x - mouse.x) * 0.05;
+          mouse.y += (targetMouse.y - mouse.y) * 0.05;
+          material.uniforms.uTime.value = time;
+          material.uniforms.uMouse.value = mouse;
+          particles.rotation.y = Math.sin(time * 0.1) * 0.1;
+          renderer.render(scene, camera);
+        }
+
+        animate();
+      }
+
+      // Initialize on DOM ready
+      document.addEventListener('DOMContentLoaded', () => {
+        new ScrollGlow();
+        initParticleGrid();
+      });
+    </script>
+  </body>
+</html>

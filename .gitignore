@@ -7,15 +7,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
-dist
-dist-ssr
-*.local
 
-# Generated content (created by build scripts)
-/ai/
-/blog/*.html
-/src/pages/blog/*.html
+# Build output
+dist
+
+# Astro
+.astro
+
+# Environment variables
+*.local
+.env
+.env.*
 
 # Editor directories and files
 .vscode/*
@@ -27,3 +31,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# OS files
+Thumbs.db

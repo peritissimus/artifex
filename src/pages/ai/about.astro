@@ -1,0 +1,91 @@
+---
+import AI from '../../layouts/AI.astro';
+
+const workExperience = [
+  {
+    company: 'Zoca',
+    role: 'Sr Software Engineer / IC',
+    date: 'Nov 2024 - Present',
+    location: 'Bengaluru',
+    url: '/ai/work/zoca',
+  },
+  {
+    company: 'Deepmynd Innovative Technologies Pvt Ltd',
+    role: 'Co-Founder',
+    date: 'May 2024 - Present',
+    location: 'India',
+  },
+  {
+    company: 'Brihaspati AI',
+    role: 'Co-Founder',
+    date: 'May 2024 - Nov 2024',
+    location: 'Noida, UP',
+    url: '/ai/work/brihaspati',
+  },
+  {
+    company: 'Dübverse',
+    role: 'Founding Member (Engineering)',
+    date: 'Dec 2021 - Apr 2024',
+    location: 'Gurugram, Haryana',
+    url: '/ai/work/dubverse',
+  },
+  {
+    company: 'SimpleSounds',
+    role: 'Co-Founder',
+    date: 'Feb 2021 - Dec 2021',
+    location: 'Bengaluru',
+    url: '/ai/work/simplesounds',
+  },
+  {
+    company: 'CatrovaCer',
+    role: 'Co-Founder and CTO',
+    date: 'Jan 2020 - Jan 2021',
+    location: 'Greater Chicago Area',
+  },
+  {
+    company: 'Technology Literary Society, IIT Kharagpur',
+    role: 'Governor',
+    date: 'Jul 2019 - Aug 2020',
+    location: 'Kharagpur, India',
+  },
+];
+---
+
+<AI
+  title="About Kushal Patankar"
+  description="Founding engineer with 4+ years of experience building scalable AI-powered platforms."
+  humanUrl="/about"
+>
+  <h2>About</h2>
+  <p>
+    <strong>Kushal Patankar</strong> (Peritissimus) is a founding engineer and full-stack developer
+    with expertise in building scalable AI-powered platforms and infrastructure.
+  </p>
+  <p>
+    IIT Kharagpur graduate (B.Tech, 2021) with 4+ years of experience spanning founding engineer
+    roles, technical leadership, and entrepreneurship. Specialized in backend architecture, frontend
+    development, infrastructure automation, and AI integration.
+  </p>
+  <p>
+    Previously co-founded <strong>Deepmynd Innovative Technologies</strong> and
+    <strong>Brihaspati AI</strong>, crafting next-generation products with AI prowess tailored for
+    consumers. At Brihaspati, implemented dynamic prompt engineering and context-aware memory
+    retrieval improving D7 retention by 20%.
+  </p>
+  <p>
+    As a founding member at <strong>Dübverse</strong>, helped design, architect, develop and scale
+    an enterprise-grade AI video dubbing platform processing 570,000+ hours of audio-video content
+    for 1M+ users. 6-7000 production git commits across eight codebases, achieving 40%+ B2B growth.
+  </p>
+
+  <h2>Work Experience</h2>
+  <ul>
+    {workExperience.map((job) => (
+      <li>
+        <strong>{job.url ? <a href={job.url}>{job.company}</a> : job.company}</strong> — {job.role}
+        <br />
+        <em>{job.date}</em> | {job.location}
+      </li>
+    ))}
+  </ul>
+</AI>

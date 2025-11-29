@@ -1,0 +1,36 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+// Determine AI mode URL
+const isAiMode = currentPath.startsWith('/ai');
+const humanUrl = isAiMode ? currentPath.replace('/ai', '') || '/' : currentPath;
+const machineUrl = isAiMode ? currentPath : `/ai${currentPath === '/' ? '' : currentPath}`;
+---
+
+<footer class="footer">
+  <div class="footer-copy">PERITISSIMUS &copy; {new Date().getFullYear()}</div>
+  <div class="footer-coords">LAT: 0.000&deg; / LONG: 0.000&deg;</div>
+  <div class="mode-toggle">
+    <a
+      href={humanUrl}
+      class:list={['mode-btn', { active: !isAiMode }]}
+      data-mode="human"
+    >
+      <span class="mode-indicator"></span>
+      <span class="mode-label">HUMAN</span>
+    </a>
+    <a
+      href={machineUrl}
+      class:list={['mode-btn', { active: isAiMode }]}
+      data-mode="machine"
+    >
+      <span class="mode-indicator"></span>
+      <span class="mode-label">MACHINE</span>
+    </a>
+  </div>
+</footer>
+

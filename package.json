@@ -1,39 +1,33 @@
 {
   "name": "artifex",
-  "version": "1.13.3",
   "type": "module",
+  "version": "2.0.0",
+  "description": "Portfolio of Peritissimus - System Architect & Engineer",
   "scripts": {
-    "dev": "vite",
-    "build": "node scripts/generate-blog.js --all && vite build && node scripts/generate-ai-pages.js && node scripts/generate-sitemap.js",
-    "preview": "vite preview",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lighthouse": "pnpm build && pnpm preview --port 4173 & sleep 3 && lighthouse http://localhost:4173 --view --output=html --output-path=./lighthouse-report.html --preset=desktop && kill $!",
-    "lighthouse:mobile": "pnpm build && pnpm preview --port 4173 & sleep 3 && lighthouse http://localhost:4173 --view --output=html --output-path=./lighthouse-mobile-report.html --preset=perf --throttling.cpuSlowdownMultiplier=4 --screenEmulation.mobile=true && kill $!",
-    "blog:new": "node scripts/generate-blog.js",
-    "blog:build": "node scripts/generate-blog.js --all",
-    "ai:generate": "node scripts/generate-ai-pages.js",
-    "sitemap:generate": "node scripts/generate-sitemap.js",
-    "og:generate": "node scripts/generate-og-images.js"
+    "og:generate": "node scripts/generate-og-images.js",
+    "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.12",
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.16.2",
     "gl-matrix": "^3.4.4",
-    "glsl-noise": "^0.0.0",
-    "marked": "^17.0.0",
-    "three": "^0.180.0"
+    "hastscript": "^9.0.1",
+    "sass": "^1.94.2",
+    "three": "^0.181.2",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@fontsource/barlow": "^5.2.8",
     "@fontsource/barlow-semi-condensed": "^5.2.7",
-    "@mozilla/readability": "^0.6.0",
     "@resvg/resvg-js": "^2.6.2",
-    "lighthouse": "^13.0.1",
-    "linkedom": "^0.18.12",
-    "prettier": "^3.6.2",
-    "sass": "^1.93.2",
-    "satori": "^0.18.3",
-    "sharp": "^0.34.5",
-    "vite": "^6.3.5",
-    "vite-plugin-glsl": "^1.5.3"
+    "prettier": "^3.7.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "satori": "^0.18.3"
   }
 }

@@ -1,0 +1,95 @@
+---
+/**
+ * AI Layout - Machine-readable version of pages
+ * Simplified HTML without visual effects, optimized for LLMs and crawlers
+ */
+
+interface Props {
+  title: string;
+  description: string;
+  humanUrl: string;
+}
+
+const { title, description, humanUrl } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Machine-Readable</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={`https://peritissimus.com${humanUrl}`} />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #fafafa;
+        color: #1a1a1a;
+      }
+      header {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+      }
+      h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+      h2 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; border-bottom: 1px solid #eee; padding-bottom: 0.25rem; }
+      h3 { font-size: 1rem; margin: 1rem 0 0.5rem; }
+      p { margin-bottom: 1rem; }
+      ul, ol { margin: 1rem 0; padding-left: 1.5rem; }
+      li { margin-bottom: 0.5rem; }
+      a { color: #0066cc; }
+      nav { margin-bottom: 1rem; }
+      nav a { margin-right: 1rem; }
+      .mode-switch {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #ddd;
+        font-size: 0.875rem;
+      }
+      footer {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #ddd;
+        font-size: 0.875rem;
+        color: #666;
+      }
+      .meta { color: #666; font-size: 0.875rem; margin-bottom: 1rem; }
+      code { background: #f0f0f0; padding: 0.125rem 0.25rem; border-radius: 2px; font-size: 0.875em; }
+      pre { background: #f0f0f0; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+      pre code { background: none; padding: 0; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>{title}</h1>
+      <p class="meta">{description}</p>
+      <nav>
+        <a href="/ai">Home</a>
+        <a href="/ai/blog">Blog</a>
+        <a href="/ai/about">About</a>
+        <a href="/ai/contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <div class="mode-switch">
+      <strong>View mode:</strong>
+      <a href="/ai{humanUrl === '/' ? '' : humanUrl}">Machine-readable</a> |
+      <a href={humanUrl}>Human-readable (with visuals)</a>
+    </div>
+
+    <footer>
+      <p>Peritissimus &copy; {new Date().getFullYear()} | Machine-readable version</p>
+    </footer>
+  </body>
+</html>
