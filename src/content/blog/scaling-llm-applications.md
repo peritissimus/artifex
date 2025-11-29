@@ -4,8 +4,7 @@ date: 2025-01-15
 author: Kushal Patankar
 category: AI/LLM
 tags: [LLM, Architecture, Scaling]
-slug: scaling-llm-applications
-excerpt: Lessons learned from building and scaling AI-powered platforms at Brihaspati and Zoca. Dynamic prompt engineering, context management, and optimization strategies.
+description: Lessons learned from building and scaling AI-powered platforms at Brihaspati and Zoca. Dynamic prompt engineering, context management, and optimization strategies.
 readTime: 5 min read
 ---
 

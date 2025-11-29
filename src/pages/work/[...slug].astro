@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const works = await getCollection('work');
+  return works.map((work) => ({
+    params: { slug: work.slug },
+    props: { work },
+  }));
+}
+
+const { work } = Astro.props;
+const { Content } = await work.render();
+
+// Parse markdown bold syntax in achievements
+function parseMarkdown(text: string): string {
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+}
+---
+
+<Base
+  title={`${work.data.title} - Work Experience`}
+  description={work.data.description}
+  ogImage={work.data.ogImage || `/og/work/${work.slug}.png`}
+  currentPath={`/work/${work.slug}`}
+>
+  <section class="content-section work-detail">
+    <div class="section-inner">
+      <div class="work-header">
+        <div class="work-back">
+          <a href="/about">← Back to Timeline</a>
+        </div>
+        <h1 class="work-company">{work.data.title}</h1>
+        <div class="work-meta">
+          <span class="work-role">{work.data.role}</span>
+          <span class="work-separator">•</span>
+          <span class="work-date">{work.data.dateRange}</span>
+          <span class="work-separator">•</span>
+          <span class="work-location">{work.data.location}</span>
+        </div>
+        {work.data.externalUrl && (
+          <a
+            href={work.data.externalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="work-link"
+          >
+            {new URL(work.data.externalUrl).hostname} →
+          </a>
+        )}
+      </div>
+
+      <div class="work-content">
+        <div class="work-section">
+          <h3>Overview</h3>
+          <Content />
+        </div>
+
+        {work.data.achievements.length > 0 && (
+          <div class="work-section">
+            <h3>Key Achievements</h3>
+            <ul class="achievement-list">
+              {work.data.achievements.map((achievement) => (
+                <li set:html={parseMarkdown(achievement)} />
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {work.data.technologies.length > 0 && (
+          <div class="work-section">
+            <h3>Technologies</h3>
+            <div class="tech-grid">
+              {work.data.technologies.map((tech) => (
+                <span class="tech-tag">{tech}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {work.data.stats && work.data.stats.length > 0 && (
+          <div class="work-section">
+            <h3>Impact</h3>
+            <div class="impact-stats">
+              {work.data.stats.map((stat) => (
+                <div class="stat-item">
+                  <div class="stat-value">{stat.value}</div>
+                  <div class="stat-label">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {work.data.outcome && (
+          <div class="work-section">
+            <h3>Outcome</h3>
+            <p>{work.data.outcome}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</Base>

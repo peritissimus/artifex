@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+---
+
+<Base
+  title={`${post.data.title} - Blog | Peritissimus`}
+  description={post.data.description}
+  ogImage={post.data.ogImage || `/og/blog/${post.slug}.png`}
+  currentPath={`/blog/${post.slug}`}
+>
+  <section class="content-section blog-post">
+    <div class="section-inner">
+      <div class="post-header">
+        <div class="post-back">
+          <a href="/blog">← Back to Blog</a>
+        </div>
+
+        <div class="post-meta-header">
+          <span class="post-date">[{formatDate(post.data.date)}]</span>
+          <span class="post-tag">[{post.data.category || 'AI/LLM'}]</span>
+        </div>
+
+        <h1 class="post-title">
+          <span class="title-prefix">></span> {post.data.title}
+        </h1>
+
+        <div class="post-info">
+          <span class="post-author">AUTHOR: {post.data.author || 'Kushal Patankar'}</span>
+          <span class="meta-separator">|</span>
+          <span class="post-read-time">READ_TIME: {post.data.readTime || '5 min read'}</span>
+          <span class="meta-separator">|</span>
+          <span class="post-topics">TAGS: {post.data.tags.join(', ')}</span>
+        </div>
+      </div>
+
+      <div class="post-content">
+        <Content />
+      </div>
+
+      <div class="post-footer-nav">
+        <a href="/blog" class="nav-link">← All Posts</a>
+      </div>
+    </div>
+  </section>
+</Base>

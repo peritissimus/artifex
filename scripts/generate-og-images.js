@@ -1,65 +1,112 @@
 #!/usr/bin/env node
 
 /**
- * OG Image Generator
- * Generates Open Graph images for all pages using Satori + Sharp
+ * OG Image Generator for Astro
+ * Generates Open Graph images for all pages using Satori + resvg
  */
 
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import satori from 'satori';
-import sharp from 'sharp';
 import { Resvg } from '@resvg/resvg-js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ROOT_DIR = path.join(__dirname, '..');
-const SRC_PAGES_DIR = path.join(ROOT_DIR, 'src/pages');
 const OG_OUTPUT_DIR = path.join(ROOT_DIR, 'public/og');
 
 // OG Image dimensions (standard)
 const OG_WIDTH = 1200;
 const OG_HEIGHT = 630;
 
-// Brand colors (matching main.scss)
+// Brand colors (matching styles)
 const COLORS = {
-  bg: '#0f0f0f',        // $bg-primary
-  text: '#cfcecd',      // $text-primary
-  accent: '#a8a5a5',    // $accent-color
-  border: '#3a3a3a',    // $border-color
-  textBright: '#ffffff', // $text-bright
+  bg: '#0f0f0f',
+  text: '#cfcecd',
+  accent: '#a8a5a5',
+  border: '#3a3a3a',
+  textBright: '#ffffff',
 };
 
-/**
- * Extract metadata from HTML file
- */
-function extractMetadata(htmlPath) {
-  const html = fs.readFileSync(htmlPath, 'utf-8');
+// Page configurations
+const PAGES = [
+  { slug: 'home', title: 'Kushal', description: 'System Architect & Engineer', type: 'home' },
+  {
+    slug: 'about',
+    title: 'About',
+    description: 'Founding engineer with 4+ years of experience',
+    type: 'default',
+  },
+  {
+    slug: 'blog',
+    title: 'Blog',
+    description: 'Technical articles and engineering insights',
+    type: 'default',
+  },
+  {
+    slug: 'contact',
+    title: 'Contact',
+    description: 'Get in touch for collaboration opportunities',
+    type: 'default',
+  },
+];
 
-  const titleMatch = html.match(/<title>(.*?)<\/title>/);
-  let title = titleMatch ? titleMatch[1].split(' - ')[0].trim() : 'Peritissimus';
+// Work pages
+const WORK_PAGES = [
+  {
+    slug: 'zoca',
+    title: 'Zoca',
+    description: 'Sr Software Engineer building AI products',
+    type: 'work',
+  },
+  {
+    slug: 'brihaspati',
+    title: 'Brihaspati',
+    description: 'Founding Engineer - AI-powered mobile app',
+    type: 'work',
+  },
+  {
+    slug: 'dubverse',
+    title: 'Dubverse',
+    description: 'Founding Engineer - AI video dubbing platform',
+    type: 'work',
+  },
+  {
+    slug: 'simplesounds',
+    title: 'SimpleSounds',
+    description: 'Co-Founder - AI voice-over platform',
+    type: 'work',
+  },
+];
 
-  const descMatch = html.match(/<meta name="description" content="(.*?)"/);
-  const description = descMatch ? descMatch[1] : '';
+// Blog posts (read from content directory)
+function getBlogPosts() {
+  const blogDir = path.join(ROOT_DIR, 'src/content/blog');
+  if (!fs.existsSync(blogDir)) return [];
 
-  // Determine page type
-  let type = 'default';
-  if (htmlPath.includes('/work/')) type = 'work';
-  else if (htmlPath.includes('/blog/') && !htmlPath.endsWith('blog.html')) type = 'blog';
-  else if (htmlPath.endsWith('index.html')) type = 'home';
+  const files = fs.readdirSync(blogDir).filter((f) => f.endsWith('.md'));
+  return files.map((file) => {
+    const content = fs.readFileSync(path.join(blogDir, file), 'utf-8');
+    const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!frontmatterMatch) return null;
 
-  // Use "Kushal" for homepage
-  if (type === 'home') {
-    title = 'Kushal';
-  }
+    const frontmatter = frontmatterMatch[1];
+    const titleMatch = frontmatter.match(/title:\s*(.+)/);
+    const descMatch = frontmatter.match(/description:\s*(.+)/);
 
-  return { title, description, type };
+    return {
+      slug: file.replace('.md', ''),
+      title: titleMatch ? titleMatch[1].trim() : file.replace('.md', ''),
+      description: descMatch ? descMatch[1].trim() : '',
+      type: 'blog',
+    };
+  }).filter(Boolean);
 }
 
 /**
- * Base OG Template (JSX-like structure)
+ * Base OG Template
  */
 function getBaseTemplate({ title, description, type }) {
   return {
@@ -77,7 +124,7 @@ function getBaseTemplate({ title, description, type }) {
         position: 'relative',
       },
       children: [
-        // Blueprint grid background (matching .blueprint-grid)
+        // Blueprint grid background
         {
           type: 'div',
           props: {
@@ -161,7 +208,8 @@ function getBaseTemplate({ title, description, type }) {
                     lineHeight: 1.4,
                     maxWidth: '900px',
                   },
-                  children: description.length > 120 ? description.substring(0, 120) + '...' : description,
+                  children:
+                    description.length > 120 ? description.substring(0, 120) + '...' : description,
                 },
               },
             ].filter(Boolean),
@@ -215,38 +263,13 @@ function getBaseTemplate({ title, description, type }) {
 /**
  * Generate OG image from template
  */
-async function generateOGImage(template, outputPath) {
+async function generateOGImage(template, outputPath, fonts) {
   try {
-    // Generate SVG using Satori with Barlow fonts
+    // Generate SVG using Satori
     const svg = await satori(template, {
       width: OG_WIDTH,
       height: OG_HEIGHT,
-      fonts: [
-        {
-          name: 'Barlow',
-          data: fs.readFileSync(path.join(ROOT_DIR, 'node_modules/@fontsource/barlow/files/barlow-latin-400-normal.woff')),
-          weight: 400,
-          style: 'normal',
-        },
-        {
-          name: 'Barlow',
-          data: fs.readFileSync(path.join(ROOT_DIR, 'node_modules/@fontsource/barlow/files/barlow-latin-600-normal.woff')),
-          weight: 600,
-          style: 'normal',
-        },
-        {
-          name: 'Barlow',
-          data: fs.readFileSync(path.join(ROOT_DIR, 'node_modules/@fontsource/barlow/files/barlow-latin-700-normal.woff')),
-          weight: 700,
-          style: 'normal',
-        },
-        {
-          name: 'Barlow Semi Condensed',
-          data: fs.readFileSync(path.join(ROOT_DIR, 'node_modules/@fontsource/barlow-semi-condensed/files/barlow-semi-condensed-latin-600-normal.woff')),
-          weight: 600,
-          style: 'normal',
-        },
-      ],
+      fonts,
     });
 
     // Convert SVG to PNG using resvg
@@ -275,60 +298,73 @@ async function generateOGImage(template, outputPath) {
 }
 
 /**
- * Generate OG images for all pages
+ * Load fonts
+ */
+function loadFonts() {
+  const fontsDir = path.join(ROOT_DIR, 'node_modules/@fontsource');
+
+  return [
+    {
+      name: 'Barlow',
+      data: fs.readFileSync(path.join(fontsDir, 'barlow/files/barlow-latin-400-normal.woff')),
+      weight: 400,
+      style: 'normal',
+    },
+    {
+      name: 'Barlow',
+      data: fs.readFileSync(path.join(fontsDir, 'barlow/files/barlow-latin-600-normal.woff')),
+      weight: 600,
+      style: 'normal',
+    },
+    {
+      name: 'Barlow',
+      data: fs.readFileSync(path.join(fontsDir, 'barlow/files/barlow-latin-700-normal.woff')),
+      weight: 700,
+      style: 'normal',
+    },
+    {
+      name: 'Barlow Semi Condensed',
+      data: fs.readFileSync(
+        path.join(fontsDir, 'barlow-semi-condensed/files/barlow-semi-condensed-latin-600-normal.woff')
+      ),
+      weight: 600,
+      style: 'normal',
+    },
+  ];
+}
+
+/**
+ * Main
  */
 async function main() {
   console.log('🖼️  Generating OG images...\n');
 
-  const pages = [
-    { path: path.join(SRC_PAGES_DIR, 'index.html'), output: 'home.png' },
-    { path: path.join(SRC_PAGES_DIR, 'about.html'), output: 'about.png' },
-    { path: path.join(SRC_PAGES_DIR, 'blog.html'), output: 'blog.png' },
-    { path: path.join(SRC_PAGES_DIR, 'contact.html'), output: 'contact.png' },
-  ];
+  const fonts = loadFonts();
+  const blogPosts = getBlogPosts();
 
-  // Add work pages
-  const workDir = path.join(SRC_PAGES_DIR, 'work');
-  if (fs.existsSync(workDir)) {
-    const workFiles = fs.readdirSync(workDir).filter((f) => f.endsWith('.html'));
-    workFiles.forEach((file) => {
-      pages.push({
-        path: path.join(workDir, file),
-        output: `work/${file.replace('.html', '.png')}`,
-      });
-    });
+  // Generate main pages
+  for (const page of PAGES) {
+    const template = getBaseTemplate(page);
+    const outputPath = path.join(OG_OUTPUT_DIR, `${page.slug}.png`);
+    await generateOGImage(template, outputPath, fonts);
   }
 
-  // Add blog posts
-  const blogDir = path.join(SRC_PAGES_DIR, 'blog');
-  if (fs.existsSync(blogDir)) {
-    const blogFiles = fs.readdirSync(blogDir).filter((f) => f.endsWith('.html'));
-    blogFiles.forEach((file) => {
-      pages.push({
-        path: path.join(blogDir, file),
-        output: `blog/${file.replace('.html', '.png')}`,
-      });
-    });
+  // Generate work pages
+  for (const page of WORK_PAGES) {
+    const template = getBaseTemplate(page);
+    const outputPath = path.join(OG_OUTPUT_DIR, `work/${page.slug}.png`);
+    await generateOGImage(template, outputPath, fonts);
   }
 
-  // Generate images
-  for (const page of pages) {
-    if (fs.existsSync(page.path)) {
-      const metadata = extractMetadata(page.path);
-      const template = getBaseTemplate(metadata);
-      const outputPath = path.join(OG_OUTPUT_DIR, page.output);
-      await generateOGImage(template, outputPath);
-    }
+  // Generate blog pages
+  for (const page of blogPosts) {
+    const template = getBaseTemplate(page);
+    const outputPath = path.join(OG_OUTPUT_DIR, `blog/${page.slug}.png`);
+    await generateOGImage(template, outputPath, fonts);
   }
 
-  console.log(`\n✓ Generated ${pages.length} OG images!`);
-  console.log('\nOG images are available at:');
-  console.log('  /og/home.png');
-  console.log('  /og/about.png');
-  console.log('  /og/blog.png');
-  console.log('  /og/contact.png');
-  console.log('  /og/work/*.png');
-  console.log('  /og/blog/*.png');
+  const total = PAGES.length + WORK_PAGES.length + blogPosts.length;
+  console.log(`\n✓ Generated ${total} OG images!`);
 }
 
 main().catch((error) => {

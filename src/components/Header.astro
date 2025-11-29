@@ -1,0 +1,33 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navItems = [
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<header class="header">
+  <div class="logo-wrapper">
+    <a href="/" class="logo">peritissimus</a>
+  </div>
+  <nav class="menu">
+    {navItems.map((item, index) => (
+      <>
+        <a
+          href={item.href}
+          class:list={['menu-item', { active: currentPath === item.href }]}
+        >
+          {item.label}
+        </a>
+        {index < navItems.length - 1 && <span class="menu-separator">//</span>}
+      </>
+    ))}
+  </nav>
+</header>
+

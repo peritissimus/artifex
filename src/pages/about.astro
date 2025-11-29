@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+
+const workExperience = [
+  {
+    company: 'Zoca',
+    role: 'Dev',
+    date: 'Nov 2024 - Present',
+    location: 'Phoenix, Arizona, United States · On-site',
+    link: '/work/zoca',
+  },
+  {
+    company: 'Deepmynd Innovative Technologies Pvt Ltd',
+    role: 'Co-Founder · Full-time',
+    date: 'May 2024 - Present',
+    location: 'Crafting next-generation products for Indian consumers',
+  },
+  {
+    company: 'Brihaspati AI',
+    role: 'Co-Founder',
+    date: 'May 2024 - Nov 2024',
+    location: 'On-site',
+    link: '/work/brihaspati',
+  },
+  {
+    company: 'Dübverse',
+    role: 'Founding Member (Engineering) · Full-time',
+    date: 'Dec 2021 - Apr 2024',
+    location: 'Gurugram, Haryana, India · On-site',
+    link: '/work/dubverse',
+  },
+  {
+    company: 'SimpleSounds',
+    role: 'Co-Founder · Full-time',
+    date: 'Feb 2021 - Dec 2021',
+    location: 'Bengaluru, Karnataka, India · Remote',
+    link: '/work/simplesounds',
+  },
+  {
+    company: 'CatrovaCer',
+    role: 'Co-Founder and CTO · Full-time',
+    date: 'Jan 2020 - Jan 2021',
+    location: 'Greater Chicago Area · Remote',
+  },
+  {
+    company: 'Technology Literary Society, IIT Kharagpur',
+    role: 'Governor',
+    date: 'Jul 2019 - Aug 2020',
+    location: 'Kharagpur Area, India',
+  },
+];
+---
+
+<Base
+  title="About - Peritissimus"
+  description="Learn more about Peritissimus - a System Architect & Engineer with expertise in creative coding, WebGL experiences, and scalable system design."
+  ogImage="/og/about.png"
+  currentPath="/about"
+>
+  <section id="about" class="content-section">
+    <div class="section-inner">
+      <h2 class="section-title">About</h2>
+      <div class="section-content">
+        <p>
+          <strong>Kushal Patankar</strong> (Peritissimus) is a founding engineer and
+          full-stack developer with expertise in building scalable AI-powered platforms and
+          infrastructure.
+        </p>
+        <p>
+          IIT Kharagpur graduate (B.Tech, 2021) with 4+ years of experience spanning founding
+          engineer roles, technical leadership, and entrepreneurship. Specialized in backend
+          architecture, frontend development, infrastructure automation, and AI integration.
+        </p>
+        <p>
+          Previously co-founded <strong>Deepmynd Innovative Technologies</strong> and
+          <strong>Brihaspati AI</strong>, crafting next-generation products with AI prowess
+          tailored for consumers. At Brihaspati, implemented dynamic prompt engineering and
+          context-aware memory retrieval improving D7 retention by 20%.
+        </p>
+        <p>
+          As a founding member at <strong>Dübverse</strong>, helped design, architect, develop
+          and scale an enterprise-grade AI video dubbing platform processing 570,000+ hours of
+          audio-video content for 1M+ users. 6-7000 production git commits across eight
+          codebases, achieving 40%+ B2B growth.
+        </p>
+
+        <div class="timeline-section">
+          <h3>Work Experience</h3>
+          <div class="timeline">
+            {workExperience.map((job) => (
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <div class="timeline-header">
+                    <h4>
+                      {job.link ? (
+                        <a href={job.link}>{job.company}</a>
+                      ) : (
+                        job.company
+                      )}
+                    </h4>
+                    <span class="timeline-date">{job.date}</span>
+                  </div>
+                  <div class="timeline-role">{job.role}</div>
+                  <div class="timeline-location">{job.location}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

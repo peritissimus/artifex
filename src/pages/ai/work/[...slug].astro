@@ -1,0 +1,77 @@
+---
+import AI from '../../../layouts/AI.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const works = await getCollection('work');
+  return works.map((work) => ({
+    params: { slug: work.slug },
+    props: { work },
+  }));
+}
+
+const { work } = Astro.props;
+const { Content } = await work.render();
+
+// Strip markdown bold syntax for plain text
+function stripMarkdown(text: string): string {
+  return text.replace(/\*\*(.*?)\*\*/g, '$1');
+}
+---
+
+<AI
+  title={`${work.data.title} - Work Experience`}
+  description={work.data.description}
+  humanUrl={`/work/${work.slug}`}
+>
+  <p class="meta">
+    <strong>Company:</strong> {work.data.company}<br />
+    <strong>Role:</strong> {work.data.role}<br />
+    <strong>Period:</strong> {work.data.dateRange}<br />
+    <strong>Location:</strong> {work.data.location}<br />
+    {work.data.externalUrl && (
+      <>
+        <strong>Website:</strong> <a href={work.data.externalUrl}>{work.data.externalUrl}</a>
+      </>
+    )}
+  </p>
+
+  <h2>Overview</h2>
+  <Content />
+
+  {work.data.achievements.length > 0 && (
+    <>
+      <h2>Key Achievements</h2>
+      <ul>
+        {work.data.achievements.map((achievement) => (
+          <li>{stripMarkdown(achievement)}</li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  {work.data.technologies.length > 0 && (
+    <>
+      <h2>Technologies</h2>
+      <p>{work.data.technologies.join(', ')}</p>
+    </>
+  )}
+
+  {work.data.stats && work.data.stats.length > 0 && (
+    <>
+      <h2>Impact</h2>
+      <ul>
+        {work.data.stats.map((stat) => (
+          <li><strong>{stat.value}</strong> — {stat.label}</li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  {work.data.outcome && (
+    <>
+      <h2>Outcome</h2>
+      <p>{work.data.outcome}</p>
+    </>
+  )}
+</AI>
