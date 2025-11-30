@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/peritissimus/artifex/compare/v1.15.1...v1.16.0) (2025-11-30)
+
+
+### Features
+
+* **config:** set output to static for improved deployment options ([4ed1880](https://github.com/peritissimus/artifex/commit/4ed1880b762348eed2b83f7a30e743d9594bcee1))
+
 ## [1.15.1](https://github.com/peritissimus/artifex/compare/v1.15.0...v1.15.1) (2025-11-30)
 
 
