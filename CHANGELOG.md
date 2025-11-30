@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/peritissimus/artifex/compare/v1.15.0...v1.15.1) (2025-11-30)
+
+
+### Bug Fixes
+
+* remove dist assets from GitHub releases ([18cb79c](https://github.com/peritissimus/artifex/commit/18cb79ca0dfab10809f4418867c710b0c878f64a))
+
 # [1.15.0](https://github.com/peritissimus/artifex/compare/v1.14.1...v1.15.0) (2025-11-30)
 
 
