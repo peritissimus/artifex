@@ -21,16 +21,6 @@ export default defineConfig({
         },
       },
     },
-    build: {
-      // Code splitting similar to your current setup
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            three: ['three'],
-          },
-        },
-      },
-    },
   },
   // Clean URLs (no .html extension)
   trailingSlash: 'never',

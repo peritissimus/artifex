@@ -1,0 +1,2 @@
+# Redirect www to non-www
+https://www.peritissimus.com/* https://peritissimus.com/:splat 301
