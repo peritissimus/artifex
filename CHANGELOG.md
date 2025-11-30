@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/peritissimus/artifex/compare/v1.18.0...v1.18.1) (2025-11-30)
+
+
+### Bug Fixes
+
+* **redirects:** remove obsolete redirects for www to non-www ([8e55710](https://github.com/peritissimus/artifex/commit/8e5571037da5f52338e1acd8e9464a791cd257c3))
+
 # [1.18.0](https://github.com/peritissimus/artifex/compare/v1.17.0...v1.18.0) (2025-11-30)
 
 
