@@ -7,6 +7,7 @@ import { remarkCaptureCodeLang, rehypeBlogTransform } from './src/plugins/rehype
 // https://astro.build/config
 export default defineConfig({
   site: 'https://peritissimus.com',
+  output: 'static',
   integrations: [mdx(), sitemap()],
   markdown: {
     remarkPlugins: [remarkCaptureCodeLang],
@@ -16,13 +17,11 @@ export default defineConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          // Silence deprecation warnings for legacy sass APIs
           silenceDeprecations: ['legacy-js-api'],
         },
       },
     },
   },
-  // Clean URLs (no .html extension)
   trailingSlash: 'never',
   build: {
     format: 'file',
