@@ -299,9 +299,9 @@ body {
 
 // Hero Section
 .hero-section {
-  padding-top: 15vh;
-  padding-bottom: 8vh;
-  min-height: 100vh;
+  padding-top: 12vh;
+  padding-bottom: 5vh;
+  min-height: calc(100vh - 70px); // Account for fixed footer
   display: flex;
   align-items: center;
   justify-content: center;
