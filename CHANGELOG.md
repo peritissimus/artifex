@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/peritissimus/artifex/compare/v1.13.3...v1.14.0) (2025-11-30)
+
+
+### Features
+
+* **pages:** update title in index.astro for personal branding ([1798579](https://github.com/peritissimus/artifex/commit/179857951c35b7d534593267832c2883c1fcc069))
+
 ## [1.13.3](https://github.com/peritissimus/artifex/compare/v1.13.2...v1.13.3) (2025-11-29)
 
 
