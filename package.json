@@ -6,14 +6,17 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro build && wrangler pages dev dist",
-    "deploy": "astro build && wrangler pages deploy dist --project-name=artifex",
+    "preview": "astro build && wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "astro build && wrangler deploy --dry-run",
+    "cf-typegen": "wrangler types",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "og:generate": "node scripts/generate-og-images.js",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/mdx": "^4.3.12",
     "@astrojs/sitemap": "^3.6.0",
     "astro": "^5.16.2",
