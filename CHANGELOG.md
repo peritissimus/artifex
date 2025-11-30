@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/peritissimus/artifex/compare/v1.17.0...v1.18.0) (2025-11-30)
+
+
+### Features
+
+* **public:** add .assetsignore to exclude specific files from asset processing ([43c2e09](https://github.com/peritissimus/artifex/commit/43c2e09ddade04777d5ec8f46264a768ecb2cae1))
+
 # [1.17.0](https://github.com/peritissimus/artifex/compare/v1.16.0...v1.17.0) (2025-11-30)
 
 
