@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/peritissimus/artifex/compare/v1.14.1...v1.15.0) (2025-11-30)
+
+
+### Features
+
+* add Cloudflare Pages configuration ([8c9b7dd](https://github.com/peritissimus/artifex/commit/8c9b7dd27254ada9d8d2373067a00844eaf2d127))
+
 ## [1.14.1](https://github.com/peritissimus/artifex/compare/v1.14.0...v1.14.1) (2025-11-30)
 
 # [1.14.0](https://github.com/peritissimus/artifex/compare/v1.13.3...v1.14.0) (2025-11-30)
