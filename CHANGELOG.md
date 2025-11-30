@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/peritissimus/artifex/compare/v1.16.0...v1.17.0) (2025-11-30)
+
+
+### Features
+
+* **deploy:** migrate to Cloudflare Workers adapter ([b1cd268](https://github.com/peritissimus/artifex/commit/b1cd2684e60f18f5310eb142299288f7831a8b90))
+
 # [1.16.0](https://github.com/peritissimus/artifex/compare/v1.15.1...v1.16.0) (2025-11-30)
 
 
