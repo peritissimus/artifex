@@ -17,18 +17,12 @@ importers:
       astro:
         specifier: ^5.16.2
         version: 5.16.2(@types/node@24.10.1)(rollup@4.53.3)(sass@1.94.2)(typescript@5.9.3)
-      gl-matrix:
-        specifier: ^3.4.4
-        version: 3.4.4
       hastscript:
         specifier: ^9.0.1
         version: 9.0.1
       sass:
         specifier: ^1.94.2
         version: 1.94.2
-      three:
-        specifier: ^0.181.2
-        version: 0.181.2
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
@@ -1136,9 +1130,6 @@ packages:
   github-slugger@2.0.0:
     resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
 
-  gl-matrix@3.4.4:
-    resolution: {integrity: sha512-latSnyDNt/8zYUB6VIJ6PCh2jBjJX6gnDsoCZ7LyW7GkqrD51EWwa9qCoGixj8YqBtETQK/xY7OmpTF8xz1DdQ==}
-
   h3@1.15.4:
     resolution: {integrity: sha512-z5cFQWDffyOe4vQ9xIqNfCZdV4p//vy6fBnr8Q1AWnVZ0teurKMG66rLj++TKwKPUP3u7iMUvrvKaEUiQw2QWQ==}
 
@@ -1741,9 +1732,6 @@ packages:
     resolution: {integrity: sha512-VvrHQ+9uniE+Mvx3+C9IEe/lWasXCU0nXMY2kZeLrHNICuRiC8uMPyM14UEaMOFA5mhyQqEkB02VoQ16n3DLaw==}
     engines: {node: '>=16'}
     hasBin: true
-
-  three@0.181.2:
-    resolution: {integrity: sha512-k/CjiZ80bYss6Qs7/ex1TBlPD11whT9oKfT8oTGiHa34W4JRd1NiH/Tr1DbHWQ2/vMUypxksLnF2CfmlmM5XFQ==}
 
   tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
@@ -3041,8 +3029,6 @@ snapshots:
 
   github-slugger@2.0.0: {}
 
-  gl-matrix@3.4.4: {}
-
   h3@1.15.4:
     dependencies:
       cookie-es: 1.2.2
@@ -4147,8 +4133,6 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.1.1
       sax: 1.4.3
-
-  three@0.181.2: {}
 
   tiny-inflate@1.0.3: {}
 
