@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro build && wrangler dev",
-    "deploy": "wrangler deploy",
+    "preview:cf": "astro build && wrangler dev",
+    "deploy:cf": "wrangler deploy",
     "check": "astro build && wrangler deploy --dry-run",
     "cf-typegen": "wrangler types",
     "format": "prettier --write .",
@@ -19,6 +19,7 @@
     "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/mdx": "^4.3.12",
     "@astrojs/sitemap": "^3.6.0",
+    "@vercel/speed-insights": "^1.3.0",
     "astro": "^5.16.2",
     "hastscript": "^9.0.1",
     "sass": "^1.94.2",

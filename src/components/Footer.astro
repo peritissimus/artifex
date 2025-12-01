@@ -13,7 +13,7 @@ const machineUrl = isAiMode ? currentPath : `/ai${currentPath === '/' ? '' : cur
 
 <footer class="footer">
   <div class="footer-copy">PERITISSIMUS &copy; {new Date().getFullYear()}</div>
-  <div class="footer-coords">LAT: 0.000&deg; / LONG: 0.000&deg;</div>
+  <a href="https://www.google.com/maps?q=12.9352,77.6245" target="_blank" rel="noopener" class="footer-coords">LAT: 12.935&deg; / LONG: 77.624&deg;</a>
   <div class="mode-toggle">
     <a
       href={humanUrl}

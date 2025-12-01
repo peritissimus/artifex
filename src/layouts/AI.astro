@@ -18,52 +18,98 @@ const { title, description, humanUrl } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | Machine-Readable</title>
+    <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, follow" />
     <link rel="canonical" href={`https://peritissimus.com${humanUrl}`} />
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
+      * { padding: 0; box-sizing: border-box; }
       body {
         font-family: system-ui, -apple-system, sans-serif;
         line-height: 1.6;
         max-width: 800px;
-        margin: 0 auto;
+        margin: 0 auto !important;
         padding: 2rem;
-        background: #fafafa;
-        color: #1a1a1a;
+        background: #0f0f0f;
+        color: #cfcecd;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
       header {
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #3a3a3a;
         padding-bottom: 1rem;
         margin-bottom: 2rem;
       }
-      h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-      h2 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; border-bottom: 1px solid #eee; padding-bottom: 0.25rem; }
-      h3 { font-size: 1rem; margin: 1rem 0 0.5rem; }
+      h1 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #ffffff; }
+      h2 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; border-bottom: 1px solid #3a3a3a; padding-bottom: 0.25rem; color: #ffffff; }
+      h3 { font-size: 1rem; margin: 1rem 0 0.5rem; color: #ffffff; }
       p { margin-bottom: 1rem; }
       ul, ol { margin: 1rem 0; padding-left: 1.5rem; }
       li { margin-bottom: 0.5rem; }
-      a { color: #0066cc; }
+      a { color: #a8a5a5; transition: color 0.3s ease; }
+      a:hover { color: #ffffff; }
       nav { margin-bottom: 1rem; }
       nav a { margin-right: 1rem; }
-      .mode-switch {
-        margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid #ddd;
-        font-size: 0.875rem;
-      }
       footer {
         margin-top: 2rem;
         padding-top: 1rem;
-        border-top: 1px solid #ddd;
-        font-size: 0.875rem;
-        color: #666;
+        border-top: 1px solid #3a3a3a;
+        font-size: 0.7rem;
+        color: #959595;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        letter-spacing: 0.1em;
       }
-      .meta { color: #666; font-size: 0.875rem; margin-bottom: 1rem; }
-      code { background: #f0f0f0; padding: 0.125rem 0.25rem; border-radius: 2px; font-size: 0.875em; }
-      pre { background: #f0f0f0; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+      .footer-copy, .footer-coords {
+        font-family: 'Barlow Semi Condensed', system-ui, sans-serif;
+      }
+      .footer-coords {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .mode-toggle {
+        display: flex;
+        gap: 1rem;
+        padding: 0.375rem 0.5rem;
+        border-radius: 4px;
+        background: rgba(26, 26, 26, 0.5);
+        border: 1px solid #3a3a3a;
+      }
+      .mode-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        padding: 0.25rem 0.5rem;
+        background: transparent;
+        border: none;
+        color: #959595;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        text-decoration: none;
+      }
+      .mode-btn:hover { color: #cfcecd; }
+      .mode-btn.active { color: #ffffff; }
+      .mode-btn.active .mode-indicator { background: currentColor; }
+      .mode-indicator {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        border: 1px solid currentColor;
+        transition: background 0.3s ease;
+      }
+      .mode-label { text-transform: uppercase; }
+      .meta { color: #959595; font-size: 0.875rem; margin-bottom: 1rem; }
+      code { background: #1a1a1a; padding: 0.125rem 0.25rem; border-radius: 2px; font-size: 0.875em; color: #a8a5a5; }
+      pre { background: #1a1a1a; padding: 1rem; overflow-x: auto; margin: 1rem 0; border: 1px solid #3a3a3a; }
       pre code { background: none; padding: 0; }
+      strong { color: #ffffff; }
     </style>
   </head>
   <body>
@@ -82,14 +128,19 @@ const { title, description, humanUrl } = Astro.props;
       <slot />
     </main>
 
-    <div class="mode-switch">
-      <strong>View mode:</strong>
-      <a href="/ai{humanUrl === '/' ? '' : humanUrl}">Machine-readable</a> |
-      <a href={humanUrl}>Human-readable (with visuals)</a>
-    </div>
-
     <footer>
-      <p>Peritissimus &copy; {new Date().getFullYear()} | Machine-readable version</p>
+      <div class="footer-copy">PERITISSIMUS &copy; {new Date().getFullYear()}</div>
+      <a href="https://www.google.com/maps?q=12.9352,77.6245" target="_blank" rel="noopener" class="footer-coords">LAT: 12.935&deg; / LONG: 77.624&deg;</a>
+      <div class="mode-toggle">
+        <a href={humanUrl} class="mode-btn">
+          <span class="mode-indicator"></span>
+          <span class="mode-label">Human</span>
+        </a>
+        <a href={`/ai${humanUrl === '/' ? '' : humanUrl}`} class="mode-btn active">
+          <span class="mode-indicator"></span>
+          <span class="mode-label">Machine</span>
+        </a>
+      </div>
     </footer>
   </body>
 </html>
