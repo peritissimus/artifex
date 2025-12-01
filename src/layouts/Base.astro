@@ -35,19 +35,13 @@ const {
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- DNS Prefetch & Preconnect for fonts -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <!-- Critical inline CSS -->
     <style is:inline>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
         background: #0f0f0f;
         color: #cfcecd;
-        font-family: system-ui, -apple-system, sans-serif;
+        font-family: 'Barlow', system-ui, -apple-system, sans-serif;
         font-weight: 400;
         overflow-x: hidden;
         line-height: 1.6;
@@ -81,20 +75,6 @@ const {
         font-size: 0.875rem;
       }
     </style>
-
-    <!-- Async font loading -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;600&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@400;600&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
   </head>
   <body>
     <!-- Main content -->
