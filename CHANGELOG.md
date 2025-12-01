@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/peritissimus/artifex/compare/v1.18.1...v1.19.0) (2025-12-01)
+
+
+### Features
+
+* **layouts:** self-host Barlow font to improve performance ([a02d954](https://github.com/peritissimus/artifex/commit/a02d95421e2fd28d75a82726eeb9a34c94ded813))
+
 ## [1.18.1](https://github.com/peritissimus/artifex/compare/v1.18.0...v1.18.1) (2025-11-30)
 
 
