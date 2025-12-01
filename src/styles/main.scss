@@ -1,20 +1,11 @@
 // Self-hosted Fonts (eliminates 3rd party Google Fonts request)
+// Note: fontsource uses font-display: swap by default
 @import '@fontsource/barlow/400.css';
 @import '@fontsource/barlow/500.css';
 @import '@fontsource/barlow/600.css';
 @import '@fontsource/barlow/700.css';
 @import '@fontsource/barlow-semi-condensed/400.css';
 @import '@fontsource/barlow-semi-condensed/600.css';
-
-// Override font-display to block (wait for fonts, no FOUT)
-@font-face {
-  font-family: 'Barlow';
-  font-display: block;
-}
-@font-face {
-  font-family: 'Barlow Semi Condensed';
-  font-display: block;
-}
 
 // Color Variables
 $bg-primary: #0f0f0f;
