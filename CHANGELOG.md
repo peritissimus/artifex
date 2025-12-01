@@ -1,3 +1,11 @@
+# [1.20.0](https://github.com/peritissimus/artifex/compare/v1.19.1...v1.20.0) (2025-12-01)
+
+
+### Features
+
+* **public:** add apple touch icon for improved branding on mobile devices ([f71ca13](https://github.com/peritissimus/artifex/commit/f71ca133a7fcaeeaadc23809da9a21947c541070))
+* **ui:** update footer to include dynamic coordinates and improve styles ([ec42b81](https://github.com/peritissimus/artifex/commit/ec42b81837ba11547dbb32754d23da699ba67510))
+
 ## [1.19.1](https://github.com/peritissimus/artifex/compare/v1.19.0...v1.19.1) (2025-12-01)
 
 
