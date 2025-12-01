@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/peritissimus/artifex/compare/v1.20.1...v1.21.0) (2025-12-01)
+
+
+### Features
+
+* **vercel:** add clean URLs configuration to Vercel settings ([64c8046](https://github.com/peritissimus/artifex/commit/64c8046d9de3c651877ef680cad6a12b36f73ef5))
+
 ## [1.20.1](https://github.com/peritissimus/artifex/compare/v1.20.0...v1.20.1) (2025-12-01)
 
 # [1.20.0](https://github.com/peritissimus/artifex/compare/v1.19.1...v1.20.0) (2025-12-01)
