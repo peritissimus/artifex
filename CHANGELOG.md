@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/peritissimus/artifex/compare/v1.19.0...v1.19.1) (2025-12-01)
+
+
+### Bug Fixes
+
+* **styles:** update font imports to prevent flash of unstyled text ([34f36f3](https://github.com/peritissimus/artifex/commit/34f36f32d721a2a088cf3dd529249104fd39cc21))
+
 # [1.19.0](https://github.com/peritissimus/artifex/compare/v1.18.1...v1.19.0) (2025-12-01)
 
 
