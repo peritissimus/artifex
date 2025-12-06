@@ -78,6 +78,9 @@ const {
     </style>
   </head>
   <body>
+    <!-- Starry Night Background -->
+    <div id="world" class="world"></div>
+
     <!-- Main content -->
     <div id="scroll-wrapper" class="scroll-wrapper">
       <main class="info-wrapper">
@@ -93,5 +96,10 @@ const {
 
     <SpeedInsights />
 
+    <!-- Starry Night Script -->
+    <script>
+      import { initStarryNight } from '../scripts/starryNight';
+      initStarryNight();
+    </script>
   </body>
 </html>

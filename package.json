@@ -23,6 +23,7 @@
     "astro": "^5.16.2",
     "hastscript": "^9.0.1",
     "sass": "^1.94.2",
+    "three": "^0.181.2",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
