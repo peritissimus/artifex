@@ -14,9 +14,9 @@ export function initStarryNight(): void {
 }
 
 function createBlackHoleScene(container: HTMLElement) {
-  // Optimized config - fewer stars, simpler physics
+  // Config
   const config = {
-    starCount: 6000, // Reduced from 12000
+    starCount: 10000,
     schwarzschildRadius: 50,
     photonSphereRadius: 75,
     iscoRadius: 150,
@@ -130,9 +130,11 @@ function createBlackHoleScene(container: HTMLElement) {
         // Simple time dilation approximation (avoid sqrt where possible)
         float dilationFactor = currentRadius / (currentRadius + uRs * progress * 2.0);
 
-        // Orbital motion
-        float angularSpeed = velocity * dilationFactor;
-        float newAngle = initialAngle + uTime * angularSpeed * 0.2;
+        // Orbital motion - always rotating, speed increases with scroll
+        float baseSpeed = 0.15; // Base rotation
+        float scrollBoost = progress * 2.0; // Speed up significantly on scroll
+        float angularSpeed = velocity * dilationFactor * (baseSpeed + scrollBoost);
+        float newAngle = initialAngle + uTime * angularSpeed;
 
         // Flatten to disk
         float z = position.z * (1.0 - progress * 0.7);
@@ -247,14 +249,17 @@ function createBlackHoleScene(container: HTMLElement) {
     targetMouseY = (e.clientY / window.innerHeight) * 2 - 1;
   };
 
-  const handleWheel = (e: WheelEvent) => {
-    targetScrollProgress += e.deltaY * 0.0004;
-    targetScrollProgress = Math.max(0, Math.min(1, targetScrollProgress));
+  // Track actual page scroll for rotation speed
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollHeight > 0) {
+      targetScrollProgress = window.scrollY / scrollHeight;
+    }
   };
 
   window.addEventListener('resize', handleResize);
   window.addEventListener('mousemove', handleMouseMove);
-  window.addEventListener('wheel', handleWheel, { passive: true });
+  window.addEventListener('scroll', handleScroll, { passive: true });
 
   setTimeout(() => container.classList.add('loaded'), 100);
 
@@ -262,7 +267,7 @@ function createBlackHoleScene(container: HTMLElement) {
     destroy: () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll);
       starsGeometry.dispose();
       starsMaterial.dispose();
       renderer.dispose();
