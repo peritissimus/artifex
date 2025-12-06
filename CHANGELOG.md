@@ -1,3 +1,11 @@
+# [1.22.0](https://github.com/peritissimus/artifex/compare/v1.21.0...v1.22.0) (2025-12-06)
+
+
+### Features
+
+* **layouts:** add starry night background effect ([5ff281a](https://github.com/peritissimus/artifex/commit/5ff281a02843ea9a6c2c2a3537f4f07ec0b46ddb))
+* **scripts/starryNight:** enhance black hole scene behavior and controls ([ad0939b](https://github.com/peritissimus/artifex/commit/ad0939bfd7a7df6c1f8edd4809575f89f05fb1ba))
+
 # [1.21.0](https://github.com/peritissimus/artifex/compare/v1.20.1...v1.21.0) (2025-12-01)
 
 
