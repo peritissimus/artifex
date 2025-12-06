@@ -123,9 +123,9 @@ function createBlackHoleScene(container: HTMLElement) {
         // Simplified approach progress
         float progress = uProgress * uProgress;
 
-        // Stars pulled inward
-        float pullAmount = progress * (initialRadius - uRs * 2.0) * 0.5;
-        float currentRadius = max(initialRadius - pullAmount, uRs * 1.2);
+        // Stars expand outward as scroll increases
+        float expandAmount = progress * initialRadius * 1.0;
+        float currentRadius = initialRadius + expandAmount;
 
         // Simple time dilation approximation (avoid sqrt where possible)
         float dilationFactor = currentRadius / (currentRadius + uRs * progress * 2.0);
@@ -219,17 +219,10 @@ function createBlackHoleScene(container: HTMLElement) {
     starsMaterial.uniforms.uTime.value = currentTime * 0.001;
     starsMaterial.uniforms.uProgress.value = scrollProgress;
 
-    // Camera
-    camera.position.z = 1000 - progress * 800;
-    camera.position.x = mouseX * 25 * (1 - progress * 0.4);
-    camera.position.y = -mouseY * 18 * (1 - progress * 0.4);
-
-    // Subtle shake near black hole
-    if (progress > 0.3) {
-      const shake = (progress - 0.3) * 3;
-      camera.position.x += Math.sin(currentTime * 0.008) * shake;
-      camera.position.y += Math.cos(currentTime * 0.01) * shake;
-    }
+    // Camera - fixed distance, no zoom
+    camera.position.z = 1000;
+    camera.position.x = mouseX * 25;
+    camera.position.y = -mouseY * 18;
 
     camera.lookAt(0, 0, 0);
     renderer.render(scene, camera);
