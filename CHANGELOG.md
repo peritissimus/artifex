@@ -1,3 +1,10 @@
+# [1.23.0](https://github.com/peritissimus/artifex/compare/v1.22.0...v1.23.0) (2025-12-06)
+
+
+### Features
+
+* **scripts/starryNight:** change camera behavior and star expansion effect ([c5f84b9](https://github.com/peritissimus/artifex/commit/c5f84b90367bc093a19463e9432939b3502b282f))
+
 # [1.22.0](https://github.com/peritissimus/artifex/compare/v1.21.0...v1.22.0) (2025-12-06)
 
 
