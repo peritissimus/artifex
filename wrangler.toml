@@ -1,0 +1,9 @@
+name = "artifex"
+compatibility_date = "2025-01-17"
+
+pages_build_output_dir = "./dist"
+
+[observability]
+enabled = true
+
+upload_source_maps = true
