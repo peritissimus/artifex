@@ -1,3 +1,5 @@
+## [1.23.1](https://github.com/peritissimus/artifex/compare/v1.23.0...v1.23.1) (2026-01-17)
+
 # [1.23.0](https://github.com/peritissimus/artifex/compare/v1.22.0...v1.23.0) (2025-12-06)
 
 
