@@ -1,7 +1,7 @@
 {
   "name": "artifex",
   "type": "module",
-  "version": "1.23.1",
+  "version": "1.23.2",
   "description": "Portfolio of Peritissimus - System Architect & Engineer",
   "scripts": {
     "dev": "astro dev",
