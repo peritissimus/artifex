@@ -6,10 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview:cf": "astro build && wrangler dev",
-    "deploy:cf": "wrangler deploy",
-    "check": "astro build && wrangler deploy --dry-run",
-    "cf-typegen": "wrangler types",
+    "check": "astro build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "og:generate": "node scripts/generate-og-images.js",
