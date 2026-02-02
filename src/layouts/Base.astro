@@ -47,16 +47,18 @@ const {
         line-height: 1.6;
         -webkit-font-smoothing: antialiased;
       }
-      .noise-bg {
+      #grid-background {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         z-index: 0;
-        opacity: 0.03;
-        filter: url(#noise);
         pointer-events: none;
+      }
+      #grid-background canvas {
+        width: 100%;
+        height: 100%;
       }
       .scroll-wrapper {
         position: relative;
@@ -89,14 +91,8 @@ const {
     </style>
   </head>
   <body>
-    <!-- Noise Background -->
-    <svg style="position: fixed; width: 0; height: 0;">
-      <filter id="noise">
-        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" />
-        <feColorMatrix type="saturate" values="0" />
-      </filter>
-    </svg>
-    <div class="noise-bg"></div>
+    <!-- Grid Background -->
+    <div id="grid-background"></div>
 
     <!-- Main content -->
     <div id="scroll-wrapper" class="scroll-wrapper">
@@ -110,5 +106,11 @@ const {
 
     <!-- Fixed footer -->
     <Footer currentPath={currentPath} />
+
+    <!-- Grid Background Script -->
+    <script>
+      import { initGridBackground } from '../scripts/gridBackground';
+      initGridBackground();
+    </script>
   </body>
 </html>
