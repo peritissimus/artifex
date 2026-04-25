@@ -13,10 +13,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.12",
-    "@astrojs/mdx": "^4.3.12",
-    "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.16.2",
+    "@astrojs/cloudflare": "^13.2.1",
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.1.9",
     "hastscript": "^9.0.1",
     "sass": "^1.94.2",
     "three": "^0.181.2",
