@@ -34,3 +34,7 @@ dist
 
 # OS files
 Thumbs.db
+
+.agents/
+.claude/
+skills-lock.json
