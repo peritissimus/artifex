@@ -1,0 +1,477 @@
+---
+// Agent shell — entire scene rendered in Three.js (curved plane + text texture).
+// Live tweak panel on the right.
+---
+
+<section class="agent-page" id="agent-page">
+  <canvas class="agent-canvas" id="agent-canvas"></canvas>
+  <input
+    class="agent-mobile-input"
+    id="agent-terminal-input"
+    type="text"
+    autocomplete="off"
+    autocapitalize="off"
+    spellcheck="false"
+    aria-label="Terminal command input"
+  />
+
+  <aside class="ctrl" id="ctrl">
+    <div class="ctrl-head">
+      <span class="ctrl-title">tweaks</span>
+      <button class="ctrl-x" type="button" id="ctrl-toggle" aria-label="Toggle">−</button>
+    </div>
+    <div class="ctrl-body" id="ctrl-body">
+      <!-- populated by script -->
+    </div>
+  </aside>
+
+  <button class="ctrl-open" id="ctrl-open" type="button" aria-label="Open tweaks">tweaks</button>
+</section>
+
+<script>
+  import { AgentScene, DEFAULT_PARAMS, type AgentParams } from '../scripts/agentScene';
+
+  const PARAM_VERSION = 3;
+  const STORAGE_KEY = 'agent-params';
+
+  type Spec =
+    | { type: 'range'; key: keyof AgentParams; label: string; min: number; max: number; step: number }
+    | { type: 'color'; key: keyof AgentParams; label: string };
+
+  const SECTIONS: Array<{ title: string; controls: Spec[] }> = [
+    {
+      title: 'Geometry',
+      controls: [
+        { type: 'range', key: 'curve',    label: 'Barrel',   min: 0, max: 1.5, step: 0.01 },
+        { type: 'range', key: 'tilt',     label: 'Tilt',     min: 0, max: 0.6, step: 0.01 },
+        { type: 'range', key: 'parallax', label: 'Parallax', min: 0, max: 3,   step: 0.05 },
+      ],
+    },
+    {
+      title: 'Effects',
+      controls: [
+        { type: 'range', key: 'vignette', label: 'Vignette', min: 0, max: 1,   step: 0.01 },
+        { type: 'range', key: 'bloom',    label: 'Bloom',    min: 0, max: 2,   step: 0.02 },
+        { type: 'range', key: 'glow',     label: 'Glow',     min: 0, max: 2,   step: 0.02 },
+        { type: 'range', key: 'opacity',  label: 'Opacity',  min: 0.4, max: 1, step: 0.01 },
+      ],
+    },
+    {
+      title: 'CRT',
+      controls: [
+        { type: 'range', key: 'crt',       label: 'Curve',     min: 0, max: 0.4, step: 0.01 },
+        { type: 'range', key: 'scanlines', label: 'Scanlines', min: 0, max: 1,   step: 0.02 },
+        { type: 'range', key: 'grain',     label: 'Grain',     min: 0, max: 1,   step: 0.02 },
+        { type: 'range', key: 'flicker',   label: 'Flicker',   min: 0, max: 1,   step: 0.02 },
+      ],
+    },
+    {
+      title: 'Code',
+      controls: [
+        { type: 'range', key: 'fontSize',   label: 'Font Size',   min: 10, max: 22, step: 0.5 },
+        { type: 'range', key: 'lineHeight', label: 'Line Height', min: 1.2, max: 2.4, step: 0.05 },
+      ],
+    },
+    {
+      title: 'Color',
+      controls: [
+        { type: 'color', key: 'accent', label: 'Accent' },
+      ],
+    },
+  ];
+
+  function boot() {
+    const page = document.getElementById('agent-page');
+    const canvas = document.getElementById('agent-canvas') as HTMLCanvasElement | null;
+    const input = document.getElementById('agent-terminal-input') as HTMLInputElement | null;
+    const body = document.getElementById('ctrl-body');
+    const toggle = document.getElementById('ctrl-toggle');
+    const open = document.getElementById('ctrl-open');
+    const panel = document.getElementById('ctrl');
+    if (!page || !canvas || !input || !body || !toggle || !open || !panel) return;
+
+    // Restore params from localStorage
+    const saved = readSaved();
+    const startParams: Partial<AgentParams> = saved ?? {};
+
+    const scene = new AgentScene(canvas, page, startParams, input);
+
+    // Build controls
+    const valueRefs = new Map<string, HTMLElement>();
+    const inputRefs = new Map<string, HTMLInputElement>();
+
+    for (const section of SECTIONS) {
+      const title = document.createElement('div');
+      title.className = 'ctrl-section-title';
+      title.textContent = section.title;
+      body.appendChild(title);
+
+      for (const spec of section.controls) {
+        const row = document.createElement('label');
+        row.className = 'ctrl-row';
+
+        const label = document.createElement('span');
+        label.className = 'ctrl-label';
+        label.textContent = spec.label;
+        row.appendChild(label);
+
+        if (spec.type === 'range') {
+          const wrap = document.createElement('div');
+          wrap.className = 'ctrl-input';
+          const range = document.createElement('input');
+          range.type = 'range';
+          range.min = String(spec.min);
+          range.max = String(spec.max);
+          range.step = String(spec.step);
+          range.value = String(scene.getParams()[spec.key]);
+          range.dataset.key = String(spec.key);
+          wrap.appendChild(range);
+          row.appendChild(wrap);
+          inputRefs.set(String(spec.key), range);
+
+          const val = document.createElement('span');
+          val.className = 'ctrl-value';
+          val.textContent = formatNum(Number(range.value), spec.step);
+          row.appendChild(val);
+          valueRefs.set(String(spec.key), val);
+
+          range.addEventListener('input', () => {
+            const v = Number(range.value);
+            scene.setParam(spec.key, v as never);
+            val.textContent = formatNum(v, spec.step);
+            saveParams(scene.getParams());
+          });
+        } else {
+          const wrap = document.createElement('div');
+          wrap.className = 'ctrl-input';
+          const color = document.createElement('input');
+          color.type = 'color';
+          color.value = String(scene.getParams()[spec.key]);
+          color.dataset.key = String(spec.key);
+          wrap.appendChild(color);
+          row.appendChild(wrap);
+          inputRefs.set(String(spec.key), color);
+
+          const val = document.createElement('span');
+          val.className = 'ctrl-value';
+          val.textContent = String(color.value);
+          row.appendChild(val);
+          valueRefs.set(String(spec.key), val);
+
+          color.addEventListener('input', () => {
+            scene.setParam(spec.key, color.value as never);
+            val.textContent = color.value;
+            saveParams(scene.getParams());
+          });
+        }
+
+        body.appendChild(row);
+      }
+    }
+
+    // Reset row
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'ctrl-reset';
+    reset.textContent = 'reset defaults';
+    reset.addEventListener('click', () => {
+      for (const k of Object.keys(DEFAULT_PARAMS) as (keyof AgentParams)[]) {
+        scene.setParam(k, DEFAULT_PARAMS[k] as never);
+        const control = inputRefs.get(String(k));
+        const value = valueRefs.get(String(k));
+        if (control) control.value = String(DEFAULT_PARAMS[k]);
+        if (value) {
+          const defaultValue = DEFAULT_PARAMS[k];
+          value.textContent =
+            typeof defaultValue === 'number' ? formatNum(defaultValue, stepFor(k)) : String(defaultValue);
+        }
+      }
+      const prev = readSaved() ?? {};
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ _version: PARAM_VERSION, _collapsed: prev._collapsed === true, ...DEFAULT_PARAMS }),
+      );
+    });
+    body.appendChild(reset);
+
+    // Toggle panel
+    let collapsed = saved?._collapsed ?? false;
+    applyCollapsed();
+    toggle.addEventListener('click', () => { collapsed = true; applyCollapsed(); persistCollapsed(); });
+    open.addEventListener('click', () => { collapsed = false; applyCollapsed(); persistCollapsed(); });
+    function applyCollapsed() {
+      panel!.style.display = collapsed ? 'none' : '';
+      open!.style.display = collapsed ? '' : 'none';
+    }
+    function persistCollapsed() {
+      const p = { ...(readSaved() ?? {}), _collapsed: collapsed };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
+    }
+
+    // Hotkey: Shift+T toggles the tweak panel without colliding with terminal input.
+    document.addEventListener('keydown', (e) => {
+      const ae = document.activeElement;
+      if (ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA')) return;
+      if (e.key.toLowerCase() === 't' && e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        collapsed = !collapsed;
+        applyCollapsed();
+        persistCollapsed();
+      }
+    });
+  }
+
+  function formatNum(v: number, step: number): string {
+    const decimals = step >= 1 ? 0 : step >= 0.1 ? 1 : 2;
+    return v.toFixed(decimals);
+  }
+
+  function stepFor(key: keyof AgentParams): number {
+    for (const section of SECTIONS) {
+      for (const control of section.controls) {
+        if (control.type === 'range' && control.key === key) return control.step;
+      }
+    }
+    return 1;
+  }
+
+  function readSaved(): (Partial<AgentParams> & { _collapsed?: boolean; _version?: number }) | null {
+    try {
+      const s = localStorage.getItem(STORAGE_KEY);
+      if (!s) return null;
+      const parsed = JSON.parse(s);
+      if (parsed._version !== PARAM_VERSION) {
+        return { _collapsed: false, _version: PARAM_VERSION };
+      }
+      return parsed;
+    } catch {
+      return null;
+    }
+  }
+  function saveParams(p: AgentParams) {
+    const prev = readSaved() ?? {};
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...prev, _version: PARAM_VERSION, ...p }));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+</script>
+
+<style lang="scss">
+  .agent-page {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #050605;
+    cursor: text;
+  }
+
+  .agent-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .agent-mobile-input {
+    position: fixed;
+    left: 50%;
+    bottom: 1rem;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    border: 0;
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+  }
+
+  /* — Tweaks panel — */
+  .ctrl {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 280px;
+    max-width: calc(100vw - 2.5rem);
+    max-height: calc(100vh - 2.5rem);
+    z-index: 20;
+    background: rgba(20, 20, 20, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+    font-size: 0.78rem;
+    color: rgba(212, 208, 203, 0.85);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ctrl-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .ctrl-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(212, 208, 203, 0.6);
+  }
+  .ctrl-x {
+    background: transparent;
+    border: 0;
+    color: rgba(212, 208, 203, 0.5);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0 0.25rem;
+    &:hover { color: #5FE0CA; }
+  }
+
+  .ctrl-body {
+    overflow-y: auto;
+    padding: 0.5rem 0.85rem 0.85rem;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 999px; }
+  }
+
+  :global(.ctrl-section-title) {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(212, 208, 203, 0.4);
+    margin: 0.85rem 0 0.4rem;
+
+    &:first-child { margin-top: 0.25rem; }
+  }
+  :global(.ctrl-row) {
+    display: grid;
+    grid-template-columns: 60px 1fr 38px;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    cursor: default;
+  }
+  :global(.ctrl-label) {
+    font-size: 0.74rem;
+    color: rgba(212, 208, 203, 0.7);
+  }
+  :global(.ctrl-input) {
+    display: flex;
+    align-items: center;
+  }
+  :global(.ctrl-input input[type='range']) {
+    flex: 1;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+  }
+  :global(.ctrl-input input[type='range']::-webkit-slider-runnable-track) {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+  }
+  :global(.ctrl-input input[type='range']::-webkit-slider-thumb) {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #5FE0CA;
+    margin-top: -5px;
+    border: 0;
+    box-shadow: 0 0 0 2px rgba(95, 224, 202, 0.18);
+  }
+  :global(.ctrl-input input[type='range']::-moz-range-track) {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+  }
+  :global(.ctrl-input input[type='range']::-moz-range-thumb) {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #5FE0CA;
+    border: 0;
+  }
+  :global(.ctrl-input input[type='color']) {
+    width: 100%;
+    height: 22px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+  }
+  :global(.ctrl-value) {
+    font-size: 0.72rem;
+    text-align: right;
+    color: rgba(212, 208, 203, 0.55);
+    font-variant-numeric: tabular-nums;
+  }
+  :global(.ctrl-reset) {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.45rem 0.6rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    color: rgba(212, 208, 203, 0.55);
+    font-family: inherit;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.18s ease, border-color 0.18s ease;
+    &:hover { color: #5FE0CA; border-color: rgba(95, 224, 202, 0.4); }
+  }
+
+  /* — Open button when panel is collapsed — */
+  .ctrl-open {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 20;
+    background: rgba(20, 20, 20, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 0.45rem 0.95rem;
+    color: rgba(212, 208, 203, 0.7);
+    font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: none;
+    opacity: 1;
+    transition: opacity 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    &:hover { color: #5FE0CA; border-color: rgba(95, 224, 202, 0.4); }
+  }
+
+  @media (max-width: 720px) {
+    .ctrl {
+      width: calc(100vw - 1rem);
+      max-width: calc(100vw - 1rem);
+      right: 0.5rem;
+      top: 0.5rem;
+    }
+  }
+</style>
