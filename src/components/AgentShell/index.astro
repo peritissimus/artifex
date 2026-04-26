@@ -29,9 +29,9 @@
 </section>
 
 <script>
-  import { AgentScene, DEFAULT_PARAMS, type AgentParams } from '../scripts/agentScene';
+  import { AgentScene, DEFAULT_PARAMS, type AgentParams } from './scene';
 
-  const PARAM_VERSION = 3;
+  const PARAM_VERSION = 4;
   const STORAGE_KEY = 'agent-params';
 
   type Spec =
@@ -73,10 +73,9 @@
       ],
     },
     {
-      title: 'Code',
+      title: 'Text',
       controls: [
         { type: 'range', key: 'fontSize', label: 'Font Size', min: 10, max: 22, step: 0.5 },
-        { type: 'range', key: 'lineHeight', label: 'Line Height', min: 1.2, max: 2.4, step: 0.05 },
       ],
     },
     {
