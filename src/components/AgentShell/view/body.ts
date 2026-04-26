@@ -23,12 +23,12 @@ export function drawBody(
 ) {
   const { winX, winY, winW, terminalX, promptY, tFontPx, tLineH, scale: s, visibleOutCap } = l;
 
-  // — Hint line, only shown before any output exists —
+  // — Hint line, only shown before any output exists. Anchored at the same
+  //   vertical position where the topmost output line will appear. —
   if (terminal.outLines.length === 0) {
-    const topPad = 42 * s;
     ctx.font = `${tFontPx * 0.92}px ${MONO}`;
     ctx.fillStyle = COLORS.hint;
-    ctx.fillText("Type 'help' for commands, 'clear' to reset.", terminalX, winY + topPad);
+    ctx.fillText("type 'help' to start", terminalX, winY + tLineH * 1.5);
   }
 
   // — Recent output (with scroll offset) —

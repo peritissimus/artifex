@@ -54,10 +54,10 @@ export function computeLayout(W: number, H: number, scale: number, params: Agent
   const bodyPadX = clamp(cssW * 0.02, 18, 30) * scale;
   const tFontPx = clamp(codeFontCss * 0.82, 12, 17) * scale;
   const tLineH = tFontPx * 1.45;
-  // Fit as many output lines as possible between the banner block (top) and
-  // the prompt line (bottom). Banner uses ~42·s for its top pad + ~1.5 lines
-  // for "title + hint + gap"; prompt reserves 32·s plus one line of breathing.
-  const topReservedPx = 42 * scale + tLineH * 1.5;
+  // Fit as many output lines as possible between the top of the window and
+  // the prompt line. Top reserves ~1.5 lines as breathing room (also where
+  // the empty-state hint sits); prompt reserves 32·s plus one line.
+  const topReservedPx = tLineH * 1.5;
   const bottomReservedPx = 32 * scale + tLineH * 1.0;
   const availPx = H - topReservedPx - bottomReservedPx;
   const visibleOutCap = Math.max(2, Math.floor(availPx / tLineH));
