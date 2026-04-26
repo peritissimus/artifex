@@ -121,6 +121,7 @@ export class AgentScene {
     });
 
     this.pointer.onDown(() => mobileInput?.focus({ preventScroll: true }));
+    this.pointer.onWheel((lines) => this.terminal.scrollBy(lines));
 
     this.keyboard.on((e) => {
       switch (e.kind) {
@@ -138,6 +139,9 @@ export class AgentScene {
           break;
         case 'clear-screen':
           this.terminal.clearScreen();
+          break;
+        case 'scroll':
+          this.terminal.scrollBy(e.lines);
           break;
         case 'char':
           this.terminal.appendInput(e.ch);

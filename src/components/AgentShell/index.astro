@@ -1,6 +1,7 @@
 ---
 // Agent shell — entire scene rendered in Three.js (curved plane + text texture).
-// Live tweak panel on the right.
+// Live tweak panel on the right (dev only).
+const isDev = import.meta.env.DEV;
 ---
 
 <section class="agent-page" id="agent-page">
@@ -15,17 +16,26 @@
     aria-label="Terminal command input"
   />
 
-  <aside class="ctrl" id="ctrl">
-    <div class="ctrl-head">
-      <span class="ctrl-title">tweaks</span>
-      <button class="ctrl-x" type="button" id="ctrl-toggle" aria-label="Toggle">−</button>
-    </div>
-    <div class="ctrl-body" id="ctrl-body">
-      <!-- populated by script -->
-    </div>
-  </aside>
-
-  <button class="ctrl-open" id="ctrl-open" type="button" aria-label="Open tweaks">tweaks</button>
+  {
+    isDev && (
+      <aside class="ctrl" id="ctrl">
+        <div class="ctrl-head">
+          <span class="ctrl-title">tweaks</span>
+          <button class="ctrl-x" type="button" id="ctrl-toggle" aria-label="Toggle">
+            −
+          </button>
+        </div>
+        <div class="ctrl-body" id="ctrl-body" />
+      </aside>
+    )
+  }
+  {
+    isDev && (
+      <button class="ctrl-open" id="ctrl-open" type="button" aria-label="Open tweaks">
+        tweaks
+      </button>
+    )
+  }
 </section>
 
 <script>
@@ -40,17 +50,20 @@
     const page = document.getElementById('agent-page');
     const canvas = document.getElementById('agent-canvas') as HTMLCanvasElement | null;
     const input = document.getElementById('agent-terminal-input') as HTMLInputElement | null;
-    const body = document.getElementById('ctrl-body');
-    const toggle = document.getElementById('ctrl-toggle');
-    const open = document.getElementById('ctrl-open');
-    const panel = document.getElementById('ctrl');
-    if (!page || !canvas || !input || !body || !toggle || !open || !panel) return;
+    if (!page || !canvas || !input) return;
 
     // Restore params from localStorage
     const saved = readSaved();
     const startParams: Partial<AgentParams> = saved ?? {};
 
     const scene = new AgentScene(canvas, page, startParams, input);
+
+    // Tweak panel only exists in dev — bail out of panel wiring otherwise.
+    const panel = document.getElementById('ctrl');
+    const body = document.getElementById('ctrl-body');
+    const toggle = document.getElementById('ctrl-toggle');
+    const open = document.getElementById('ctrl-open');
+    if (!panel || !body || !toggle || !open) return;
 
     // Build controls
     const valueRefs = new Map<string, HTMLElement>();

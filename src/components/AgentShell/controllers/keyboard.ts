@@ -4,6 +4,7 @@ export type KeyEvent =
   | { kind: 'history-prev' }
   | { kind: 'history-next' }
   | { kind: 'clear-screen' }
+  | { kind: 'scroll'; lines: number }
   | { kind: 'char'; ch: string }
   | { kind: 'set-input'; value: string };
 
@@ -69,10 +70,18 @@ export class KeyboardController {
       this.emit({ kind: 'backspace' });
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      this.emit({ kind: 'history-prev' });
+      if (e.shiftKey) this.emit({ kind: 'scroll', lines: 1 });
+      else this.emit({ kind: 'history-prev' });
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      this.emit({ kind: 'history-next' });
+      if (e.shiftKey) this.emit({ kind: 'scroll', lines: -1 });
+      else this.emit({ kind: 'history-next' });
+    } else if (e.key === 'PageUp') {
+      e.preventDefault();
+      this.emit({ kind: 'scroll', lines: 5 });
+    } else if (e.key === 'PageDown') {
+      e.preventDefault();
+      this.emit({ kind: 'scroll', lines: -5 });
     } else if (e.key === 'l' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       this.emit({ kind: 'clear-screen' });

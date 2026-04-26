@@ -13,6 +13,7 @@ type ChangeListener = () => void;
 export class Terminal {
   input = '';
   outLines: OutLine[] = [];
+  scrollOffset = 0;
   private history: string[] = [];
   private histIdx = -1;
   private listeners = new Set<ChangeListener>();
@@ -53,20 +54,42 @@ export class Terminal {
   }
 
   clearScreen() {
-    if (this.outLines.length === 0) return;
+    if (this.outLines.length === 0 && this.scrollOffset === 0) return;
     this.outLines = [];
+    this.scrollOffset = 0;
+    this.emit();
+  }
+
+  scrollBy(lines: number) {
+    const max = this.outLines.length;
+    const next = Math.max(0, Math.min(max, this.scrollOffset + lines));
+    if (next === this.scrollOffset) return;
+    this.scrollOffset = next;
+    this.emit();
+  }
+
+  scrollToBottom() {
+    if (this.scrollOffset === 0) return;
+    this.scrollOffset = 0;
     this.emit();
   }
 
   submit() {
     const trimmed = this.input.trim();
-    this.print(`agent@peritissimus ~ ${trimmed}`, 'in');
-    if (trimmed) {
-      this.history.push(trimmed);
-      this.runCommand(trimmed);
+    if (!trimmed) {
+      // Empty Enter — clear any whitespace from the buffer but don't echo.
+      if (this.input) {
+        this.input = '';
+        this.emit();
+      }
+      return;
     }
+    this.print(`peritissimus@web ~ ${trimmed}`, 'in');
+    this.history.push(trimmed);
+    this.runCommand(trimmed);
     this.input = '';
     this.histIdx = this.history.length;
+    this.scrollOffset = 0;
     this.emit();
   }
 
@@ -79,6 +102,7 @@ export class Terminal {
     const lc = cmd.toLowerCase();
     if (lc === 'clear') {
       this.outLines = [];
+      this.scrollOffset = 0;
       return;
     }
     if (lc === 'echo') {

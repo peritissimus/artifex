@@ -23,22 +23,35 @@ export function drawBody(
 ) {
   const { winX, winY, winW, terminalX, promptY, tFontPx, tLineH, scale: s, visibleOutCap } = l;
 
-  // — Banner at the top of the body —
-  const topPad = 42 * s;
-  ctx.shadowColor = 'rgba(255, 255, 255, 0.18)';
-  ctx.shadowBlur = 4 * s;
-  ctx.font = `500 ${tFontPx * 1.02}px ${MONO}`;
-  ctx.fillStyle = COLORS.banner;
-  ctx.fillText('Peritissimus · agent shell v1.23', terminalX, winY + topPad);
+  // — Hint line, only shown before any output exists —
+  if (terminal.outLines.length === 0) {
+    const topPad = 42 * s;
+    ctx.font = `${tFontPx * 0.92}px ${MONO}`;
+    ctx.fillStyle = COLORS.hint;
+    ctx.fillText("Type 'help' for commands, 'clear' to reset.", terminalX, winY + topPad);
+  }
 
-  ctx.font = `${tFontPx * 0.92}px ${MONO}`;
-  ctx.fillStyle = COLORS.hint;
-  ctx.fillText("Type 'help' for commands, 'clear' to reset.", terminalX, winY + topPad + tLineH);
+  // — Recent output (with scroll offset) —
+  const total = terminal.outLines.length;
+  const maxOffset = Math.max(0, total - visibleOutCap);
+  const offset = Math.min(terminal.scrollOffset, maxOffset);
+  const end = total - offset;
+  const aboveCount = Math.max(0, end - visibleOutCap);
+  const showIndicator = aboveCount > 0;
+  // When the indicator is on, it takes one of the visible slots so the row
+  // count stays the same — the topmost output line gets sacrificed.
+  const sliceStart = aboveCount + (showIndicator ? 1 : 0);
+  const visibleOut = terminal.outLines.slice(sliceStart, end);
+  const hiddenAbove = sliceStart;
+  const rowCount = visibleOut.length + (showIndicator ? 1 : 0);
 
-  // — Recent output —
-  const visibleOut = terminal.outLines.slice(-visibleOutCap);
-  let outY = promptY - tLineH * visibleOut.length - tLineH * 0.35;
+  let outY = promptY - tLineH * rowCount - tLineH * 0.35;
   ctx.font = `${tFontPx}px ${MONO}`;
+  if (showIndicator) {
+    ctx.fillStyle = COLORS.hint;
+    ctx.fillText(`⋮ ${hiddenAbove} more above`, terminalX, outY);
+    outY += tLineH;
+  }
   for (const o of visibleOut) {
     ctx.fillStyle = o.kind === 'in' ? COLORS.in : o.kind === 'err' ? COLORS.err : COLORS.out;
     ctx.fillText(o.text, terminalX, outY);
@@ -68,7 +81,7 @@ export function drawBody(
   ctx.shadowBlur = 6 * s;
   ctx.font = `600 ${tFontPx}px ${MONO}`;
   ctx.fillStyle = accent;
-  const promptText = 'agent@peritissimus';
+  const promptText = 'peritissimus@web';
   ctx.fillText(promptText, terminalX, promptY);
   let px = terminalX + ctx.measureText(promptText).width;
   ctx.shadowBlur = 0;
