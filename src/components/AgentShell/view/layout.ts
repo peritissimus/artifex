@@ -1,7 +1,7 @@
 import type { AgentParams } from '../params';
 import { clamp } from '../util/clamp';
 
-const MAX_CONTENT_CSS = 880;
+const MAX_CONTENT_CSS = 1100;
 const WIN_RADIUS_CSS = 22;
 
 export type WindowSize = { w: number; h: number; r: number };
@@ -38,7 +38,7 @@ export function computeWindowSize(cssW: number, cssH: number): WindowSize {
   const colCss = Math.min(cssW, MAX_CONTENT_CSS);
   const winInsetCss = clamp(colCss * 0.04, 12, 28);
   const w = colCss - winInsetCss * 2;
-  const h = clamp(cssH * 0.3, 220, 300);
+  const h = clamp(cssH * 0.4, 260, 420);
   return { w, h, r: WIN_RADIUS_CSS };
 }
 
