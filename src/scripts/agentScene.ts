@@ -6,17 +6,17 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 
 // ── Colors ──
 const COLORS = {
-  bg:      '#050605',
-  cream:   '#C9C8BD',
-  amber:   '#F0A95D',
+  bg: '#050605',
+  cream: '#C9C8BD',
+  amber: '#F0A95D',
   comment: 'rgba(201,200,189,0.28)',
-  key:     'rgba(201,200,189,0.92)',
-  value:   '#F0A95D',
-  string:  '#F0A95D',
-  method:  '#6FB7FF',
-  out:     'rgba(201,200,189,0.72)',
-  inLine:  'rgba(201,200,189,0.36)',
-  err:     '#FF8B7A',
+  key: 'rgba(201,200,189,0.92)',
+  value: '#F0A95D',
+  string: '#F0A95D',
+  method: '#6FB7FF',
+  out: 'rgba(201,200,189,0.72)',
+  inLine: 'rgba(201,200,189,0.36)',
+  err: '#FF8B7A',
 } as const;
 
 type TokenColor = keyof typeof COLORS;
@@ -25,37 +25,50 @@ type Line = Token[];
 
 const CODE_LINES: Line[] = [
   [{ t: '# /llms.txt', c: 'comment' }],
-  [{ t: 'project',  c: 'key' }, { t: ': ' }, { t: 'peritissimus', c: 'value' }],
-  [{ t: 'version',  c: 'key' }, { t: ': ' }, { t: '1.23', c: 'value' }],
-  [{ t: 'summary',  c: 'key' }, { t: ': ' }, { t: 'A continuous surface for engineering AI products, systems, and interfaces.', c: 'cream' }],
+  [{ t: 'project', c: 'key' }, { t: ': ' }, { t: 'peritissimus', c: 'value' }],
+  [{ t: 'version', c: 'key' }, { t: ': ' }, { t: '1.23', c: 'value' }],
+  [
+    { t: 'summary', c: 'key' },
+    { t: ': ' },
+    { t: 'A continuous surface for engineering AI products, systems, and interfaces.', c: 'cream' },
+  ],
   [],
   [{ t: '# Schema.org/Person', c: 'comment' }],
-  [{ t: 'name',     c: 'key' }, { t: ': ' }, { t: '"Kushal Patankar"', c: 'string' }],
+  [{ t: 'name', c: 'key' }, { t: ': ' }, { t: '"Kushal Patankar"', c: 'string' }],
   [{ t: 'jobTitle', c: 'key' }, { t: ': ' }, { t: '"Founding Engineer"', c: 'string' }],
   [{ t: 'worksFor', c: 'key' }, { t: ': ' }, { t: '"Zoca"', c: 'string' }],
   [],
   [{ t: '# MCP server', c: 'comment' }],
-  [{ t: 'endpoint',  c: 'key' }, { t: ': ' }, { t: 'https://peritissimus.dev/mcp', c: 'value' }],
+  [{ t: 'endpoint', c: 'key' }, { t: ': ' }, { t: 'https://peritissimus.dev/mcp', c: 'value' }],
   [{ t: 'transport', c: 'key' }, { t: ': ' }, { t: 'sse', c: 'value' }],
-  [{ t: 'tools',     c: 'key' }, { t: ': [' }, { t: 'whoami', c: 'string' }, { t: ', ' }, { t: 'work', c: 'string' }, { t: ', ' }, { t: 'contact', c: 'string' }, { t: ']' }],
+  [
+    { t: 'tools', c: 'key' },
+    { t: ': [' },
+    { t: 'whoami', c: 'string' },
+    { t: ', ' },
+    { t: 'work', c: 'string' },
+    { t: ', ' },
+    { t: 'contact', c: 'string' },
+    { t: ']' },
+  ],
 ];
 
 // ── Tweakable params ──
 export interface AgentParams {
-  curve: number;          // barrel curve at bottom 0..1
-  tilt: number;           // baseline tilt back 0..1
-  parallax: number;       // mouse parallax 0..3
-  vignette: number;       // vignette darkness 0..1
-  glow: number;           // amber halo behind terminal 0..2
+  curve: number; // barrel curve at bottom 0..1
+  tilt: number; // baseline tilt back 0..1
+  parallax: number; // mouse parallax 0..3
+  vignette: number; // vignette darkness 0..1
+  glow: number; // amber halo behind terminal 0..2
   fontSize: number;
   lineHeight: number;
   opacity: number;
   accent: string;
-  bloom: number;          // amber phosphor bloom 0..2
-  scanlines: number;      // CRT horizontal scanlines 0..1
-  grain: number;          // film grain / signal noise 0..1
-  flicker: number;        // global brightness flicker 0..1
-  crt: number;            // overall CRT barrel distortion 0..0.4
+  bloom: number; // amber phosphor bloom 0..2
+  scanlines: number; // CRT horizontal scanlines 0..1
+  grain: number; // film grain / signal noise 0..1
+  flicker: number; // global brightness flicker 0..1
+  crt: number; // overall CRT barrel distortion 0..0.4
 }
 
 export const DEFAULT_PARAMS: AgentParams = {
@@ -69,8 +82,8 @@ export const DEFAULT_PARAMS: AgentParams = {
   opacity: 1,
   accent: '#6FB7FF',
   bloom: 0.72,
-  scanlines: 0.06,
-  grain: 0.10,
+  scanlines: 0.035,
+  grain: 0.1,
   flicker: 0.12,
   crt: 0.05,
 };
@@ -123,14 +136,26 @@ const COMMANDS: Record<string, CommandFn> = {
     'linkedin   linkedin.com/in/peritissimus',
     'location   bengaluru, ka, india',
   ],
-  github:   () => { window.open('https://github.com/peritissimus', '_blank', 'noopener'); return 'opening github.com/peritissimus →'; },
-  linkedin: () => { window.open('https://linkedin.com/in/peritissimus', '_blank', 'noopener'); return 'opening linkedin.com/in/peritissimus →'; },
-  blog:     () => { window.location.href = '/blog'; return 'navigating to /blog →'; },
-  resume:   () => { window.open('/resume.pdf', '_blank', 'noopener'); return 'opening resume.pdf →'; },
-  ls:       () => 'about  work  stack  contact  github  linkedin  resume  blog',
-  pwd:      () => '/home/agent/peritissimus',
-  date:     () => new Date().toString(),
-  exit:     () => 'cannot exit · this is home.',
+  github: () => {
+    window.open('https://github.com/peritissimus', '_blank', 'noopener');
+    return 'opening github.com/peritissimus →';
+  },
+  linkedin: () => {
+    window.open('https://linkedin.com/in/peritissimus', '_blank', 'noopener');
+    return 'opening linkedin.com/in/peritissimus →';
+  },
+  blog: () => {
+    window.location.href = '/blog';
+    return 'navigating to /blog →';
+  },
+  resume: () => {
+    window.open('/resume.pdf', '_blank', 'noopener');
+    return 'opening resume.pdf →';
+  },
+  ls: () => 'about  work  stack  contact  github  linkedin  resume  blog',
+  pwd: () => '/home/agent/peritissimus',
+  date: () => new Date().toString(),
+  exit: () => 'cannot exit · this is home.',
 };
 
 // ── Scene ──
@@ -175,7 +200,7 @@ export class AgentScene {
     canvas: HTMLCanvasElement,
     container: HTMLElement,
     params: Partial<AgentParams> = {},
-    mobileInput?: HTMLInputElement,
+    mobileInput?: HTMLInputElement
   ) {
     this.container = container;
     this.mobileInput = mobileInput;
@@ -192,7 +217,12 @@ export class AgentScene {
     this.composer = new EffectComposer(this.renderer);
     this.composer.setPixelRatio(pixelRatio);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), this.bloomStrength(this.params.bloom), 0.34, 0.32);
+    this.bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(1, 1),
+      this.bloomStrength(this.params.bloom),
+      0.34,
+      0.32
+    );
     this.composer.addPass(this.bloomPass);
     this.composer.addPass(new OutputPass());
 
@@ -238,17 +268,22 @@ export class AgentScene {
         }
 
         void main() {
-          // Near-black base. The reference is almost pure void, with only
-          // enough lift around center to keep the text readable.
+          // Near-black base with non-radial lift. Avoid circular falloffs here:
+          // in a dark scene they quantize into visible concentric bands.
           vec3 col = vec3(0.004, 0.004, 0.003);
 
           vec2 cc = vUv - 0.5;
-          float centerLift = 1.0 - smoothstep(0.08, 0.72, length(cc * vec2(1.1, 0.9)));
-          col += vec3(0.025, 0.023, 0.018) * centerLift;
+          float verticalLift = smoothstep(0.98, 0.18, vUv.y);
+          float leftLift = smoothstep(1.0, 0.0, vUv.x) * smoothstep(0.0, 0.85, vUv.y);
+          col += vec3(0.012, 0.018, 0.021) * verticalLift;
+          col += vec3(0.010, 0.008, 0.005) * leftLift;
 
-          // Strong outer vignette to deepen the edges
-          float r = length(cc);
-          col *= 1.0 - smoothstep(0.28, 0.88, r) * 0.92;
+          // Edge darkening without a circular distance field.
+          vec2 edge = smoothstep(vec2(0.18), vec2(0.62), abs(cc));
+          col *= 1.0 - max(edge.x * 0.55, edge.y * 0.48);
+
+          // Tiny spatial dither prevents low-light radial gradients from banding.
+          col += (hash21(gl_FragCoord.xy) - 0.5) / 255.0;
 
           gl_FragColor = vec4(col, 1.0);
         }
@@ -265,18 +300,18 @@ export class AgentScene {
     const geom = new THREE.PlaneGeometry(2, 2, 80, 80);
     this.material = new THREE.ShaderMaterial({
       uniforms: {
-        uTex:        { value: this.texture },
-        uCurve:      { value: this.params.curve },
-        uTilt:       { value: this.params.tilt },
-        uVignette:   { value: this.params.vignette },
-        uOpacity:    { value: this.params.opacity },
-        uScanlines:  { value: this.params.scanlines },
-        uGrain:      { value: this.params.grain },
-        uFlicker:    { value: this.params.flicker },
-        uCrt:        { value: this.params.crt },
-        uMx:         { value: 0 },
-        uMy:         { value: 0 },
-        uTime:       { value: 0 },
+        uTex: { value: this.texture },
+        uCurve: { value: this.params.curve },
+        uTilt: { value: this.params.tilt },
+        uVignette: { value: this.params.vignette },
+        uOpacity: { value: this.params.opacity },
+        uScanlines: { value: this.params.scanlines },
+        uGrain: { value: this.params.grain },
+        uFlicker: { value: this.params.flicker },
+        uCrt: { value: this.params.crt },
+        uMx: { value: 0 },
+        uMy: { value: 0 },
+        uTime: { value: 0 },
         uResolution: { value: new THREE.Vector2(1, 1) },
       },
       transparent: true,
@@ -352,7 +387,7 @@ export class AgentScene {
 
           // Scanlines — fine horizontal lines based on screen pixels
           if (uScanlines > 0.0) {
-            float lineY = uv.y * uResolution.y * 0.5;
+            float lineY = gl_FragCoord.y * 0.5;
             float scan = sin(lineY * 3.14159 * 2.0) * 0.5 + 0.5;
             float scanMix = mix(1.0, 0.6 + scan * 0.4, uScanlines);
             c *= scanMix;
@@ -375,6 +410,9 @@ export class AgentScene {
             float f = 1.0 + sin(uTime * 14.7) * 0.018 + sin(uTime * 31.3) * 0.012;
             c *= mix(1.0, f, uFlicker);
           }
+
+          // Micro-dither smooths dark radial haze/glow bands after bloom/tone mapping.
+          c += (hash(gl_FragCoord.xy) - 0.5) / 255.0;
 
           c *= uOpacity;
           a *= uOpacity;
@@ -531,7 +569,11 @@ export class AgentScene {
     const monoFamily = `ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace`;
     const cssW = W / s;
     const cssH = H / s;
-    const codeFontCss = this.clamp(this.params.fontSize, cssW < 720 ? 13 : 16, cssW < 720 ? 16 : 22);
+    const codeFontCss = this.clamp(
+      this.params.fontSize,
+      cssW < 720 ? 13 : 16,
+      cssW < 720 ? 16 : 22
+    );
     const codeFontPx = codeFontCss * s;
     const lineH = codeFontPx * this.params.lineHeight;
 
@@ -545,16 +587,6 @@ export class AgentScene {
     const codeTop = this.clamp(cssH * 0.08, 34, 78) * s;
 
     ctx.clearRect(0, 0, W, H);
-
-    // Ambient haze behind the text surface.
-    ctx.save();
-    const haze = ctx.createRadialGradient(W * 0.45, H * 0.50, 0, W * 0.45, H * 0.50, Math.max(W, H) * 0.55);
-    haze.addColorStop(0, 'rgba(255, 255, 255, 0.025)');
-    haze.addColorStop(0.52, 'rgba(255, 255, 255, 0.008)');
-    haze.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = haze;
-    ctx.fillRect(0, 0, W, H);
-    ctx.restore();
 
     // — llms.txt block —
     ctx.textBaseline = 'alphabetic';
@@ -578,7 +610,7 @@ export class AgentScene {
     const trayInsetCss = this.clamp(colCss * 0.04, 12, 28);
     const trayX = colLeft + trayInsetCss * s;
     const trayW = colWidth - trayInsetCss * s * 2;
-    const trayH = this.clamp(cssH * 0.20, 132, 178) * s;
+    const trayH = this.clamp(cssH * 0.2, 132, 178) * s;
     const trayY = H - trayH - this.clamp(cssH * 0.045, 22, 44) * s;
     const trayR = 10 * s;
 
@@ -658,14 +690,14 @@ export class AgentScene {
       const accent = this.hexToRgb(this.params.accent);
       const minDim = Math.min(W, H);
       const maxDim = Math.max(W, H);
-      const promptCx = terminalX + (trayW - trayPadX * 2) * 0.30;
+      const promptCx = terminalX + (trayW - trayPadX * 2) * 0.3;
       const promptCy = promptY - tFontPx * 0.4;
 
       const layers: Array<{ cx: number; cy: number; r: number; peak: number }> = [
         // Tight near-source — soft peak, short reach
         { cx: promptCx, cy: promptCy, r: minDim * 0.18, peak: 0.18 },
         // Mid bloom — broader, the heart of the diffusion
-        { cx: promptCx, cy: promptCy, r: minDim * 0.42, peak: 0.10 },
+        { cx: promptCx, cy: promptCy, r: minDim * 0.42, peak: 0.1 },
         // Wide ambient — fills the room
         { cx: W * 0.5, cy: trayY + trayH * 0.55, r: maxDim * 0.7, peak: 0.05 },
       ];
@@ -674,12 +706,12 @@ export class AgentScene {
         const g = ctx.createRadialGradient(l.cx, l.cy, 0, l.cx, l.cy, l.r);
         const p = l.peak * this.params.glow;
         // Gaussian-ish stops: ease off slowly first, then fall to zero softly
-        g.addColorStop(0.00, `rgba(${accent.r},${accent.g},${accent.b}, ${p})`);
-        g.addColorStop(0.20, `rgba(${accent.r},${accent.g},${accent.b}, ${p * 0.78})`);
+        g.addColorStop(0.0, `rgba(${accent.r},${accent.g},${accent.b}, ${p})`);
+        g.addColorStop(0.2, `rgba(${accent.r},${accent.g},${accent.b}, ${p * 0.78})`);
         g.addColorStop(0.45, `rgba(${accent.r},${accent.g},${accent.b}, ${p * 0.42})`);
-        g.addColorStop(0.70, `rgba(${accent.r},${accent.g},${accent.b}, ${p * 0.16})`);
-        g.addColorStop(0.90, `rgba(${accent.r},${accent.g},${accent.b}, ${p * 0.04})`);
-        g.addColorStop(1.00, 'rgba(0,0,0,0)');
+        g.addColorStop(0.7, `rgba(${accent.r},${accent.g},${accent.b}, ${p * 0.16})`);
+        g.addColorStop(0.9, `rgba(${accent.r},${accent.g},${accent.b}, ${p * 0.04})`);
+        g.addColorStop(1.0, 'rgba(0,0,0,0)');
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, W, H);
       }
@@ -697,7 +729,14 @@ export class AgentScene {
     return { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) };
   }
 
-  private roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  private roundRect(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    r: number
+  ) {
     const rr = Math.min(r, w / 2, h / 2);
     ctx.beginPath();
     ctx.moveTo(x + rr, y);
@@ -712,7 +751,14 @@ export class AgentScene {
     ctx.closePath();
   }
 
-  private trayPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  private trayPath(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    r: number
+  ) {
     const sag = Math.min(12 * this.dprScale, h * 0.12);
     const rr = Math.min(r, w / 2, h / 2);
     ctx.beginPath();
@@ -746,7 +792,7 @@ export class AgentScene {
 
     // Camera parallax — drives true 3D depth between bg + window
     this.camera.position.x = this.mx * 0.45 * this.params.parallax;
-    this.camera.position.y = -this.my * 0.30 * this.params.parallax;
+    this.camera.position.y = -this.my * 0.3 * this.params.parallax;
     this.camera.lookAt(0, 0, 0);
 
     // Slight extra tilt on window plane via shader
@@ -770,15 +816,15 @@ export class AgentScene {
   setParam<K extends keyof AgentParams>(k: K, v: AgentParams[K]) {
     this.params[k] = v;
     const u = this.material.uniforms;
-    if (k === 'curve')     u.uCurve.value = v as number;
-    if (k === 'tilt')      u.uTilt.value = v as number;
-    if (k === 'vignette')  u.uVignette.value = v as number;
-    if (k === 'bloom')     this.bloomPass.strength = this.bloomStrength(v as number);
-    if (k === 'opacity')   u.uOpacity.value = v as number;
+    if (k === 'curve') u.uCurve.value = v as number;
+    if (k === 'tilt') u.uTilt.value = v as number;
+    if (k === 'vignette') u.uVignette.value = v as number;
+    if (k === 'bloom') this.bloomPass.strength = this.bloomStrength(v as number);
+    if (k === 'opacity') u.uOpacity.value = v as number;
     if (k === 'scanlines') u.uScanlines.value = v as number;
-    if (k === 'grain')     u.uGrain.value = v as number;
-    if (k === 'flicker')   u.uFlicker.value = v as number;
-    if (k === 'crt')       u.uCrt.value = v as number;
+    if (k === 'grain') u.uGrain.value = v as number;
+    if (k === 'flicker') u.uFlicker.value = v as number;
+    if (k === 'crt') u.uCrt.value = v as number;
     if (k === 'fontSize' || k === 'lineHeight' || k === 'glow' || k === 'accent') this.dirty = true;
   }
 
