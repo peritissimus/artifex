@@ -4,6 +4,11 @@ declare namespace App {
   interface Locals extends Runtime {}
 }
 
+declare module "*?raw" {
+  const content: string;
+  export default content;
+}
+
 declare module "three" {
   export const AdditiveBlending: number;
   export const LinearFilter: number;
@@ -22,6 +27,15 @@ declare module "three" {
     y: number;
     constructor(x?: number, y?: number);
     set(x: number, y: number): void;
+  }
+
+  export class Vector3 {
+    x: number;
+    y: number;
+    z: number;
+    constructor(x?: number, y?: number, z?: number);
+    set(x: number, y: number, z: number): void;
+    copy(v: Vector3): Vector3;
   }
 
   export class Scene {
