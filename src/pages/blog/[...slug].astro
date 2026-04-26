@@ -1,17 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 function formatDate(date: Date): string {
   const year = date.getFullYear();
@@ -24,8 +24,8 @@ function formatDate(date: Date): string {
 <Base
   title={`${post.data.title} - Blog | Peritissimus`}
   description={post.data.description}
-  ogImage={post.data.ogImage || `/og/blog/${post.slug}.png`}
-  currentPath={`/blog/${post.slug}`}
+  ogImage={post.data.ogImage || `/og/blog/${post.id}.png`}
+  currentPath={`/blog/${post.id}`}
 >
   <section class="content-section blog-post">
     <div class="section-inner">

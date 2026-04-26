@@ -27,7 +27,7 @@ function formatDate(date: Date): string {
   <ul>
     {sortedPosts.map((post) => (
       <li>
-        <strong><a href={`/ai/blog/${post.slug}`}>{post.data.title}</a></strong>
+        <strong><a href={`/ai/blog/${post.id}`}>{post.data.title}</a></strong>
         <br />
         <em>{formatDate(post.data.date)}</em> | {post.data.category || 'Article'} | {post.data.readTime || '5 min read'}
         <br />

@@ -1,17 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const works = await getCollection('work');
   return works.map((work) => ({
-    params: { slug: work.slug },
+    params: { slug: work.id },
     props: { work },
   }));
 }
 
 const { work } = Astro.props;
-const { Content } = await work.render();
+const { Content } = await render(work);
 
 // Parse markdown bold syntax in achievements
 function parseMarkdown(text: string): string {
@@ -22,8 +22,8 @@ function parseMarkdown(text: string): string {
 <Base
   title={`${work.data.title} - Work Experience`}
   description={work.data.description}
-  ogImage={work.data.ogImage || `/og/work/${work.slug}.png`}
-  currentPath={`/work/${work.slug}`}
+  ogImage={work.data.ogImage || `/og/work/${work.id}.png`}
+  currentPath={`/work/${work.id}`}
 >
   <section class="content-section work-detail">
     <div class="section-inner">

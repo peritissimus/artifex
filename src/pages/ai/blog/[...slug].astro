@@ -1,17 +1,17 @@
 ---
 import AI from '../../../layouts/AI.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', {
@@ -25,7 +25,7 @@ function formatDate(date: Date): string {
 <AI
   title={post.data.title}
   description={post.data.description}
-  humanUrl={`/blog/${post.slug}`}
+  humanUrl={`/blog/${post.id}`}
 >
   <p class="meta">
     <strong>Category:</strong> {post.data.category || 'Article'}<br />

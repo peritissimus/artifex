@@ -1,17 +1,17 @@
 ---
 import AI from '../../../layouts/AI.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const works = await getCollection('work');
   return works.map((work) => ({
-    params: { slug: work.slug },
+    params: { slug: work.id },
     props: { work },
   }));
 }
 
 const { work } = Astro.props;
-const { Content } = await work.render();
+const { Content } = await render(work);
 
 // Strip markdown bold syntax for plain text
 function stripMarkdown(text: string): string {
@@ -22,7 +22,7 @@ function stripMarkdown(text: string): string {
 <AI
   title={`${work.data.title} - Work Experience`}
   description={work.data.description}
-  humanUrl={`/work/${work.slug}`}
+  humanUrl={`/work/${work.id}`}
 >
   <p class="meta">
     <strong>Company:</strong> {work.data.company}<br />
