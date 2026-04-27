@@ -1772,30 +1772,10 @@ body[data-mode='machine'] {
     border-radius: inherit; // concentric with the parent radius
   }
 
-  // Left accent bar — clipped by the rounded corner via overflow on the
-  // pseudo-element wrapper.
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 0;
-    background: $accent-color;
-    border-radius: 14px 0 0 14px;
-    transition-property: height;
-    transition-duration: 250ms;
-    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
-  }
-
   &:hover {
     box-shadow: var(--shadow-border-hover);
     background: rgba($bg-secondary, 0.5);
     cursor: pointer;
-
-    &::before {
-      height: 100%;
-    }
 
     .blog-title {
       color: $accent-color;
