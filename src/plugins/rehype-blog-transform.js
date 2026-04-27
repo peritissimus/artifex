@@ -13,6 +13,40 @@ import { h } from 'hastscript';
 // Store language info from markdown before Shiki processes it
 const codeLangs = new Map();
 
+const ACRONYMS = new Set([
+  'AI',
+  'API',
+  'APIS',
+  'AWS',
+  'B2B',
+  'B2C',
+  'D7',
+  'LLM',
+  'LLMS',
+  'UI',
+  'UX',
+]);
+
+function humanizeHeading(text) {
+  const cleaned = text.trim().replace(/^\[(.*)\]$/, '$1');
+  if (cleaned !== cleaned.toUpperCase()) {
+    return cleaned;
+  }
+
+  return cleaned
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => {
+      const plain = word.replace(/[^a-z0-9]/gi, '').toUpperCase();
+      if (ACRONYMS.has(plain)) {
+        return word.replace(/[a-z0-9]+/i, plain);
+      }
+
+      return word.replace(/[a-z]/i, (letter) => letter.toUpperCase());
+    })
+    .join(' ');
+}
+
 /**
  * Remark plugin to capture code block languages before Shiki processes them
  */
@@ -33,13 +67,12 @@ export function remarkCaptureCodeLang() {
  */
 export function rehypeBlogTransform() {
   return (tree) => {
-    // Transform h2 headings to have brackets
+    // Normalize markdown headings for the human-facing article layout.
     visit(tree, 'element', (node) => {
       if (node.tagName === 'h2') {
-        // Get text content
         const textNode = node.children.find((child) => child.type === 'text');
         if (textNode) {
-          textNode.value = `[${textNode.value}]`;
+          textNode.value = humanizeHeading(textNode.value);
         }
       }
     });
@@ -99,7 +132,7 @@ export function rehypeBlogTransform() {
 
         // Create new structure
         const codeBlock = h('div', { className: ['code-block'] }, [
-          h('div', { className: ['code-header'] }, [h('span', { className: ['code-lang'] }, `[${lang}]`)]),
+          h('div', { className: ['code-header'] }, [h('span', { className: ['code-lang'] }, lang)]),
           node,
         ]);
 

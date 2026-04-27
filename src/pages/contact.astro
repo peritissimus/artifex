@@ -8,19 +8,24 @@ import Base from '../layouts/Base.astro';
   ogImage="/og/contact.png"
   currentPath="/contact"
 >
-  <section id="contact" class="content-section">
+  <section id="contact" class="content-section page-contact">
     <div class="section-inner">
-      <h2 class="section-title">Contact</h2>
+      <p class="page-kicker">Open channels</p>
+      <h1 class="section-title">Contact</h1>
       <div class="section-content">
-        <p>
+        <p class="lede">
           Interested in collaboration, have a project in mind, or just want to connect? Feel
           free to reach out through any of the channels below.
         </p>
 
         <div class="contact-links">
           <a href="mailto:149.kush@gmail.com" class="contact-link">
-            <span class="link-label">Email</span>
-            <span class="link-value">149.kush@gmail.com</span>
+            <span class="link-icon" aria-hidden="true">@</span>
+            <span class="link-copy">
+              <span class="link-label">Email</span>
+              <span class="link-value">149.kush@gmail.com</span>
+            </span>
+            <span class="link-arrow" aria-hidden="true">-></span>
           </a>
           <a
             href="https://github.com/peritissimus"
@@ -28,8 +33,12 @@ import Base from '../layouts/Base.astro';
             rel="noopener"
             class="contact-link"
           >
-            <span class="link-label">GitHub</span>
-            <span class="link-value">github.com/peritissimus</span>
+            <span class="link-icon" aria-hidden="true">GH</span>
+            <span class="link-copy">
+              <span class="link-label">GitHub</span>
+              <span class="link-value">github.com/peritissimus</span>
+            </span>
+            <span class="link-arrow" aria-hidden="true">-></span>
           </a>
           <a
             href="https://twitter.com/peritissimus"
@@ -37,8 +46,12 @@ import Base from '../layouts/Base.astro';
             rel="noopener"
             class="contact-link"
           >
-            <span class="link-label">Twitter</span>
-            <span class="link-value">@peritissimus</span>
+            <span class="link-icon" aria-hidden="true">X</span>
+            <span class="link-copy">
+              <span class="link-label">Twitter</span>
+              <span class="link-value">@peritissimus</span>
+            </span>
+            <span class="link-arrow" aria-hidden="true">-></span>
           </a>
           <a
             href="https://linkedin.com/in/peritissimus"
@@ -46,8 +59,12 @@ import Base from '../layouts/Base.astro';
             rel="noopener"
             class="contact-link"
           >
-            <span class="link-label">LinkedIn</span>
-            <span class="link-value">linkedin.com/in/peritissimus</span>
+            <span class="link-icon" aria-hidden="true">IN</span>
+            <span class="link-copy">
+              <span class="link-label">LinkedIn</span>
+              <span class="link-value">linkedin.com/in/peritissimus</span>
+            </span>
+            <span class="link-arrow" aria-hidden="true">-></span>
           </a>
         </div>
       </div>
