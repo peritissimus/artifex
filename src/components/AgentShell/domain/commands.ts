@@ -15,7 +15,7 @@ export const COMMANDS: Record<string, CommandFn> = {
     '  blog        open blog',
     '  clear       clear screen',
   ],
-  whoami: () => 'kushal patankar · founding engineer @ zoca · bengaluru, in',
+  whoami: () => 'kushal patankar · tech @ zoca · bengaluru, in',
   about: () => [
     'kushal patankar',
     '────────────────',
