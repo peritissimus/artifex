@@ -7,17 +7,18 @@
 @import '@fontsource/barlow-semi-condensed/400.css';
 @import '@fontsource/barlow-semi-condensed/600.css';
 
-// Color Variables
-$bg-primary: #0f0f0f;
-$bg-secondary: #1a1a1a;
-$border-color: #3a3a3a;
-$text-bright: #ffffff;
-$text-primary: #cfcecd;
-$text-secondary: #959595; // Updated from #6b6b6b for WCAG AA compliance (4.5:1 contrast ratio)
-$accent-color: #a8a5a5; // Updated from #8e8b8b for better contrast (5:1 contrast ratio)
+// Color Variables — aligned with AgentShell terminal palette
+$bg-primary: #050605;
+$bg-secondary: #0d0e10;
+$border-color: #1c1d20;
+$text-bright: #e8e4dc;
+$text-primary: #c9c8bd;
+$text-secondary: #8e8d83;
+$accent-color: #d4d0c4;
 
-// Fonts
-$font-mono: 'Barlow Semi Condensed', sans-serif;
+// Fonts — system mono stack matches the AgentShell shell; Barlow stays for
+// long-form body copy where proportional spacing reads better.
+$font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', 'Cascadia Code', Menlo, Consolas, monospace;
 $font-sans: 'Barlow', sans-serif;
 
 // Reset
