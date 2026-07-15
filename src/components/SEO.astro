@@ -21,7 +21,22 @@ const {
 
 const siteUrl = 'https://peritissimus.com';
 const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
-const fullCanonicalUrl = canonicalUrl || Astro.url.href;
+
+function normalizeCanonicalUrl(url: string): string {
+  const parsed = new URL(url, siteUrl);
+
+  if (parsed.pathname.endsWith('/index.html')) {
+    parsed.pathname = parsed.pathname.slice(0, -'/index.html'.length) || '/';
+  } else if (parsed.pathname.endsWith('.html')) {
+    parsed.pathname = parsed.pathname.slice(0, -'.html'.length);
+  }
+
+  parsed.search = '';
+  parsed.hash = '';
+  return parsed.toString();
+}
+
+const fullCanonicalUrl = normalizeCanonicalUrl(canonicalUrl || Astro.url.href);
 ---
 
 <!-- SEO Meta Tags -->

@@ -22,17 +22,17 @@ function formatDate(date: Date): string {
   ogImage="/og/blog.png"
   currentPath="/blog"
 >
-  <section id="blog" class="content-section">
+  <section id="blog" class="content-section page-blog">
     <div class="section-inner">
       <div class="blog-header">
         <div class="blog-header-top">
-          <span class="blog-label">[SYS//BLOG]</span>
+          <span class="blog-label">Engineering notes</span>
           <span class="blog-count">
             <span class="count-indicator"></span>
-            {sortedPosts.length} ENTRIES
+            {sortedPosts.length} {sortedPosts.length === 1 ? 'post' : 'posts'}
           </span>
         </div>
-        <h2 class="section-title">Technical Log</h2>
+        <h1 class="section-title">Blog</h1>
         <p class="blog-description">
           Thoughts on AI, system architecture, and building scalable products.
         </p>
@@ -43,24 +43,26 @@ function formatDate(date: Date): string {
           <article class="blog-card">
             <a href={`/blog/${post.id}`} class="blog-card-link">
               <div class="blog-card-header">
-                <span class="blog-date">[{formatDate(post.data.date)}]</span>
-                <span class="blog-tag">[{post.data.category || 'AI/LLM'}]</span>
+                <span class="blog-date">{formatDate(post.data.date)}</span>
+                <span class="blog-tag">{post.data.category || 'AI/LLM'}</span>
               </div>
-              <h3 class="blog-title">> {post.data.title}</h3>
-              <p class="blog-excerpt">{post.data.description}</p>
-              <div class="blog-meta">
-                <span class="read-time">{post.data.readTime || '5 min read'}</span>
-                <span class="meta-separator">|</span>
-                <span class="blog-topics">{post.data.tags.slice(0, 3).join(', ')}</span>
+              <div class="blog-card-body">
+                <h2 class="blog-title">{post.data.title}</h2>
+                <p class="blog-excerpt">{post.data.description}</p>
+              </div>
+              <div class="blog-card-footer">
+                <div class="blog-meta">
+                  <span class="read-time">{post.data.readTime || '5 min read'}</span>
+                  <span class="meta-separator" aria-hidden="true">/</span>
+                  <span class="blog-topics">{post.data.tags.slice(0, 3).join(', ')}</span>
+                </div>
+                <span class="blog-card-cta">Read note</span>
               </div>
             </a>
           </article>
         ))}
       </div>
 
-      <div class="blog-footer">
-        <span class="footer-info">SYSTEM_STATUS: More articles coming soon...</span>
-      </div>
     </div>
   </section>
 </Base>

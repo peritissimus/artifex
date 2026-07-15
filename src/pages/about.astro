@@ -49,6 +49,20 @@ const workExperience = [
     location: 'Kharagpur Area, India',
   },
 ];
+
+// Add real testimonials here when available — the section renders only when
+// this array is non-empty. Shape: { quote, name, role }.
+const testimonials: { quote: string; name: string; role: string }[] = [];
+
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .map((w) => w[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+}
 ---
 
 <Base
@@ -57,17 +71,18 @@ const workExperience = [
   ogImage="/og/about.png"
   currentPath="/about"
 >
-  <section id="about" class="content-section">
+  <section id="about" class="content-section page-about">
     <div class="section-inner">
-      <h2 class="section-title">About</h2>
+      <p class="page-kicker">Profile</p>
+      <h1 class="section-title">About</h1>
       <div class="section-content">
-        <p>
+        <p class="lede">
           <strong>Kushal Patankar</strong> (Peritissimus) is a founding engineer and
           full-stack developer with expertise in building scalable AI-powered platforms and
           infrastructure.
         </p>
         <p>
-          IIT Kharagpur graduate (B.Tech, 2021) with 4+ years of experience spanning founding
+          IIT Kharagpur graduate (B.Tech, 2021) with 6+ years of experience spanning founding
           engineer roles, technical leadership, and entrepreneurship. Specialized in backend
           architecture, frontend development, infrastructure automation, and AI integration.
         </p>
@@ -83,6 +98,42 @@ const workExperience = [
           audio-video content for 1M+ users. 6-7000 production git commits across eight
           codebases, achieving 40%+ B2B growth.
         </p>
+
+        <div class="about-metrics" aria-label="Selected experience highlights">
+          <div class="metric-item">
+            <span class="metric-value">6+</span>
+            <span class="metric-label">Years building production systems</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value">570K+</span>
+            <span class="metric-label">Hours of audio-video processed</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-value">1M+</span>
+            <span class="metric-label">Users reached through AI products</span>
+          </div>
+        </div>
+
+        {testimonials.length > 0 && (
+          <>
+            <hr class="section-rule" />
+            <div class="testimonials">
+              {testimonials.map((t) => (
+                <figure class="testimonial">
+                  <blockquote class="testimonial-quote">&ldquo;{t.quote}&rdquo;</blockquote>
+                  <figcaption class="testimonial-cite">
+                    <span class="testimonial-avatar" aria-hidden="true">{initials(t.name)}</span>
+                    <span>
+                      <span class="testimonial-name">{t.name}</span>
+                      <span class="testimonial-role">{t.role}</span>
+                    </span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+            <hr class="section-rule" />
+          </>
+        )}
 
         <div class="timeline-section">
           <h3>Work Experience</h3>
