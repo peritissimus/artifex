@@ -1,3 +1,25 @@
+# [1.24.0](https://github.com/peritissimus/artifex/compare/v1.23.2...v1.24.0) (2026-07-15)
+
+
+### Bug Fixes
+
+* **AgentShell:** tighter top padding, shorter hint for narrow phones ([a16775a](https://github.com/peritissimus/artifex/commit/a16775a2e0b74b4a590bc98cb569d7da5f5cc126))
+* **content:** migrate slug routes to glob-loader API ([5b40d89](https://github.com/peritissimus/artifex/commit/5b40d89050d315affaf556382cfad7e7f95bcc8b))
+
+
+### Features
+
+* **agent-shell:** greet on boot with a staggered intro ([48d67d6](https://github.com/peritissimus/artifex/commit/48d67d694e4b9f19e59231a424736d225b6f6542))
+* **AgentShell:** add AgentShell component ([8ee461c](https://github.com/peritissimus/artifex/commit/8ee461cb71ee7029b63f880aa299df6ce7d39eea))
+* **AgentShell:** scroll, dev-only tweaks, prompt rename, empty-enter guard ([89ea0a0](https://github.com/peritissimus/artifex/commit/89ea0a0fab1e3c2215f9fc7c445fb34e9fb3f80a))
+* **Base.astro:** add noise background and update styles ([6da7c5d](https://github.com/peritissimus/artifex/commit/6da7c5d043ecc0e9b2b471df71a295335d8f45b7))
+* **commands:** update whoami command response ([bd3c51b](https://github.com/peritissimus/artifex/commit/bd3c51b162734ea5a07599b878c789072fbe9e9e))
+* **homepage:** replace landing with Three.js agent shell ([47b6661](https://github.com/peritissimus/artifex/commit/47b6661177f8a212febf1c81ca4c541ed9f7f4df))
+* **layouts, scripts:** add grid background effect ([1afea5f](https://github.com/peritissimus/artifex/commit/1afea5f654c3dc9c78cf0080aa7810596f21be10))
+* **package:** update dependencies ([d33914e](https://github.com/peritissimus/artifex/commit/d33914ef5bd8f3fdac2d6ab900b9465746f47147))
+* **setup:** add e2e tests and playwright config ([b322c53](https://github.com/peritissimus/artifex/commit/b322c53371f1e9f4fc68dd519ffd300a98770228))
+* **wrangler.toml:** remove observability config ([5fc00cd](https://github.com/peritissimus/artifex/commit/5fc00cd9cdc5620bb90237af6a35975e3a5ce657))
+
 ## [1.23.2](https://github.com/peritissimus/artifex/compare/v1.23.1...v1.23.2) (2026-01-31)
 
 ## [1.23.1](https://github.com/peritissimus/artifex/compare/v1.23.0...v1.23.1) (2026-01-17)
