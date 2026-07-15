@@ -79,6 +79,7 @@ export class AgentScene {
     this.resize = new ResizeController(container);
 
     this.wire(mobileInput);
+    this.terminal.boot(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     this.resize.trigger();
     this.tick();
   }
@@ -103,6 +104,7 @@ export class AgentScene {
 
   destroy() {
     cancelAnimationFrame(this.raf);
+    this.terminal.dispose();
     this.resize.dispose();
     this.pointer.dispose();
     this.keyboard.dispose();

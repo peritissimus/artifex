@@ -1,5 +1,20 @@
 export type CommandFn = () => string | string[];
 
+/**
+ * Seeded on boot so the terminal lands already populated — a `whoami` that
+ * already ran, ending in a nudge toward the available commands. The first
+ * line is echoed as an `in` line to read like a real command invocation.
+ */
+export const INTRO_LINES: { text: string; kind: 'in' | 'out' }[] = [
+  { text: 'peritissimus@web ~ whoami', kind: 'in' },
+  { text: 'kushal patankar — founding engineer & system architect', kind: 'out' },
+  { text: 'building next-gen ai products @ zoca · bengaluru, in', kind: 'out' },
+  { text: '', kind: 'out' },
+  { text: "iit kharagpur '21 · 6+ yrs · 1m+ users reached", kind: 'out' },
+  { text: '', kind: 'out' },
+  { text: 'type a command →  about  work  stack  contact  blog  help', kind: 'out' },
+];
+
 export const COMMANDS: Record<string, CommandFn> = {
   help: () => [
     'available commands:',

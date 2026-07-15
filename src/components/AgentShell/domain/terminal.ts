@@ -1,4 +1,4 @@
-import { COMMANDS } from './commands';
+import { COMMANDS, INTRO_LINES } from './commands';
 
 export type OutKind = 'out' | 'in' | 'err';
 export type OutLine = { text: string; kind: OutKind };
@@ -17,19 +17,70 @@ export class Terminal {
   private history: string[] = [];
   private histIdx = -1;
   private listeners = new Set<ChangeListener>();
+  private introQueue: OutLine[] = [];
+  private introTimers: number[] = [];
 
   onChange(fn: ChangeListener) {
     this.listeners.add(fn);
     return () => this.listeners.delete(fn);
   }
 
+  /**
+   * Seed the greeting so the shell never opens on an empty prompt. Lines
+   * reveal on a stagger so it reads as if it typed itself in; any real input
+   * (see finishIntro) snaps the rest in immediately. Reduced motion seeds all
+   * at once.
+   */
+  boot(reducedMotion = false) {
+    if (this.outLines.length > 0 || this.introQueue.length > 0) return;
+    const lines = INTRO_LINES.map((l) => ({ text: l.text, kind: l.kind }) as OutLine);
+    if (reducedMotion) {
+      this.outLines = lines;
+      this.emit();
+      return;
+    }
+    const STEP_MS = 90;
+    this.introQueue = lines;
+    lines.forEach((_, i) => {
+      this.introTimers.push(window.setTimeout(() => this.revealNextIntroLine(), STEP_MS * (i + 1)));
+    });
+  }
+
+  private revealNextIntroLine() {
+    const next = this.introQueue.shift();
+    if (!next) return;
+    this.outLines.push(next);
+    this.emit();
+  }
+
+  /** Flush any still-pending greeting lines at once and cancel the stagger. */
+  private finishIntro() {
+    if (this.introTimers.length === 0 && this.introQueue.length === 0) return;
+    this.introTimers.forEach((t) => clearTimeout(t));
+    this.introTimers = [];
+    if (this.introQueue.length) {
+      this.outLines.push(...this.introQueue);
+      this.introQueue = [];
+      this.emit();
+    }
+  }
+
+  /** Cancel any in-flight greeting timers (unmount). */
+  dispose() {
+    this.introTimers.forEach((t) => clearTimeout(t));
+    this.introTimers = [];
+    this.introQueue = [];
+  }
+
   setInput(value: string) {
     if (this.input === value) return;
+    if (value) this.finishIntro();
     this.input = value;
     this.emit();
   }
 
   appendInput(ch: string) {
+    this.finishIntro();
     this.input += ch;
     this.emit();
   }
@@ -54,6 +105,7 @@ export class Terminal {
   }
 
   clearScreen() {
+    this.dispose();
     if (this.outLines.length === 0 && this.scrollOffset === 0) return;
     this.outLines = [];
     this.scrollOffset = 0;
@@ -75,6 +127,7 @@ export class Terminal {
   }
 
   submit() {
+    this.finishIntro();
     const trimmed = this.input.trim();
     if (!trimmed) {
       // Empty Enter — clear any whitespace from the buffer but don't echo.
