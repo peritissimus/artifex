@@ -4,33 +4,14 @@ interface Props {
 }
 
 const { currentPath = '/' } = Astro.props;
-
-// Determine AI mode URL
-const isAiMode = currentPath.startsWith('/ai');
-const humanUrl = isAiMode ? currentPath.replace('/ai', '') || '/' : currentPath;
-const machineUrl = isAiMode ? currentPath : `/ai${currentPath === '/' ? '' : currentPath}`;
 ---
 
 <footer class="footer">
-  <div class="footer-copy">PERITISSIMUS &copy; {new Date().getFullYear()}</div>
-  <a href="https://www.google.com/maps?q=12.9352,77.6245" target="_blank" rel="noopener" class="footer-coords">LAT: 12.935&deg; / LONG: 77.624&deg;</a>
-  <div class="mode-toggle">
-    <a
-      href={humanUrl}
-      class:list={['mode-btn', { active: !isAiMode }]}
-      data-mode="human"
-    >
-      <span class="mode-indicator"></span>
-      <span class="mode-label">HUMAN</span>
-    </a>
-    <a
-      href={machineUrl}
-      class:list={['mode-btn', { active: isAiMode }]}
-      data-mode="machine"
-    >
-      <span class="mode-indicator"></span>
-      <span class="mode-label">MACHINE</span>
-    </a>
-  </div>
+  <div class="footer-copy">Kushal Patankar &copy; {new Date().getFullYear()}</div>
+  <nav class="footer-nav">
+    <a href="/blog" class:list={[{ active: currentPath.startsWith('/blog') }]}>Blog</a>
+    <a href="/about" class:list={[{ active: currentPath.startsWith('/about') }]}>About</a>
+    <a href="/contact" class:list={[{ active: currentPath.startsWith('/contact') }]}>Contact</a>
+    <a href="https://github.com/peritissimus" target="_blank" rel="noopener">GitHub</a>
+  </nav>
 </footer>
-

@@ -27,97 +27,51 @@ const {
 
     <SEO title={title} description={description} ogImage={ogImage} />
 
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#050605" />
+    <!-- Theme adapts to system preference -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Critical inline CSS -->
+    <!-- Critical inline CSS: sets theme background before the stylesheet loads
+         so there is no flash of the wrong theme. -->
     <style is:inline>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --fg: #171717;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0b0c;
+          --fg: #ededed;
+        }
+      }
       * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { background: var(--bg); }
       body {
-        background: #050605;
-        color: #c9c8bd;
-        font-family: 'Barlow', system-ui, -apple-system, sans-serif;
-        font-weight: 400;
-        overflow-x: hidden;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         line-height: 1.6;
         -webkit-font-smoothing: antialiased;
-      }
-      #grid-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        pointer-events: none;
-      }
-      #grid-background canvas {
-        width: 100%;
-        height: 100%;
-      }
-      .scroll-wrapper {
-        position: relative;
+        -moz-osx-font-smoothing: grayscale;
         min-height: 100vh;
-        z-index: 1;
-      }
-      .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 10;
-        padding: 1.5rem 2rem;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 10;
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.875rem;
+        flex-direction: column;
       }
     </style>
   </head>
   <body>
-    <!-- Atmospheric depth layers -->
-    <div class="background-depth" aria-hidden="true">
-      <div class="depth-vignette"></div>
-      <div class="depth-aurora"></div>
-      <div class="depth-scanline"></div>
-    </div>
-
-    <!-- Grid Background -->
-    <div id="grid-background"></div>
-
-    <!-- Main content -->
-    <div id="scroll-wrapper" class="scroll-wrapper">
-      <main class="info-wrapper">
-        <slot />
-      </main>
-    </div>
-
-    <!-- Fixed header -->
     <Header currentPath={currentPath} />
 
-    <!-- Fixed footer -->
-    <Footer currentPath={currentPath} />
+    <main class="info-wrapper">
+      <slot />
+    </main>
 
-    <!-- Grid Background Script -->
-    <script>
-      import { initGridBackground } from '../scripts/gridBackground';
-      initGridBackground();
-    </script>
+    <Footer currentPath={currentPath} />
   </body>
 </html>
