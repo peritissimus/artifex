@@ -1,12 +1,75 @@
 ---
-import Terminal from '../layouts/Terminal.astro';
-import AgentShell from '../components/AgentShell/index.astro';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const selectedWork = (await getCollection('work'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+)[0];
 ---
 
-<Terminal
+<Base
   title="Peritissimus | Kushal Patankar"
-  description="Founding Engineer & System Architect. Building next-gen AI products at Zoca."
+  description="Founding engineer and system architect building scalable AI products and infrastructure."
   ogImage="/og/home.png"
+  currentPath="/"
 >
-  <AgentShell />
-</Terminal>
+  <section class="content-section page-home">
+    <div class="section-inner home-inner">
+      <div class="home-hero">
+        <p class="page-kicker">System architect &amp; engineer</p>
+        <h1 class="home-title">I build AI products and the systems that make them scale.</h1>
+        <p class="home-intro">
+          I’m Kushal Patankar, a founding engineer working across product, infrastructure, and
+          applied AI. Currently building tools for local businesses at Zoca.
+        </p>
+        <div class="home-primary-links" aria-label="Primary links">
+          <a href="/about">More about me <span aria-hidden="true">→</span></a>
+          <a href="/contact">Get in touch <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <section class="home-section" aria-labelledby="selected-work-heading">
+        <div class="home-section-header">
+          <h2 id="selected-work-heading">Selected work</h2>
+          <span>{selectedWork.length} projects</span>
+        </div>
+        <div class="home-list">
+          {
+            selectedWork.map((project) => (
+              <a class="home-list-item" href={`/work/${project.id}`}>
+                <span class="home-list-title">{project.data.company}</span>
+                <span class="home-list-description">{project.data.description}</span>
+                <span class="home-list-meta">{project.data.dateRange}</span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      {
+        latestPost && (
+          <section class="home-section" aria-labelledby="latest-writing-heading">
+            <div class="home-section-header">
+              <h2 id="latest-writing-heading">Latest writing</h2>
+            </div>
+            <div class="home-list">
+              <a class="home-list-item home-writing-item" href={`/blog/${latestPost.id}`}>
+                <span class="home-list-title">{latestPost.data.title}</span>
+                <span class="home-list-description">{latestPost.data.description}</span>
+                <span class="home-list-meta">{latestPost.data.readTime || '5 min read'}</span>
+              </a>
+            </div>
+          </section>
+        )
+      }
+
+      <p class="home-terminal-link">
+        Prefer a command line? <a href="/terminal">Open the interactive terminal →</a>
+      </p>
+    </div>
+  </section>
+</Base>

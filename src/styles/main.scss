@@ -225,6 +225,122 @@ a {
   text-wrap: pretty;
 }
 
+// ── Home ───────────────────────────────────────────────────────────────────
+.home-inner {
+  max-width: var(--wide);
+}
+
+.home-hero {
+  max-width: var(--measure);
+  padding: 1rem 0 1.5rem;
+}
+
+.home-title {
+  @extend %serif-display;
+  max-width: 12ch;
+  margin-bottom: 1.75rem;
+  font-size: clamp(3rem, 7vw, 4.75rem);
+  text-wrap: balance;
+}
+
+.home-intro {
+  max-width: 38rem;
+  margin-bottom: 1.75rem;
+  color: var(--muted);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.home-primary-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.75rem;
+  font-size: 0.95rem;
+
+  a {
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.15s var(--ease);
+
+    &:hover {
+      text-decoration-color: var(--fg);
+    }
+  }
+}
+
+.home-section {
+  margin-top: 4.5rem;
+}
+
+.home-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  h2,
+  span {
+    @extend %kicker;
+  }
+}
+
+.home-list {
+  border-top: 1px solid var(--border);
+}
+
+.home-list-item {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.7fr) minmax(16rem, 2fr) auto;
+  gap: 1rem 2rem;
+  align-items: baseline;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--border);
+
+  &:hover .home-list-title {
+    text-decoration-color: currentColor;
+  }
+}
+
+.home-list-title {
+  color: var(--fg);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s var(--ease);
+}
+
+.home-list-description {
+  color: var(--muted);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.home-list-meta {
+  color: var(--faint);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.home-terminal-link {
+  margin-top: 3rem;
+  color: var(--faint);
+  font-size: 0.9rem;
+
+  a {
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+  }
+}
+
 // ── Blog index ──────────────────────────────────────────────────────────────
 .blog-header-top {
   display: flex;
@@ -934,8 +1050,36 @@ a {
 
 // ── Responsive ──────────────────────────────────────────────────────────────
 @media (max-width: 640px) {
+  .header {
+    align-items: flex-start;
+  }
+
+  .menu {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.65rem 1rem;
+    font-size: 0.85rem;
+  }
+
   .content-section {
     padding: 1.5rem var(--gutter) 1rem;
+  }
+
+  .home-title {
+    font-size: clamp(2.75rem, 13vw, 3.5rem);
+  }
+
+  .home-section {
+    margin-top: 3.5rem;
+  }
+
+  .home-list-item {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  .home-list-meta {
+    white-space: normal;
   }
 
   .about-metrics {
