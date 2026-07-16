@@ -13,6 +13,7 @@ node_modules
 
 # Build output
 dist
+output
 test-results
 playwright-report
 
@@ -42,3 +43,4 @@ Thumbs.db
 .claude/
 skills-lock.json
 _temp/
+.codex/
