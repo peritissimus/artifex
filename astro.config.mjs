@@ -10,6 +10,9 @@ export default defineConfig({
   output: 'static',
   integrations: [mdx(), sitemap()],
   markdown: {
+    shikiConfig: {
+      theme: 'css-variables',
+    },
     remarkPlugins: [remarkCaptureCodeLang],
     rehypePlugins: [rehypeBlogTransform],
   },
