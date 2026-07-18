@@ -3,24 +3,32 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogImageAlt?: string;
   canonicalUrl?: string;
   type?: 'website' | 'article';
   publishedDate?: string;
   author?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
   title,
   description,
   ogImage = '/og/home.png',
+  ogImageAlt,
   canonicalUrl,
   type = 'website',
   publishedDate,
   author = 'Peritissimus',
+  noindex = false,
+  jsonLd,
 } = Astro.props;
 
 const siteUrl = 'https://peritissimus.com';
 const fullOgImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+const imageAlt = ogImageAlt ?? title;
+const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
 function normalizeCanonicalUrl(url: string): string {
   const parsed = new URL(url, siteUrl);
@@ -43,7 +51,7 @@ const fullCanonicalUrl = normalizeCanonicalUrl(canonicalUrl || Astro.url.href);
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="author" content={author} />
-<meta name="robots" content="index, follow" />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 <link rel="canonical" href={fullCanonicalUrl} />
 
 <!-- Open Graph / Facebook -->
@@ -52,6 +60,7 @@ const fullCanonicalUrl = normalizeCanonicalUrl(canonicalUrl || Astro.url.href);
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={fullOgImageUrl} />
+<meta property="og:image:alt" content={imageAlt} />
 <meta property="og:site_name" content="Peritissimus" />
 
 <!-- Twitter Card -->
@@ -60,6 +69,7 @@ const fullCanonicalUrl = normalizeCanonicalUrl(canonicalUrl || Astro.url.href);
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={fullOgImageUrl} />
+<meta name="twitter:image:alt" content={imageAlt} />
 
 {type === 'article' && publishedDate && (
   <>
@@ -67,3 +77,8 @@ const fullCanonicalUrl = normalizeCanonicalUrl(canonicalUrl || Astro.url.href);
     <meta property="article:author" content={author} />
   </>
 )}
+
+<!-- Structured Data (JSON-LD) -->
+{jsonLdBlocks.map((block) => (
+  <script type="application/ld+json" set:html={JSON.stringify(block)} />
+))}

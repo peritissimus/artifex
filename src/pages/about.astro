@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { personSchema } from '../lib/schema';
 
 const workExperience = [
   {
@@ -70,6 +71,7 @@ function initials(name: string): string {
   description="Learn more about Peritissimus - a System Architect & Engineer with expertise in creative coding, WebGL experiences, and scalable system design."
   ogImage="/og/about.png"
   currentPath="/about"
+  jsonLd={personSchema}
 >
   <section id="about" class="content-section page-about">
     <div class="section-inner">

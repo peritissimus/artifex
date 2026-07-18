@@ -8,7 +8,13 @@ import { remarkCaptureCodeLang, rehypeBlogTransform } from './src/plugins/rehype
 export default defineConfig({
   site: 'https://peritissimus.com',
   output: 'static',
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    sitemap({
+      // Keep noindex routes out of the sitemap.
+      filter: (page) => !page.includes('/terminal'),
+    }),
+  ],
   markdown: {
     shikiConfig: {
       theme: 'css-variables',

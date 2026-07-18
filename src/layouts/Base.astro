@@ -8,10 +8,27 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogImageAlt?: string;
   currentPath?: string;
+  type?: 'website' | 'article';
+  publishedDate?: string;
+  author?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, ogImage, currentPath = Astro.url.pathname } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  ogImageAlt,
+  currentPath = Astro.url.pathname,
+  type,
+  publishedDate,
+  author,
+  noindex,
+  jsonLd,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -20,7 +37,25 @@ const { title, description, ogImage, currentPath = Astro.url.pathname } = Astro.
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <SEO title={title} description={description} ogImage={ogImage} />
+    <SEO
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      ogImageAlt={ogImageAlt}
+      type={type}
+      publishedDate={publishedDate}
+      author={author}
+      noindex={noindex}
+      jsonLd={jsonLd}
+    />
+
+    <!-- RSS feed -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Peritissimus — Blog"
+      href="/rss.xml"
+    />
 
     <!-- Theme adapts to system preference -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
