@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
+import ProjectArtwork from '../../components/ProjectArtwork.astro';
 
 export async function getStaticPaths() {
   const works = await getCollection('work');
@@ -13,6 +14,16 @@ export async function getStaticPaths() {
 const { work } = Astro.props;
 const { Content } = await render(work);
 
+const personalArtwork = {
+  stone: 'memory',
+  turntable: 'form',
+  birdbrain: 'signal',
+  tabbit: 'tabs',
+  garatch: 'pulse',
+} as const;
+
+const artworkVariant = personalArtwork[work.id as keyof typeof personalArtwork];
+
 // Parse markdown bold syntax in achievements
 function parseMarkdown(text: string): string {
   return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -20,17 +31,20 @@ function parseMarkdown(text: string): string {
 ---
 
 <Base
-  title={`${work.data.title} - Work Experience`}
+  title={`${work.data.title} - ${work.data.kind === 'personal' ? 'Personal Project' : 'Work Experience'}`}
   description={work.data.description}
   ogImage={work.data.ogImage || `/og/work/${work.id}.png`}
   currentPath={`/work/${work.id}`}
 >
-  <section class="content-section work-detail">
+  <section class:list={['content-section', 'work-detail', { 'work-detail--personal': work.data.kind === 'personal' }]}>
     <div class="section-inner">
       <div class="work-header">
         <div class="work-back">
-          <a href="/about">← Back to Timeline</a>
+          <a href={work.data.kind === 'personal' ? '/#personal-projects' : '/about'}>
+            ← {work.data.kind === 'personal' ? 'Back to Personal Projects' : 'Back to Timeline'}
+          </a>
         </div>
+        {work.data.kind === 'personal' && <p class="page-kicker work-kind">Personal project</p>}
         <h1 class="work-company">{work.data.title}</h1>
         <div class="work-meta">
           <span class="work-role">{work.data.role}</span>
@@ -48,6 +62,16 @@ function parseMarkdown(text: string): string {
           >
             {new URL(work.data.externalUrl).hostname} →
           </a>
+        )}
+        {work.data.kind === 'personal' && artworkVariant && (
+          <figure class={`project-blueprint project-blueprint--${work.id}`}>
+            <div class="project-blueprint-labels" aria-hidden="true">
+              <span>Product blueprint</span>
+              <span>{String(work.data.order - 100).padStart(2, '0')} / 05</span>
+            </div>
+            <ProjectArtwork variant={artworkVariant} />
+            <figcaption>{work.data.description}</figcaption>
+          </figure>
         )}
       </div>
 

@@ -21,6 +21,7 @@ const workCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     company: z.string(),
+    kind: z.enum(['professional', 'personal']).default('professional'),
     role: z.string(),
     description: z.string(),
     dateRange: z.string(),

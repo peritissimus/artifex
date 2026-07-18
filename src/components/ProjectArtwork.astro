@@ -1,0 +1,258 @@
+---
+interface Props {
+  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse';
+}
+
+const { variant } = Astro.props;
+---
+
+<span class={`project-artwork project-artwork--${variant}`} aria-hidden="true">
+  {
+    variant === 'memory' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect x="3" y="5" width="174" height="118" rx="10" fill="#111318" />
+        <rect x="8" y="10" width="31" height="108" rx="7" fill="#1b1e24" />
+        <circle cx="17" cy="20" r="3.5" fill="#f5f2ea" />
+        <path d="M16 19h3v3h-3z" fill="#111318" />
+        <g fill="#777d87">
+          <rect x="14" y="35" width="17" height="3" rx="1.5" />
+          <rect x="14" y="45" width="14" height="3" rx="1.5" />
+          <rect x="14" y="55" width="18" height="3" rx="1.5" />
+          <rect x="14" y="65" width="12" height="3" rx="1.5" />
+        </g>
+        <rect x="11" y="31" width="25" height="11" rx="4" fill="#5d8cff" fill-opacity=".18" />
+        <rect x="14" y="35" width="17" height="3" rx="1.5" fill="#7da2ff" />
+        <text x="48" y="22" fill="#f4f3ef" font-size="8" font-weight="650">Today</text>
+        <text x="48" y="30" fill="#747a84" font-size="4.5">Sunday, July 19</text>
+        <rect x="46" y="39" width="77" height="29" rx="5" fill="#1b1e24" stroke="#2b2f37" />
+        <text x="52" y="48" fill="#8b919c" font-size="4.5">TODAY'S JOURNAL</text>
+        <rect x="52" y="54" width="53" height="3" rx="1.5" fill="#dad8d2" fill-opacity=".86" />
+        <rect x="52" y="60" width="64" height="2.5" rx="1.25" fill="#737984" />
+        <rect x="128" y="39" width="40" height="29" rx="5" fill="#5d8cff" fill-opacity=".15" stroke="#5d8cff" stroke-opacity=".35" />
+        <text x="134" y="49" fill="#88a8ff" font-size="4.5">DAY SUMMARY</text>
+        <path d="m135 56 2 2 4-5M144 56h15M144 61h11" fill="none" stroke="#aebfff" stroke-width="1.2" stroke-linecap="round" />
+        <text x="48" y="80" fill="#8b919c" font-size="4.5">OPEN TASKS</text>
+        <g fill="none" stroke="#6f7580">
+          <rect x="48" y="87" width="5" height="5" rx="1" />
+          <rect x="48" y="99" width="5" height="5" rx="1" />
+          <rect x="48" y="111" width="5" height="5" rx="1" />
+        </g>
+        <g fill="#b7b9bb">
+          <rect x="58" y="88" width="64" height="2.8" rx="1.4" />
+          <rect x="58" y="100" width="80" height="2.8" rx="1.4" />
+          <rect x="58" y="112" width="52" height="2.8" rx="1.4" />
+        </g>
+        <g fill="#5d8cff">
+          <rect x="144" y="86" width="20" height="7" rx="3.5" fill-opacity=".2" />
+          <rect x="144" y="98" width="20" height="7" rx="3.5" fill-opacity=".2" />
+        </g>
+        <text x="149" y="91" fill="#83a5ff" font-size="3.6">doing</text>
+        <text x="149" y="103" fill="#83a5ff" font-size="3.6">idea</text>
+      </svg>
+    )
+  }
+  {
+    variant === 'form' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect x="3" y="5" width="174" height="118" rx="10" />
+        <rect x="8" y="10" width="126" height="108" rx="7" />
+
+        <path d="M9 80c25-8 92-8 124 3v34H9z" />
+        <path d="M9 80c11-22 26-31 63-32 34-1 49 11 61 35" opacity=".4" />
+        <g opacity=".28">
+          <path d="m16 113 55-34M36 117l38-38M58 117l18-38M80 117l-2-38M102 117 81 79M124 117 84 79" />
+          <path d="M12 91h116M10 101h121M9 110h124" />
+        </g>
+
+        <circle cx="22" cy="25" r="8" />
+        <circle cx="22" cy="25" r="3" />
+        <path d="M27 31 45 45M30 24l24 13M22 36v9M12 31l-5 4" opacity=".62" />
+        <text x="11" y="15" font-size="3">KEY 01 · 42%</text>
+
+        <ellipse cx="72" cy="97" rx="47" ry="9" />
+        <ellipse cx="72" cy="97" rx="38" ry="6" opacity=".42" />
+        <g opacity=".28">
+          <path d="m38 93 8 10M48 90l11 15M60 89l12 17M73 89l12 16M87 90l10 13M101 91l7 10" />
+        </g>
+
+        <g transform="translate(69 62) rotate(15)">
+          <rect x="-26" y="-43" width="52" height="86" rx="10" />
+          <rect x="-23" y="-40" width="46" height="80" rx="8" />
+          <rect x="-19" y="-35" width="38" height="70" rx="5" />
+          <rect x="-7" y="-38" width="14" height="2.5" rx="1.25" />
+          <circle cx="10" cy="-37" r=".8" />
+          <path d="M-26-25h-2v10h2M-26-10h-2v7h2M26-18h2v15h-2" />
+          <path d="M-14-27h28M-14-21h17M-14 23h28" opacity=".72" />
+          <rect x="-14" y="-15" width="12" height="12" rx="2" />
+          <rect x="2" y="-15" width="12" height="12" rx="2" />
+          <rect x="-14" y="1" width="28" height="17" rx="2" />
+          <path d="M-10 7h19M-10 11h14M-10 15h8" opacity=".55" />
+          <path d="M-4 38h8" />
+          <path d="M0-31v62M-16 0h32" opacity=".18" />
+        </g>
+
+        <path d="M31 71c-9-18 0-38 17-51M35 18l13 2-5 12" />
+        <path d="M27 71c-11-21-2-43 17-57" opacity=".38" />
+        <g opacity=".5">
+          <path d="M32 55h-4M34 45h-4M38 35h-4M44 25h-4" />
+        </g>
+        <text x="16" y="58" font-size="3">Y · 24°</text>
+
+        <path d="M43 19 36 16M43 19l-3 7M98 37l8-3M98 37l5 6" />
+        <path d="M36 13v5M106 31v5M37 15h69" opacity=".52" />
+        <text x="67" y="13" font-size="3" text-anchor="middle">6.1 IN / 154.9 MM</text>
+
+        <g transform="translate(117 98)">
+          <circle cx="0" cy="0" r="2" />
+          <path d="M0 0h10M0 0V-10M0 0l-7 6" />
+          <text x="11" y="1" font-size="2.5">X</text>
+          <text x="-1" y="-12" font-size="2.5">Y</text>
+          <text x="-11" y="9" font-size="2.5">Z</text>
+        </g>
+
+        <path d="M12 17v-3h3M127 14h3v3M12 111v3h3M127 114h3v-3" opacity=".6" />
+        <text x="13" y="108" font-size="2.6">CAM 42MM · ISO 100 · F/5.6</text>
+
+        <rect x="139" y="10" width="33" height="108" rx="7" />
+        <text x="144" y="19" font-size="5" font-weight="650">Turntable</text>
+        <path d="M144 23h23" opacity=".42" />
+
+        <text x="144" y="29" font-size="2.8">ANGLE</text>
+        <rect x="144" y="32" width="10" height="6" rx="3" />
+        <rect x="156" y="32" width="11" height="6" rx="3" />
+        <text x="146.5" y="36" font-size="2.5">Hero</text>
+        <text x="158" y="36" font-size="2.5">Iso</text>
+
+        <text x="144" y="44" font-size="2.8">MODEL</text>
+        <rect x="144" y="47" width="23" height="7" rx="2" />
+        <text x="147" y="51.7" font-size="2.7">iPhone Pro⌄</text>
+
+        <text x="144" y="60" font-size="2.8">FINISH</text>
+        <circle cx="147" cy="65" r="2.2" />
+        <circle cx="153" cy="65" r="2.2" />
+        <circle cx="159" cy="65" r="2.2" />
+        <circle cx="165" cy="65" r="2.2" />
+
+        <text x="144" y="73" font-size="2.8">ROTATION</text>
+        <g>
+          <text x="144" y="79" font-size="2.4">X</text><path d="M148 78h19" /><circle cx="154" cy="78" r="1.4" />
+          <text x="144" y="85" font-size="2.4">Y</text><path d="M148 84h19" /><circle cx="160" cy="84" r="1.4" />
+          <text x="144" y="91" font-size="2.4">Z</text><path d="M148 90h19" /><circle cx="151" cy="90" r="1.4" />
+        </g>
+
+        <text x="144" y="98" font-size="2.8">BACKGROUND</text>
+        <rect x="144" y="101" width="6" height="5" rx="1" />
+        <rect x="152" y="101" width="6" height="5" rx="1" />
+        <rect x="160" y="101" width="7" height="5" rx="1" />
+
+        <rect x="144" y="109" width="23" height="6" rx="3" />
+        <text x="150" y="113" font-size="2.8">Export 2×</text>
+      </svg>
+    )
+  }
+  {
+    variant === 'signal' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect x="3" y="5" width="174" height="118" rx="10" fill="#07090b" />
+        <rect x="8" y="10" width="29" height="108" rx="7" fill="#0d1013" />
+        <circle cx="18" cy="21" r="5" fill="#1d9bf0" />
+        <path d="m16 22 2-5 1 3 3 1-4 3z" fill="#fff" />
+        <g fill="#727982">
+          <circle cx="18" cy="40" r="3" />
+          <circle cx="18" cy="54" r="3" />
+          <circle cx="18" cy="68" r="3" />
+        </g>
+        <rect x="42" y="10" width="91" height="108" rx="7" fill="#0b0e11" stroke="#20252a" />
+        <text x="49" y="23" fill="#f2f2f2" font-size="7" font-weight="700">Bookmarks</text>
+        <rect x="48" y="30" width="79" height="20" rx="5" fill="#11161b" stroke="#222931" />
+        <circle cx="56" cy="38" r="4" fill="#5965d8" />
+        <rect x="63" y="34" width="25" height="3" rx="1.5" fill="#e7e8ea" />
+        <rect x="63" y="40" width="51" height="2.5" rx="1.25" fill="#68717b" />
+        <rect x="48" y="55" width="79" height="55" rx="5" fill="#11161b" stroke="#222931" />
+        <circle cx="56" cy="64" r="4" fill="#d97d54" />
+        <rect x="63" y="60" width="31" height="3" rx="1.5" fill="#e7e8ea" />
+        <rect x="63" y="66" width="54" height="2.5" rx="1.25" fill="#737b84" />
+        <rect x="55" y="75" width="65" height="22" rx="5" fill="#1d9bf0" fill-opacity=".1" stroke="#1d9bf0" stroke-opacity=".28" />
+        <text x="61" y="83" fill="#44adf2" font-size="3.8" font-weight="650">✦ AI SUMMARY</text>
+        <rect x="61" y="87" width="49" height="2.2" rx="1.1" fill="#bbc2c8" />
+        <rect x="61" y="92" width="41" height="2.2" rx="1.1" fill="#6f7881" />
+        <rect x="55" y="101" width="18" height="6" rx="3" fill="#1d9bf0" fill-opacity=".15" />
+        <rect x="76" y="101" width="23" height="6" rx="3" fill="#1d9bf0" fill-opacity=".15" />
+        <text x="59" y="105" fill="#48abed" font-size="3">#design</text>
+        <text x="80" y="105" fill="#48abed" font-size="3">#systems</text>
+        <rect x="138" y="10" width="34" height="108" rx="7" fill="#0d1013" />
+        <rect x="143" y="18" width="24" height="9" rx="4.5" fill="#20252b" />
+        <circle cx="148" cy="22.5" r="2" fill="none" stroke="#737b84" />
+        <path d="m149.5 24 2 2" stroke="#737b84" />
+        <text x="143" y="38" fill="#e4e5e6" font-size="4.5" font-weight="650">Topics</text>
+        <g fill="#737b84" font-size="3.5">
+          <text x="143" y="48">AI · 124</text>
+          <text x="143" y="57">Design · 83</text>
+          <text x="143" y="66">Tools · 61</text>
+        </g>
+      </svg>
+    )
+  }
+  {
+    variant === 'tabs' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect x="3" y="5" width="174" height="118" rx="10" fill="#f3f1eb" />
+        <rect x="8" y="10" width="164" height="108" rx="7" fill="#fff" stroke="#d4d1ca" />
+        <path d="M8 32h164" stroke="#d4d1ca" />
+        <circle cx="17" cy="21" r="2" fill="#ed6a5e" />
+        <circle cx="24" cy="21" r="2" fill="#f4bd4f" />
+        <circle cx="31" cy="21" r="2" fill="#61c454" />
+        <rect x="41" y="15" width="26" height="12" rx="4" fill="#dce8ff" />
+        <rect x="69" y="15" width="22" height="12" rx="4" fill="#dce8ff" />
+        <rect x="94" y="15" width="25" height="12" rx="4" fill="#ffe5bd" />
+        <rect x="122" y="15" width="18" height="12" rx="4" fill="#d7f0dd" />
+        <g fill="#7c8794">
+          <rect x="46" y="20" width="14" height="2" rx="1" />
+          <rect x="74" y="20" width="11" height="2" rx="1" />
+          <rect x="99" y="20" width="14" height="2" rx="1" />
+          <rect x="127" y="20" width="8" height="2" rx="1" />
+        </g>
+        <text x="19" y="47" fill="#1b1d20" font-size="7" font-weight="700">Tabbit</text>
+        <text x="19" y="55" fill="#85898f" font-size="4">12 tabs ready to organize</text>
+        <g>
+          <rect x="18" y="64" width="67" height="15" rx="5" fill="#eaf1ff" stroke="#bfd2ff" />
+          <circle cx="25" cy="71.5" r="2.5" fill="#5b8def" />
+          <text x="31" y="73" fill="#3b4e70" font-size="4">Work · 4 tabs</text>
+          <rect x="90" y="64" width="67" height="15" rx="5" fill="#fff3dd" stroke="#f1d093" />
+          <circle cx="97" cy="71.5" r="2.5" fill="#e9a43c" />
+          <text x="103" y="73" fill="#684d25" font-size="4">Research · 3 tabs</text>
+          <rect x="18" y="84" width="67" height="15" rx="5" fill="#e8f7eb" stroke="#b6dfbf" />
+          <circle cx="25" cy="91.5" r="2.5" fill="#54ad68" />
+          <text x="31" y="93" fill="#315d3b" font-size="4">Local · 3 tabs</text>
+          <rect x="90" y="84" width="67" height="15" rx="5" fill="#f3eaff" stroke="#d5baf5" />
+          <circle cx="97" cy="91.5" r="2.5" fill="#9c68d8" />
+          <text x="103" y="93" fill="#583b78" font-size="4">AI tools · 2 tabs</text>
+        </g>
+        <rect x="48" y="104" width="84" height="9" rx="4.5" fill="#17191d" />
+        <text x="72" y="110" fill="#fff" font-size="4.2" font-weight="650">✦ Organize tabs</text>
+      </svg>
+    )
+  }
+  {
+    variant === 'pulse' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect x="3" y="5" width="174" height="118" rx="10" fill="#dad8d2" />
+        <path d="M42 23c0-10 8-18 18-18h60c10 0 18 8 18 18v82c0 10-8 18-18 18H60c-10 0-18-8-18-18z" fill="#bdbab2" />
+        <rect x="48" y="11" width="84" height="106" rx="22" fill="#ece9df" />
+        <rect x="54" y="17" width="72" height="94" rx="17" fill="#050606" />
+        <text x="62" y="31" fill="#d7d5cd" font-size="5" font-weight="650">09:41</text>
+        <text x="107" y="31" fill="#d7d5cd" font-size="4.5" text-anchor="end">SUN 19</text>
+        <text x="90" y="48" fill="#8e928e" font-size="4.5" text-anchor="middle" letter-spacing="1">TODAY'S STEPS</text>
+        <text x="90" y="73" fill="#f5f2ea" font-size="24" font-weight="700" text-anchor="middle">8,642</text>
+        <rect x="62" y="79" width="56" height="3" rx="1.5" fill="#262a29" />
+        <rect x="62" y="79" width="41" height="3" rx="1.5" fill="#65e2bd" />
+        <text x="62" y="92" fill="#898d89" font-size="3.5" letter-spacing=".7">HEART RATE</text>
+        <text x="118" y="92" fill="#898d89" font-size="3.5" text-anchor="end" letter-spacing=".7">CALORIES</text>
+        <text x="62" y="104" fill="#f5f2ea" font-size="10" font-weight="650">72</text>
+        <text x="76" y="104" fill="#8e928e" font-size="3.5">BPM</text>
+        <text x="107" y="104" fill="#f5f2ea" font-size="10" font-weight="650" text-anchor="end">486</text>
+        <text x="119" y="104" fill="#8e928e" font-size="3.5" text-anchor="end">KCAL</text>
+      </svg>
+    )
+  }
+</span>

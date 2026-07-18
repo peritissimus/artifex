@@ -1,15 +1,54 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import ProjectArtwork from '../components/ProjectArtwork.astro';
 import { personSchema } from '../lib/schema';
 
-const selectedWork = (await getCollection('work'))
+const selectedWork = (await getCollection('work', ({ data }) => data.kind === 'professional'))
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 3);
 
 const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 )[0];
+
+const projects = [
+  {
+    name: 'Stone',
+    slug: 'stone',
+    description: 'A local-first workspace for notes, meetings, and project memory.',
+    className: 'project-card--stone',
+    mark: 'memory' as const,
+  },
+  {
+    name: 'Turntable',
+    slug: 'turntable',
+    description: 'A 3D device mockup tool for creating polished product imagery.',
+    className: 'project-card--turntable',
+    mark: 'form' as const,
+  },
+  {
+    name: 'Birdbrain',
+    slug: 'birdbrain',
+    description: 'A local archive that classifies and summarizes saved posts with AI.',
+    className: 'project-card--birdbrain',
+    mark: 'signal' as const,
+  },
+  {
+    name: 'Tabbit',
+    slug: 'tabbit',
+    description: 'An AI browser extension that groups and tidies crowded tab bars.',
+    className: 'project-card--tabbit',
+    mark: 'tabs' as const,
+  },
+  {
+    name: 'Garatch',
+    slug: 'garatch',
+    description: 'Experiments for the wrist, built for Garmin in Monkey C.',
+    className: 'project-card--garatch',
+    mark: 'pulse' as const,
+  },
+];
 ---
 
 <Base
@@ -33,6 +72,33 @@ const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort
           <a href="/contact">Get in touch <span aria-hidden="true">→</span></a>
         </div>
       </div>
+
+      <section class="project-deck-section" id="personal-projects" aria-labelledby="projects-heading">
+        <div class="home-section-header project-deck-header">
+          <h2 id="projects-heading">Personal projects</h2>
+          <span>{projects.length} projects</span>
+        </div>
+        <p class="project-deck-intro">
+          Small tools and independent experiments I design and build outside of work.
+        </p>
+        <div class="project-deck">
+          {
+            projects.map((project) => (
+              <a
+                class={`project-card ${project.className}`}
+                href={`/work/${project.slug}`}
+                aria-label={`${project.name}: ${project.description}`}
+              >
+                <ProjectArtwork variant={project.mark} />
+                <span class="project-card-copy">
+                  <strong>{project.name}</strong>
+                </span>
+                <span class="project-card-arrow" aria-hidden="true">→</span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
 
       <section class="home-section" aria-labelledby="selected-work-heading">
         <div class="home-section-header">
