@@ -21,6 +21,7 @@
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/newsreader": "^5.2.10",
+    "animejs": "^4.5.0",
     "astro": "^6.1.9",
     "hastscript": "^9.0.1",
     "sass": "^1.94.2",
