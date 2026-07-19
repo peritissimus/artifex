@@ -1,108 +1,209 @@
 ---
 interface Props {
-  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse';
+  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse' | 'fit';
+  detail?: 'card' | 'blueprint';
 }
 
-const { variant } = Astro.props;
+const { variant, detail = 'card' } = Astro.props;
 ---
 
-<span class={`project-artwork project-artwork--${variant}`} aria-hidden="true">
+<span class={`project-artwork project-artwork--${variant} project-artwork--${detail}`} aria-hidden="true">
   {
-    variant === 'memory' && (
+    variant === 'memory' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
-        <rect x="3" y="5" width="174" height="118" rx="10" fill="#111318" />
-        <rect x="8" y="10" width="31" height="108" rx="7" fill="#1b1e24" />
-        <circle cx="17" cy="20" r="3.5" fill="#f5f2ea" />
-        <path d="M16 19h3v3h-3z" fill="#111318" />
-        <g fill="#777d87">
-          <rect x="14" y="35" width="17" height="3" rx="1.5" />
-          <rect x="14" y="45" width="14" height="3" rx="1.5" />
-          <rect x="14" y="55" width="18" height="3" rx="1.5" />
-          <rect x="14" y="65" width="12" height="3" rx="1.5" />
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <g opacity=".3">
+          <rect x="14" y="16" width="152" height="92" rx="7" />
+          <path d="M52 16v92" />
+          <circle cx="21" cy="22.5" r="1.3" />
+          <circle cx="25.5" cy="22.5" r="1.3" />
+          <circle cx="30" cy="22.5" r="1.3" />
+          <path d="M20 33h20M20 41h15M20 49h18M20 57h13" />
+          <path d="M60 32h48M60 40h66M60 48h38" />
         </g>
-        <rect x="11" y="31" width="25" height="11" rx="4" fill="#5d8cff" fill-opacity=".18" />
-        <rect x="14" y="35" width="17" height="3" rx="1.5" fill="#7da2ff" />
-        <text x="48" y="22" fill="#f4f3ef" font-size="8" font-weight="650">Today</text>
-        <text x="48" y="30" fill="#747a84" font-size="4.5">Sunday, July 19</text>
-        <rect x="46" y="39" width="77" height="29" rx="5" fill="#1b1e24" stroke="#2b2f37" />
-        <text x="52" y="48" fill="#8b919c" font-size="4.5">TODAY'S JOURNAL</text>
-        <rect x="52" y="54" width="53" height="3" rx="1.5" fill="#dad8d2" fill-opacity=".86" />
-        <rect x="52" y="60" width="64" height="2.5" rx="1.25" fill="#737984" />
-        <rect x="128" y="39" width="40" height="29" rx="5" fill="#5d8cff" fill-opacity=".15" stroke="#5d8cff" stroke-opacity=".35" />
-        <text x="134" y="49" fill="#88a8ff" font-size="4.5">DAY SUMMARY</text>
-        <path d="m135 56 2 2 4-5M144 56h15M144 61h11" fill="none" stroke="#aebfff" stroke-width="1.2" stroke-linecap="round" />
-        <text x="48" y="80" fill="#8b919c" font-size="4.5">OPEN TASKS</text>
-        <g fill="none" stroke="#6f7580">
-          <rect x="48" y="87" width="5" height="5" rx="1" />
-          <rect x="48" y="99" width="5" height="5" rx="1" />
-          <rect x="48" y="111" width="5" height="5" rx="1" />
+        <rect class="artwork-card-depth artwork-shadow-plane" x="53" y="47" width="84" height="38" rx="8" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m57 85 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4" />
+          <path d="m134 53 3-3m-3 11 3-3m-3 11 3-3m-3 11 3-3" />
         </g>
-        <g fill="#b7b9bb">
-          <rect x="58" y="88" width="64" height="2.8" rx="1.4" />
-          <rect x="58" y="100" width="80" height="2.8" rx="1.4" />
-          <rect x="58" y="112" width="52" height="2.8" rx="1.4" />
+        <rect class="artwork-surface artwork-hero" x="50" y="44" width="84" height="38" rx="8" />
+        <path d="m126 49 .9 1.9 1.9.9-1.9.9-.9 1.9-.9-1.9-1.9-.9 1.9-.9z" />
+        <path class="artwork-structure" d="M58 54h38M58 61h24" />
+        <path class="artwork-hero" d="M85.5 57.5v7" />
+        <rect x="110" y="70" width="17" height="7" rx="3.5" />
+        <path d="M123 72.2v2.3h-6.5m1.8-1.8-1.8 1.8 1.8 1.8" opacity=".8" />
+        <rect x="63" y="92" width="12" height="10" rx="2.5" />
+        <rect x="78" y="92" width="12" height="10" rx="2.5" />
+        <rect x="93" y="92" width="26" height="10" rx="2.5" />
+        <g opacity=".85">
+          <rect x="67.5" y="95.5" width="3" height="3" />
+          <circle cx="67.5" cy="95.5" r="1.1" />
+          <circle cx="70.5" cy="95.5" r="1.1" />
+          <circle cx="67.5" cy="98.5" r="1.1" />
+          <circle cx="70.5" cy="98.5" r="1.1" />
         </g>
-        <g fill="#5d8cff">
-          <rect x="144" y="86" width="20" height="7" rx="3.5" fill-opacity=".2" />
-          <rect x="144" y="98" width="20" height="7" rx="3.5" fill-opacity=".2" />
+        <path d="m82.2 97.4 1.8-2 1.8 2h-1v2.2h-1.6v-2.2z" opacity=".85" />
+      </svg>
+    )
+  }
+  {
+    variant === 'memory' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-card-depth artwork-plane" x="8" y="10" width="44" height="108" rx="7" />
+        <rect class="artwork-structure" x="8" y="10" width="164" height="108" rx="7" />
+        <path d="M52 10v108" />
+
+        <circle cx="15.5" cy="16.5" r="1.5" />
+        <circle cx="20.5" cy="16.5" r="1.5" />
+        <circle cx="25.5" cy="16.5" r="1.5" />
+
+        <rect class="artwork-soft-surface artwork-structure" x="11" y="26.5" width="38" height="8.5" rx="2.5" />
+        <circle cx="16.4" cy="31" r="1.6" />
+        <path d="M16.4 27.7v1M16.4 33.3v1M13.1 31h1M19.1 31h1" opacity=".65" />
+        <rect x="14.6" y="38.2" width="3.6" height="3.6" rx="0.7" />
+        <path d="M16.4 38.2v3.6" opacity=".65" />
+        <rect x="14.6" y="47.2" width="3.6" height="3.6" rx="0.7" />
+        <path d="m15.4 49 .8.9 1.6-1.9" />
+        <circle cx="16.4" cy="58" r="1.9" />
+        <circle cx="16.4" cy="58" r="0.5" opacity=".65" />
+        <rect x="15.5" y="65.2" width="1.9" height="3.1" rx="0.95" />
+        <path d="M14.3 67.2a2.1 2.1 0 0 0 4.2 0M16.4 69.6v1.1" opacity=".75" />
+        <g class="artwork-card-only">
+          <path d="M21.5 31h14M21.5 40h12M21.5 49h9M21.5 58h13M21.5 67h11" />
         </g>
-        <text x="149" y="91" fill="#83a5ff" font-size="3.6">doing</text>
-        <text x="149" y="103" fill="#83a5ff" font-size="3.6">idea</text>
+        <text x="21.5" y="32" font-size="2.6">Today</text>
+        <text x="21.5" y="41" font-size="2.6">Journals</text>
+        <text x="21.5" y="50" font-size="2.6">Tasks</text>
+        <text x="21.5" y="59" font-size="2.6">Knowledge</text>
+        <text x="21.5" y="68" font-size="2.6">Meetings</text>
+        <path d="M12 74h28" opacity=".55" />
+        <path d="M14 80h4M20.5 80h12M16 86h4M22.5 86h9M16 92h4M22.5 92h11" opacity=".5" />
+        <circle cx="16.4" cy="111" r="2" />
+        <path d="M21.5 111h12" opacity=".6" />
+
+        <text x="58" y="20.5" font-size="5" font-weight="650">Today</text>
+        <text x="76" y="20.5" font-size="2.5">Sunday, July 19</text>
+        <g opacity=".65">
+          <rect x="142" y="15.5" width="5" height="5" rx="1.2" />
+          <rect x="149.5" y="15.5" width="5" height="5" rx="1.2" />
+          <rect x="157" y="15.5" width="5" height="5" rx="1.2" />
+          <path d="m159.5 16.4.5 1.1 1.1.5-1.1.5-.5 1.1-.5-1.1-1.1-.5 1.1-.5z" />
+          <circle cx="144.5" cy="18" r="1.1" />
+          <path d="M151.4 16.8h1.2v2.4h-1.2z" />
+        </g>
+        <path d="M52 26.5h120" />
+
+        <rect class="artwork-card-depth artwork-shadow-plane" x="63" y="33" width="104" height="24" rx="4" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m66 57 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4" />
+          <path d="m164 39 3-3m-3 10 3-3m-3 10 3-3" />
+        </g>
+        <rect class="artwork-surface artwork-hero" x="60" y="30" width="104" height="24" rx="4" />
+        <path d="m65 33.8.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z" />
+        <text x="70" y="37.6" font-size="3">DAY SUMMARY</text>
+        <rect x="132" y="33" width="28" height="6" rx="3" />
+        <text x="135.3" y="37.2" font-size="2.4">Save to journal</text>
+        <path d="M64 43.5h70M64 47.3h88M64 51h54" opacity=".9" />
+
+        <text x="60" y="62" font-size="2.6">TODAY'S JOURNAL</text>
+        <rect class="artwork-structure" x="60" y="64" width="104" height="16" rx="3" />
+        <path d="M64 70h62M64 74.5h84" opacity=".8" />
+
+        <text x="60" y="87" font-size="2.6">OPEN TASKS · 3</text>
+        <rect x="60" y="89.5" width="4" height="4" rx="1" />
+        <path d="m61 91.3.9 1 1.7-2" />
+        <path d="M67.5 91.5h50" opacity=".85" />
+        <rect x="146" y="88.7" width="14" height="5.6" rx="2.8" />
+        <text x="148.6" y="92.6" font-size="2.4">doing</text>
+        <rect x="60" y="97.5" width="4" height="4" rx="1" />
+        <path d="M67.5 99.5h64" opacity=".85" />
+        <rect x="60" y="105.5" width="4" height="4" rx="1" />
+        <path d="M67.5 107.5h44" opacity=".85" />
+
+        <rect class="artwork-soft-surface artwork-structure" x="124" y="103.5" width="42" height="10" rx="5" />
+        <circle cx="130" cy="108.5" r="1.6" />
+        <path d="M135 106.8v3.4M138 105.6v5.8M141 107.4v2.2M144 105v7M147 107v3M150 105.8v5.4M153 107.4v2.2" />
+        <rect x="157.5" y="106.7" width="3.6" height="3.6" rx="0.8" />
+
+        <g class="artwork-detail">
+          <path d="M12 18v-4h4M164 14h4v4M12 110v4h4M168 110v4h-4" opacity=".55" />
+          <text x="124" y="101.5" font-size="2.4">RECORDING DOCK</text>
+          <path d="M124 102.5h22" opacity=".6" />
+          <path d="M8 121v2.5M52 121v2.5M8 122.2h44" />
+          <text x="13" y="126.5" font-size="2.6">SIDEBAR · 260</text>
+          <text x="60" y="126.5" font-size="2.6">⌘⇧SPACE QUICK CAPTURE · LOCAL-FIRST · SQLITE</text>
+        </g>
       </svg>
     )
   }
   {
     variant === 'form' && (
       <svg viewBox="0 0 180 128" role="presentation">
-        <rect x="3" y="5" width="174" height="118" rx="10" />
-        <rect x="8" y="10" width="126" height="108" rx="7" />
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-structure" x="8" y="10" width="126" height="108" rx="7" />
 
         <path d="M9 80c25-8 92-8 124 3v34H9z" />
         <path d="M9 80c11-22 26-31 63-32 34-1 49 11 61 35" opacity=".4" />
-        <g opacity=".28">
+        <g class="artwork-detail" opacity=".28">
           <path d="m16 113 55-34M36 117l38-38M58 117l18-38M80 117l-2-38M102 117 81 79M124 117 84 79" />
           <path d="M12 91h116M10 101h121M9 110h124" />
         </g>
 
-        <circle cx="22" cy="25" r="8" />
-        <circle cx="22" cy="25" r="3" />
-        <path d="M27 31 45 45M30 24l24 13M22 36v9M12 31l-5 4" opacity=".62" />
-        <text x="11" y="15" font-size="3">KEY 01 · 42%</text>
+        <g class="artwork-detail">
+          <circle cx="22" cy="25" r="8" />
+          <circle cx="22" cy="25" r="3" />
+          <path d="M27 31 45 45M30 24l24 13M22 36v9M12 31l-5 4" opacity=".62" />
+          <text x="11" y="15" font-size="3">KEY LIGHT · STUDIO</text>
+        </g>
 
-        <ellipse cx="72" cy="97" rx="47" ry="9" />
+        <ellipse class="artwork-card-depth artwork-shadow-plane" cx="74" cy="99" rx="47" ry="9" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m38 94 6 7m8-9 7 11m6-12 8 14m7-14 8 14m7-13 7 11m7-9 6 7" />
+        </g>
+        <ellipse class="artwork-structure" cx="72" cy="97" rx="47" ry="9" />
         <ellipse cx="72" cy="97" rx="38" ry="6" opacity=".42" />
-        <g opacity=".28">
+        <g class="artwork-detail" opacity=".28">
           <path d="m38 93 8 10M48 90l11 15M60 89l12 17M73 89l12 16M87 90l10 13M101 91l7 10" />
         </g>
 
         <g transform="translate(69 62) rotate(15)">
-          <rect x="-26" y="-43" width="52" height="86" rx="10" />
-          <rect x="-23" y="-40" width="46" height="80" rx="8" />
-          <rect x="-19" y="-35" width="38" height="70" rx="5" />
+          <rect class="artwork-surface artwork-hero" x="-26" y="-43" width="52" height="86" rx="10" />
+          <rect class="artwork-structure" x="-23" y="-40" width="46" height="80" rx="8" />
+          <rect class="artwork-soft-surface artwork-structure" x="-19" y="-35" width="38" height="70" rx="5" />
           <rect x="-7" y="-38" width="14" height="2.5" rx="1.25" />
           <circle cx="10" cy="-37" r=".8" />
           <path d="M-26-25h-2v10h2M-26-10h-2v7h2M26-18h2v15h-2" />
-          <path d="M-14-27h28M-14-21h17M-14 23h28" opacity=".72" />
-          <rect x="-14" y="-15" width="12" height="12" rx="2" />
-          <rect x="2" y="-15" width="12" height="12" rx="2" />
-          <rect x="-14" y="1" width="28" height="17" rx="2" />
-          <path d="M-10 7h19M-10 11h14M-10 15h8" opacity=".55" />
+          <g class="artwork-detail">
+            <path d="M-14-27h28M-14-21h17M-14 23h28" opacity=".72" />
+            <rect x="-14" y="-15" width="12" height="12" rx="2" />
+            <rect x="2" y="-15" width="12" height="12" rx="2" />
+            <rect x="-14" y="1" width="28" height="17" rx="2" />
+            <path d="M-10 7h19M-10 11h14M-10 15h8" opacity=".55" />
+          </g>
           <path d="M-4 38h8" />
           <path d="M0-31v62M-16 0h32" opacity=".18" />
+          <g class="artwork-card-depth artwork-hatch">
+            <path d="m18 16 4-4m-4 11 4-4m-5 12 4-4" />
+          </g>
         </g>
 
-        <path d="M31 71c-9-18 0-38 17-51M35 18l13 2-5 12" />
-        <path d="M27 71c-11-21-2-43 17-57" opacity=".38" />
-        <g opacity=".5">
-          <path d="M32 55h-4M34 45h-4M38 35h-4M44 25h-4" />
+        <g class="artwork-detail">
+          <path d="M31 71c-9-18 0-38 17-51M35 18l13 2-5 12" />
+          <path d="M27 71c-11-21-2-43 17-57" opacity=".38" />
+          <g opacity=".5">
+            <path d="M32 55h-4M34 45h-4M38 35h-4M44 25h-4" />
+          </g>
+          <text x="16" y="58" font-size="3">Y · 24°</text>
         </g>
-        <text x="16" y="58" font-size="3">Y · 24°</text>
 
-        <path d="M43 19 36 16M43 19l-3 7M98 37l8-3M98 37l5 6" />
-        <path d="M36 13v5M106 31v5M37 15h69" opacity=".52" />
-        <text x="67" y="13" font-size="3" text-anchor="middle">6.1 IN / 154.9 MM</text>
+        <g class="artwork-detail">
+          <path d="M43 19 36 16M43 19l-3 7M98 37l8-3M98 37l5 6" />
+          <path d="M36 13v5M106 31v5M37 15h69" opacity=".52" />
+          <text x="67" y="13" font-size="3" text-anchor="middle">6.1 IN / 154.9 MM</text>
+        </g>
 
-        <g transform="translate(117 98)">
+        <g class="artwork-detail" transform="translate(117 98)">
           <circle cx="0" cy="0" r="2" />
           <path d="M0 0h10M0 0V-10M0 0l-7 6" />
           <text x="11" y="1" font-size="2.5">X</text>
@@ -110,148 +211,505 @@ const { variant } = Astro.props;
           <text x="-11" y="9" font-size="2.5">Z</text>
         </g>
 
-        <path d="M12 17v-3h3M127 14h3v3M12 111v3h3M127 114h3v-3" opacity=".6" />
-        <text x="13" y="108" font-size="2.6">CAM 42MM · ISO 100 · F/5.6</text>
+        <path class="artwork-detail" d="M12 17v-3h3M127 14h3v3M12 111v3h3M127 114h3v-3" opacity=".6" />
+        <text class="artwork-detail" x="13" y="108" font-size="2.6">DRAG TO ROTATE · SCROLL TO ZOOM</text>
 
-        <rect x="139" y="10" width="33" height="108" rx="7" />
-        <text x="144" y="19" font-size="5" font-weight="650">Turntable</text>
-        <path d="M144 23h23" opacity=".42" />
-
-        <text x="144" y="29" font-size="2.8">ANGLE</text>
-        <rect x="144" y="32" width="10" height="6" rx="3" />
-        <rect x="156" y="32" width="11" height="6" rx="3" />
-        <text x="146.5" y="36" font-size="2.5">Hero</text>
-        <text x="158" y="36" font-size="2.5">Iso</text>
-
-        <text x="144" y="44" font-size="2.8">MODEL</text>
-        <rect x="144" y="47" width="23" height="7" rx="2" />
-        <text x="147" y="51.7" font-size="2.7">iPhone Pro⌄</text>
-
-        <text x="144" y="60" font-size="2.8">FINISH</text>
-        <circle cx="147" cy="65" r="2.2" />
-        <circle cx="153" cy="65" r="2.2" />
-        <circle cx="159" cy="65" r="2.2" />
-        <circle cx="165" cy="65" r="2.2" />
-
-        <text x="144" y="73" font-size="2.8">ROTATION</text>
-        <g>
-          <text x="144" y="79" font-size="2.4">X</text><path d="M148 78h19" /><circle cx="154" cy="78" r="1.4" />
-          <text x="144" y="85" font-size="2.4">Y</text><path d="M148 84h19" /><circle cx="160" cy="84" r="1.4" />
-          <text x="144" y="91" font-size="2.4">Z</text><path d="M148 90h19" /><circle cx="151" cy="90" r="1.4" />
+        <rect class="artwork-card-depth artwork-plane" x="139" y="10" width="33" height="108" rx="7" />
+        <rect class="artwork-structure" x="139" y="10" width="33" height="108" rx="7" />
+        <g class="artwork-card-only">
+          <path d="M145 29h20M145 40h17M145 51h20M145 62h14" />
+          <circle cx="147" cy="76" r="2" />
+          <circle cx="154" cy="76" r="2" />
+          <circle cx="161" cy="76" r="2" />
+          <path d="M145 88h20M145 96h20" />
+          <rect x="145" y="106" width="21" height="6" rx="3" />
         </g>
+        <g class="artwork-detail">
+          <text x="144" y="19" font-size="5" font-weight="650">Turntable</text>
+          <path d="M144 23h23" opacity=".42" />
 
-        <text x="144" y="98" font-size="2.8">BACKGROUND</text>
-        <rect x="144" y="101" width="6" height="5" rx="1" />
-        <rect x="152" y="101" width="6" height="5" rx="1" />
-        <rect x="160" y="101" width="7" height="5" rx="1" />
+          <text x="144" y="29" font-size="2.8">ANGLE</text>
+          <rect x="144" y="32" width="10" height="6" rx="3" />
+          <rect x="156" y="32" width="11" height="6" rx="3" />
+          <text x="146.5" y="36" font-size="2.5">Hero</text>
+          <text x="158" y="36" font-size="2.5">Iso</text>
 
-        <rect x="144" y="109" width="23" height="6" rx="3" />
-        <text x="150" y="113" font-size="2.8">Export 2×</text>
+          <text x="144" y="44" font-size="2.8">MODEL</text>
+          <rect x="144" y="47" width="23" height="7" rx="2" />
+          <text x="147" y="51.7" font-size="2.7">iPhone Pro⌄</text>
+
+          <text x="144" y="60" font-size="2.8">FINISH</text>
+          <circle cx="147" cy="65" r="2.2" />
+          <circle cx="153" cy="65" r="2.2" />
+          <circle cx="159" cy="65" r="2.2" />
+          <circle cx="165" cy="65" r="2.2" />
+
+          <text x="144" y="73" font-size="2.8">ROTATION</text>
+          <g>
+            <text x="144" y="79" font-size="2.4">X</text><path d="M148 78h19" /><circle cx="154" cy="78" r="1.4" />
+            <text x="144" y="85" font-size="2.4">Y</text><path d="M148 84h19" /><circle cx="160" cy="84" r="1.4" />
+            <text x="144" y="91" font-size="2.4">Z</text><path d="M148 90h19" /><circle cx="151" cy="90" r="1.4" />
+          </g>
+
+          <text x="144" y="98" font-size="2.8">BACKGROUND</text>
+          <rect x="144" y="101" width="6" height="5" rx="1" />
+          <rect x="152" y="101" width="6" height="5" rx="1" />
+          <rect x="160" y="101" width="7" height="5" rx="1" />
+
+          <rect x="144" y="109" width="23" height="6" rx="3" />
+          <text x="148" y="113" font-size="2.8">Export PNG</text>
+        </g>
       </svg>
     )
   }
   {
     variant === 'signal' && (
       <svg viewBox="0 0 180 128" role="presentation">
-        <rect x="3" y="5" width="174" height="118" rx="10" fill="#07090b" />
-        <rect x="8" y="10" width="29" height="108" rx="7" fill="#0d1013" />
-        <circle cx="18" cy="21" r="5" fill="#1d9bf0" />
-        <path d="m16 22 2-5 1 3 3 1-4 3z" fill="#fff" />
-        <g fill="#727982">
-          <circle cx="18" cy="40" r="3" />
-          <circle cx="18" cy="54" r="3" />
-          <circle cx="18" cy="68" r="3" />
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-card-depth artwork-plane" x="8" y="10" width="38" height="108" rx="7" />
+        <rect class="artwork-structure" x="8" y="10" width="164" height="108" rx="7" />
+        <path d="M46 10v108M128 10v108" />
+
+        <path d="M13.6 22.3c4.6 1 7.8-1.2 7.8-5.3v-.6l1.6-1-1.8-.3c-.7-1.3-2.3-1.8-3.6-1.1-1.1.6-1.6 1.9-1.2 3.1-2.4-.1-4.5-1.2-6-3-.8 1.4-.4 3.2 1 4.1l-1.4-.4c0 1.5 1 2.8 2.5 3.1h-1.3c.4 1.2 1.5 2.1 2.4 2.4z" />
+
+        <rect class="artwork-soft-surface artwork-structure" x="11" y="27" width="32" height="8.5" rx="2.5" />
+        <path d="M15 29.4h3.6v4.8l-1.8-1.3-1.8 1.3z" />
+        <g class="artwork-card-only">
+          <path d="M21.5 31.3h13" />
         </g>
-        <rect x="42" y="10" width="91" height="108" rx="7" fill="#0b0e11" stroke="#20252a" />
-        <text x="49" y="23" fill="#f2f2f2" font-size="7" font-weight="700">Bookmarks</text>
-        <rect x="48" y="30" width="79" height="20" rx="5" fill="#11161b" stroke="#222931" />
-        <circle cx="56" cy="38" r="4" fill="#5965d8" />
-        <rect x="63" y="34" width="25" height="3" rx="1.5" fill="#e7e8ea" />
-        <rect x="63" y="40" width="51" height="2.5" rx="1.25" fill="#68717b" />
-        <rect x="48" y="55" width="79" height="55" rx="5" fill="#11161b" stroke="#222931" />
-        <circle cx="56" cy="64" r="4" fill="#d97d54" />
-        <rect x="63" y="60" width="31" height="3" rx="1.5" fill="#e7e8ea" />
-        <rect x="63" y="66" width="54" height="2.5" rx="1.25" fill="#737b84" />
-        <rect x="55" y="75" width="65" height="22" rx="5" fill="#1d9bf0" fill-opacity=".1" stroke="#1d9bf0" stroke-opacity=".28" />
-        <text x="61" y="83" fill="#44adf2" font-size="3.8" font-weight="650">✦ AI SUMMARY</text>
-        <rect x="61" y="87" width="49" height="2.2" rx="1.1" fill="#bbc2c8" />
-        <rect x="61" y="92" width="41" height="2.2" rx="1.1" fill="#6f7881" />
-        <rect x="55" y="101" width="18" height="6" rx="3" fill="#1d9bf0" fill-opacity=".15" />
-        <rect x="76" y="101" width="23" height="6" rx="3" fill="#1d9bf0" fill-opacity=".15" />
-        <text x="59" y="105" fill="#48abed" font-size="3">#design</text>
-        <text x="80" y="105" fill="#48abed" font-size="3">#systems</text>
-        <rect x="138" y="10" width="34" height="108" rx="7" fill="#0d1013" />
-        <rect x="143" y="18" width="24" height="9" rx="4.5" fill="#20252b" />
-        <circle cx="148" cy="22.5" r="2" fill="none" stroke="#737b84" />
-        <path d="m149.5 24 2 2" stroke="#737b84" />
-        <text x="143" y="38" fill="#e4e5e6" font-size="4.5" font-weight="650">Topics</text>
-        <g fill="#737b84" font-size="3.5">
-          <text x="143" y="48">AI · 124</text>
-          <text x="143" y="57">Design · 83</text>
-          <text x="143" y="66">Tools · 61</text>
+        <text x="21.5" y="32.3" font-size="2.8">Bookmarks</text>
+        <path d="m15 40.4 2.2-2.2 2.9.1.1 2.9-2.2 2.2z" />
+        <g class="artwork-card-only">
+          <path d="M22.5 40.5h10" />
+        </g>
+        <text x="22.5" y="41.5" font-size="2.8">Topics</text>
+        <path d="M12 47h30" opacity=".55" />
+        <text x="12" y="52.5" font-size="2.4">TOPICS</text>
+        <g class="artwork-card-only">
+          <path d="M13 57.5h13M13 65.5h16M13 73.5h11" />
+        </g>
+        <text x="13" y="58.4" font-size="2.6">#ai</text>
+        <text x="13" y="66.4" font-size="2.6">#design</text>
+        <text x="13" y="74.4" font-size="2.6">#tools</text>
+        <rect x="33" y="54.7" width="9.5" height="5" rx="2.5" />
+        <rect x="33" y="62.7" width="9.5" height="5" rx="2.5" />
+        <rect x="33" y="70.7" width="9.5" height="5" rx="2.5" />
+        <text x="37.75" y="58.2" font-size="2.2" text-anchor="middle">124</text>
+        <text x="37.75" y="66.2" font-size="2.2" text-anchor="middle">83</text>
+        <text x="37.75" y="74.2" font-size="2.2" text-anchor="middle">61</text>
+
+        <text x="51" y="21" font-size="5.5" font-weight="700">Bookmarks</text>
+        <text x="86" y="21" font-size="2.4">248 results</text>
+        <path d="M46 25.5h82" />
+        <g class="artwork-card-only">
+          <path d="M51 31.5h8M68 31.5h8M85 31.5h5" />
+        </g>
+        <text x="51" y="32.5" font-size="4" font-weight="650">248</text>
+        <text x="51" y="36.6" font-size="2">BOOKMARKS</text>
+        <text x="68" y="32.5" font-size="4" font-weight="650">231</text>
+        <text x="68" y="36.6" font-size="2">CLASSIFIED</text>
+        <text x="85" y="32.5" font-size="4" font-weight="650">12</text>
+        <text x="85" y="36.6" font-size="2">PENDING</text>
+        <rect class="artwork-structure" x="98" y="28" width="26" height="7" rx="3.5" />
+        <text x="101.3" y="32.6" font-size="2.5">Classify 12</text>
+        <path d="M46 40h82" opacity=".7" />
+
+        <rect class="artwork-structure" x="50" y="44" width="74" height="24" rx="4" />
+        <circle cx="56.5" cy="51" r="3" />
+        <path d="M62 49.5h16" />
+        <path d="M80.5 49.5h9" opacity=".45" />
+        <path d="M62 56.5h54M62 60.5h42" opacity=".85" />
+        <circle cx="119" cy="48.5" r="1" opacity=".6" />
+
+        <rect class="artwork-card-depth artwork-shadow-plane" x="53" y="75" width="74" height="37" rx="4" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m56 112 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4" />
+          <path d="m125.5 81 2.5-2.5m-2.5 9.5 2.5-2.5m-2.5 9.5 2.5-2.5m-2.5 9.5 2.5-2.5" />
+        </g>
+        <rect class="artwork-surface artwork-hero" x="50" y="72" width="74" height="37" rx="4" />
+        <circle cx="56.5" cy="79" r="3" />
+        <path d="M62 77.5h18" />
+        <path d="M82.5 77.5h8" opacity=".45" />
+        <path d="M62 84.5h56" opacity=".85" />
+        <rect class="artwork-structure" x="54" y="88" width="66" height="12.5" rx="3" />
+        <path d="m57.4 90.2.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z" />
+        <text x="61" y="93.2" font-size="2.6">AI SUMMARY</text>
+        <path d="M57.5 96h46M57.5 98.6h36" opacity=".85" />
+        <rect x="54" y="103.5" width="12" height="5" rx="2.5" />
+        <text x="56.7" y="107.1" font-size="2.4">#ai</text>
+        <rect x="68" y="103.5" width="18" height="5" rx="2.5" />
+        <text x="70.7" y="107.1" font-size="2.4">#design</text>
+        <circle cx="119" cy="106" r="1.8" />
+        <path d="m118.1 106 .7.8 1.3-1.6" />
+
+        <rect class="artwork-structure" x="132" y="15" width="36" height="8" rx="4" />
+        <circle cx="137" cy="19" r="1.8" />
+        <path d="m138.4 20.4 1.5 1.5" />
+        <text x="142" y="20" font-size="2.3">Search bookmarks</text>
+        <rect class="artwork-structure" x="132" y="29" width="36" height="24" rx="3" />
+        <text x="135" y="34.5" font-size="2.8" font-weight="650">About Birdbrain</text>
+        <path d="M135 38.5h29M135 42h30M135 45.5h22" opacity=".7" />
+        <text x="135" y="50.5" font-size="2.4">GitHub · Twitter</text>
+
+        <g class="artwork-detail">
+          <rect x="133" y="60" width="9" height="8" rx="2" />
+          <path d="M136 64h3" opacity=".7" />
+          <path d="M143.5 64h4.5" stroke-dasharray="1.5 1.5" />
+          <circle cx="151.5" cy="64" r="2.4" />
+          <path d="m151.5 62.6.4 1 1 .4-1 .4-.4 1-.4-1-1-.4 1-.4z" opacity=".8" />
+          <path d="M155.5 64h4.5" stroke-dasharray="1.5 1.5" />
+          <path d="M162 61.6c0-1 1.6-1.6 3.5-1.6s3.5.6 3.5 1.6v4.8c0 1-1.6 1.6-3.5 1.6s-3.5-.6-3.5-1.6z" />
+          <path d="M162 61.6c0 1 1.6 1.6 3.5 1.6s3.5-.6 3.5-1.6" opacity=".7" />
+          <text x="132" y="74" font-size="2.3">CAPTURE → CLASSIFY → STORE</text>
+          <path d="M12 17v-3h3M165 14h3v3M12 111v3h3M168 111v3h-3" opacity=".55" />
+          <path d="M8 121v2.5M46 121v2.5M128 121v2.5M172 121v2.5M8 122.2h164" opacity=".8" />
+          <text x="27" y="126.5" font-size="2.4" text-anchor="middle">275</text>
+          <text x="87" y="126.5" font-size="2.4" text-anchor="middle">600</text>
+          <text x="150" y="126.5" font-size="2.4" text-anchor="middle">350</text>
         </g>
       </svg>
     )
   }
   {
-    variant === 'tabs' && (
+    variant === 'tabs' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
-        <rect x="3" y="5" width="174" height="118" rx="10" fill="#f3f1eb" />
-        <rect x="8" y="10" width="164" height="108" rx="7" fill="#fff" stroke="#d4d1ca" />
-        <path d="M8 32h164" stroke="#d4d1ca" />
-        <circle cx="17" cy="21" r="2" fill="#ed6a5e" />
-        <circle cx="24" cy="21" r="2" fill="#f4bd4f" />
-        <circle cx="31" cy="21" r="2" fill="#61c454" />
-        <rect x="41" y="15" width="26" height="12" rx="4" fill="#dce8ff" />
-        <rect x="69" y="15" width="22" height="12" rx="4" fill="#dce8ff" />
-        <rect x="94" y="15" width="25" height="12" rx="4" fill="#ffe5bd" />
-        <rect x="122" y="15" width="18" height="12" rx="4" fill="#d7f0dd" />
-        <g fill="#7c8794">
-          <rect x="46" y="20" width="14" height="2" rx="1" />
-          <rect x="74" y="20" width="11" height="2" rx="1" />
-          <rect x="99" y="20" width="14" height="2" rx="1" />
-          <rect x="127" y="20" width="8" height="2" rx="1" />
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <g transform="rotate(-8 26.5 30.5)">
+          <rect x="18" y="26" width="17" height="9" rx="2.5" />
+          <circle cx="22.5" cy="30.5" r="1.2" />
+          <path d="M26 30.5h6" opacity=".6" />
         </g>
-        <text x="19" y="47" fill="#1b1d20" font-size="7" font-weight="700">Tabbit</text>
-        <text x="19" y="55" fill="#85898f" font-size="4">12 tabs ready to organize</text>
+        <g transform="rotate(6 40.5 50.5)">
+          <rect x="32" y="46" width="17" height="9" rx="2.5" />
+          <circle cx="36.5" cy="50.5" r="1.2" />
+          <path d="M40 50.5h6" opacity=".6" />
+        </g>
+        <g transform="rotate(-5 24.5 70.5)">
+          <rect x="16" y="66" width="17" height="9" rx="2.5" />
+          <circle cx="20.5" cy="70.5" r="1.2" />
+          <path d="M24 70.5h6" opacity=".6" />
+        </g>
+        <g transform="rotate(8 42.5 88.5)">
+          <rect x="34" y="84" width="17" height="9" rx="2.5" />
+          <circle cx="38.5" cy="88.5" r="1.2" />
+          <path d="M42 88.5h6" opacity=".6" />
+        </g>
+        <g transform="rotate(-7 26.5 102.5)">
+          <rect x="18" y="98" width="17" height="9" rx="2.5" />
+          <circle cx="22.5" cy="102.5" r="1.2" />
+          <path d="M26 102.5h6" opacity=".6" />
+        </g>
+        <g opacity=".55">
+          <path d="M38 31c24 3 42 6 60 11" stroke-dasharray="2 3" />
+          <path d="M52 51c18 2 32 3 46 3.5" stroke-dasharray="2 3" />
+          <path d="M35 70c24 0 42-4 63-11" stroke-dasharray="2 3" />
+          <path d="M54 89c16 1 29 2 44 2.5" stroke-dasharray="2 3" />
+          <path d="M37 103c22 0 40-3 61-8" stroke-dasharray="2 3" />
+        </g>
+        <path d="m72 58.5 1.1 2.4 2.4 1.1-2.4 1.1-1.1 2.4-1.1-2.4-2.4-1.1 2.4-1.1z" />
+        <rect class="artwork-card-depth artwork-shadow-plane" x="105" y="31" width="62" height="38" rx="5" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m167 37 3-3m-3 10 3-3m-3 10 3-3m-3 10 3-3m-3 10 3-3" />
+          <path d="m109 69 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4" />
+        </g>
+        <rect class="artwork-surface artwork-hero" x="102" y="28" width="62" height="38" rx="5" />
+        <rect class="artwork-soft-surface artwork-structure" x="107" y="33" width="20" height="7" rx="3.5" />
+        <circle cx="111" cy="36.5" r="1.3" />
+        <path d="M114.5 36.5h8" opacity=".7" />
+        <rect x="107" y="44" width="52" height="8" rx="2" />
+        <circle cx="111.5" cy="48" r="1.3" />
+        <path d="M115 48h20" opacity=".7" />
+        <rect x="107" y="54" width="52" height="8" rx="2" />
+        <circle cx="111.5" cy="58" r="1.3" />
+        <path d="M115 58h28" opacity=".7" />
+        <rect class="artwork-card-depth artwork-shadow-plane" x="105" y="77" width="62" height="28" rx="5" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m167 83 3-3m-3 10 3-3m-3 10 3-3m-3 10 3-3" />
+          <path d="m109 105 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4" />
+        </g>
+        <rect class="artwork-surface artwork-hero" x="102" y="74" width="62" height="28" rx="5" />
+        <rect class="artwork-soft-surface artwork-structure" x="107" y="79" width="20" height="7" rx="3.5" />
+        <circle cx="111" cy="82.5" r="1.3" />
+        <path d="M114.5 82.5h8" opacity=".7" />
+        <rect x="107" y="90" width="52" height="8" rx="2" />
+        <circle cx="111.5" cy="94" r="1.3" />
+        <path d="M115 94h24" opacity=".7" />
+      </svg>
+    )
+  }
+  {
+    variant === 'tabs' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <path class="artwork-card-depth artwork-plane" d="M9 11h110v12H9z" />
+        <path class="artwork-structure" d="M96 10H15a7 7 0 0 0-7 7v94a7 7 0 0 0 7 7h81" />
+        <path class="artwork-structure" d="M96 10h17a7 7 0 0 1 7 7v13" />
+        <path class="artwork-structure" d="M96 118h17" />
+
+        <circle cx="14.5" cy="17" r="1.3" />
+        <circle cx="19" cy="17" r="1.3" />
+        <circle cx="23.5" cy="17" r="1.3" />
+
+        <rect class="artwork-soft-surface artwork-structure" x="30" y="13.5" width="15" height="6.5" rx="3.25" />
+        <circle cx="33.8" cy="16.75" r="1.2" />
+        <text x="36.5" y="17.9" font-size="2.4">Work</text>
+        <rect x="47" y="13.5" width="11" height="6.5" rx="2" opacity=".8" />
+        <rect x="59.5" y="13.5" width="11" height="6.5" rx="2" opacity=".8" />
+        <path d="M30 21.8h40.5" />
+        <rect class="artwork-soft-surface artwork-structure" x="74" y="13.5" width="15" height="6.5" rx="3.25" />
+        <circle cx="77.8" cy="16.75" r="1.2" />
+        <text x="80.5" y="17.9" font-size="2.4">Local</text>
+        <rect x="91" y="13.5" width="11" height="6.5" rx="2" opacity=".8" />
+        <path d="M74 21.8h28" />
+        <rect x="104.5" y="13.5" width="9" height="6.5" rx="2" opacity=".45" />
+
+        <path d="M8 24h112" />
+        <rect x="14" y="26.5" width="72" height="6" rx="3" />
+        <circle cx="18.5" cy="29.5" r="1.1" />
+        <path d="M21.5 29.5h28" opacity=".6" />
+        <rect x="90" y="26.7" width="5.6" height="5.6" rx="1.4" />
+        <circle cx="92.8" cy="29.5" r="0.9" />
+        <path d="M8 35h88" opacity=".5" />
+
+        <g opacity=".35">
+          <path d="M16 45h56M16 51h64M16 57h44" />
+          <rect x="16" y="64" width="30" height="20" rx="2" />
+          <rect x="50" y="64" width="30" height="20" rx="2" />
+          <path d="M16 92h60M16 98h48M16 104h56" />
+        </g>
+
+        <rect class="artwork-card-depth artwork-shadow-plane" x="100" y="34" width="70" height="84" rx="6" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m170 44 3.5-3.5m-3.5 10 3.5-3.5m-3.5 10 3.5-3.5m-3.5 10 3.5-3.5m-3.5 10 3.5-3.5m-3.5 10 3.5-3.5m-3.5 10 3.5-3.5" />
+          <path d="m104 118 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4" />
+        </g>
+        <rect class="artwork-surface artwork-hero" x="96" y="30" width="70" height="84" rx="6" />
+        <g class="artwork-card-only">
+          <path d="M102 37.5h12" />
+        </g>
+        <text x="102" y="39.5" font-size="4.2" font-weight="650">Tabbit</text>
+        <rect x="140" y="34.5" width="20" height="6" rx="3" />
+        <circle cx="144" cy="37.5" r="1.1" />
+        <text x="146.7" y="38.6" font-size="2.4">Ready</text>
+
+        <path d="M121.5 45v9M141.5 45v9" opacity=".5" />
+        <g class="artwork-card-only">
+          <path d="M107 50h8M127.5 50h8M147.5 50h8" />
+        </g>
+        <text x="111" y="51.5" font-size="5.5" font-weight="650" text-anchor="middle">12</text>
+        <text x="111" y="55.8" font-size="2" text-anchor="middle">TABS</text>
+        <text x="131.5" y="51.5" font-size="5.5" font-weight="650" text-anchor="middle">4</text>
+        <text x="131.5" y="55.8" font-size="2" text-anchor="middle">GROUPS</text>
+        <text x="151.5" y="51.5" font-size="5.5" font-weight="650" text-anchor="middle">2</text>
+        <text x="151.5" y="55.8" font-size="2" text-anchor="middle">DUPES</text>
+        <path d="M102 58.5h58" opacity=".5" />
+
+        <rect class="artwork-soft-surface artwork-structure" x="102" y="62" width="58" height="9" rx="4.5" />
+        <path d="m107.5 64.4.7 1.4 1.4.7-1.4.7-.7 1.4-.7-1.4-1.4-.7 1.4-.7z" />
+        <text x="113" y="68.2" font-size="3.2" font-weight="650">Organize</text>
+        <rect x="102" y="74" width="18" height="6.5" rx="3.25" />
+        <text x="111" y="78.4" font-size="2.4" text-anchor="middle">Dedupe</text>
+        <rect x="122" y="74" width="18" height="6.5" rx="3.25" />
+        <text x="131" y="78.4" font-size="2.4" text-anchor="middle">Ungroup</text>
+        <rect x="142" y="74" width="18" height="6.5" rx="3.25" />
+        <text x="151" y="78.4" font-size="2.4" text-anchor="middle">Save</text>
+
+        <text x="102" y="86" font-size="2.4">PLAN</text>
+        <circle cx="104.8" cy="89.5" r="1.3" />
+        <g class="artwork-card-only">
+          <path d="M108.5 89.5h16M108.5 95.5h20M108.5 101.5h14M108.5 107.5h17" />
+        </g>
+        <text x="108.5" y="90.5" font-size="2.5">Work · 4 tabs</text>
+        <circle cx="104.8" cy="95.5" r="1.3" />
+        <text x="108.5" y="96.5" font-size="2.5">Research · 3</text>
+        <circle cx="104.8" cy="101.5" r="1.3" />
+        <text x="108.5" y="102.5" font-size="2.5">Local · 3</text>
+        <circle cx="104.8" cy="107.5" r="1.3" />
+        <text x="108.5" y="108.5" font-size="2.5">AI tools · 2</text>
+
+        <g class="artwork-detail">
+          <path d="M99 66C78 62 63 46 59 25m0 0-1.4-2.6m1.4 2.6 2.4-1.6" />
+          <text x="33" y="42.5" font-size="2.4">AI PLAN → NATIVE GROUPS</text>
+          <path d="M96 27.5v-2M166 27.5v-2M96 26.5h70" />
+          <text x="131" y="25" font-size="2.4" text-anchor="middle">360 PX</text>
+          <path d="M169 30h2M169 114h2M170 30v84" />
+          <text x="173" y="73.5" font-size="2.4">520</text>
+          <path d="M12 17v-3h3M113 14h3v3M12 111v3h3" opacity=".55" />
+          <text x="10" y="124.5" font-size="2.6">MANIFEST V3 · NO BUILD STEP · LOCAL ALWAYS GROUPED</text>
+        </g>
+      </svg>
+    )
+  }
+  {
+    variant === 'pulse' && detail === 'card' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <circle class="artwork-structure" cx="37" cy="57" r="21" />
+        <circle cx="37" cy="57" r="17.5" opacity=".45" />
+        <path d="M37 41.5v3M37 69.5v3M21.5 57h3M49.5 57h3" />
+        <path d="m48 46-1.8 1.8M48 68l-1.8-1.8M26 68l1.8-1.8M27.8 47.8 26 46" opacity=".5" />
+        <path class="artwork-hero" d="M37 57V46M37 57l7.5 4.5" />
+        <circle cx="37" cy="57" r="1.2" />
+        <rect class="artwork-card-depth artwork-shadow-plane" x="69" y="33" width="52" height="64" rx="12" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m121 42 3-3m-3 11 3-3m-3 11 3-3m-3 11 3-3m-3 11 3-3m-3 11 3-3" />
+          <path d="m74 97 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4" />
+        </g>
+        <rect class="artwork-surface artwork-hero" x="66" y="30" width="52" height="64" rx="12" />
+        <rect class="artwork-structure" x="70.5" y="34.5" width="43" height="55" rx="8" />
+        <path d="m78.6 39.4-1.3 2.5h1.3l-.8 2.3 2.1-2.8h-1.3l1.2-2z" />
+        <path d="M84 41.5h12" opacity=".6" />
+        <circle cx="77.5" cy="49" r="1.2" />
+        <rect x="82" y="47.6" width="5" height="2.8" rx="0.8" />
+        <rect x="88.5" y="47.6" width="5" height="2.8" rx="0.8" opacity=".35" />
+        <rect x="95" y="47.6" width="5" height="2.8" rx="0.8" opacity=".35" />
+        <circle cx="77.5" cy="55.5" r="1.2" />
+        <rect x="82" y="54.1" width="5" height="2.8" rx="0.8" />
+        <rect x="88.5" y="54.1" width="5" height="2.8" rx="0.8" />
+        <rect x="95" y="54.1" width="5" height="2.8" rx="0.8" opacity=".35" />
+        <circle cx="77.5" cy="62" r="1.2" />
+        <rect x="82" y="60.6" width="5" height="2.8" rx="0.8" opacity=".35" />
+        <rect x="88.5" y="60.6" width="5" height="2.8" rx="0.8" opacity=".35" />
+        <rect x="95" y="60.6" width="5" height="2.8" rx="0.8" opacity=".35" />
+        <text class="artwork-card-essential" x="92" y="80" font-size="10" font-weight="700" text-anchor="middle">05:49</text>
+        <path d="M77 85.5h30" opacity=".4" />
+        <path class="artwork-hero" d="M77 85.5h19" />
+        <circle class="artwork-structure" cx="143" cy="71" r="21" />
+        <circle cx="143" cy="71" r="13" opacity=".5" />
+        <circle cx="143" cy="71" r="4" />
+        <circle cx="143" cy="58" r="1.8" />
+        <circle cx="154.5" cy="77" r="1.4" />
+        <circle cx="133" cy="79.5" r="1.2" />
+        <path class="artwork-hero" d="M130 71a13 13 0 0 1 6.5-11.3" />
+      </svg>
+    )
+  }
+  {
+    variant === 'fit' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-structure" x="26" y="14" width="112" height="88" rx="8" />
+        <path d="M27 88c28-8 82-8 110 0" opacity=".5" />
+        <ellipse class="artwork-card-depth artwork-shadow-plane" cx="84" cy="97" rx="34" ry="4.5" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m56 99 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4m7 4 4-4" />
+        </g>
+        <path d="M34 28v68" opacity=".55" />
+        <path d="M34 34h2.5M34 46h2.5M34 58h2.5M34 70h2.5M34 82h2.5" opacity=".55" />
+        <path d="M37 30.5h26" stroke-dasharray="2 2.5" opacity=".5" />
+        <path d="M37 43h55" stroke-dasharray="2 2.5" opacity=".5" />
+        <circle class="artwork-hero" cx="70" cy="36" r="5.5" />
+        <path class="artwork-hero" d="M70 43.5c-4 0-6.8 2.3-7.6 6L60 84h20l-2.4-34.5c-.8-3.7-3.6-6-7.6-6z" />
+        <path d="M66.5 84v11M73.5 84v11M64.5 95h4M71.5 95h4" />
+        <circle class="artwork-hero" cx="99" cy="48" r="5" />
+        <path class="artwork-hero" d="M99 54.5c-3.4 0-5.7 1.9-6.4 5L88 82h22l-4.6-22.5c-.7-3.1-3-5-6.4-5z" />
+        <path d="M95.5 82v13M102.5 82v13M93.5 95h4M100.5 95h4" />
+        <path d="m119 22 1 2.2 2.2 1-2.2 1-1 2.2-1-2.2-2.2-1 2.2-1z" />
+        <rect class="artwork-structure" x="146" y="24" width="20" height="24" rx="3" />
+        <path d="M156 31.5v-2a1.8 1.8 0 1 1 1.8-1.8" />
+        <path d="m149.5 36 6.5-4.5 6.5 4.5M149.5 36h13" />
+        <path d="M150.5 41h11M150.5 44.5h7" opacity=".6" />
+        <rect class="artwork-structure" x="146" y="56" width="20" height="24" rx="3" />
+        <path d="M156 63.5v-2a1.8 1.8 0 1 1 1.8-1.8" />
+        <path d="M153.5 63.5h5l3 10.5h-11z" />
+        <path d="M150.5 77h11" opacity=".6" />
+        <path d="M145 34c-18 1-36 5-52 11" stroke-dasharray="2 2.5" opacity=".5" />
+        <path d="M145 68c-11 0-22-1-32-3" stroke-dasharray="2 2.5" opacity=".5" />
+      </svg>
+    )
+  }
+  {
+    variant === 'pulse' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+
+        <rect x="73" y="5" width="34" height="16.5" rx="3" />
+        <path d="M77 9h26M77 12.7h26M77 16.4h26" opacity=".4" />
+        <rect x="73" y="106.5" width="34" height="16.5" rx="3" />
+        <path d="M77 110.5h26M77 114.2h26M77 117.9h26" opacity=".4" />
+
+        <rect class="artwork-card-depth artwork-shadow-plane" x="63" y="25" width="68" height="86" rx="16" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m131 36 3.5-3.5m-3.5 11 3.5-3.5m-3.5 11 3.5-3.5m-3.5 11 3.5-3.5m-3.5 11 3.5-3.5m-3.5 11 3.5-3.5m-3.5 11 3.5-3.5" />
+          <path d="m70 111 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4m6 4 4-4" />
+        </g>
+        <rect class="artwork-surface artwork-hero" x="60" y="22" width="68" height="86" rx="16" />
+        <rect x="128.4" y="42" width="3.4" height="9" rx="1.7" />
+        <rect x="128.4" y="57" width="3.4" height="9" rx="1.7" />
+        <rect class="artwork-soft-surface artwork-structure" x="64" y="26" width="60" height="78" rx="12" />
+        <rect class="artwork-surface artwork-hero" x="68" y="30" width="52" height="70" rx="6" />
+
+        <path d="m73.4 33.6-1.6 3h1.6l-1 2.8 2.6-3.4h-1.6l1.4-2.4z" />
+        <text x="77" y="38.2" font-size="3">50%</text>
+        <text x="116" y="38.2" font-size="3" text-anchor="end">46.4°</text>
+        <path d="M71.5 40.5h45" opacity=".6" />
+
+        <path d="m71.5 47.4 2.6-2.2 1.6 1 1.8.5v1.2h-6z" />
+        <circle cx="74" cy="53.5" r="2.1" />
+        <path d="M74 52.3v1.5l1 .6M73.2 50.7h1.6" />
+        <path d="M74 58.4c1.3 0 2.2.9 2.2 2.1 0 1.5-2.2 3.2-2.2 3.2s-2.2-1.7-2.2-3.2c0-1.2.9-2.1 2.2-2.1z" />
+        <g class="artwork-card-only">
+          <path d="M79.5 46.4h6.5M79.5 53.9h3M79.5 61.4h7.5" />
+        </g>
+        <text x="79.5" y="47.6" font-size="3.4">677</text>
+        <text x="79.5" y="55.1" font-size="3.4">0</text>
+        <text x="79.5" y="62.6" font-size="3.4">0.54</text>
         <g>
-          <rect x="18" y="64" width="67" height="15" rx="5" fill="#eaf1ff" stroke="#bfd2ff" />
-          <circle cx="25" cy="71.5" r="2.5" fill="#5b8def" />
-          <text x="31" y="73" fill="#3b4e70" font-size="4">Work · 4 tabs</text>
-          <rect x="90" y="64" width="67" height="15" rx="5" fill="#fff3dd" stroke="#f1d093" />
-          <circle cx="97" cy="71.5" r="2.5" fill="#e9a43c" />
-          <text x="103" y="73" fill="#684d25" font-size="4">Research · 3 tabs</text>
-          <rect x="18" y="84" width="67" height="15" rx="5" fill="#e8f7eb" stroke="#b6dfbf" />
-          <circle cx="25" cy="91.5" r="2.5" fill="#54ad68" />
-          <text x="31" y="93" fill="#315d3b" font-size="4">Local · 3 tabs</text>
-          <rect x="90" y="84" width="67" height="15" rx="5" fill="#f3eaff" stroke="#d5baf5" />
-          <circle cx="97" cy="91.5" r="2.5" fill="#9c68d8" />
-          <text x="103" y="93" fill="#583b78" font-size="4">AI tools · 2 tabs</text>
+          <rect x="89.4" y="44.5" width="5" height="3" rx="0.8" />
+          <rect x="95.7" y="44.5" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="102" y="44.5" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="108.3" y="44.5" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="114.6" y="44.5" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="89.4" y="52" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="95.7" y="52" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="102" y="52" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="108.3" y="52" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="114.6" y="52" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="89.4" y="59.5" width="5" height="3" rx="0.8" />
+          <rect x="95.7" y="59.5" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="102" y="59.5" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="108.3" y="59.5" width="5" height="3" rx="0.8" opacity=".35" />
+          <rect x="114.6" y="59.5" width="5" height="3" rx="0.8" opacity=".35" />
         </g>
-        <rect x="48" y="104" width="84" height="9" rx="4.5" fill="#17191d" />
-        <text x="72" y="110" fill="#fff" font-size="4.2" font-weight="650">✦ Organize tabs</text>
-      </svg>
-    )
-  }
-  {
-    variant === 'pulse' && (
-      <svg viewBox="0 0 180 128" role="presentation">
-        <rect x="3" y="5" width="174" height="118" rx="10" fill="#dad8d2" />
-        <path d="M42 23c0-10 8-18 18-18h60c10 0 18 8 18 18v82c0 10-8 18-18 18H60c-10 0-18-8-18-18z" fill="#bdbab2" />
-        <rect x="48" y="11" width="84" height="106" rx="22" fill="#ece9df" />
-        <rect x="54" y="17" width="72" height="94" rx="17" fill="#050606" />
-        <text x="62" y="31" fill="#d7d5cd" font-size="5" font-weight="650">09:41</text>
-        <text x="107" y="31" fill="#d7d5cd" font-size="4.5" text-anchor="end">SUN 19</text>
-        <text x="90" y="48" fill="#8e928e" font-size="4.5" text-anchor="middle" letter-spacing="1">TODAY'S STEPS</text>
-        <text x="90" y="73" fill="#f5f2ea" font-size="24" font-weight="700" text-anchor="middle">8,642</text>
-        <rect x="62" y="79" width="56" height="3" rx="1.5" fill="#262a29" />
-        <rect x="62" y="79" width="41" height="3" rx="1.5" fill="#65e2bd" />
-        <text x="62" y="92" fill="#898d89" font-size="3.5" letter-spacing=".7">HEART RATE</text>
-        <text x="118" y="92" fill="#898d89" font-size="3.5" text-anchor="end" letter-spacing=".7">CALORIES</text>
-        <text x="62" y="104" fill="#f5f2ea" font-size="10" font-weight="650">72</text>
-        <text x="76" y="104" fill="#8e928e" font-size="3.5">BPM</text>
-        <text x="107" y="104" fill="#f5f2ea" font-size="10" font-weight="650" text-anchor="end">486</text>
-        <text x="119" y="104" fill="#8e928e" font-size="3.5" text-anchor="end">KCAL</text>
+
+        <circle cx="78" cy="71.5" r="4.4" opacity=".4" />
+        <path d="M78 67.1a4.4 4.4 0 0 1 4.2 3.1" />
+        <circle cx="94" cy="71.5" r="4.4" opacity=".4" />
+        <path d="M94 67.1a4.4 4.4 0 1 1-4.3 3.6" />
+        <circle cx="110" cy="71.5" r="4.4" opacity=".4" />
+        <text x="78" y="72.7" font-size="2.6" text-anchor="middle">35</text>
+        <text x="94" y="72.7" font-size="2.6" text-anchor="middle">88</text>
+        <text x="110" y="72.7" font-size="2.6" text-anchor="middle">--</text>
+
+        <text class="artwork-card-essential" x="89" y="91" font-size="13" font-weight="700" text-anchor="middle">05:49</text>
+        <text x="111" y="91" font-size="4" opacity=".6">:43</text>
+        <text x="89" y="97.5" font-size="3" text-anchor="middle">15.07.26</text>
+
+        <g class="artwork-detail">
+          <circle cx="30" cy="50" r="15" />
+          <path d="M30 36.5v3M30 60.5v3M16.5 50h3M40.5 50h3" opacity=".7" />
+          <path d="M24 47h12M26 54h8" opacity=".5" />
+          <text x="15" y="72" font-size="2.4">ROUND · 454 × 454</text>
+          <text x="15" y="76" font-size="2.4" opacity=".8">DEVICE-AWARE LAYOUT</text>
+
+          <text x="136" y="16" font-size="3" font-weight="650">VENU SQ 2</text>
+          <text x="136" y="20.5" font-size="2.4">320 × 360 PX</text>
+          <path d="M134 17.5c-7 1-12 4-15 8.5" opacity=".7" />
+
+          <text x="136" y="36" font-size="2.4">GOAL SEGMENTS</text>
+          <path d="M134.5 37c-5 2-9.5 5-13 8.5" opacity=".7" />
+
+          <path d="M133.5 46.5h4.5" opacity=".7" />
+          <text x="139.5" y="47.5" font-size="2.4">START/STOP</text>
+          <path d="M133.5 61.5h4.5" opacity=".7" />
+          <text x="139.5" y="62.5" font-size="2.4">BACK/LAP</text>
+
+          <path d="M120 90.5h6" opacity=".7" />
+          <text x="128.5" y="91.5" font-size="2.4">1 HZ SECONDS</text>
+
+          <path d="M70.5 34.5v-3h3M114.5 31.5h3v3M70.5 95.5v3h3M117.5 95.5v3h-3" opacity=".55" />
+          <text x="60" y="126.5" font-size="2.6">MONKEY C · CONNECT IQ · BURN-IN SAFE</text>
+        </g>
       </svg>
     )
   }

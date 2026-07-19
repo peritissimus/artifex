@@ -9,6 +9,7 @@ const { currentPath = '/' } = Astro.props;
 <footer class="footer">
   <div class="footer-copy">Kushal Patankar &copy; {new Date().getFullYear()}</div>
   <nav class="footer-nav">
+    <a href="/software" class:list={[{ active: currentPath.startsWith('/software') }]}>Software</a>
     <a href="/blog" class:list={[{ active: currentPath.startsWith('/blog') }]}>Blog</a>
     <a href="/about" class:list={[{ active: currentPath.startsWith('/about') }]}>About</a>
     <a href="/contact" class:list={[{ active: currentPath.startsWith('/contact') }]}>Contact</a>
