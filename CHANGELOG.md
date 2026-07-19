@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/peritissimus/artifex/compare/v1.27.0...v1.28.0) (2026-07-19)
+
+
+### Features
+
+* **project-card:** add date and serial number to project cards ([2a6b0b8](https://github.com/peritissimus/artifex/commit/2a6b0b88718847f2fbbb0f30ce358dd17509868e))
+
 # [1.27.0](https://github.com/peritissimus/artifex/compare/v1.26.0...v1.27.0) (2026-07-19)
 
 
