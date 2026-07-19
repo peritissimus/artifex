@@ -1,3 +1,10 @@
+# [1.26.0](https://github.com/peritissimus/artifex/compare/v1.25.0...v1.26.0) (2026-07-19)
+
+
+### Features
+
+* **package.json:** add animejs dependency ([8e9c438](https://github.com/peritissimus/artifex/commit/8e9c438ee5454e0845339c6c1e1dfe1f99789374))
+
 # [1.25.0](https://github.com/peritissimus/artifex/compare/v1.24.2...v1.25.0) (2026-07-19)
 
 
