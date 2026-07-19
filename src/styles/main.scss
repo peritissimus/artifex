@@ -352,6 +352,8 @@ a {
 .project-card--stone {
   --card-rotation: -7deg;
   --card-offset: 1rem;
+  --card-surface: #d95b2b;
+  --art-depth-opacity: 0.22;
   z-index: 1;
   background: #d95b2b;
   color: #fff8e9;
@@ -360,6 +362,8 @@ a {
 .project-card--turntable {
   --card-rotation: 4deg;
   --card-offset: 2.15rem;
+  --card-surface: #eee7d5;
+  --art-depth-opacity: 0.2;
   z-index: 2;
   background: #eee7d5;
 }
@@ -367,6 +371,18 @@ a {
 .project-card--birdbrain {
   --card-rotation: -2deg;
   --card-offset: -0.4rem;
+  --card-surface: #4a95ce;
+  --art-depth-opacity: 0.2;
+  z-index: 3;
+  background: #4a95ce;
+  color: #f7fbff;
+}
+
+.project-card--fitroom {
+  --card-rotation: -2deg;
+  --card-offset: -0.4rem;
+  --card-surface: #4a95ce;
+  --art-depth-opacity: 0.2;
   z-index: 3;
   background: #4a95ce;
   color: #f7fbff;
@@ -375,6 +391,8 @@ a {
 .project-card--tabbit {
   --card-rotation: 3deg;
   --card-offset: 2rem;
+  --card-surface: #80e99d;
+  --art-depth-opacity: 0.18;
   z-index: 4;
   background: #80e99d;
 }
@@ -383,6 +401,8 @@ a {
   --card-rotation: 7deg;
   --card-offset: 0.6rem;
   --card-ink: #f5f1e8;
+  --card-surface: #242321;
+  --art-depth-opacity: 0.16;
   z-index: 5;
   background: #242321;
   outline-color: rgba(255, 255, 255, 0.1);
@@ -426,6 +446,181 @@ a {
   }
 }
 
+.project-artwork--card {
+  svg {
+    rect,
+    circle,
+    ellipse,
+    path,
+    polygon,
+    line,
+    polyline {
+      stroke-width: 0.7;
+      stroke-opacity: 0.58;
+    }
+
+    text {
+      display: none;
+    }
+
+    .artwork-card-essential {
+      display: block;
+    }
+
+    .artwork-hero {
+      stroke-width: 1.05;
+      stroke-opacity: 0.95;
+    }
+
+    .artwork-structure {
+      stroke-width: 0.78;
+      stroke-opacity: 0.72;
+    }
+
+    .artwork-support {
+      stroke-width: 0.6;
+      stroke-opacity: 0.3;
+    }
+
+    .artwork-plane,
+    .artwork-shadow-plane {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .artwork-plane {
+      fill-opacity: 0.045;
+    }
+
+    .artwork-shadow-plane {
+      fill-opacity: 0.055;
+    }
+
+    .artwork-surface {
+      fill: var(--card-surface);
+      fill-opacity: 1;
+    }
+
+    .artwork-soft-surface {
+      fill: currentColor;
+      fill-opacity: 0.045;
+    }
+
+    .artwork-hatch path {
+      fill: none;
+      stroke-width: 0.55;
+      stroke-opacity: var(--art-depth-opacity, 0.2);
+    }
+  }
+}
+
+.project-artwork--card .artwork-detail {
+  display: none;
+}
+
+.project-artwork--blueprint .artwork-card-only,
+.project-artwork--blueprint .artwork-plane,
+.project-artwork--blueprint .artwork-shadow-plane {
+  display: none;
+}
+
+.project-artwork--blueprint {
+  svg {
+    rect,
+    circle,
+    ellipse,
+    path,
+    polygon,
+    line,
+    polyline {
+      stroke-width: 0.68;
+      stroke-opacity: 0.44;
+    }
+
+    text {
+      fill-opacity: 0.6;
+    }
+
+    .artwork-hero {
+      stroke-width: 1.1;
+      stroke-opacity: 0.92;
+    }
+
+    .artwork-structure {
+      stroke-width: 0.78;
+      stroke-opacity: 0.62;
+    }
+
+    .artwork-support {
+      display: none;
+    }
+
+    .artwork-hatch path {
+      fill: none;
+      stroke-width: 0.55;
+      stroke-opacity: 0.17;
+    }
+  }
+}
+
+.page-software .section-inner {
+  max-width: var(--wide);
+}
+
+.page-software .section-title {
+  margin-bottom: 1.25rem;
+}
+
+.software-header {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+.software-intro {
+  max-width: 38rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.software-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1.75rem;
+  margin-top: 3rem;
+
+  .project-card {
+    --card-rotation: 0deg;
+    --card-offset: 0rem;
+
+    & + .project-card {
+      margin-left: 0;
+    }
+
+    &:hover,
+    &:focus-visible {
+      transform: translateY(-0.5rem);
+    }
+
+    &:active {
+      transform: translateY(-0.25rem) scale(0.97);
+    }
+  }
+}
+
+.project-card-blurb {
+  display: none;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  opacity: 0.78;
+  text-wrap: pretty;
+}
+
+.software-grid .project-card-blurb {
+  display: block;
+}
+
 .project-card-copy {
   display: grid;
   gap: 0.55rem;
@@ -466,8 +661,19 @@ a {
   margin-bottom: 1rem;
 
   h2,
-  span {
+  span,
+  a {
     @extend %kicker;
+  }
+
+  a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s var(--ease);
+
+    &:hover {
+      color: var(--fg);
+    }
   }
 }
 
@@ -1150,51 +1356,62 @@ a {
 }
 
 .project-blueprint {
-  position: relative;
-  margin-top: 2.5rem;
-  padding: 1.25rem 1.25rem 1rem;
-  overflow: hidden;
-  color: #bfe4ff;
-  background-color: #0d3151;
-  background-image:
-    linear-gradient(rgba(166, 215, 248, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(166, 215, 248, 0.07) 1px, transparent 1px),
-    linear-gradient(rgba(166, 215, 248, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(166, 215, 248, 0.035) 1px, transparent 1px);
-  background-size: 32px 32px, 32px 32px, 8px 8px, 8px 8px;
-  border-radius: 1rem;
-  outline: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.08),
-    0 16px 42px rgba(0, 0, 0, 0.2);
+  --plate-accent: #80745d;
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(circle at 50% 42%, transparent 40%, rgba(4, 18, 30, 0.22));
-  }
+  position: relative;
+  margin-top: 2.75rem;
+  padding: 1rem 1.1rem 0.9rem;
+  overflow: hidden;
+  color: #eee9df;
+  background: #151412;
+  border-radius: 0.8rem;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 12px 32px rgba(0, 0, 0, 0.14);
 
   .project-artwork {
-    width: min(100%, 47rem);
+    position: relative;
+    z-index: 1;
+    width: min(100%, 45rem);
     min-height: 0;
-    margin: 0.6rem auto 0;
+    margin: 0.75rem auto 0.25rem;
     color: inherit;
   }
 
   figcaption {
     position: relative;
     z-index: 1;
-    max-width: 56ch;
-    margin: 0.25rem auto 0;
-    color: rgba(218, 239, 253, 0.72);
-    font-family: var(--mono);
-    font-size: 0.68rem;
+    max-width: none;
+    margin: 0.65rem 0 0;
+    padding-top: 0.75rem;
+    color: rgba(238, 233, 223, 0.58);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.75rem;
     line-height: 1.5;
-    text-align: center;
+    text-align: left;
     text-wrap: pretty;
   }
+}
+
+.project-blueprint--stone {
+  --plate-accent: #d95b2b;
+}
+
+.project-blueprint--turntable {
+  --plate-accent: #9a7938;
+}
+
+.project-blueprint--birdbrain {
+  --plate-accent: #4a95ce;
+}
+
+.project-blueprint--tabbit {
+  --plate-accent: #4eae69;
+}
+
+.project-blueprint--garatch {
+  --plate-accent: #55534f;
 }
 
 .project-blueprint-labels {
@@ -1204,12 +1421,27 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  color: rgba(218, 239, 253, 0.7);
+  color: rgba(238, 233, 223, 0.55);
   font-family: var(--mono);
   font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
+
+  span:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+
+    &::before {
+      content: '';
+      width: 0.38rem;
+      height: 0.38rem;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--plate-accent);
+    }
+  }
 }
 
 .work-link {
@@ -1373,17 +1605,18 @@ a {
 
   .project-blueprint {
     margin-top: 2rem;
-    padding: 1rem 0.85rem 0.85rem;
-    border-radius: 0.8rem;
+    padding: 0.85rem 0.8rem 0.75rem;
+    border-radius: 0.65rem;
 
     .project-artwork {
-      width: 120%;
-      margin-left: -10%;
+      width: 110%;
+      margin: 0.55rem 0 0.15rem -5%;
     }
 
     figcaption {
-      max-width: 36ch;
-      font-size: 0.62rem;
+      margin-top: 0.5rem;
+      padding-top: 0.6rem;
+      font-size: 0.68rem;
     }
   }
 
