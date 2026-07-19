@@ -1,0 +1,23 @@
+# Peritissimus
+
+> The portfolio of Kushal Patankar, a founding engineer and systems architect building scalable AI products and infrastructure.
+
+This site contains information about Kushal's professional work, independent software projects, technical writing, and ways to get in touch.
+
+## Primary pages
+
+- [Home](https://peritissimus.com/): Overview, selected work, and latest writing.
+- [About](https://peritissimus.com/about): Background, experience, and technical focus.
+- [Software](https://peritissimus.com/software): Independent software projects and experiments.
+- [Work](https://peritissimus.com/work/zoca): Selected professional case studies.
+- [Blog](https://peritissimus.com/blog): Technical articles about AI products and infrastructure.
+- [Contact](https://peritissimus.com/contact): Ways to contact Kushal.
+
+## Featured writing
+
+- [Scaling LLM Applications in Production](https://peritissimus.com/blog/scaling-llm-applications): Lessons from building and scaling AI-powered platforms.
+
+## Feeds and indexes
+
+- [RSS feed](https://peritissimus.com/rss.xml)
+- [Sitemap](https://peritissimus.com/sitemap-index.xml)

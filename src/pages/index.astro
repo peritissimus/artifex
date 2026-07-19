@@ -134,3 +134,405 @@ const projects = [
     </div>
   </section>
 </Base>
+
+<script>
+  import { animate, createSpring, utils } from 'animejs';
+
+  // The project deck is spring-driven in both modes.
+  // Desktop: hover grows the card with a spring, a gentle cursor-following
+  // lean adds depth, and the neighbors part to make room.
+  // Mobile: a swipeable card stack — the top card follows the finger while
+  // the pile leans toward its promoted slots; a fling throws the card out,
+  // the pile promotes with a staggered cascade, and the flung card swoops
+  // back underneath.
+  const mq = window.matchMedia('(max-width: 640px)');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const deck = document.querySelector<HTMLElement>('.project-deck');
+
+  if (deck) {
+    deck.classList.add('is-enhanced');
+    const spring = (stiffness: number, damping: number) => createSpring({ stiffness, damping });
+    type Pose = { tx: number; ty: number; rot: number; sc: number };
+    const SLOTS: Pose[] = [
+      { tx: 0, ty: 0, rot: -2, sc: 1 },
+      { tx: 6, ty: 12, rot: 4, sc: 0.96 },
+      { tx: -6, ty: 22, rot: -5.5, sc: 0.925 },
+      { tx: 4, ty: 30, rot: 7, sc: 0.895 },
+    ];
+    const slot = (i: number) => SLOTS[Math.min(i, SLOTS.length - 1)];
+
+    const cards = Array.from(deck.querySelectorAll<HTMLElement>('.project-card'));
+    const pose = new Map<HTMLElement, Pose>();
+    cards.forEach((c) => pose.set(c, { tx: 0, ty: 0, rot: 0, sc: 1 }));
+
+    let order = [...cards];
+    let active = false;
+
+    // ---------- desktop: spring hover with cursor lean ----------
+    type DeskPose = { s: number; nx: number; ny: number; ry: number; ryTarget: number; raf: number };
+    const desk = new Map<HTMLElement, DeskPose>();
+    cards.forEach((c) => desk.set(c, { s: 1, nx: 0, ny: 0, ry: 0, ryTarget: 0, raf: 0 }));
+
+    const applyDesk = (card: HTMLElement) => {
+      const p = desk.get(card)!;
+      card.style.setProperty('--s', `${p.s}`);
+      card.style.setProperty('--nx', `${p.nx}px`);
+      card.style.setProperty('--ny', `${p.ny}px`);
+      card.style.setProperty('--ry', `${p.ry}deg`);
+    };
+
+    let hovered: HTMLElement | null = null;
+    const deskActive = () => !mq.matches && !reduceMotion.matches;
+
+    // the lean follows the cursor through a per-frame lerp — smooth and
+    // interruptible at any moment, no tween queue to fight
+    const startLean = (card: HTMLElement) => {
+      const p = desk.get(card)!;
+      if (p.raf) return;
+      const step = () => {
+        p.ry += (p.ryTarget - p.ry) * 0.16;
+        applyDesk(card);
+        if (hovered !== card && Math.abs(p.ry - p.ryTarget) < 0.03) {
+          p.ry = p.ryTarget;
+          p.raf = 0;
+          applyDesk(card);
+          return;
+        }
+        p.raf = requestAnimationFrame(step);
+      };
+      p.raf = requestAnimationFrame(step);
+    };
+
+    const hoverIn = (card: HTMLElement) => {
+      hovered = card;
+      const p = desk.get(card)!;
+      animate(p, { s: 1.045, ease: spring(240, 16), onUpdate: () => applyDesk(card) });
+      startLean(card);
+      // neighbors part to make room for the grown card
+      const i = cards.indexOf(card);
+      cards.forEach((c, j) => {
+        if (c === card) return;
+        const np = desk.get(c)!;
+        animate(np, {
+          nx: Math.abs(j - i) === 1 ? Math.sign(j - i) * 9 : 0,
+          ease: spring(130, 15),
+          onUpdate: () => applyDesk(c),
+        });
+      });
+    };
+
+    const hoverOut = (card: HTMLElement) => {
+      if (hovered === card) hovered = null;
+      const p = desk.get(card)!;
+      p.ryTarget = 0;
+      startLean(card);
+      animate(p, { s: 1, ease: spring(160, 17), onUpdate: () => applyDesk(card) });
+      cards.forEach((c) => {
+        if (c === card) return;
+        const np = desk.get(c)!;
+        animate(np, { nx: 0, ease: spring(130, 16), onUpdate: () => applyDesk(c) });
+      });
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener('pointerenter', () => {
+        if (deskActive()) hoverIn(card);
+      });
+      card.addEventListener('pointerleave', () => {
+        if (deskActive()) hoverOut(card);
+      });
+      card.addEventListener('pointermove', (e) => {
+        if (!deskActive() || hovered !== card) return;
+        const r = card.getBoundingClientRect();
+        // tilt the side under the cursor toward the viewer, max ~5.5deg
+        desk.get(card)!.ryTarget = (0.5 - (e.clientX - r.left) / r.width) * 11;
+      });
+      card.addEventListener('pointerdown', () => {
+        if (!deskActive()) return;
+        animate(desk.get(card)!, {
+          s: 0.985,
+          duration: 110,
+          ease: 'out(3)',
+          onUpdate: () => applyDesk(card),
+        });
+      });
+      card.addEventListener('pointerup', () => {
+        if (!deskActive() || hovered !== card) return;
+        animate(desk.get(card)!, { s: 1.045, ease: spring(300, 13), onUpdate: () => applyDesk(card) });
+      });
+      // keyboard focus gets the same treatment as hover
+      card.addEventListener('focusin', () => {
+        if (deskActive()) hoverIn(card);
+      });
+      card.addEventListener('focusout', () => {
+        if (deskActive()) hoverOut(card);
+      });
+    });
+
+    // ---------- mobile: swipeable stack ----------
+    const apply = (card: HTMLElement) => {
+      const p = pose.get(card)!;
+      card.style.setProperty('--tx', `${p.tx}px`);
+      card.style.setProperty('--ty', `${p.ty}px`);
+      card.style.setProperty('--rot', `${p.rot}deg`);
+      card.style.setProperty('--sc', `${p.sc}`);
+    };
+
+    const settle = (card: HTMLElement, to: Pose, opts: { delay?: number; soft?: boolean } = {}) => {
+      const p = pose.get(card)!;
+      utils.remove(p);
+      if (reduceMotion.matches) {
+        Object.assign(p, to);
+        apply(card);
+        return;
+      }
+      animate(p, {
+        ...to,
+        delay: opts.delay ?? 0,
+        ease: createSpring(opts.soft ? { stiffness: 95, damping: 16 } : { stiffness: 150, damping: 13 }),
+        onUpdate: () => apply(card),
+      });
+    };
+
+    // replay the promoted card's artwork micro-animation as a landing wink
+    const flourish = (card: HTMLElement) => {
+      card.dispatchEvent(new Event('mouseenter'));
+      window.setTimeout(() => card.dispatchEvent(new Event('mouseleave')), 1500);
+    };
+
+    let dragCard: HTMLElement | null = null;
+    let sx = 0;
+    let sy = 0;
+    let dx = 0;
+    let dy = 0;
+    let moved = false;
+    let lastX = 0;
+    let lastT = 0;
+    let vx = 0;
+    let grabInfluence = 1;
+
+    // idle breathing: the top card drifts gently until it is touched
+    let idleTimer = 0;
+    const stopIdle = () => {
+      window.clearTimeout(idleTimer);
+    };
+    const startIdle = () => {
+      stopIdle();
+      idleTimer = window.setTimeout(() => {
+        if (!active || dragCard || reduceMotion.matches) return;
+        const top = order[0];
+        const p = pose.get(top)!;
+        animate(p, {
+          rot: slot(0).rot + 1.6,
+          ty: slot(0).ty - 2.5,
+          duration: 2400,
+          loop: true,
+          alternate: true,
+          ease: 'inOutSine',
+          onUpdate: () => apply(top),
+        });
+      }, 1200);
+    };
+
+    const onDown = (e: PointerEvent) => {
+      if (!active || dragCard) return;
+      const top = order[0];
+      if (!top.contains(e.target as Node)) return;
+      dragCard = top;
+      moved = false;
+      sx = e.clientX;
+      sy = e.clientY;
+      dx = 0;
+      dy = 0;
+      lastX = e.clientX;
+      lastT = performance.now();
+      vx = 0;
+      stopIdle();
+      // grabbing near the top makes the card pivot like a real card held by
+      // its edge; grabbing the middle keeps it level
+      const rect = top.getBoundingClientRect();
+      grabInfluence = utils.clamp((0.55 - (e.clientY - rect.top) / rect.height) * 2, -0.3, 1);
+      top.classList.add('is-lifted');
+      const p = pose.get(top)!;
+      utils.remove(p);
+      // pickup: the card scales up and straightens, like lifting it off the pile
+      animate(p, { sc: 1.045, rot: 0, ty: p.ty - 2, duration: 180, ease: 'out(2)', onUpdate: () => apply(top) });
+      top.setPointerCapture(e.pointerId);
+    };
+
+    const onMove = (e: PointerEvent) => {
+      if (!dragCard) return;
+      dx = e.clientX - sx;
+      dy = e.clientY - sy;
+      if (Math.abs(dx) > 8 || Math.abs(dy) > 8) moved = true;
+      const now = performance.now();
+      if (now > lastT) vx = 0.8 * vx + 0.2 * ((e.clientX - lastX) / (now - lastT));
+      lastX = e.clientX;
+      lastT = now;
+      const p = pose.get(dragCard)!;
+      utils.remove(p);
+      p.tx = dx;
+      // the card rides a slight upward arc as it travels sideways
+      p.ty = dy * 0.22 - Math.min(22, Math.abs(dx) * 0.08);
+      p.rot = utils.clamp(dx * 0.1 * (0.35 + 0.65 * grabInfluence), -18, 18);
+      p.sc = 1.045;
+      apply(dragCard);
+      // anticipation: the pile leans toward its promoted slots as you pull
+      const t = Math.min(1, Math.abs(dx) / 150) * 0.45;
+      order.slice(1).forEach((card, j) => {
+        const from = slot(j + 1);
+        const to = slot(j);
+        const bp = pose.get(card)!;
+        utils.remove(bp);
+        bp.tx = from.tx + (to.tx - from.tx) * t;
+        bp.ty = from.ty + (to.ty - from.ty) * t;
+        bp.rot = from.rot + (to.rot - from.rot) * t;
+        bp.sc = from.sc + (to.sc - from.sc) * t;
+        apply(card);
+      });
+    };
+
+    const onUp = () => {
+      if (!dragCard) return;
+      const card = dragCard;
+      dragCard = null;
+      card.classList.remove('is-lifted');
+      const throwIt = Math.abs(dx) > 70 || Math.abs(vx) > 0.4;
+      if (!throwIt) {
+        settle(card, slot(0));
+        order.slice(1).forEach((c, j) => settle(c, slot(j + 1), { soft: true }));
+        startIdle();
+        return;
+      }
+      const dir = dx !== 0 ? Math.sign(dx) : vx >= 0 ? 1 : -1;
+      const p = pose.get(card)!;
+      utils.remove(p);
+      // the exit continues the throw: duration derived from release velocity
+      const exitX = dir * Math.max(window.innerWidth * 0.8, 340);
+      const speed = Math.max(Math.abs(vx), 0.9);
+      const exitMs = utils.clamp(Math.abs(exitX - dx) / speed, 200, 460);
+      animate(p, {
+        tx: exitX,
+        ty: p.ty - 26,
+        sc: 1,
+        rot: dir * (16 + Math.min(20, Math.abs(vx) * 16)),
+        duration: reduceMotion.matches ? 1 : exitMs,
+        ease: 'out(1.8)',
+        onUpdate: () => apply(card),
+        onComplete: () => {
+          order = [...order.slice(1), card];
+          // pile promotes with a springy cascade...
+          order.slice(0, -1).forEach((c, i) => {
+            c.style.zIndex = String(order.length - i);
+            settle(c, slot(i), { delay: i * 40 });
+          });
+          // ...while the flung card swoops back in underneath from the same side
+          card.style.zIndex = '0';
+          const back = slot(order.length - 1);
+          Object.assign(p, {
+            tx: dir * Math.max(window.innerWidth * 0.4, 150),
+            ty: back.ty - 6,
+            rot: dir * 16,
+            sc: back.sc * 0.985,
+          });
+          apply(card);
+          settle(card, back, { delay: 60, soft: true });
+          flourish(order[0]);
+          startIdle();
+        },
+      });
+    };
+
+    deck.addEventListener('pointerdown', onDown);
+    deck.addEventListener('pointermove', onMove);
+    deck.addEventListener('pointerup', onUp);
+    deck.addEventListener('pointercancel', onUp);
+    // anchors start a native drag on mouse-drag, which cancels pointer events
+    deck.addEventListener('dragstart', (e) => {
+      if (active) e.preventDefault();
+    });
+    // a real drag must not navigate
+    deck.addEventListener(
+      'click',
+      (e) => {
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+          moved = false;
+        }
+      },
+      true
+    );
+
+    const applyMode = () => {
+      active = mq.matches;
+      if (active) {
+        hovered = null;
+        cards.forEach((card) => {
+          const p = desk.get(card)!;
+          if (p.raf) cancelAnimationFrame(p.raf);
+          p.raf = 0;
+          utils.remove(p);
+          ['--s', '--nx', '--ny', '--ry'].forEach((v) => card.style.removeProperty(v));
+        });
+        order.forEach((card, i) => {
+          card.style.zIndex = String(order.length - i);
+          Object.assign(pose.get(card)!, slot(i));
+          apply(card);
+        });
+        startIdle();
+      } else {
+        stopIdle();
+        cards.forEach((card) => {
+          utils.remove(pose.get(card)!);
+          card.classList.remove('is-lifted');
+          ['--tx', '--ty', '--rot', '--sc'].forEach((v) => card.style.removeProperty(v));
+          card.style.removeProperty('z-index');
+        });
+      }
+    };
+    applyMode();
+    mq.addEventListener('change', applyMode);
+
+    // ---------- deal-in: staggered entrance when the deck scrolls into view ----------
+    let entrancePending =
+      !reduceMotion.matches && deck.getBoundingClientRect().top > window.innerHeight * 0.85;
+
+    if (entrancePending) {
+      cards.forEach((c) => (c.style.opacity = '0'));
+      const runEntrance = () => {
+        if (!entrancePending) return;
+        entrancePending = false;
+        if (mq.matches) stopIdle();
+        cards.forEach((card, i) => {
+          animate(card, { opacity: [0, 1], duration: 380, delay: i * 90, ease: 'out(2)' });
+          if (mq.matches) {
+            const idx = order.indexOf(card);
+            const p = pose.get(card)!;
+            Object.assign(p, { ...slot(idx), ty: slot(idx).ty + 46, sc: slot(idx).sc * 0.92 });
+            apply(card);
+            settle(card, slot(idx), { delay: i * 90 });
+          } else {
+            const p = desk.get(card)!;
+            p.ny = 42;
+            applyDesk(card);
+            animate(p, { ny: 0, delay: i * 90, ease: spring(120, 14), onUpdate: () => applyDesk(card) });
+          }
+        });
+        if (mq.matches) startIdle();
+      };
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((en) => en.isIntersecting)) {
+            runEntrance();
+            io.disconnect();
+          }
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(deck);
+      // safety: never leave the deck hidden if the observer misses
+      window.setTimeout(runEntrance, 6000);
+    }
+  }
+</script>

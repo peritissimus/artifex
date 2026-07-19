@@ -40,7 +40,7 @@ const projects = (await getCollection('work', ({ data }) => data.kind === 'perso
             const meta = cardMeta[project.id as keyof typeof cardMeta];
             return (
               <a
-                class={`project-card ${meta.className}`}
+                class={`software-card ${meta.className}`}
                 href={`/work/${project.id}`}
                 aria-label={`${project.data.title}: ${project.data.description}`}
               >

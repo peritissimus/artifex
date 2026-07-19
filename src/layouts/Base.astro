@@ -2,6 +2,7 @@
 import SEO from '../components/SEO.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import newsreaderRegularUrl from '@fontsource/newsreader/files/newsreader-latin-400-normal.woff2?url';
 import '../styles/main.scss';
 
 interface Props {
@@ -50,12 +51,7 @@ const {
     />
 
     <!-- RSS feed -->
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Peritissimus — Blog"
-      href="/rss.xml"
-    />
+    <link rel="alternate" type="application/rss+xml" title="Peritissimus — Blog" href="/rss.xml" />
 
     <!-- Theme adapts to system preference -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
@@ -65,6 +61,15 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- The display face is used by the logo and the homepage LCP heading. -->
+    <link
+      rel="preload"
+      href={newsreaderRegularUrl}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
 
     <!-- Critical inline CSS: sets theme background before the stylesheet loads
          so there is no flash of the wrong theme. -->
