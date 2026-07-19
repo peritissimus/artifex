@@ -302,10 +302,29 @@ a {
   isolation: isolate;
 }
 
+// Scrap ID cards: rough paper stock, ink line work, and a stamped serial.
+@mixin card-paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@mixin card-serial {
+  &::after {
+    content: var(--card-serial, 'Nº 00');
+    position: absolute;
+    top: 0.85rem;
+    left: 0.95rem;
+    z-index: 2;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    opacity: 0.55;
+  }
+}
+
 .project-card {
   --card-rotation: 0deg;
   --card-offset: 0rem;
-  --card-ink: #171717;
+  --card-ink: #3a3428;
 
   position: relative;
   display: flex;
@@ -316,10 +335,12 @@ a {
   padding: 1rem;
   color: var(--card-ink);
   border-radius: 0.8rem;
-  outline: 1px solid rgba(0, 0, 0, 0.1);
+  outline: 1px solid rgba(0, 0, 0, 0.12);
   box-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.08),
-    0 12px 28px rgba(0, 0, 0, 0.16);
+    0 1px 1px rgba(0, 0, 0, 0.07),
+    0 10px 22px rgba(0, 0, 0, 0.12);
+  @include card-paper-grain;
+  @include card-serial;
   transform: perspective(1100px) translate(var(--nx, 0px), var(--ny, 0px))
     translateY(var(--card-offset)) rotate(var(--card-rotation)) rotateY(var(--ry, 0deg))
     scale(var(--s, 1));
@@ -346,8 +367,8 @@ a {
     z-index: 6;
     transition-delay: 0s;
     box-shadow:
-      0 1px 1px rgba(0, 0, 0, 0.08),
-      0 18px 40px rgba(0, 0, 0, 0.2);
+      0 1px 1px rgba(0, 0, 0, 0.07),
+      0 16px 32px rgba(0, 0, 0, 0.16);
   }
 
   &:focus-visible {
@@ -392,65 +413,61 @@ a {
 .project-card--stone {
   --card-rotation: -7deg;
   --card-offset: 1rem;
-  --card-ink: #fff8e9;
-  --card-label-ink: #ffffff;
-  --card-surface: #d95b2b;
-  --art-depth-opacity: 0.22;
+  --card-surface: #f1e8d4;
+  --card-serial: 'Nº 01';
+  --art-depth-opacity: 0.12;
   z-index: 1;
-  background: #d95b2b;
-  color: #fff8e9;
+  background-color: #f1e8d4;
 }
 
 .project-card--turntable {
   --card-rotation: 4deg;
   --card-offset: 2.15rem;
   --card-surface: #eee7d5;
-  --art-depth-opacity: 0.2;
+  --card-serial: 'Nº 02';
+  --art-depth-opacity: 0.12;
   z-index: 2;
-  background: #eee7d5;
+  background-color: #eee7d5;
 }
 
 .project-card--birdbrain {
   --card-rotation: -2deg;
   --card-offset: -0.4rem;
-  --card-ink: #f4f2ff;
-  --card-surface: #6a5fc9;
-  --art-depth-opacity: 0.2;
+  --card-surface: #eceaf2;
+  --card-serial: 'Nº 03';
+  --art-depth-opacity: 0.12;
   z-index: 3;
-  background: #6a5fc9;
-  color: #f4f2ff;
+  background-color: #eceaf2;
 }
 
 .project-card--fitroom {
   --card-rotation: -2deg;
   --card-offset: -0.4rem;
-  --card-ink: #f7fbff;
-  --card-label-ink: #ffffff;
-  --card-surface: #4a95ce;
-  --art-depth-opacity: 0.2;
+  --card-surface: #e8eef2;
+  --card-serial: 'Nº 06';
+  --art-depth-opacity: 0.12;
   z-index: 3;
-  background: #4a95ce;
-  color: #f7fbff;
+  background-color: #e8eef2;
 }
 
 .project-card--tabbit {
   --card-rotation: 3deg;
   --card-offset: 2rem;
-  --card-surface: #80e99d;
-  --art-depth-opacity: 0.18;
+  --card-surface: #eaf0e2;
+  --card-serial: 'Nº 04';
+  --art-depth-opacity: 0.12;
   z-index: 4;
-  background: #80e99d;
+  background-color: #eaf0e2;
 }
 
 .project-card--garatch {
   --card-rotation: 7deg;
   --card-offset: 0.6rem;
-  --card-ink: #f5f1e8;
-  --card-surface: #242321;
-  --art-depth-opacity: 0.16;
+  --card-surface: #edeae2;
+  --card-serial: 'Nº 05';
+  --art-depth-opacity: 0.12;
   z-index: 5;
-  background: #242321;
-  outline-color: rgba(255, 255, 255, 0.1);
+  background-color: #edeae2;
 }
 
 .project-artwork {
@@ -646,9 +663,11 @@ a {
   aspect-ratio: 0.74;
   min-width: 0;
   padding: 1rem;
-  color: var(--card-ink, #171717);
+  color: var(--card-ink, #3a3428);
   border-radius: 0.8rem;
-  outline: 1px solid rgba(0, 0, 0, 0.08);
+  outline: 1px solid rgba(0, 0, 0, 0.1);
+  @include card-paper-grain;
+  @include card-serial;
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.06),
     0 10px 24px rgba(0, 0, 0, 0.08);
@@ -709,6 +728,23 @@ a {
     line-height: 1;
     text-wrap: balance;
   }
+}
+
+.project-card-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.project-card-date {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .project-card-arrow {

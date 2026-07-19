@@ -46,10 +46,15 @@ const projects = (await getCollection('work', ({ data }) => data.kind === 'perso
               >
                 <ProjectArtwork variant={meta.mark} />
                 <span class="project-card-copy">
-                  <strong>{project.data.title}</strong>
+                  <span class="project-card-heading">
+                    <strong>{project.data.title}</strong>
+                    <span class="project-card-date">{project.data.dateRange}</span>
+                  </span>
                   <span class="project-card-blurb">{project.data.description}</span>
                 </span>
-                <span class="project-card-arrow" aria-hidden="true">→</span>
+                <span class="project-card-arrow" aria-hidden="true">
+                  →
+                </span>
               </a>
             );
           })
