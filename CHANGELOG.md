@@ -1,3 +1,11 @@
+# [1.27.0](https://github.com/peritissimus/artifex/compare/v1.26.0...v1.27.0) (2026-07-19)
+
+
+### Features
+
+* enhance project cards with animations and interactions ([f02fdd2](https://github.com/peritissimus/artifex/commit/f02fdd2b4046fec08e8ce5a4e2cfcf24a80f482e))
+* spring-driven card interactions and home card blurbs ([287825d](https://github.com/peritissimus/artifex/commit/287825d654ccdcd8d698ebcd20da48349ac79c5d))
+
 # [1.26.0](https://github.com/peritissimus/artifex/compare/v1.25.0...v1.26.0) (2026-07-19)
 
 
