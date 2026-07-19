@@ -18,23 +18,29 @@ const { variant, detail = 'card' } = Astro.props;
         </defs>
         <rect width="180" height="128" style="fill:url(#pt-mem);stroke:none" />
         <rect class="artwork-surface artwork-hero" x="44" y="28" width="92" height="44" rx="8" />
-        <path d="m125.5 34.5.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9z" />
+        <path class="anim-sparkle" d="m125.5 34.5.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9z" />
         <path class="artwork-structure" d="M52 41h40M52 49h26" />
-        <path class="artwork-hero" d="M81.5 45.5v7" />
+        <path class="artwork-hero anim-caret" d="M81.5 45.5v7" />
         <rect x="106" y="58" width="22" height="8" rx="4" />
         <path d="M123 60.4v2.4h-8m2.2-2.2-2.2 2.2 2.2 2.2" opacity=".8" />
-        <rect class="artwork-surface artwork-structure" x="54" y="84" width="17" height="14" rx="3" />
-        <rect class="artwork-surface artwork-structure" x="75" y="84" width="17" height="14" rx="3" />
-        <rect class="artwork-surface artwork-structure" x="96" y="84" width="30" height="14" rx="3" />
-        <g opacity=".85">
-          <rect x="60.4" y="89" width="4.2" height="4.2" />
-          <circle cx="60.4" cy="89" r="1.5" />
-          <circle cx="64.6" cy="89" r="1.5" />
-          <circle cx="60.4" cy="93.2" r="1.5" />
-          <circle cx="64.6" cy="93.2" r="1.5" />
+        <g class="anim-key">
+          <rect class="artwork-surface artwork-structure" x="54" y="84" width="17" height="14" rx="3" />
+          <g opacity=".85">
+            <rect x="60.4" y="89" width="4.2" height="4.2" />
+            <circle cx="60.4" cy="89" r="1.5" />
+            <circle cx="64.6" cy="89" r="1.5" />
+            <circle cx="60.4" cy="93.2" r="1.5" />
+            <circle cx="64.6" cy="93.2" r="1.5" />
+          </g>
         </g>
-        <path d="m81 91.4 2.5-2.8 2.5 2.8h-1.4v3h-2.2v-3z" opacity=".85" />
-        <path d="M103 94.5h16" opacity=".6" />
+        <g class="anim-key">
+          <rect class="artwork-surface artwork-structure" x="75" y="84" width="17" height="14" rx="3" />
+          <path d="m81 91.4 2.5-2.8 2.5 2.8h-1.4v3h-2.2v-3z" opacity=".85" />
+        </g>
+        <g class="anim-key">
+          <rect class="artwork-surface artwork-structure" x="96" y="84" width="30" height="14" rx="3" />
+          <path d="M103 94.5h16" opacity=".6" />
+        </g>
       </svg>
     )
   }
@@ -141,12 +147,14 @@ const { variant, detail = 'card' } = Astro.props;
         <rect width="180" height="128" style="fill:url(#pt-form);stroke:none" />
         <ellipse class="artwork-surface artwork-structure" cx="88" cy="102" rx="46" ry="10" />
         <ellipse cx="88" cy="102" rx="36" ry="6.5" opacity=".4" />
-        <g transform="translate(88 60) rotate(14)">
-          <rect class="artwork-surface artwork-hero" x="-24" y="-40" width="48" height="80" rx="10" />
-          <rect class="artwork-structure" x="-20" y="-36" width="40" height="72" rx="7" />
-          <rect x="-6" y="-34" width="12" height="2.4" rx="1.2" />
-          <path d="M0-28v60M-16 2h32" opacity=".3" />
-          <path d="M-24-20h-2v9h2M24-14h2v12h-2" />
+        <g class="anim-float">
+          <g transform="translate(88 60) rotate(14)">
+            <rect class="artwork-surface artwork-hero" x="-24" y="-40" width="48" height="80" rx="10" />
+            <rect class="artwork-structure" x="-20" y="-36" width="40" height="72" rx="7" />
+            <rect x="-6" y="-34" width="12" height="2.4" rx="1.2" />
+            <path d="M0-28v60M-16 2h32" opacity=".3" />
+            <path d="M-24-20h-2v9h2M24-14h2v12h-2" />
+          </g>
         </g>
         <rect class="artwork-surface artwork-structure" x="138" y="24" width="26" height="46" rx="5" />
         <circle cx="145" cy="33" r="2.2" />
@@ -154,7 +162,7 @@ const { variant, detail = 'card' } = Astro.props;
         <circle cx="159" cy="33" r="2.2" />
         <path d="M143 42h16M143 49h12" opacity=".7" />
         <path d="M143 57h16" opacity=".7" />
-        <circle cx="151" cy="57" r="1.8" />
+        <circle class="anim-knob" cx="151" cy="57" r="1.8" />
         <rect x="143" y="62" width="16" height="5" rx="2.5" />
       </svg>
     )
@@ -293,8 +301,10 @@ const { variant, detail = 'card' } = Astro.props;
           </pattern>
         </defs>
         <rect width="180" height="128" style="fill:url(#pt-sig);stroke:none" />
-        <circle class="artwork-surface artwork-structure" cx="30" cy="28" r="12" />
-        <path d="M23.6 33.3c4.6 1 7.8-1.2 7.8-5.3v-.6l1.6-1-1.8-.3c-.7-1.3-2.3-1.8-3.6-1.1-1.1.6-1.6 1.9-1.2 3.1-2.4-.1-4.5-1.2-6-3-.8 1.4-.4 3.2 1 4.1l-1.4-.4c0 1.5 1 2.8 2.5 3.1h-1.3c.4 1.2 1.5 2.1 2.4 2.4z" />
+        <g class="anim-bird">
+          <circle class="artwork-surface artwork-structure" cx="30" cy="28" r="12" />
+          <path d="M23.6 33.3c4.6 1 7.8-1.2 7.8-5.3v-.6l1.6-1-1.8-.3c-.7-1.3-2.3-1.8-3.6-1.1-1.1.6-1.6 1.9-1.2 3.1-2.4-.1-4.5-1.2-6-3-.8 1.4-.4 3.2 1 4.1l-1.4-.4c0 1.5 1 2.8 2.5 3.1h-1.3c.4 1.2 1.5 2.1 2.4 2.4z" />
+        </g>
         <rect class="artwork-surface artwork-hero" x="52" y="30" width="92" height="68" rx="7" />
         <circle cx="63" cy="42" r="4" />
         <path d="M70 40h20" />
@@ -303,7 +313,7 @@ const { variant, detail = 'card' } = Astro.props;
         <path d="M60 54h74M60 59h60" opacity=".85" />
         <path d="M129 35.5h7v9l-3.5-2.5-3.5 2.5z" />
         <rect class="artwork-structure" x="58" y="65" width="80" height="17" rx="4" />
-        <path d="m62.5 69.5.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z" />
+        <path class="anim-sparkle" d="m62.5 69.5.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z" />
         <path d="M68 71h54M68 76h40" opacity=".8" />
         <rect x="58" y="87" width="16" height="6" rx="3" />
         <rect x="77" y="87" width="22" height="6" rx="3" />
@@ -430,24 +440,34 @@ const { variant, detail = 'card' } = Astro.props;
         </defs>
         <rect width="180" height="128" style="fill:url(#pt-tab);stroke:none" />
         <circle class="artwork-surface" cx="76" cy="60" r="9" />
-        <path d="m76 53.5 1.5 3.4 3.4 1.5-3.4 1.5-1.5 3.4-1.5-3.4-3.4-1.5 3.4-1.5z" />
+        <path class="anim-sparkle" d="m76 53.5 1.5 3.4 3.4 1.5-3.4 1.5-1.5 3.4-1.5-3.4-3.4-1.5 3.4-1.5z" />
         <rect class="artwork-surface artwork-hero" x="94" y="20" width="66" height="42" rx="6" />
-        <rect class="artwork-soft-surface artwork-structure" x="100" y="26" width="22" height="7.5" rx="3.75" />
-        <circle cx="104.5" cy="29.75" r="1.4" />
-        <path d="M108.5 29.75h9" opacity=".7" />
-        <rect x="100" y="38" width="54" height="8" rx="2" />
-        <circle cx="104.8" cy="42" r="1.4" />
-        <path d="M108.5 42h22" opacity=".7" />
-        <rect x="100" y="49" width="54" height="8" rx="2" />
-        <circle cx="104.8" cy="53" r="1.4" />
-        <path d="M108.5 53h30" opacity=".7" />
+        <g class="anim-row">
+          <rect class="artwork-soft-surface artwork-structure" x="100" y="26" width="22" height="7.5" rx="3.75" />
+          <circle cx="104.5" cy="29.75" r="1.4" />
+          <path d="M108.5 29.75h9" opacity=".7" />
+        </g>
+        <g class="anim-row">
+          <rect x="100" y="38" width="54" height="8" rx="2" />
+          <circle cx="104.8" cy="42" r="1.4" />
+          <path d="M108.5 42h22" opacity=".7" />
+        </g>
+        <g class="anim-row">
+          <rect x="100" y="49" width="54" height="8" rx="2" />
+          <circle cx="104.8" cy="53" r="1.4" />
+          <path d="M108.5 53h30" opacity=".7" />
+        </g>
         <rect class="artwork-surface artwork-hero" x="94" y="70" width="66" height="34" rx="6" />
-        <rect class="artwork-soft-surface artwork-structure" x="100" y="76" width="22" height="7.5" rx="3.75" />
-        <circle cx="104.5" cy="79.75" r="1.4" />
-        <path d="M108.5 79.75h9" opacity=".7" />
-        <rect x="100" y="88" width="54" height="8" rx="2" />
-        <circle cx="104.8" cy="92" r="1.4" />
-        <path d="M108.5 92h26" opacity=".7" />
+        <g class="anim-row">
+          <rect class="artwork-soft-surface artwork-structure" x="100" y="76" width="22" height="7.5" rx="3.75" />
+          <circle cx="104.5" cy="79.75" r="1.4" />
+          <path d="M108.5 79.75h9" opacity=".7" />
+        </g>
+        <g class="anim-row">
+          <rect x="100" y="88" width="54" height="8" rx="2" />
+          <circle cx="104.8" cy="92" r="1.4" />
+          <path d="M108.5 92h26" opacity=".7" />
+        </g>
       </svg>
     )
   }
@@ -566,7 +586,11 @@ const { variant, detail = 'card' } = Astro.props;
         <circle class="artwork-surface artwork-structure" cx="36" cy="56" r="22" />
         <circle cx="36" cy="56" r="18" opacity=".45" />
         <path d="M36 40v3M36 69v3M20 56h3M49 56h3" />
-        <path class="artwork-hero" d="M36 56V44.5M36 56l8 5" />
+        <path
+          class="artwork-hero anim-hands"
+          style="transform-box:view-box;transform-origin:36px 56px"
+          d="M36 56V44.5M36 56l8 5"
+        />
         <circle cx="36" cy="56" r="1.3" />
         <rect class="artwork-surface artwork-hero" x="64" y="24" width="54" height="70" rx="13" />
         <rect class="artwork-structure" x="68.5" y="28.5" width="45" height="61" rx="9" />
@@ -590,10 +614,12 @@ const { variant, detail = 'card' } = Astro.props;
         <circle class="artwork-surface artwork-structure" cx="146" cy="74" r="22" />
         <circle cx="146" cy="74" r="14" opacity=".5" />
         <circle cx="146" cy="74" r="4.5" />
-        <circle cx="146" cy="60" r="2" />
-        <circle cx="158.5" cy="80" r="1.5" />
-        <circle cx="135" cy="83" r="1.3" />
-        <path class="artwork-hero" d="M132 74a14 14 0 0 1 7-12.1" />
+        <g class="anim-orbit" style="transform-box:view-box;transform-origin:146px 74px">
+          <circle cx="146" cy="60" r="2" />
+          <circle cx="158.5" cy="80" r="1.5" />
+          <circle cx="135" cy="83" r="1.3" />
+          <path class="artwork-hero" d="M132 74a14 14 0 0 1 7-12.1" />
+        </g>
       </svg>
     )
   }
@@ -612,21 +638,29 @@ const { variant, detail = 'card' } = Astro.props;
         <path d="M38 34h2.5M38 46h2.5M38 58h2.5M38 70h2.5M38 82h2.5" opacity=".55" />
         <path d="M41 30.5h25" stroke-dasharray="2 2.5" opacity=".5" />
         <path d="M41 45h55" stroke-dasharray="2 2.5" opacity=".5" />
-        <circle class="artwork-hero" cx="72" cy="36.5" r="6" />
-        <path class="artwork-hero" d="M72 44.5c-4.4 0-7.4 2.5-8.3 6.5L61 89h22l-2.7-38c-.9-4-3.9-6.5-8.3-6.5z" />
-        <path d="M68 89v12M76 89v12M66 101h4.4M74 101h4.4" />
-        <circle class="artwork-hero" cx="102" cy="50.5" r="5.5" />
-        <path class="artwork-hero" d="M102 57.5c-3.7 0-6.2 2-7 5.4L90 87h24l-5-24.1c-.8-3.4-3.3-5.4-7-5.4z" />
-        <path d="M98.5 87v14M105.5 87v14M96.5 101h4.4M103.5 101h4.4" />
-        <path d="m121 23 1 2.2 2.2 1-2.2 1-1 2.2-1-2.2-2.2-1 2.2-1z" />
-        <rect class="artwork-surface artwork-structure" x="140" y="24" width="24" height="28" rx="4" />
-        <path d="M152 33v-2.4a2 2 0 1 1 2-2" />
-        <path d="m144.5 39.5 7.5-5 7.5 5M144.5 39.5h15" />
-        <path d="M146 44.5h12M146 48h8" opacity=".6" />
-        <rect class="artwork-surface artwork-structure" x="140" y="60" width="24" height="28" rx="4" />
-        <path d="M152 69v-2.4a2 2 0 1 1 2-2" />
-        <path d="M149 69h6l3.5 12h-13z" />
-        <path d="M146 84.5h12" opacity=".6" />
+        <g class="anim-person">
+          <circle class="artwork-hero" cx="72" cy="36.5" r="6" />
+          <path class="artwork-hero" d="M72 44.5c-4.4 0-7.4 2.5-8.3 6.5L61 89h22l-2.7-38c-.9-4-3.9-6.5-8.3-6.5z" />
+          <path d="M68 89v12M76 89v12M66 101h4.4M74 101h4.4" />
+        </g>
+        <g class="anim-person">
+          <circle class="artwork-hero" cx="102" cy="50.5" r="5.5" />
+          <path class="artwork-hero" d="M102 57.5c-3.7 0-6.2 2-7 5.4L90 87h24l-5-24.1c-.8-3.4-3.3-5.4-7-5.4z" />
+          <path d="M98.5 87v14M105.5 87v14M96.5 101h4.4M103.5 101h4.4" />
+        </g>
+        <path class="anim-sparkle" d="m121 23 1 2.2 2.2 1-2.2 1-1 2.2-1-2.2-2.2-1 2.2-1z" />
+        <g class="anim-chip">
+          <rect class="artwork-surface artwork-structure" x="140" y="24" width="24" height="28" rx="4" />
+          <path d="M152 33v-2.4a2 2 0 1 1 2-2" />
+          <path d="m144.5 39.5 7.5-5 7.5 5M144.5 39.5h15" />
+          <path d="M146 44.5h12M146 48h8" opacity=".6" />
+        </g>
+        <g class="anim-chip">
+          <rect class="artwork-surface artwork-structure" x="140" y="60" width="24" height="28" rx="4" />
+          <path d="M152 69v-2.4a2 2 0 1 1 2-2" />
+          <path d="M149 69h6l3.5 12h-13z" />
+          <path d="M146 84.5h12" opacity=".6" />
+        </g>
       </svg>
     )
   }
@@ -726,3 +760,62 @@ const { variant, detail = 'card' } = Astro.props;
     )
   }
 </span>
+
+<script>
+  import { animate, stagger } from 'animejs';
+
+  function play(svg: SVGElement) {
+    const q = (s: string) => svg.querySelectorAll(s);
+    const run: { revert: () => void }[] = [];
+    const sparkles = q('.anim-sparkle');
+    if (sparkles.length)
+      run.push(animate(sparkles, { rotate: [0, 180], scale: [1, 1.35, 1], duration: 700, ease: 'outBack' }));
+    const keys = q('.anim-key');
+    if (keys.length)
+      run.push(animate(keys, { translateY: [0, -3.5, 0], duration: 550, delay: stagger(80), ease: 'inOutQuad' }));
+    const caret = q('.anim-caret');
+    if (caret.length)
+      run.push(animate(caret, { opacity: [1, 0], duration: 420, loop: true, alternate: true, ease: 'inOutSine' }));
+    const rows = q('.anim-row');
+    if (rows.length)
+      run.push(animate(rows, { opacity: [0, 1], translateX: [-6, 0], duration: 450, delay: stagger(85), ease: 'outQuad' }));
+    const hands = q('.anim-hands');
+    if (hands.length) run.push(animate(hands, { rotate: '1turn', duration: 950, ease: 'inOutCubic' }));
+    const orbit = q('.anim-orbit');
+    if (orbit.length) run.push(animate(orbit, { rotate: '1turn', duration: 1300, ease: 'inOutSine' }));
+    const persons = q('.anim-person');
+    if (persons.length)
+      run.push(animate(persons, { translateY: [0, -3, 0], duration: 620, delay: stagger(140), ease: 'inOutSine' }));
+    const bird = q('.anim-bird');
+    if (bird.length)
+      run.push(animate(bird, { translateY: [0, -3.5, 0], rotate: [0, -8, 0], duration: 650, ease: 'inOutSine' }));
+    const float = q('.anim-float');
+    if (float.length)
+      run.push(animate(float, { rotate: [0, -3, 0], translateY: [0, -2.5, 0], duration: 800, ease: 'inOutSine' }));
+    const chips = q('.anim-chip');
+    if (chips.length)
+      run.push(animate(chips, { translateY: [0, -3, 0], duration: 500, delay: stagger(110), ease: 'inOutQuad' }));
+    const knob = q('.anim-knob');
+    if (knob.length) run.push(animate(knob, { translateX: [0, -7, 0], duration: 700, ease: 'inOutQuad' }));
+    return run;
+  }
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll<HTMLElement>('.project-card').forEach((card) => {
+    const svg = card.querySelector<SVGElement>('.project-artwork--card svg');
+    if (!svg) return;
+    let running: { revert: () => void }[] = [];
+    const start = () => {
+      if (reduce.matches || running.length) return;
+      running = play(svg);
+    };
+    const stop = () => {
+      running.forEach((a) => a.revert());
+      running = [];
+    };
+    card.addEventListener('mouseenter', start);
+    card.addEventListener('mouseleave', stop);
+    card.addEventListener('focusin', start);
+    card.addEventListener('focusout', stop);
+  });
+</script>
