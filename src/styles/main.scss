@@ -295,7 +295,7 @@ a {
 
 .project-deck {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: center;
   min-height: 25rem;
   padding: 2.5rem 1.75rem 3.5rem;
@@ -349,6 +349,13 @@ a {
   }
 }
 
+.project-card .project-artwork--card {
+  width: calc(100% + 2rem);
+  margin: -1rem -1rem 0;
+  overflow: hidden;
+  border-radius: 0.8rem 0.8rem 0 0;
+}
+
 .project-card--stone {
   --card-rotation: -7deg;
   --card-offset: 1rem;
@@ -371,11 +378,11 @@ a {
 .project-card--birdbrain {
   --card-rotation: -2deg;
   --card-offset: -0.4rem;
-  --card-surface: #4a95ce;
+  --card-surface: #6a5fc9;
   --art-depth-opacity: 0.2;
   z-index: 3;
-  background: #4a95ce;
-  color: #f7fbff;
+  background: #6a5fc9;
+  color: #f4f2ff;
 }
 
 .project-card--fitroom {

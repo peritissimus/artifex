@@ -23,9 +23,6 @@ importers:
       '@fontsource/newsreader':
         specifier: ^5.2.10
         version: 5.2.10
-      '@theatre/core':
-        specifier: ^0.7.2
-        version: 0.7.2
       astro:
         specifier: ^6.1.9
         version: 6.1.9(@types/node@24.10.1)(db0@0.3.4)(ioredis@5.8.2)(jiti@2.6.1)(rollup@4.53.3)(sass@1.94.2)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.2)
@@ -54,9 +51,6 @@ importers:
       '@resvg/resvg-js':
         specifier: ^2.6.2
         version: 2.6.2
-      '@theatre/studio':
-        specifier: ^0.7.2
-        version: 0.7.2(@theatre/core@0.7.2)
       prettier:
         specifier: ^3.7.2
         version: 3.7.2
@@ -1160,17 +1154,6 @@ packages:
   '@speed-highlight/core@1.2.12':
     resolution: {integrity: sha512-uilwrK0Ygyri5dToHYdZSjcvpS2ZwX0w5aSt3GCEN9hrjxWCoeV4Z2DTXuxjwbntaLQIEEAlCeNQss5SoHvAEA==}
 
-  '@theatre/core@0.7.2':
-    resolution: {integrity: sha512-IDQa/6WY7mIJAtsSd4EgNcM0IUZkl+FrqZ8DdYiCVTFap9ARDNmrngJOeFjJOsnnaHlc5GdEB/jj7fsjbIrAzQ==}
-
-  '@theatre/dataverse@0.7.2':
-    resolution: {integrity: sha512-YyfoyX7EyhFUY2OM5fsM0LPrs1SdgLwpiTMkkvTIoZLdOwvQhstjYq4Yz/8ZncJlRoTWvakfmgvCaBN+QuBYxg==}
-
-  '@theatre/studio@0.7.2':
-    resolution: {integrity: sha512-p6LTKzJWVlcHkpGzIlNHh9AkGbB3E+0q9Pjxv+OJoTDe1IK+CMKW695Wp+1//lB4vfC9qShe4z/p+Zaj1q8KtA==}
-    peerDependencies:
-      '@theatre/core': '*'
-
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
@@ -1751,9 +1734,6 @@ packages:
 
   linebreak@1.1.0:
     resolution: {integrity: sha512-MHp03UImeVhB7XZtjd0E4n6+3xr5Dq/9xI/5FptGk5FrbDR3zagPa2DS6U8ks/3HjbKWG9Q1M2ufOzxV2qLYSQ==}
-
-  lodash-es@4.18.1:
-    resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
 
   lodash.defaults@4.2.0:
     resolution: {integrity: sha512-qjxPLHd3r5DnsdGacqOMU6pb/avJzdh9tFX2ymgoZE27BmjXrNy/y4LoaiTeAb+O3gL8AfpJGtqfX/ae2leYYQ==}
@@ -3481,19 +3461,6 @@ snapshots:
 
   '@speed-highlight/core@1.2.12': {}
 
-  '@theatre/core@0.7.2':
-    dependencies:
-      '@theatre/dataverse': 0.7.2
-
-  '@theatre/dataverse@0.7.2':
-    dependencies:
-      lodash-es: 4.18.1
-
-  '@theatre/studio@0.7.2(@theatre/core@0.7.2)':
-    dependencies:
-      '@theatre/core': 0.7.2
-      '@theatre/dataverse': 0.7.2
-
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 2.1.0
@@ -4230,8 +4197,6 @@ snapshots:
     dependencies:
       base64-js: 0.0.8
       unicode-trie: 2.0.0
-
-  lodash-es@4.18.1: {}
 
   lodash.defaults@4.2.0:
     optional: true
