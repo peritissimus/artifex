@@ -1,3 +1,19 @@
+# [1.25.0](https://github.com/peritissimus/artifex/compare/v1.24.2...v1.25.0) (2026-07-19)
+
+
+### Bug Fixes
+
+* **generate-intro-images:** remove unused script ([08d83d4](https://github.com/peritissimus/artifex/commit/08d83d4efd6e6c8b170e4567de150038a41004e6))
+* **index:** remove garatch project ([a2b386d](https://github.com/peritissimus/artifex/commit/a2b386dd9a158068a2e61b03816c7a5bb633590f))
+* **src/scripts:** remove grid background and starry night scripts ([a09cc2d](https://github.com/peritissimus/artifex/commit/a09cc2dfd923f7f590ff3b419315b6167f5ac6a6))
+
+
+### Features
+
+* **content/work:** add fitroom project details ([975f0dc](https://github.com/peritissimus/artifex/commit/975f0dcf1ac858bce0edb421101c60050e849691))
+* **pages:** add personal software page and update project links ([3d0e349](https://github.com/peritissimus/artifex/commit/3d0e3493fc48b70bc5745433220c604f7932e3b3))
+* **src/components:** remove home intro veil and update project artwork ([29fa4de](https://github.com/peritissimus/artifex/commit/29fa4de613f9a319858bb48cb79bd7c3ccd8d480))
+
 ## [1.24.2](https://github.com/peritissimus/artifex/compare/v1.24.1...v1.24.2) (2026-07-15)
 
 ## [1.24.1](https://github.com/peritissimus/artifex/compare/v1.24.0...v1.24.1) (2026-07-15)
