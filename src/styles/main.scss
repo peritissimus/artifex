@@ -1681,6 +1681,17 @@ a {
         0 26px 52px rgba(0, 0, 0, 0.3);
     }
 
+    // buried cards hide their blurb — it would peek out from under the
+    // pile as clipped text fragments
+    .project-card-blurb {
+      opacity: 0;
+      transition: opacity 240ms var(--ease);
+    }
+
+    &.is-top .project-card-blurb {
+      opacity: 0.78;
+    }
+
     &:hover,
     &:focus-visible,
     &:active {

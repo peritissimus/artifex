@@ -17,6 +17,7 @@ const projects = [
     name: 'Stone',
     slug: 'stone',
     description: 'A local-first workspace for notes, meetings, and project memory.',
+    blurb: 'Local-first notes and project memory.',
     className: 'project-card--stone',
     mark: 'memory' as const,
   },
@@ -24,6 +25,7 @@ const projects = [
     name: 'Turntable',
     slug: 'turntable',
     description: 'A 3D device mockup tool for creating polished product imagery.',
+    blurb: '3D mockups for polished product shots.',
     className: 'project-card--turntable',
     mark: 'form' as const,
   },
@@ -31,6 +33,7 @@ const projects = [
     name: 'Fitroom',
     slug: 'fitroom',
     description: 'An AI try-on studio that renders couples in chosen outfits at true relative height.',
+    blurb: 'AI outfit try-on for couples.',
     className: 'project-card--fitroom',
     mark: 'fit' as const,
   },
@@ -38,6 +41,7 @@ const projects = [
     name: 'Tabbit',
     slug: 'tabbit',
     description: 'An AI browser extension that groups and tidies crowded tab bars.',
+    blurb: 'AI tidying for crowded tab bars.',
     className: 'project-card--tabbit',
     mark: 'tabs' as const,
   },
@@ -85,6 +89,7 @@ const projects = [
                 <ProjectArtwork variant={project.mark} />
                 <span class="project-card-copy">
                   <strong>{project.name}</strong>
+                  <span class="project-card-blurb">{project.blurb}</span>
                 </span>
                 <span class="project-card-arrow" aria-hidden="true">→</span>
               </a>
@@ -167,6 +172,12 @@ const projects = [
 
     let order = [...cards];
     let active = false;
+
+    // only the stack's top card shows its blurb (buried blurbs peek out as
+    // clipped text fragments)
+    const markTop = () => {
+      order.forEach((c, i) => c.classList.toggle('is-top', i === 0));
+    };
 
     // ---------- desktop: spring hover with cursor lean ----------
     type DeskPose = { s: number; nx: number; ny: number; ry: number; ryTarget: number; raf: number };
@@ -397,7 +408,7 @@ const projects = [
       const card = dragCard;
       dragCard = null;
       card.classList.remove('is-lifted');
-      const throwIt = Math.abs(dx) > 70 || Math.abs(vx) > 0.4;
+      const throwIt = Math.abs(dx) > 55 || Math.abs(vx) > 0.35;
       if (!throwIt) {
         settle(card, slot(0));
         order.slice(1).forEach((c, j) => settle(c, slot(j + 1), { soft: true }));
@@ -407,36 +418,40 @@ const projects = [
       const dir = dx !== 0 ? Math.sign(dx) : vx >= 0 ? 1 : -1;
       const p = pose.get(card)!;
       utils.remove(p);
-      // the exit continues the throw: duration derived from release velocity
-      const exitX = dir * Math.max(window.innerWidth * 0.8, 340);
+      // taut throw: the card only travels just far enough to clear the pile,
+      // the pile promotes the moment it's clear (not when the exit finishes),
+      // and the card springs straight back into the bottom slot from its
+      // apex — one continuous arc, no off-screen detour
+      const w = card.offsetWidth;
+      const exitX = dir * Math.round(w * 1.08);
       const speed = Math.max(Math.abs(vx), 0.9);
-      const exitMs = utils.clamp(Math.abs(exitX - dx) / speed, 200, 460);
+      const exitMs = utils.clamp(Math.abs(exitX - dx) / speed, 150, 340);
+      let promoted = false;
+      const promote = () => {
+        if (promoted) return;
+        promoted = true;
+        order = [...order.slice(1), card];
+        order.slice(0, -1).forEach((c, i) => {
+          c.style.zIndex = String(order.length - i);
+          settle(c, slot(i), { delay: i * 35 });
+        });
+        card.style.zIndex = '0';
+        markTop();
+      };
       animate(p, {
         tx: exitX,
-        ty: p.ty - 26,
-        sc: 1,
-        rot: dir * (16 + Math.min(20, Math.abs(vx) * 16)),
+        ty: p.ty - 16,
+        sc: 0.97,
+        rot: dir * (10 + Math.min(12, Math.abs(vx) * 10)),
         duration: reduceMotion.matches ? 1 : exitMs,
         ease: 'out(1.8)',
-        onUpdate: () => apply(card),
-        onComplete: () => {
-          order = [...order.slice(1), card];
-          // pile promotes with a springy cascade...
-          order.slice(0, -1).forEach((c, i) => {
-            c.style.zIndex = String(order.length - i);
-            settle(c, slot(i), { delay: i * 40 });
-          });
-          // ...while the flung card swoops back in underneath from the same side
-          card.style.zIndex = '0';
-          const back = slot(order.length - 1);
-          Object.assign(p, {
-            tx: dir * Math.max(window.innerWidth * 0.4, 150),
-            ty: back.ty - 6,
-            rot: dir * 16,
-            sc: back.sc * 0.985,
-          });
+        onUpdate: () => {
           apply(card);
-          settle(card, back, { delay: 60, soft: true });
+          if (Math.abs(p.tx) >= w * 0.85) promote();
+        },
+        onComplete: () => {
+          promote();
+          settle(card, slot(order.length - 1), { soft: true });
           flourish(order[0]);
           startIdle();
         },
@@ -480,12 +495,13 @@ const projects = [
           Object.assign(pose.get(card)!, slot(i));
           apply(card);
         });
+        markTop();
         startIdle();
       } else {
         stopIdle();
         cards.forEach((card) => {
           utils.remove(pose.get(card)!);
-          card.classList.remove('is-lifted');
+          card.classList.remove('is-lifted', 'is-top');
           ['--tx', '--ty', '--rot', '--sc'].forEach((v) => card.style.removeProperty(v));
           card.style.removeProperty('z-index');
         });
