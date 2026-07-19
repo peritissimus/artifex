@@ -40,8 +40,8 @@ function parseMarkdown(text: string): string {
     <div class="section-inner">
       <div class="work-header">
         <div class="work-back">
-          <a href={work.data.kind === 'personal' ? '/#personal-projects' : '/about'}>
-            ← {work.data.kind === 'personal' ? 'Back to Personal Projects' : 'Back to Timeline'}
+          <a href={work.data.kind === 'personal' ? '/software' : '/about'}>
+            ← {work.data.kind === 'personal' ? 'Back to Personal Software' : 'Back to Timeline'}
           </a>
         </div>
         {work.data.kind === 'personal' && <p class="page-kicker work-kind">Personal project</p>}
@@ -66,10 +66,10 @@ function parseMarkdown(text: string): string {
         {work.data.kind === 'personal' && artworkVariant && (
           <figure class={`project-blueprint project-blueprint--${work.id}`}>
             <div class="project-blueprint-labels" aria-hidden="true">
-              <span>Product blueprint</span>
+              <span>Product study</span>
               <span>{String(work.data.order - 100).padStart(2, '0')} / 05</span>
             </div>
-            <ProjectArtwork variant={artworkVariant} />
+            <ProjectArtwork variant={artworkVariant} detail="blueprint" />
             <figcaption>{work.data.description}</figcaption>
           </figure>
         )}

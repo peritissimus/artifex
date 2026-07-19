@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import ProjectArtwork from '../components/ProjectArtwork.astro';
+
+const cardMeta = {
+  stone: { className: 'project-card--stone', mark: 'memory' },
+  turntable: { className: 'project-card--turntable', mark: 'form' },
+  birdbrain: { className: 'project-card--birdbrain', mark: 'signal' },
+  tabbit: { className: 'project-card--tabbit', mark: 'tabs' },
+  garatch: { className: 'project-card--garatch', mark: 'pulse' },
+  fitroom: { className: 'project-card--fitroom', mark: 'fit' },
+} as const;
+
+const projects = (await getCollection('work', ({ data }) => data.kind === 'personal'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .filter((work) => work.id in cardMeta);
+---
+
+<Base
+  title="Personal Software - Peritissimus"
+  description="Small tools and independent experiments I design and build outside of work."
+  ogImage="/og/home.png"
+  currentPath="/software"
+>
+  <section class="content-section page-software">
+    <div class="section-inner">
+      <header class="software-header">
+        <p class="page-kicker">Independent work</p>
+        <h1 class="section-title">Personal software</h1>
+        <p class="software-intro">
+          Small tools and independent experiments I design and build outside of work — local-first
+          apps, browser utilities, wearable interfaces, and studios for making things look good.
+        </p>
+      </header>
+
+      <div class="software-grid">
+        {
+          projects.map((project) => {
+            const meta = cardMeta[project.id as keyof typeof cardMeta];
+            return (
+              <a
+                class={`project-card ${meta.className}`}
+                href={`/work/${project.id}`}
+                aria-label={`${project.data.title}: ${project.data.description}`}
+              >
+                <ProjectArtwork variant={meta.mark} />
+                <span class="project-card-copy">
+                  <strong>{project.data.title}</strong>
+                  <span class="project-card-blurb">{project.data.description}</span>
+                </span>
+                <span class="project-card-arrow" aria-hidden="true">→</span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+</Base>
