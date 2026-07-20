@@ -5,6 +5,7 @@ kind: personal
 role: Preservation Engineer
 description: A modern restoration of the I Remember WebGL memory archive, rebuilt with ES modules and current tooling.
 dateRange: '2026'
+sortDate: 2026-04-26
 location: Independent
 order: 110
 technologies: [JavaScript, Three.js, WebGL, GSAP, Vite, Playwright]

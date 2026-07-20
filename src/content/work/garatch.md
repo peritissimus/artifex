@@ -5,6 +5,7 @@ kind: personal
 role: Watch-face Designer & Engineer
 description: A collection of information-dense Garmin watch faces exploring typography, glanceability, and wearable data.
 dateRange: 2025 - Present
+sortDate: 2025-06-21
 location: Independent
 order: 105
 technologies: [Monkey C, Connect IQ, Garmin SDK, Wearable UI]

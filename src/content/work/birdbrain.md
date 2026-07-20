@@ -5,6 +5,7 @@ kind: personal
 role: Designer & Engineer
 description: A private Twitter/X bookmark archive with AI summaries, topic classification, search, and automatic hydration.
 dateRange: "2026"
+sortDate: 2026-01-21
 location: Independent
 order: 103
 technologies: [SvelteKit, TypeScript, Python, FastAPI, SQLite, Celery, Redis, Groq]

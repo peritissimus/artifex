@@ -5,6 +5,7 @@ kind: personal
 role: Engineer
 description: A semantic code-search CLI that embeds files and code chunks for natural-language retrieval.
 dateRange: '2025'
+sortDate: 2025-03-12
 location: Independent
 order: 108
 technologies: [Python, SQLite, Tree-sitter, OpenAI Embeddings, Click, Rich]

@@ -5,6 +5,7 @@ kind: personal
 role: Designer & Engineer
 description: On-device PII detection and redaction for documents, with first-class support for Indian banking identifiers.
 dateRange: '2026'
+sortDate: 2026-03-14
 location: Independent
 order: 107
 technologies: [Swift, SwiftUI, Apple NaturalLanguage, Vision, PDFKit, Python, Presidio]

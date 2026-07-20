@@ -5,6 +5,7 @@ kind: personal
 role: Designer & Engineer
 description: A minimal Chrome extension that uses AI to group messy browser tabs into useful native tab groups.
 dateRange: "2026"
+sortDate: 2026-05-15
 location: Independent
 order: 104
 technologies: [JavaScript, Chrome Extensions, Manifest V3, OpenAI API]

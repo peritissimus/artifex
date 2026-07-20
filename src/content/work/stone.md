@@ -5,6 +5,7 @@ kind: personal
 role: Designer & Engineer
 description: A local-first desktop workspace that turns notes, meetings, and daily context into useful project memory.
 dateRange: 2025 - Present
+sortDate: 2025-10-29
 location: Independent
 order: 101
 technologies: [Electron, TypeScript, React, SQLite, Whisper, Local AI, Apple Calendar, Apple Mail]

@@ -5,6 +5,7 @@ kind: personal
 role: Designer & Engineer
 description: An AI couple try-on studio that renders two people in chosen outfits as a single true-to-height portrait.
 dateRange: "2026"
+sortDate: 2026-07-07
 location: Independent
 order: 106
 technologies: [Next.js, React, TypeScript, Tailwind CSS, OpenAI Images, Gemini]

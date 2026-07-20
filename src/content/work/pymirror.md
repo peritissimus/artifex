@@ -5,6 +5,7 @@ kind: personal
 role: Early ML Experiment
 description: An early call-analysis prototype combining speaker diarization, transcription, sentiment, and grammar scoring.
 dateRange: 2019 - 2020
+sortDate: 2019-05-27
 location: Private archive
 order: 111
 technologies: [Python, Google Cloud Speech, Google Cloud Natural Language, pandas, seaborn, pydub]

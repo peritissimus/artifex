@@ -5,6 +5,7 @@ kind: personal
 role: Designer & Engineer
 description: A browser-based 3D device mockup studio for turning interface screenshots into polished product imagery.
 dateRange: "2026"
+sortDate: 2026-07-15
 location: Independent
 order: 102
 technologies: [Three.js, WebGL, GLSL, JavaScript, Vite]

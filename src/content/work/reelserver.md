@@ -5,6 +5,7 @@ kind: personal
 role: Systems Engineer
 description: A distributed Python service for reliable Reel downloads with workers, retries, and rate limiting.
 dateRange: '2026'
+sortDate: 2026-01-17
 location: Private project
 order: 109
 technologies: [Python, Celery, Redis, Docker, SQLAlchemy, Turso, instagrapi]

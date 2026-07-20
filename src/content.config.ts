@@ -25,6 +25,7 @@ const workCollection = defineCollection({
     role: z.string(),
     description: z.string(),
     dateRange: z.string(),
+    sortDate: z.coerce.date().optional(),
     location: z.string(),
     order: z.number(),
     technologies: z.array(z.string()).default([]),

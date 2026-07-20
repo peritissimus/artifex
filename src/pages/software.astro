@@ -18,8 +18,12 @@ const cardMeta = {
 } as const;
 
 const projects = (await getCollection('work', ({ data }) => data.kind === 'personal'))
-  .sort((a, b) => a.data.order - b.data.order)
-  .filter((work) => work.id in cardMeta);
+  .filter((work) => work.id in cardMeta)
+  .sort((a, b) => {
+    if (a.id === 'stone') return -1;
+    if (b.id === 'stone') return 1;
+    return (b.data.sortDate?.getTime() ?? 0) - (a.data.sortDate?.getTime() ?? 0);
+  });
 ---
 
 <Base
