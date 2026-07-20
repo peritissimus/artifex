@@ -10,6 +10,11 @@ const cardMeta = {
   tabbit: { className: 'project-card--tabbit', mark: 'tabs' },
   garatch: { className: 'project-card--garatch', mark: 'pulse' },
   fitroom: { className: 'project-card--fitroom', mark: 'fit' },
+  strid: { className: 'project-card--strid', mark: 'strid' },
+  kaze: { className: 'project-card--kaze', mark: 'kaze' },
+  reelserver: { className: 'project-card--reelserver', mark: 'reelserver' },
+  irem: { className: 'project-card--irem', mark: 'irem' },
+  pymirror: { className: 'project-card--pymirror', mark: 'pymirror' },
 } as const;
 
 const projects = (await getCollection('work', ({ data }) => data.kind === 'personal'))

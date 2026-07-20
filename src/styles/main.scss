@@ -464,6 +464,41 @@ a {
   background-color: #edeae2;
 }
 
+.project-card--strid {
+  --card-surface: #e8ece7;
+  --card-serial: 'Nº 07';
+  --art-depth-opacity: 0.12;
+  background-color: #e8ece7;
+}
+
+.project-card--kaze {
+  --card-surface: #ebe8f0;
+  --card-serial: 'Nº 08';
+  --art-depth-opacity: 0.12;
+  background-color: #ebe8f0;
+}
+
+.project-card--reelserver {
+  --card-surface: #eee7df;
+  --card-serial: 'Nº 09';
+  --art-depth-opacity: 0.12;
+  background-color: #eee7df;
+}
+
+.project-card--irem {
+  --card-surface: #e4eaed;
+  --card-serial: 'Nº 10';
+  --art-depth-opacity: 0.12;
+  background-color: #e4eaed;
+}
+
+.project-card--pymirror {
+  --card-surface: #eee9dc;
+  --card-serial: 'Nº 11';
+  --art-depth-opacity: 0.12;
+  background-color: #eee9dc;
+}
+
 .project-artwork {
   position: relative;
   display: flex;
@@ -1650,14 +1685,24 @@ a {
 // ── Responsive ──────────────────────────────────────────────────────────────
 @media (max-width: 640px) {
   .header {
+    flex-direction: column;
     align-items: flex-start;
+    gap: 0.375rem;
+    padding-block: 1.5rem 1rem;
   }
 
   .menu {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 0.65rem 1rem;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: clamp(0.75rem, 4vw, 1rem);
     font-size: 0.85rem;
+  }
+
+  .menu-item {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
   }
 
   .content-section {

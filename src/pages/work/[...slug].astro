@@ -20,6 +20,12 @@ const personalArtwork = {
   birdbrain: 'signal',
   tabbit: 'tabs',
   garatch: 'pulse',
+  fitroom: 'fit',
+  strid: 'strid',
+  kaze: 'kaze',
+  reelserver: 'reelserver',
+  irem: 'irem',
+  pymirror: 'pymirror',
 } as const;
 
 const artworkVariant = personalArtwork[work.id as keyof typeof personalArtwork];
@@ -67,7 +73,7 @@ function parseMarkdown(text: string): string {
           <figure class={`project-blueprint project-blueprint--${work.id}`}>
             <div class="project-blueprint-labels" aria-hidden="true">
               <span>Product study</span>
-              <span>{String(work.data.order - 100).padStart(2, '0')} / 05</span>
+              <span>Archive {String(work.data.order - 100).padStart(2, '0')}</span>
             </div>
             <ProjectArtwork variant={artworkVariant} detail="blueprint" />
             <figcaption>{work.data.description}</figcaption>
