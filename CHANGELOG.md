@@ -1,3 +1,7 @@
+## v2.0.0 (2026-07-20)
+
+- ci: replace semantic-release with marker-based release script [release] (5cbf6fc)
+
 # [1.30.0](https://github.com/peritissimus/artifex/compare/v1.29.0...v1.30.0) (2026-07-20)
 
 
