@@ -11,16 +11,19 @@ on:
       - staging
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
     name: Build & Test
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -39,115 +42,69 @@ jobs:
       - name: Build project
         run: pnpm run build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-files
-          path: dist/
-          retention-days: 7
-
   release:
     name: Version & Release
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: write
-      issues: write
-      pull-requests: write
-      id-token: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install semantic-release
+      - name: Determine version bump
+        id: bump
         run: |
-          npm install -g semantic-release \
-            @semantic-release/commit-analyzer \
-            @semantic-release/release-notes-generator \
-            @semantic-release/changelog \
-            @semantic-release/npm \
-            @semantic-release/github \
-            @semantic-release/git
-
-      - name: Configure Git
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-
-      - name: Run semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
-
-      - name: Push changes
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git add .
-            git commit -m "chore: update version and changelog [skip ci]" || echo "No changes to commit"
+          last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -n "$last_tag" ]; then
+            range="$last_tag..HEAD"
+          else
+            range="HEAD"
           fi
-          git push --follow-tags origin HEAD:${{ github.ref_name }}
 
-  # deploy:
-  #   name: Deploy to Cloudflare Pages
-  #   needs: [build, release]
-  #   if: |
-  #     always() &&
-  #     needs.build.result == 'success' &&
-  #     (needs.release.result == 'success' || needs.release.result == 'skipped') &&
-  #     github.event_name == 'push' &&
-  #     github.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     deployments: write
-  #
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Setup pnpm
-  #       uses: pnpm/action-setup@v4
-  #       with:
-  #         version: 10
-  #
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '22'
-  #         cache: 'pnpm'
-  #
-  #     - name: Install dependencies
-  #       run: pnpm install --frozen-lockfile
-  #
-  #     - name: Build project
-  #       run: pnpm run build
-  #
-  #     - name: Deploy to Cloudflare Pages
-  #       uses: cloudflare/pages-action@v1
-  #       with:
-  #         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-  #         accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-  #         projectName: artifex
-  #         directory: dist
-  #         gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-  #         branch: main
+          log=$(git log "$range" --pretty=%B)
+          bump=""
+          if echo "$log" | grep -qF '[release:major]'; then
+            bump=major
+          elif echo "$log" | grep -qF '[release:minor]'; then
+            bump=minor
+          elif echo "$log" | grep -qF '[release]'; then
+            bump=patch
+          fi
+
+          echo "bump=$bump" >> "$GITHUB_OUTPUT"
+          echo "range=$range" >> "$GITHUB_OUTPUT"
+          if [ -z "$bump" ]; then
+            echo "No [release] marker since ${last_tag:-start}; skipping release."
+          fi
+
+      - name: Tag and release
+        if: steps.bump.outputs.bump != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          version=$(npm version "${{ steps.bump.outputs.bump }}" --no-git-tag-version)
+          notes=$(git log "${{ steps.bump.outputs.range }}" --no-merges --pretty='- %s (%h)')
+
+          {
+            echo "## $version ($(date +%Y-%m-%d))"
+            echo
+            echo "$notes"
+            echo
+            cat CHANGELOG.md 2>/dev/null || true
+          } > CHANGELOG.tmp
+          mv CHANGELOG.tmp CHANGELOG.md
+
+          git add package.json CHANGELOG.md
+          git commit -m "chore(release): ${version#v} [skip ci]"
+          git tag "$version"
+          git push --follow-tags origin main
+          gh release create "$version" --title "$version" --notes "$notes"
