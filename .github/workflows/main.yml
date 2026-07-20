@@ -67,7 +67,8 @@ jobs:
             range="HEAD"
           fi
 
-          log=$(git log "$range" --pretty=%B)
+          # Match subject lines only: full bodies can mention markers in prose
+          log=$(git log "$range" --pretty=%s)
           bump=""
           if echo "$log" | grep -qF '[release:major]'; then
             bump=major
@@ -105,6 +106,6 @@ jobs:
 
           git add package.json CHANGELOG.md
           git commit -m "chore(release): ${version#v} [skip ci]"
-          git tag "$version"
-          git push --follow-tags origin main
+          git tag -a "$version" -m "$version"
+          git push origin main "refs/tags/$version"
           gh release create "$version" --title "$version" --notes "$notes"
