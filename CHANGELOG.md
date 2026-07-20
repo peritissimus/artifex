@@ -1,3 +1,9 @@
+## v1.30.1 (2026-07-20)
+
+- ci: fix marker matching and tag push, revert accidental 2.0.0 [release] (826d7b1)
+- chore(release): 2.0.0 [skip ci] (46943fb)
+- ci: replace semantic-release with marker-based release script [release] (5cbf6fc)
+
 # [1.30.0](https://github.com/peritissimus/artifex/compare/v1.29.0...v1.30.0) (2026-07-20)
 
 
