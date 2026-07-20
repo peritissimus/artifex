@@ -1,3 +1,12 @@
+# [1.29.0](https://github.com/peritissimus/artifex/compare/v1.28.0...v1.29.0) (2026-07-20)
+
+
+### Features
+
+* **artwork:** add project-specific blueprints ([5196a5f](https://github.com/peritissimus/artifex/commit/5196a5fa3f4150ac38d6b0aa2c7bf7e3e216d0ef))
+* **software:** expand project archive ([4931b43](https://github.com/peritissimus/artifex/commit/4931b43631c78b001e57b0498f3558c36aa71a36))
+* **work:** add archived personal projects ([56e3f58](https://github.com/peritissimus/artifex/commit/56e3f5815a25252f6b94013c7411cfc2c1376243))
+
 # [1.28.0](https://github.com/peritissimus/artifex/compare/v1.27.0...v1.28.0) (2026-07-19)
 
 
