@@ -1,3 +1,10 @@
+# [1.30.0](https://github.com/peritissimus/artifex/compare/v1.29.0...v1.30.0) (2026-07-20)
+
+
+### Features
+
+* **software:** remove reelserver and irem projects ([fe4d2e9](https://github.com/peritissimus/artifex/commit/fe4d2e9734d30e1cff0d8248bf1f7582b1135e76))
+
 # [1.29.0](https://github.com/peritissimus/artifex/compare/v1.28.0...v1.29.0) (2026-07-20)
 
 
