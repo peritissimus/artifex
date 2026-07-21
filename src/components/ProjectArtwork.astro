@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse' | 'fit' | 'strid' | 'kaze' | 'reelserver' | 'irem' | 'pymirror';
+  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse' | 'fit' | 'strid' | 'kaze' | 'reelserver' | 'irem' | 'pymirror' | 'paperfolio';
   detail?: 'card' | 'blueprint';
 }
 
@@ -999,6 +999,31 @@ const { variant, detail = 'card' } = Astro.props;
           <rect x="130" y="102" width="8" height="5" rx="1.5" style="fill:currentColor;stroke:none" />
         </g>
         <path class="anim-sparkle" d="m90 43 1.4 3.2 3.2 1.4-3.2 1.4-1.4 3.2-1.4-3.2-3.2-1.4 3.2-1.4z" />
+      </svg>
+    )
+  }
+  {
+    variant === 'paperfolio' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-surface artwork-structure" x="15" y="17" width="150" height="94" rx="7" />
+        <path d="M27 91h126M27 70h126M27 49h126M27 28h126" opacity=".18" />
+        <path d="M45 24v73M72 24v73M99 24v73M126 24v73" opacity=".12" />
+        <g class="anim-row">
+          <path d="M35 73v19M31 78h8v9h-8z" />
+          <path d="M52 60v24M48 66h8v11h-8z" />
+          <path d="M69 67v22M65 72h8v10h-8z" />
+          <path d="M86 47v30M82 55h8v14h-8z" />
+          <path d="M103 51v26M99 58h8v12h-8z" />
+          <path d="M120 34v31M116 41h8v15h-8z" />
+          <path d="M137 29v28M133 35h8v14h-8z" />
+        </g>
+        <path class="artwork-hero" d="m31 84 21-13 17 7 17-18 17 4 17-16 19-8" />
+        <circle class="artwork-surface artwork-hero anim-sparkle" cx="139" cy="40" r="4" />
+        <rect class="artwork-card-depth artwork-shadow-plane" x="108" y="84" width="48" height="19" rx="5" />
+        <rect class="artwork-surface artwork-hero" x="105" y="81" width="48" height="19" rx="5" />
+        <path d="M112 88h19M112 94h31" opacity=".62" />
+        <path d="m142 87 3 3 5-7" />
       </svg>
     )
   }

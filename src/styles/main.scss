@@ -499,6 +499,13 @@ a {
   background-color: #ecddbd;
 }
 
+.project-card--paperfolio {
+  --card-surface: #ead4b0;
+  --card-serial: 'Nº 12';
+  --art-depth-opacity: 0.12;
+  background-color: #ead4b0;
+}
+
 .project-artwork {
   position: relative;
   display: flex;
