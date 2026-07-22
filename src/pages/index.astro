@@ -155,6 +155,12 @@ const projects = [
   const deck = document.querySelector<HTMLElement>('.project-deck');
 
   if (deck) {
+    // Read layout before applying any enhancement styles. Reading after
+    // applyMode() writes transforms and stacking styles can force the browser
+    // to synchronously recalculate layout during startup.
+    const deckStartsBelowFold =
+      !reduceMotion.matches && deck.getBoundingClientRect().top > window.innerHeight * 0.85;
+
     deck.classList.add('is-enhanced');
     const spring = (stiffness: number, damping: number) => createSpring({ stiffness, damping });
     type Pose = { tx: number; ty: number; rot: number; sc: number };
@@ -496,7 +502,6 @@ const projects = [
           apply(card);
         });
         markTop();
-        startIdle();
       } else {
         stopIdle();
         cards.forEach((card) => {
@@ -511,8 +516,7 @@ const projects = [
     mq.addEventListener('change', applyMode);
 
     // ---------- deal-in: staggered entrance when the deck scrolls into view ----------
-    let entrancePending =
-      !reduceMotion.matches && deck.getBoundingClientRect().top > window.innerHeight * 0.85;
+    let entrancePending = deckStartsBelowFold;
 
     if (entrancePending) {
       cards.forEach((c) => (c.style.opacity = '0'));
@@ -535,7 +539,6 @@ const projects = [
             animate(p, { ny: 0, delay: i * 90, ease: spring(120, 14), onUpdate: () => applyDesk(card) });
           }
         });
-        if (mq.matches) startIdle();
       };
       const io = new IntersectionObserver(
         (entries) => {
