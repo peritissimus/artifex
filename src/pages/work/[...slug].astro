@@ -79,19 +79,6 @@ function parseMarkdown(text: string): string {
             <figcaption>{work.data.description}</figcaption>
           </figure>
         )}
-        {work.data.kind === 'personal' && work.data.screenshot && (
-          <figure class:list={['project-screenshot', `project-screenshot--${work.id}`]}>
-            <img
-              src={work.data.screenshot.src}
-              alt={work.data.screenshot.alt}
-              width={work.data.screenshot.width}
-              height={work.data.screenshot.height}
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption>{work.data.screenshot.caption}</figcaption>
-          </figure>
-        )}
       </div>
 
       <div class="work-content">
@@ -99,7 +86,23 @@ function parseMarkdown(text: string): string {
           <h3>Overview</h3>
           <Content />
         </div>
+      </div>
 
+      {work.data.kind === 'personal' && work.data.screenshot && (
+        <figure class:list={['project-screenshot', `project-screenshot--${work.id}`]}>
+          <img
+            src={work.data.screenshot.src}
+            alt={work.data.screenshot.alt}
+            width={work.data.screenshot.width}
+            height={work.data.screenshot.height}
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>{work.data.screenshot.caption}</figcaption>
+        </figure>
+      )}
+
+      <div class="work-content">
         {work.data.achievements.length > 0 && (
           <div class="work-section">
             <h3>Key Achievements</h3>
