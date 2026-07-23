@@ -31,6 +31,15 @@ const workCollection = defineCollection({
     technologies: z.array(z.string()).default([]),
     achievements: z.array(z.string()).default([]),
     ogImage: z.string().optional(),
+    screenshot: z
+      .object({
+        src: z.string(),
+        alt: z.string(),
+        caption: z.string(),
+        width: z.number().int().positive(),
+        height: z.number().int().positive(),
+      })
+      .optional(),
     externalUrl: z.string().url().optional(),
     stats: z
       .array(
