@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
 import ProjectArtwork from '../../components/ProjectArtwork.astro';
+import { workSchema, breadcrumbSchema } from '../../lib/schema';
 
 export async function getStaticPaths() {
   const works = await getCollection('work');
@@ -32,15 +33,35 @@ const artworkVariant = personalArtwork[work.id as keyof typeof personalArtwork];
 function parseMarkdown(text: string): string {
   return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 }
+
+const kindLabel = work.data.kind === 'personal' ? 'Personal Project' : 'Work Experience';
+const ogImage = work.data.ogImage || `/og/work/${work.id}.png`;
+const detailSchema = workSchema({
+  title: work.data.title,
+  description: work.data.description,
+  slug: work.id,
+  kind: work.data.kind,
+  role: work.data.role,
+  technologies: work.data.technologies,
+  externalUrl: work.data.externalUrl,
+  image: ogImage,
+});
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: work.data.kind === 'personal' ? 'Software' : 'About', path: work.data.kind === 'personal' ? '/software' : '/about' },
+  { name: work.data.title, path: `/work/${work.id}` },
+]);
 ---
 
 <Base
-  title={`${work.data.title} - ${work.data.kind === 'personal' ? 'Personal Project' : 'Work Experience'}`}
+  title={`${work.data.title} - ${kindLabel} - Peritissimus`}
+  ogTitle={`${work.data.title} — ${work.data.role}`}
   description={work.data.description}
-  ogImage={work.data.ogImage || `/og/work/${work.id}.png`}
+  ogImage={ogImage}
   currentPath={`/work/${work.id}`}
+  jsonLd={[detailSchema, breadcrumbs]}
 >
-  <section class:list={['content-section', 'work-detail', { 'work-detail--personal': work.data.kind === 'personal' }]}>
+  <article class:list={['content-section', 'work-detail', { 'work-detail--personal': work.data.kind === 'personal' }]}>
     <div class="section-inner">
       <div class="work-header">
         <div class="work-back">
@@ -145,5 +166,5 @@ function parseMarkdown(text: string): string {
         )}
       </div>
     </div>
-  </section>
+  </article>
 </Base>
