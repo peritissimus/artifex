@@ -7,12 +7,14 @@ import '../styles/main.scss';
 
 interface Props {
   title: string;
+  ogTitle?: string;
   description: string;
   ogImage?: string;
   ogImageAlt?: string;
   currentPath?: string;
   type?: 'website' | 'article';
   publishedDate?: string;
+  modifiedDate?: string;
   author?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
@@ -20,12 +22,14 @@ interface Props {
 
 const {
   title,
+  ogTitle,
   description,
   ogImage,
   ogImageAlt,
   currentPath = Astro.url.pathname,
   type,
   publishedDate,
+  modifiedDate,
   author,
   noindex,
   jsonLd,
@@ -40,11 +44,13 @@ const {
 
     <SEO
       title={title}
+      ogTitle={ogTitle}
       description={description}
       ogImage={ogImage}
       ogImageAlt={ogImageAlt}
       type={type}
       publishedDate={publishedDate}
+      modifiedDate={modifiedDate}
       author={author}
       noindex={noindex}
       jsonLd={jsonLd}
