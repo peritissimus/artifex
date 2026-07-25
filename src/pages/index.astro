@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ProjectArtwork from '../components/ProjectArtwork.astro';
-import { personSchema } from '../lib/schema';
+import { personSchema, websiteSchema } from '../lib/schema';
 
 const selectedWork = (await getCollection('work', ({ data }) => data.kind === 'professional'))
   .sort((a, b) => a.data.order - b.data.order)
@@ -54,7 +54,7 @@ const projects = [
   description="Founding engineer and system architect building scalable AI products and infrastructure."
   ogImage="/og/home.png"
   currentPath="/"
-  jsonLd={personSchema}
+  jsonLd={[personSchema, websiteSchema]}
 >
   <section class="content-section page-home">
     <div class="section-inner home-inner">
