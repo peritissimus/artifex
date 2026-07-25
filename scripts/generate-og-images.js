@@ -96,10 +96,13 @@ function getBlogPosts() {
     const titleMatch = frontmatter.match(/title:\s*(.+)/);
     const descMatch = frontmatter.match(/description:\s*(.+)/);
 
+    // Frontmatter values may be quoted; the quotes are syntax, not content.
+    const unquote = (value) => value.trim().replace(/^(['"])([\s\S]*)\1$/, '$2');
+
     return {
       slug: file.replace('.md', ''),
-      title: titleMatch ? titleMatch[1].trim() : file.replace('.md', ''),
-      description: descMatch ? descMatch[1].trim() : '',
+      title: titleMatch ? unquote(titleMatch[1]) : file.replace('.md', ''),
+      description: descMatch ? unquote(descMatch[1]) : '',
       type: 'blog',
     };
   }).filter(Boolean);
