@@ -20,6 +20,10 @@ outcome: "Garatch is an ongoing laboratory for designing useful interfaces at wr
 
 A watch face is the hardest interface brief there is: a canvas a few centimeters wide, read in under a second, on a battery budget measured in milliwatts. Garatch takes that brief seriously and answers it twelve different ways — a collection of Garmin faces that each test how much information a wrist can carry before it stops feeling calm.
 
+**The project started on my wrist.** I wanted more useful data than a minimal face could show, but most dense faces felt like dashboards reduced to watch size. Designing my own made the constraint concrete: the information had to survive motion, sunlight, a quick glance, and the habits of one actual wearer.
+
+**Why it is personal software.** I can evaluate a face by living with it rather than by approving a static mockup. If the heart-rate value takes too long to find during a walk, the hierarchy is wrong. If an always-on state feels too bright at night, the palette is wrong. Daily wear turns taste into feedback and gives each new face a reason to exist.
+
 **Each face is a thesis.** *Sixdash* stacks six data rows with segmented goal bars over an oversized time display. *Orbit* puts your metrics in planetary rings. *Blueprint* renders the day as a technical drawing; *telemetry* as an instrument panel; *atelier* as a type specimen; *cosmic* and *analog* push toward ornament and tradition. The collection is the point — the same data, re-argued through typography, measurement, and hierarchy until the trade-offs are visible.
 
 **The constraints are the craft.** Low-power wearable displays punish laziness: burn-in rules out static brightness, memory budgets rule out lazy rendering, and 1 Hz second hands have to be earned. Garatch faces use purpose-built bitmap type, custom icons, and hand-tuned progress segments instead of scaled-down phone UI, and each face adapts its hierarchy to round and rectangular Garmin displays rather than letterboxing one layout everywhere.

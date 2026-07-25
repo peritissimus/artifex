@@ -19,6 +19,10 @@ outcome: 'Paperfolio brings market data, screening, simulated execution, and per
 
 Investment ideas are easy to invent and surprisingly hard to examine honestly. A promising screen, a clean-looking chart, and one memorable winner can quickly become a strategy in your head. Paperfolio was built to put some distance between the idea and the conviction: collect the evidence, simulate the decisions, and measure what actually happened.
 
+**It began as a discipline problem.** I wanted one private place where an investing idea had to survive the whole loop: screen the market, state the rule, simulate the trades, and examine the drawdowns. Moving between data sites, spreadsheets, and isolated backtests made it too easy to remember the supporting evidence and lose the rest.
+
+**Why it is personal software.** Paperfolio is not a brokerage and does not recommend trades. It is the lab I use before real capital enters the conversation. The market coverage, Indian-equity sources, saved portfolios, and performance measures reflect the questions I actually ask, while paper execution keeps experimentation separate from financial action.
+
 **The research surface starts with the market, not a watchlist.** Paperfolio collects fundamentals and historical prices for more than 1,200 Indian equities. Screeners expose valuation, profitability, leverage, dividends, and distance from 52-week ranges; stock pages combine those fundamentals with technical signals across multiple timeframes. Tickertape provides the richer primary dataset, while Yahoo Finance fills gaps and keeps price history available when the first source cannot.
 
 **A paper portfolio makes every opinion accountable.** Buys and sells become transactions, transactions become holdings with an average cost, and holdings roll up into a portfolio whose value can be followed over time. The simulator uses the same underlying market data to replay a strategy historically, preserving individual trades and daily performance snapshots rather than returning only a flattering final percentage.

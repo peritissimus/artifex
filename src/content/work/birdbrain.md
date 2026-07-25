@@ -20,6 +20,10 @@ outcome: "Birdbrain turns an unsearchable bookmark pile into a private, progress
 
 Twitter bookmarks are where good ideas go to disappear: no search worth using, no organization, no export, and a platform that can take the pile away at any moment. Birdbrain treats that pile as what it actually is — a personal knowledge source — and quietly moves it somewhere it can be owned, searched, and understood.
 
+**It began with my own bookmark debt.** I had saved useful technical threads, references, and half-formed ideas for years, but returning to one depended on remembering the author or the exact phrasing. The collection was valuable in theory and nearly unusable in practice. Birdbrain came from wanting the archive to organize itself without asking me to change how I browse.
+
+**Why it is personal software.** It watches the bookmarking action I already use, stores the result in a database I control, and improves the archive in the background. There is no shared feed or publishing layer to maintain. The product is successful when an old idea returns at the moment I need it.
+
 **Capture costs nothing.** A browser extension listens to X's own GraphQL responses while you browse and lifts bookmark data straight out of the stream. There is no "save to Birdbrain" button, no copy-pasting links, no API keys rate-limiting your own data back to you. You bookmark the way you always did; the archive builds itself.
 
 **A pipeline does the librarian work.** Every captured post flows through a Celery + Redis background pipeline where Llama (via Groq) assigns topic labels and writes a one-line summary. The archive ends up browsable two ways at once: by topic, with live counts, or by meaning, through full-text search that covers the tweet, the author, and the AI summary.

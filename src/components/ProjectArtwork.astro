@@ -195,123 +195,125 @@ const { variant, detail = 'card' } = Astro.props;
     variant === 'form' && detail === 'blueprint' && (
       <svg viewBox="0 0 180 128" role="presentation">
         <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
-        <rect class="artwork-structure" x="8" y="10" width="126" height="108" rx="7" />
-
-        <path d="M9 80c25-8 92-8 124 3v34H9z" />
-        <path d="M9 80c11-22 26-31 63-32 34-1 49 11 61 35" opacity=".4" />
-        <g class="artwork-detail" opacity=".28">
-          <path d="m16 113 55-34M36 117l38-38M58 117l18-38M80 117l-2-38M102 117 81 79M124 117 84 79" />
-          <path d="M12 91h116M10 101h121M9 110h124" />
-        </g>
+        <rect class="artwork-structure" x="8" y="10" width="124" height="108" rx="2.5" />
 
         <g class="artwork-detail">
-          <circle cx="22" cy="25" r="8" />
-          <circle cx="22" cy="25" r="3" />
-          <path d="M27 31 45 45M30 24l24 13M22 36v9M12 31l-5 4" opacity=".62" />
-          <text x="11" y="15" font-size="3">KEY LIGHT · STUDIO</text>
+          <path d="M12 19h116" opacity=".28" />
+          <text x="13" y="16" font-size="2.7">SCENE / DEVICE MOCKUP</text>
+          <text x="126" y="16" font-size="2.7" text-anchor="end">LIVE</text>
+          <circle cx="117.5" cy="15.2" r="1.2" />
         </g>
 
-        <ellipse class="artwork-card-depth artwork-shadow-plane" cx="74" cy="99" rx="47" ry="9" />
+        <path d="M9 84c26-8 90-8 122 2v31H9z" opacity=".45" />
+        <path class="artwork-structure" d="M9 84c14-17 31-24 61-24 31 0 48 8 61 26" opacity=".42" />
+        <g class="artwork-detail" opacity=".16">
+          <path d="m18 116 49-32M42 117l28-33M67 117l5-33M92 117 75 84M118 117 78 84" />
+          <path d="M12 96h116M10 107h120" />
+        </g>
+
+        <g class="artwork-detail" transform="translate(20 32)">
+          <circle cx="0" cy="0" r="6.5" />
+          <circle cx="0" cy="0" r="2.4" />
+          <path d="M5 4 18 14M7-1l19 7M0 7v8M-7 4l-4 3" opacity=".55" />
+          <path d="M7 7 38 35" opacity=".34" />
+          <text x="-7" y="-11" font-size="2.6">KEY / 72%</text>
+        </g>
+
+        <ellipse class="artwork-structure" cx="72" cy="100" rx="43" ry="7.5" opacity=".58" />
+        <ellipse cx="72" cy="99" rx="31" ry="4.5" opacity=".3" />
         <g class="artwork-card-depth artwork-hatch">
-          <path d="m38 94 6 7m8-9 7 11m6-12 8 14m7-14 8 14m7-13 7 11m7-9 6 7" />
-        </g>
-        <ellipse class="artwork-structure" cx="72" cy="97" rx="47" ry="9" />
-        <ellipse cx="72" cy="97" rx="38" ry="6" opacity=".42" />
-        <g class="artwork-detail" opacity=".28">
-          <path d="m38 93 8 10M48 90l11 15M60 89l12 17M73 89l12 16M87 90l10 13M101 91l7 10" />
+          <path d="m46 100 3-2.6m2.8 4 3-2.6m2.8 4 3-2.6m2.8 4 3-2.6m2.8 4 3-2.6m2.8 4 3-2.6" />
         </g>
 
-        <g transform="translate(69 62) rotate(15)">
-          <rect class="artwork-surface artwork-hero" x="-26" y="-43" width="52" height="86" rx="10" />
-          <rect class="artwork-structure" x="-23" y="-40" width="46" height="80" rx="8" />
-          <rect class="artwork-soft-surface artwork-structure" x="-19" y="-35" width="38" height="70" rx="5" />
-          <rect x="-7" y="-38" width="14" height="2.5" rx="1.25" />
-          <circle cx="10" cy="-37" r=".8" />
-          <path d="M-26-25h-2v10h2M-26-10h-2v7h2M26-18h2v15h-2" />
+        <g transform="translate(73 64) rotate(11)">
+          <rect class="artwork-surface artwork-hero" x="-24" y="-41" width="48" height="82" rx="7" />
+          <rect class="artwork-structure" x="-21.5" y="-38.5" width="43" height="77" rx="5.5" />
+          <rect class="artwork-soft-surface artwork-structure" x="-18.5" y="-34" width="37" height="68" rx="3" />
+          <rect x="-5.7" y="-37" width="11.4" height="2.4" rx="1.2" />
+          <circle cx="9.5" cy="-35.8" r=".75" />
+          <path d="M-24-24h-2v9h2M-24-10h-2v7h2M24-17h2v14h-2" />
+
           <g class="artwork-detail">
-            <path d="M-14-27h28M-14-21h17M-14 23h28" opacity=".72" />
-            <rect x="-14" y="-15" width="12" height="12" rx="2" />
-            <rect x="2" y="-15" width="12" height="12" rx="2" />
-            <rect x="-14" y="1" width="28" height="17" rx="2" />
-            <path d="M-10 7h19M-10 11h14M-10 15h8" opacity=".55" />
+            <path d="M-13-25h26M-13-20h15" opacity=".72" />
+            <rect x="-13" y="-13" width="26" height="18" rx="1.5" />
+            <path d="m-8 1 5-6 4 4 4-5 5 7" opacity=".68" />
+            <path d="M-13 11h26M-13 16h18M-13 25h26" opacity=".6" />
           </g>
-          <path d="M-4 38h8" />
-          <path d="M0-31v62M-16 0h32" opacity=".18" />
-          <g class="artwork-card-depth artwork-hatch">
-            <path d="m18 16 4-4m-4 11 4-4m-5 12 4-4" />
+          <path d="M-3.5 36.5h7" />
+          <path class="artwork-detail" d="M0-30v60M-15 0h30" opacity=".12" />
+          <g class="artwork-detail">
+            <path d="M26-41h4.5M26 41h4.5" opacity=".5" />
+            <path d="M29.5-41v82" />
+            <path d="m28.4-38.2 1.1-2.8 1.1 2.8M28.4 38.2l1.1 2.8 1.1-2.8" />
+            <text x="33.2" y="0" font-size="2.6" text-anchor="middle" transform="rotate(90 33.2 0)">146.6 MM</text>
           </g>
         </g>
 
         <g class="artwork-detail">
-          <path d="M31 71c-9-18 0-38 17-51M35 18l13 2-5 12" />
-          <path d="M27 71c-11-21-2-43 17-57" opacity=".38" />
-          <g opacity=".5">
-            <path d="M32 55h-4M34 45h-4M38 35h-4M44 25h-4" />
-          </g>
-          <text x="16" y="58" font-size="3">Y · 24°</text>
+          <path d="M38 74a39 39 0 0 1 12-45" opacity=".5" />
+          <path d="M38 74a39 39 0 0 1 5-35" />
+          <path d="m41 40 2-5 5 2" />
+          <text x="22" y="63" font-size="2.7">Y 11°</text>
         </g>
 
-        <g class="artwork-detail">
-          <path d="M43 19 36 16M43 19l-3 7M98 37l8-3M98 37l5 6" />
-          <path d="M36 13v5M106 31v5M37 15h69" opacity=".52" />
-          <text x="67" y="13" font-size="3" text-anchor="middle">6.1 IN / 154.9 MM</text>
+        <g class="artwork-detail" transform="translate(117 101)">
+          <circle cx="0" cy="0" r="1.8" />
+          <path d="M0 0h8M0 0V-8M0 0l-5 5" />
+          <text x="9" y="1" font-size="2.3">X</text>
+          <text x="-1" y="-10" font-size="2.3">Y</text>
+          <text x="-8" y="8" font-size="2.3">Z</text>
         </g>
 
-        <g class="artwork-detail" transform="translate(117 98)">
-          <circle cx="0" cy="0" r="2" />
-          <path d="M0 0h10M0 0V-10M0 0l-7 6" />
-          <text x="11" y="1" font-size="2.5">X</text>
-          <text x="-1" y="-12" font-size="2.5">Y</text>
-          <text x="-11" y="9" font-size="2.5">Z</text>
-        </g>
+        <path class="artwork-detail" d="M12 24v-3h3M125 21h3v3M12 111v3h3M125 114h3v-3" opacity=".48" />
+        <text class="artwork-detail" x="13" y="110" font-size="2.45">ORBIT · ZOOM · COMPOSE</text>
 
-        <path class="artwork-detail" d="M12 17v-3h3M127 14h3v3M12 111v3h3M127 114h3v-3" opacity=".6" />
-        <text class="artwork-detail" x="13" y="108" font-size="2.6">DRAG TO ROTATE · SCROLL TO ZOOM</text>
-
-        <rect class="artwork-card-depth artwork-plane" x="139" y="10" width="33" height="108" rx="7" />
-        <rect class="artwork-structure" x="139" y="10" width="33" height="108" rx="7" />
+        <rect class="artwork-card-depth artwork-plane" x="137" y="10" width="35" height="108" rx="2.5" />
+        <rect class="artwork-structure" x="137" y="10" width="35" height="108" rx="2.5" />
         <g class="artwork-card-only">
-          <path d="M145 29h20M145 40h17M145 51h20M145 62h14" />
-          <circle cx="147" cy="76" r="2" />
-          <circle cx="154" cy="76" r="2" />
-          <circle cx="161" cy="76" r="2" />
-          <path d="M145 88h20M145 96h20" />
-          <rect x="145" y="106" width="21" height="6" rx="3" />
+          <path d="M143 29h23M143 40h19M143 51h23M143 62h16" />
+          <circle cx="146" cy="76" r="2" />
+          <circle cx="153" cy="76" r="2" />
+          <circle cx="160" cy="76" r="2" />
+          <path d="M143 88h23M143 96h23" />
+          <rect x="143" y="106" width="24" height="6" rx="3" />
         </g>
         <g class="artwork-detail">
-          <text x="144" y="19" font-size="5" font-weight="650">Turntable</text>
-          <path d="M144 23h23" opacity=".42" />
+          <text x="142" y="19" font-size="4.2" font-weight="650">Turntable</text>
+          <text x="167" y="18.8" font-size="2.2" text-anchor="end" opacity=".52">01</text>
+          <path d="M142 23h25" opacity=".38" />
 
-          <text x="144" y="29" font-size="2.8">ANGLE</text>
-          <rect x="144" y="32" width="10" height="6" rx="3" />
-          <rect x="156" y="32" width="11" height="6" rx="3" />
-          <text x="146.5" y="36" font-size="2.5">Hero</text>
-          <text x="158" y="36" font-size="2.5">Iso</text>
+          <text x="142" y="29" font-size="2.6">ANGLE</text>
+          <rect class="artwork-soft-surface artwork-structure" x="142" y="32" width="11" height="6" rx="1.5" />
+          <rect x="155" y="32" width="12" height="6" rx="1.5" opacity=".8" />
+          <text x="145" y="36" font-size="2.4">Hero</text>
+          <text x="158" y="36" font-size="2.4">Iso</text>
 
-          <text x="144" y="44" font-size="2.8">MODEL</text>
-          <rect x="144" y="47" width="23" height="7" rx="2" />
-          <text x="147" y="51.7" font-size="2.7">iPhone Pro⌄</text>
+          <text x="142" y="44" font-size="2.6">MODEL</text>
+          <rect x="142" y="47" width="25" height="7" rx="1" />
+          <text x="145" y="51.7" font-size="2.55">iPhone Pro</text>
+          <path d="m162.6 49.4 1.7 2 1.7-2" opacity=".7" />
 
-          <text x="144" y="60" font-size="2.8">FINISH</text>
-          <circle cx="147" cy="65" r="2.2" />
-          <circle cx="153" cy="65" r="2.2" />
+          <text x="142" y="60" font-size="2.6">FINISH</text>
+          <circle class="artwork-soft-surface artwork-structure" cx="145" cy="65" r="2.2" />
+          <circle cx="145" cy="65" r="3.4" opacity=".7" />
+          <circle cx="152" cy="65" r="2.2" />
           <circle cx="159" cy="65" r="2.2" />
-          <circle cx="165" cy="65" r="2.2" />
+          <circle cx="166" cy="65" r="2.2" />
 
-          <text x="144" y="73" font-size="2.8">ROTATION</text>
+          <text x="142" y="73" font-size="2.6">ROTATION</text>
           <g>
-            <text x="144" y="79" font-size="2.4">X</text><path d="M148 78h19" /><circle cx="154" cy="78" r="1.4" />
-            <text x="144" y="85" font-size="2.4">Y</text><path d="M148 84h19" /><circle cx="160" cy="84" r="1.4" />
-            <text x="144" y="91" font-size="2.4">Z</text><path d="M148 90h19" /><circle cx="151" cy="90" r="1.4" />
+            <text x="142" y="79" font-size="2.3">X</text><path d="M146 78h17" /><path class="artwork-structure" d="M146 78h7" /><circle cx="153" cy="78" r="1.35" /><text x="167" y="79" font-size="2.1" text-anchor="end" opacity=".7">8°</text>
+            <text x="142" y="85" font-size="2.3">Y</text><path d="M146 84h17" /><path class="artwork-structure" d="M146 84h12" /><circle cx="158" cy="84" r="1.35" /><text x="167" y="85" font-size="2.1" text-anchor="end" opacity=".7">11°</text>
+            <text x="142" y="91" font-size="2.3">Z</text><path d="M146 90h17" /><path class="artwork-structure" d="M146 90h4" /><circle cx="150" cy="90" r="1.35" /><text x="167" y="91" font-size="2.1" text-anchor="end" opacity=".7">2°</text>
           </g>
 
-          <text x="144" y="98" font-size="2.8">BACKGROUND</text>
-          <rect x="144" y="101" width="6" height="5" rx="1" />
-          <rect x="152" y="101" width="6" height="5" rx="1" />
-          <rect x="160" y="101" width="7" height="5" rx="1" />
+          <text x="142" y="98" font-size="2.6">BACKGROUND</text>
+          <rect class="artwork-soft-surface artwork-structure" x="142" y="101" width="7" height="5" rx=".5" />
+          <rect x="151" y="101" width="7" height="5" rx=".5" />
+          <rect x="160" y="101" width="7" height="5" rx=".5" />
 
-          <rect x="144" y="109" width="23" height="6" rx="3" />
-          <text x="148" y="113" font-size="2.8">Export PNG</text>
+          <rect class="artwork-soft-surface artwork-structure" x="142" y="109" width="25" height="6" rx="1.5" />
+          <text x="154.5" y="113" font-size="2.6" text-anchor="middle">Export PNG</text>
         </g>
       </svg>
     )

@@ -20,6 +20,10 @@ outcome: "Stone is an ongoing exploration of what a calm, private, context-aware
 
 Most knowledge tools make you choose: a smart, connected workspace that lives on someone else's servers, or plain files that stay dumb. Stone refuses the trade. It is a native desktop app where the workspace is just a folder of Markdown on disk — and everything intelligent about it runs locally.
 
+**It started with context scattered across my day.** Notes lived in Markdown, meetings became recordings or forgotten details, and the next action was split across mail, calendar, and task lists. I did not need another place to feed. I needed the files I already trusted to remember more and the day's context to meet in one view.
+
+**Why it is personal software.** Stone is shaped by the way I work: quick capture when an idea interrupts, a journal organized by day, meetings that become searchable without an upload, and project memory that can be inspected in any editor. Owning the files is not an export feature. It is what makes the workspace safe to keep using.
+
 **The files are the product.** Notes, daily journals, tasks, and meeting records are plain Markdown you can open in any editor, diff in Git, or walk away with. SQLite holds only metadata and search indexes, and every index can be rebuilt from the files at any time. There is no export step because there is nothing to export from.
 
 **The day is the unit of work.** Stone's Today view assembles the things that actually define a working day — calendar events, unread mail, open tasks, today's journal, and this morning's meetings — into one calm column, then offers to distill it into a day summary you can save back into the journal. A system-wide quick-capture window catches stray thoughts without breaking whatever you were doing.
