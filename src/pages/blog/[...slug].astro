@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-import { blogPostingSchema } from '../../lib/schema';
+import { blogPostingSchema, breadcrumbSchema } from '../../lib/schema';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -15,15 +15,26 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 
 const publishedIso = post.data.date.toISOString();
+const modifiedIso = post.data.updated?.toISOString();
 const ogImage = post.data.ogImage || `/og/blog/${post.id}.png`;
+const wordCount = post.body ? post.body.split(/\s+/).filter(Boolean).length : undefined;
 const postSchema = blogPostingSchema({
   title: post.data.title,
   description: post.data.description,
   slug: post.id,
   datePublished: publishedIso,
+  dateModified: modifiedIso,
   author: post.data.author,
   image: ogImage,
+  tags: post.data.tags,
+  category: post.data.category,
+  wordCount,
 });
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog' },
+  { name: post.data.title, path: `/blog/${post.id}` },
+]);
 
 function formatDate(date: Date): string {
   const year = date.getFullYear();
@@ -34,16 +45,18 @@ function formatDate(date: Date): string {
 ---
 
 <Base
-  title={`${post.data.title} - Blog | Peritissimus`}
+  title={`${post.data.title} - Peritissimus`}
+  ogTitle={post.data.title}
   description={post.data.description}
   ogImage={ogImage}
   currentPath={`/blog/${post.id}`}
   type="article"
   publishedDate={publishedIso}
+  modifiedDate={modifiedIso}
   author={post.data.author}
-  jsonLd={postSchema}
+  jsonLd={[postSchema, breadcrumbs]}
 >
-  <section class="content-section blog-post">
+  <article class="content-section blog-post">
     <div class="section-inner">
       <div class="post-header">
         <div class="post-back">
@@ -51,7 +64,9 @@ function formatDate(date: Date): string {
         </div>
 
         <div class="post-meta-header">
-          <span class="post-date">{formatDate(post.data.date)}</span>
+          <time class="post-date" datetime={formatDate(post.data.date)}>
+            {formatDate(post.data.date)}
+          </time>
           <span class="post-tag">{post.data.category || 'AI/LLM'}</span>
         </div>
 
@@ -74,5 +89,5 @@ function formatDate(date: Date): string {
         <a href="/blog" class="nav-link">← All posts</a>
       </div>
     </div>
-  </section>
+  </article>
 </Base>

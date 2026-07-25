@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { blogIndexSchema, breadcrumbSchema } from '../../lib/schema';
 
 // Get all blog posts, sorted by date (newest first)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -14,6 +15,14 @@ function formatDate(date: Date): string {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
+const indexSchema = blogIndexSchema(
+  sortedPosts.map((post) => ({ title: post.data.title, slug: post.id }))
+);
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog' },
+]);
 ---
 
 <Base
@@ -21,6 +30,7 @@ function formatDate(date: Date): string {
   description="Technical writings and thoughts on AI, system architecture, and software engineering by Kushal Patankar."
   ogImage="/og/blog.png"
   currentPath="/blog"
+  jsonLd={[indexSchema, breadcrumbs]}
 >
   <section id="blog" class="content-section page-blog">
     <div class="section-inner">
@@ -43,7 +53,9 @@ function formatDate(date: Date): string {
           <article class="blog-card">
             <a href={`/blog/${post.id}`} class="blog-card-link">
               <div class="blog-card-header">
-                <span class="blog-date">{formatDate(post.data.date)}</span>
+                <time class="blog-date" datetime={formatDate(post.data.date)}>
+                  {formatDate(post.data.date)}
+                </time>
                 <span class="blog-tag">{post.data.category || 'AI/LLM'}</span>
               </div>
               <div class="blog-card-body">
