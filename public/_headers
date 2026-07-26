@@ -20,9 +20,28 @@
 /*.woff
   Cache-Control: public, max-age=31536000, immutable
 
-# HTML pages - short cache for freshness
-/*.html
-  Cache-Control: public, max-age=0, must-revalidate
+# HTML pages - revalidate, but paint from cache while doing so.
+# Routes are extensionless, so `/*.html` never matches and each family is listed.
+# Cache-Control must stay off the catch-all `/*`: Pages joins duplicate header
+# values with a comma, which would corrupt the immutable rules above.
+# `must-revalidate` is omitted deliberately - it overrides stale-while-revalidate.
+# s-maxage only applies once a Cloudflare Cache Rule marks HTML cache-eligible.
+/
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/about
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/contact
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/software
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/terminal
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/blog
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/blog/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/work/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 
 # Default for all pages
 /*
