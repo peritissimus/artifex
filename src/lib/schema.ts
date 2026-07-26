@@ -8,12 +8,12 @@ export const SITE_URL = 'https://peritissimus.com';
 
 export const AUTHOR_NAME = 'Kushal Patankar';
 
-/** Canonical Person entity for Kushal Patankar (Peritissimus). */
+/** Canonical Person entity for Kushal Patankar (peritissimus). */
 export const personSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: AUTHOR_NAME,
-  alternateName: 'Peritissimus',
+  alternateName: 'peritissimus',
   url: SITE_URL,
   jobTitle: 'Founding Engineer & System Architect',
   description:
@@ -33,7 +33,7 @@ export const personSchema: Record<string, unknown> = {
 export const websiteSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Peritissimus',
+  name: 'peritissimus',
   alternateName: AUTHOR_NAME,
   url: SITE_URL,
   inLanguage: 'en',
@@ -116,7 +116,7 @@ export function blogIndexSchema(
   return {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'Peritissimus — Blog',
+    name: 'peritissimus — Blog',
     url: `${SITE_URL}/blog`,
     inLanguage: 'en',
     author: {

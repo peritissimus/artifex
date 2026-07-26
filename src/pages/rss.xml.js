@@ -6,7 +6,7 @@ export async function GET(context) {
   const sorted = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return rss({
-    title: 'Peritissimus — Blog',
+    title: 'peritissimus — Blog',
     description:
       'Technical writings and thoughts on AI, system architecture, and software engineering by Kushal Patankar.',
     site: context.site,

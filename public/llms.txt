@@ -1,4 +1,4 @@
-# Peritissimus
+# peritissimus
 
 > The portfolio of Kushal Patankar, a founding engineer and systems architect building scalable AI products and infrastructure.
 
