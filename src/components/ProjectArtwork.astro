@@ -12,8 +12,8 @@ const { variant, detail = 'card' } = Astro.props;
     variant === 'memory' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
         <defs>
-          <pattern id="pt-mem" width="3.2" height="10" patternUnits="userSpaceOnUse">
-            <path d="M1.6 0v10" opacity=".5" />
+          <pattern id="pt-mem" width="5.2" height="10" patternUnits="userSpaceOnUse">
+            <path d="M2.6 0v10" style="stroke-width:1;stroke-opacity:.42" />
           </pattern>
           <radialGradient id="glo-mem" cx=".5" cy=".44" r=".6">
             <stop offset="0" style="stop-color:var(--card-surface)" stop-opacity=".85" />
