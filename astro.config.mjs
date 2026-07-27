@@ -1,6 +1,7 @@
 // @ts-check
 import { readdirSync, readFileSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { remarkCaptureCodeLang, rehypeBlogTransform } from './src/plugins/rehype-blog-transform.js';
@@ -55,8 +56,12 @@ export default defineConfig({
     shikiConfig: {
       theme: 'css-variables',
     },
-    remarkPlugins: [remarkCaptureCodeLang],
-    rehypePlugins: [rehypeBlogTransform],
+    // Astro 7 defaults to the Sätteri processor; the blog's custom remark/rehype
+    // plugins need the unified() pipeline from @astrojs/markdown-remark.
+    processor: unified({
+      remarkPlugins: [remarkCaptureCodeLang],
+      rehypePlugins: [rehypeBlogTransform],
+    }),
   },
   vite: {
     css: {
