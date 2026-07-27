@@ -36,5 +36,12 @@
     "prettier-plugin-astro": "^0.14.1",
     "satori": "^0.18.3",
     "wrangler": "^4.114.0"
+  },
+  "pnpm": {
+    "comment": "Overrides only where the parent's declared range excludes the patched version: astro pins sharp ^0.34, and astro/vite pin esbuild ^0.27. Everything else resolves to a patched version on its own.",
+    "overrides": {
+      "esbuild@>=0.27.3 <0.28.1": "0.28.1",
+      "sharp@<0.35.0": "0.35.2"
+    }
   }
 }
