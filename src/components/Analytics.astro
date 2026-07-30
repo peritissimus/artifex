@@ -23,7 +23,12 @@
   //
   // The import is dynamic so posthog-js lands in its own chunk, fetched after
   // the page paints rather than competing with it in the module graph.
-  if (location.hostname === 'peritissimus.com') {
+  // `www` serves the site directly rather than redirecting to the apex, so an
+  // exact-match guard would silently drop every visitor who arrives that way.
+  // Suffix-matched against a leading dot, so a lookalike domain ending in the
+  // same string cannot report into this project.
+  const { hostname } = location;
+  if (hostname === 'peritissimus.com' || hostname.endsWith('.peritissimus.com')) {
     import('posthog-js').then(({ default: posthog }) => {
       posthog.init('phc_fXfkZKTYSViD11arOq26zRF4Mipj57iKq1igBAw7E3h', {
         api_host: 'https://us.i.posthog.com',
