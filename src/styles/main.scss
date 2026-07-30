@@ -225,6 +225,16 @@ a {
   text-wrap: pretty;
 }
 
+// Availability sits above the contact channels and needs to read as a distinct
+// statement, not another paragraph of the lede — hence the rule and the inset.
+.contact-availability {
+  padding-left: 1rem;
+  border-left: 2px solid var(--border);
+  color: var(--muted);
+  margin-bottom: 2rem !important;
+  text-wrap: pretty;
+}
+
 // ── Home ───────────────────────────────────────────────────────────────────
 .home-inner {
   max-width: var(--wide);
