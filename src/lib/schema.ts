@@ -18,10 +18,30 @@ export const personSchema: Record<string, unknown> = {
   jobTitle: 'Founding Engineer & System Architect',
   description:
     'Founding engineer and system architect building scalable AI products and infrastructure.',
+  email: 'mailto:149.kush@gmail.com',
+  image: `${SITE_URL}/og/home.png`,
   alumniOf: {
     '@type': 'CollegeOrUniversity',
     name: 'Indian Institute of Technology Kharagpur',
   },
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Zoca',
+  },
+  // Drives entity-level topical relevance — this is what a recruiter's
+  // "<stack> engineer" search has to match against.
+  knowsAbout: [
+    'Software Architecture',
+    'Distributed Systems',
+    'Backend Engineering',
+    'Applied AI',
+    'Large Language Models',
+    'AI Infrastructure',
+    'TypeScript',
+    'Python',
+    'Cloud Infrastructure',
+    'Infrastructure Automation',
+  ],
   sameAs: [
     'https://github.com/peritissimus',
     'https://twitter.com/peritissimus_',
