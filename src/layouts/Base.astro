@@ -1,5 +1,6 @@
 ---
 import SEO from '../components/SEO.astro';
+import Analytics from '../components/Analytics.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import newsreaderRegularUrl from '@fontsource/newsreader/files/newsreader-latin-400-normal.woff2?url';
@@ -116,6 +117,8 @@ const {
         flex-direction: column;
       }
     </style>
+
+    <Analytics />
   </head>
   <body>
     <Header currentPath={currentPath} />

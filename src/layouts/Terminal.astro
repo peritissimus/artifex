@@ -1,5 +1,6 @@
 ---
 import SEO from '../components/SEO.astro';
+import Analytics from '../components/Analytics.astro';
 
 interface Props {
   title: string;
@@ -39,6 +40,8 @@ const { title, description, ogImage, noindex } = Astro.props;
         -moz-osx-font-smoothing: grayscale;
       }
     </style>
+
+    <Analytics />
   </head>
   <body>
     <slot />

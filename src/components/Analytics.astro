@@ -1,0 +1,148 @@
+---
+/**
+ * PostHog — recruiter-intent events.
+ *
+ * Traffic itself is covered by Cloudflare Web Analytics, which Pages injects
+ * automatically; nothing for it is needed here, and adding the beacon by hand
+ * would double-count. The two answer different questions:
+ *   - Cloudflare: visitors, pageviews, referrers. Survives ad-blockers, but
+ *     cannot track events at all.
+ *   - PostHog: what people actually did. Ad-blockers do block it, so treat its
+ *     visitor counts as a floor and trust Cloudflare's for traffic.
+ *
+ * The key below is write-only and public by design — it ships in the page
+ * source either way. Do not put a PostHog *personal* API key here; that one is
+ * a real secret.
+ */
+---
+
+<script>
+  // Only the live site reports. Without this, `astro dev` and Cloudflare
+  // preview deploys would file their events alongside real visitors, and the
+  // first week of data would be mostly you.
+  //
+  // The import is dynamic so posthog-js lands in its own chunk, fetched after
+  // the page paints rather than competing with it in the module graph.
+  if (location.hostname === 'peritissimus.com') {
+    import('posthog-js').then(({ default: posthog }) => {
+      posthog.init('phc_fXfkZKTYSViD11arOq26zRF4Mipj57iKq1igBAw7E3h', {
+        api_host: 'https://us.i.posthog.com',
+        // Pins behavioural defaults to a date so a posthog-js upgrade cannot
+        // silently change what gets captured. Bump deliberately, never blindly.
+        defaults: '2026-05-30',
+        // localStorage rather than cookies: no cookie-banner obligation, and a
+        // full-page MPA navigation still keeps the session intact, so the
+        // "which pages did this visitor read" journey survives.
+        persistence: 'localStorage',
+        // `capture_pageview` is left to the dated defaults above. Setting it
+        // explicitly would pin the old page-load mode; the initial load is
+        // captured either way, and this site navigates with full page loads.
+        capture_pageleave: true,
+      });
+
+      // Any deliberate contact action converts the visit, so a `visit_ended`
+      // without it is the "read the whole thing, left anyway" case — the gap
+      // worth fixing.
+      const CONVERTING = new Set([
+        'contact_email_click',
+        'resume_download',
+        'social_profile_click',
+      ]);
+      let converted = false;
+
+      /** Fire-and-forget; a broken listener must never take the page down. */
+      const track = (event: string, props: Record<string, unknown>) => {
+        if (CONVERTING.has(event)) converted = true;
+        try {
+          posthog.capture(event, props);
+        } catch {
+          /* analytics must not break the page */
+        }
+      };
+
+      // --- Recruiter-intent signals ------------------------------------
+      // A pageview says someone arrived. These say they were interested.
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        const link = target instanceof Element ? target.closest('a[href]') : null;
+        if (!link) return;
+
+        const href = link.getAttribute('href') || '';
+        const label = (link.textContent || '').trim().slice(0, 80);
+
+        if (href.startsWith('mailto:')) {
+          track('contact_email_click', { path: location.pathname });
+          return;
+        }
+
+        if (/\.pdf($|\?)/i.test(href) || /resume|\bcv\b/i.test(href)) {
+          track('resume_download', { href, path: location.pathname });
+          return;
+        }
+
+        let host: string;
+        try {
+          host = new URL(href, location.href).host;
+        } catch {
+          return;
+        }
+        if (!host || host === location.host) return;
+
+        const network = /linkedin\.com$/.test(host)
+          ? 'linkedin'
+          : /github\.com$/.test(host)
+            ? 'github'
+            : /(twitter|x)\.com$/.test(host)
+              ? 'twitter'
+              : null;
+
+        track(network ? 'social_profile_click' : 'outbound_click', {
+          ...(network ? { network } : {}),
+          host,
+          label,
+          path: location.pathname,
+        });
+      });
+
+      // --- Depth and dwell ---------------------------------------------
+      // With session replay deliberately off, these two carry the diagnostic
+      // load: they say how far someone got and how long they stayed.
+
+      const started = Date.now();
+      let deepestQuartile = 0;
+
+      const recordDepth = () => {
+        const scrollable = Math.max(document.body.scrollHeight - innerHeight, 0);
+        // A page shorter than the viewport is fully read by definition.
+        const ratio = scrollable === 0 ? 1 : Math.min(scrollY / scrollable, 1);
+        const quartile = Math.floor(ratio * 4);
+        if (quartile <= deepestQuartile) return;
+        deepestQuartile = quartile;
+        track('scroll_depth', {
+          depth: `${Math.min(quartile, 4) * 25}%`,
+          path: location.pathname,
+        });
+      };
+
+      addEventListener('scroll', recordDepth, { passive: true });
+      recordDepth();
+
+      // `visibilitychange` fires on tab close and mobile backgrounding, where
+      // `beforeunload` does not. This is the one reliable exit hook.
+      addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'hidden') return;
+        const seconds = Math.round((Date.now() - started) / 1000);
+        track('visit_ended', {
+          path: location.pathname,
+          seconds,
+          // Buckets survive PostHog's UI better than raw seconds when you want
+          // "how many recruiters actually read this" at a glance.
+          dwell: seconds < 10 ? 'bounce' : seconds < 30 ? 'skim' : seconds < 120 ? 'read' : 'study',
+          max_depth: `${Math.min(deepestQuartile, 4) * 25}%`,
+          converted,
+        });
+      });
+    });
+  }
+</script>
