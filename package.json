@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "og:generate": "node scripts/generate-og-images.js",
+    "posthog:dashboard": "node scripts/posthog-dashboard.js",
     "astro": "astro"
   },
   "dependencies": {

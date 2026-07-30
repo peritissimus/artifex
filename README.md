@@ -38,6 +38,7 @@ The dev server runs at `http://localhost:4321`.
 | `pnpm test:e2e:headed`    | Run Playwright tests in a visible browser           |
 | `pnpm playwright:install` | Download the Chromium build tests need              |
 | `pnpm og:generate`        | Regenerate Open Graph images into `public/og/`      |
+| `pnpm posthog:dashboard`  | Create the Recruiter Funnel dashboard in PostHog    |
 | `pnpm format`             | Format with Prettier                                |
 | `pnpm format:check`       | Check formatting without writing                    |
 
