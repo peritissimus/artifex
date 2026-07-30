@@ -1,55 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { personSchema } from '../lib/schema';
-
-const workExperience = [
-  {
-    company: 'Zoca',
-    role: 'Dev',
-    date: 'Nov 2024 - Present',
-    location: 'Phoenix, Arizona, United States · On-site',
-    link: '/work/zoca',
-  },
-  {
-    company: 'Deepmynd Innovative Technologies Pvt Ltd',
-    role: 'Co-Founder · Full-time',
-    date: 'May 2024 - Present',
-    location: 'Crafting next-generation products for Indian consumers',
-  },
-  {
-    company: 'Brihaspati AI',
-    role: 'Co-Founder',
-    date: 'May 2024 - Nov 2024',
-    location: 'On-site',
-    link: '/work/brihaspati',
-  },
-  {
-    company: 'Dübverse',
-    role: 'Founding Member (Engineering) · Full-time',
-    date: 'Dec 2021 - Apr 2024',
-    location: 'Gurugram, Haryana, India · On-site',
-    link: '/work/dubverse',
-  },
-  {
-    company: 'SimpleSounds',
-    role: 'Co-Founder · Full-time',
-    date: 'Feb 2021 - Dec 2021',
-    location: 'Bengaluru, Karnataka, India · Remote',
-    link: '/work/simplesounds',
-  },
-  {
-    company: 'CatrovaCer',
-    role: 'Co-Founder and CTO · Full-time',
-    date: 'Jan 2020 - Jan 2021',
-    location: 'Greater Chicago Area · Remote',
-  },
-  {
-    company: 'Technology Literary Society, IIT Kharagpur',
-    role: 'Governor',
-    date: 'Jul 2019 - Aug 2020',
-    location: 'Kharagpur Area, India',
-  },
-];
+import { roles as workExperience, metrics } from '../lib/resume';
 
 // Add real testimonials here when available — the section renders only when
 // this array is non-empty. Shape: { quote, name, role }.
@@ -102,18 +54,14 @@ function initials(name: string): string {
         </p>
 
         <div class="about-metrics" aria-label="Selected experience highlights">
-          <div class="metric-item">
-            <span class="metric-value">6+</span>
-            <span class="metric-label">Years building production systems</span>
-          </div>
-          <div class="metric-item">
-            <span class="metric-value">570K+</span>
-            <span class="metric-label">Hours of audio-video processed</span>
-          </div>
-          <div class="metric-item">
-            <span class="metric-value">1M+</span>
-            <span class="metric-label">Users reached through AI products</span>
-          </div>
+          {
+            metrics.map((metric) => (
+              <div class="metric-item">
+                <span class="metric-value">{metric.value}</span>
+                <span class="metric-label">{metric.label}</span>
+              </div>
+            ))
+          }
         </div>
 
         {testimonials.length > 0 && (

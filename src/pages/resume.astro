@@ -1,0 +1,331 @@
+---
+import Base from '../layouts/Base.astro';
+import { personSchema } from '../lib/schema';
+import { resumeRoles as roles, education, skills } from '../lib/resume';
+
+const email = '149.kush@gmail.com';
+const links = [
+  { label: 'peritissimus.com', href: 'https://peritissimus.com' },
+  { label: 'github.com/peritissimus', href: 'https://github.com/peritissimus' },
+  { label: 'linkedin.com/in/peritissimus', href: 'https://linkedin.com/in/peritissimus' },
+];
+---
+
+<Base
+  title="Résumé - Kushal Patankar"
+  ogTitle="Résumé — Kushal Patankar"
+  description="Résumé of Kushal Patankar — founding engineer and system architect. Six years building AI products, distributed backends, and the infrastructure under them."
+  currentPath="/resume"
+  jsonLd={personSchema}
+>
+  <section id="resume" class="content-section page-resume">
+    <div class="section-inner">
+      <p class="page-kicker">Curriculum vitae</p>
+      <h1 class="section-title">Résumé</h1>
+
+      <div class="section-content">
+        <!-- Screen-only: print is how this becomes a shareable PDF, so say so
+             rather than leaving people hunting for a download link. -->
+        <p class="resume-hint no-print">
+          <button type="button" class="resume-print" id="resume-print">Save as PDF</button>
+          <span>— or press {' '}<kbd>⌘</kbd><kbd>P</kbd>. The layout is built for print.</span>
+        </p>
+
+        <header class="resume-head">
+          <h2 class="resume-name">Kushal Patankar</h2>
+          <p class="resume-title">Founding Engineer &amp; System Architect</p>
+          <p class="resume-contact">
+            <a href={`mailto:${email}`}>{email}</a>
+            {
+              links.map((link) => (
+                <>
+                  <span class="resume-sep" aria-hidden="true">·</span>
+                  <a href={link.href} rel="noopener">
+                    {link.label}
+                  </a>
+                </>
+              ))
+            }
+          </p>
+        </header>
+
+        <section class="resume-section">
+          <h3 class="resume-heading">Experience</h3>
+          {
+            roles.map((role) => (
+              <article class="resume-role">
+                <div class="resume-role-head">
+                  <h4>
+                    {role.link ? <a href={role.link}>{role.company}</a> : role.company}
+                    <span class="resume-role-title">{role.role}</span>
+                  </h4>
+                  <span class="resume-role-meta">
+                    {role.date}
+                    <span class="resume-role-location">{role.location}</span>
+                  </span>
+                </div>
+                {role.highlights && (
+                  <ul class="resume-highlights">
+                    {role.highlights.map((highlight) => (
+                      <li>{highlight}</li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))
+          }
+        </section>
+
+        <section class="resume-section">
+          <h3 class="resume-heading">Skills</h3>
+          <dl class="resume-skills">
+            {
+              skills.map((skill) => (
+                <div class="resume-skill">
+                  <dt>{skill.label}</dt>
+                  <dd>{skill.items}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </section>
+
+        <section class="resume-section">
+          <h3 class="resume-heading">Education</h3>
+          <div class="resume-role-head">
+            <h4>{education.institution}</h4>
+            <span class="resume-role-meta">{education.date}</span>
+          </div>
+          <p class="resume-education-degree">{education.degree}</p>
+        </section>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.getElementById('resume-print')?.addEventListener('click', () => print());
+</script>
+
+<style lang="scss">
+  .resume-hint {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--faint);
+    font-size: 0.875rem;
+  }
+
+  .resume-print {
+    font: inherit;
+    color: var(--fg);
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 0 0.15rem;
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease);
+
+    &:hover {
+      border-bottom-color: var(--fg);
+    }
+  }
+
+  kbd {
+    font-family: var(--mono);
+    font-size: 0.8em;
+  }
+
+  .resume-head {
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .resume-name {
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .resume-title {
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  .resume-contact {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair);
+    }
+  }
+
+  .resume-sep {
+    margin: 0 0.5rem;
+    color: var(--faint);
+  }
+
+  .resume-section + .resume-section {
+    margin-top: 2.25rem;
+  }
+
+  .resume-heading {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 1rem;
+  }
+
+  .resume-role + .resume-role {
+    margin-top: 1.5rem;
+  }
+
+  .resume-role-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+
+    h4 {
+      font-family: var(--serif);
+      font-size: 1.0625rem;
+      font-weight: 400;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px solid var(--hair);
+      }
+    }
+  }
+
+  .resume-role-title {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .resume-role-meta {
+    flex-shrink: 0;
+    text-align: right;
+    font-size: 0.8125rem;
+    color: var(--faint);
+    // Dates read as a column; proportional digits make the edge look ragged.
+    font-variant-numeric: tabular-nums;
+  }
+
+  .resume-role-location {
+    display: block;
+  }
+
+  .resume-highlights {
+    margin: 0.6rem 0 0;
+    padding-left: 1.1rem;
+    font-size: 0.9375rem;
+    color: var(--muted);
+
+    li + li {
+      margin-top: 0.3rem;
+    }
+  }
+
+  .resume-skill {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9375rem;
+
+    & + & {
+      margin-top: 0.45rem;
+    }
+
+    dt {
+      flex: 0 0 7.5rem;
+      color: var(--faint);
+    }
+
+    dd {
+      color: var(--muted);
+    }
+  }
+
+  .resume-education-degree {
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 34rem) {
+    .resume-role-head {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .resume-role-meta {
+      text-align: left;
+    }
+
+    .resume-skill {
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+  }
+
+  // ── Print ────────────────────────────────────────────────────────────────
+  // This is the deliverable a recruiter forwards, so it gets real attention:
+  // black on white regardless of the reader's theme, no chrome, and no role
+  // split across a page break.
+  @media print {
+    :global(.header),
+    :global(.footer),
+    .no-print {
+      display: none !important;
+    }
+
+    :global(:root) {
+      --bg: #ffffff;
+      --fg: #000000;
+      --muted: #333333;
+      --faint: #555555;
+      --border: #cccccc;
+      --hair: transparent;
+    }
+
+    :global(body) {
+      background: #fff;
+      font-size: 10.5pt;
+    }
+
+    :global(.page-kicker),
+    :global(.section-title) {
+      display: none;
+    }
+
+    :global(.content-section),
+    :global(.section-inner),
+    :global(.section-content) {
+      padding: 0 !important;
+      margin: 0 !important;
+      max-width: none !important;
+    }
+
+    .resume-role,
+    .resume-section {
+      break-inside: avoid;
+    }
+
+    .resume-contact a {
+      border-bottom: 0;
+    }
+  }
+</style>
