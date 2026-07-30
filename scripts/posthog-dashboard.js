@@ -142,6 +142,17 @@ const INSIGHTS = [
 
 async function resolveProjectId() {
   if (PROJECT_ID) return PROJECT_ID;
+
+  // A key scoped to one project is refused by the org-level listing, but
+  // `@current` is a project-based endpoint it can still reach. Try that first
+  // so scoped keys — the safer kind — work without extra configuration.
+  try {
+    const current = await api('/api/projects/@current/');
+    if (current?.id) return current.id;
+  } catch {
+    /* fall through to the org-level listing below */
+  }
+
   const projects = await api('/api/projects/');
   const results = projects?.results ?? [];
   if (results.length === 0) throw new Error('No projects visible to this API key.');
