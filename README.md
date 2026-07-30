@@ -105,6 +105,45 @@ Cloudflare builds and serves the site from the `main` branch through its Git int
 
 `public/_headers` controls caching and security headers. Hashed assets under `/_astro/*` are immutable for a year; HTML routes use `max-age=0` with `stale-while-revalidate`, listed per route family because `trailingSlash: 'never'` and `build.format: 'file'` mean a `/*.html` pattern never matches a real request. The catch-all `/*` block carries HSTS, `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` — keep `Cache-Control` out of it, since Cloudflare joins duplicate header values with a comma instead of overriding.
 
+## Analytics
+
+Two trackers, answering different questions:
+
+- **Cloudflare Web Analytics** — traffic, referrers, countries. Pages injects
+  the beacon automatically, so nothing in this repo configures it. Do not add
+  the beacon script by hand; it would double-count.
+- **PostHog** — intent events, wired in `src/components/Analytics.astro`. The
+  project key is inline and public by design (it is write-only and ships in the
+  page source regardless). A PostHog _personal_ API key is a real secret and
+  must never go here.
+
+The PostHog block is guarded on `location.hostname === 'peritissimus.com'`, so
+`astro dev` and preview deploys never file events against real visitors. It also
+loads as a dynamic chunk, fetched after paint rather than in the module graph.
+
+PostHog uses `localStorage` rather than cookies, which avoids a cookie-banner
+obligation while keeping a visitor's session intact across page navigations.
+`defaults` pins behaviour to a date so a `posthog-js` upgrade cannot silently
+change what is captured — bump it deliberately.
+
+Session replay is deliberately unused, so the event set has to carry the whole
+diagnosis on its own:
+
+| Event                  | Fires when                                                         |
+| ---------------------- | ------------------------------------------------------------------ |
+| `contact_email_click`  | A `mailto:` link is clicked                                        |
+| `resume_download`      | A `.pdf`, résumé, or CV link is clicked                            |
+| `social_profile_click` | An outbound LinkedIn/GitHub/Twitter link is clicked (`network`)    |
+| `outbound_click`       | Any other cross-origin link is clicked                             |
+| `scroll_depth`         | Each new 25% quartile is reached — once per quartile, per pageview |
+| `visit_ended`          | The tab is hidden or closed                                        |
+
+`visit_ended` is the one to build reports on. It carries `seconds`, a `dwell`
+bucket (`bounce` / `skim` / `read` / `study`), `max_depth`, and `converted` —
+true when the visit produced any contact action. A page with `study` dwell,
+100% depth, and `converted: false` is someone who read everything and still
+found no way to reach out.
+
 ## Releases
 
 `.github/workflows/main.yml` builds every push and pull request. Releases are opt-in per commit: put a marker in the commit **subject** line and the workflow tags, updates `CHANGELOG.md`, and creates a GitHub release.
