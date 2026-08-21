@@ -26,21 +26,45 @@
 # values with a comma, which would corrupt the immutable rules above.
 # `must-revalidate` is omitted deliberately - it overrides stale-while-revalidate.
 # s-maxage only applies once a Cloudflare Cache Rule marks HTML cache-eligible.
+#
+# `Vary: Accept` is what keeps the HTML and Markdown representations of a route
+# in separate cache entries - see functions/_middleware.js. Comma-joining is
+# correct for Vary, so listing it here is safe even though Cloudflare appends
+# `Accept-Encoding` of its own accord.
 /
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
 /about
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
 /contact
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
+/privacy
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
+/resume
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
 /software
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
 /terminal
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
 /blog
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
 /blog/*
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
 /work/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  Vary: Accept
+
+# Markdown twins of the pages above. Cloudflare serves `.md` as text/markdown
+# already; the middleware re-asserts it and adds the canonical link.
+/*.md
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 
 # Default for all pages

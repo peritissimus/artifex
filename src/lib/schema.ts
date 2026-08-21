@@ -8,6 +8,21 @@ export const SITE_URL = 'https://peritissimus.com';
 
 export const AUTHOR_NAME = 'Kushal Patankar';
 
+/** Contact address, reused by the Person and Organization entities. */
+export const CONTACT_EMAIL = '149.kush@gmail.com';
+
+/**
+ * Where the practice operates from. Kept to locality/region/country: there is
+ * no storefront to visit, and schema.org PostalAddress does not require a
+ * street address to be valid.
+ */
+export const postalAddress: Record<string, unknown> = {
+  '@type': 'PostalAddress',
+  addressLocality: 'Phoenix',
+  addressRegion: 'AZ',
+  addressCountry: 'US',
+};
+
 /** Canonical Person entity for Kushal Patankar (peritissimus). */
 export const personSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -18,7 +33,7 @@ export const personSchema: Record<string, unknown> = {
   jobTitle: 'Founding Engineer & System Architect',
   description:
     'Founding engineer and system architect building scalable AI products and infrastructure.',
-  email: 'mailto:149.kush@gmail.com',
+  email: `mailto:${CONTACT_EMAIL}`,
   image: `${SITE_URL}/og/home.png`,
   alumniOf: {
     '@type': 'CollegeOrUniversity',
@@ -47,6 +62,65 @@ export const personSchema: Record<string, unknown> = {
     'https://twitter.com/peritissimus_',
     'https://linkedin.com/in/peritissimus',
   ],
+  address: postalAddress,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'business inquiries',
+    email: CONTACT_EMAIL,
+    url: `${SITE_URL}/contact`,
+    availableLanguage: ['English'],
+    areaServed: 'Worldwide',
+  },
+};
+
+/**
+ * Organization entity for the peritissimus practice.
+ *
+ * Distinct from `personSchema` on purpose: assistants answering "who is this,
+ * how do I reach them, are they real" look for an Organization with a
+ * `contactPoint` and an `address`, and a bare Person entity does not satisfy
+ * that check. `founder` ties the two together so they read as one identity
+ * rather than two unrelated entities.
+ */
+export const organizationSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE_URL}#organization`,
+  name: 'peritissimus',
+  legalName: 'peritissimus',
+  alternateName: `${AUTHOR_NAME} — peritissimus`,
+  url: SITE_URL,
+  logo: `${SITE_URL}/apple-touch-icon.png`,
+  image: `${SITE_URL}/og/home.png`,
+  email: `mailto:${CONTACT_EMAIL}`,
+  description:
+    'Independent software practice of Kushal Patankar (peritissimus): founding-engineer work on AI products, distributed backends, and the infrastructure underneath them.',
+  founder: {
+    '@type': 'Person',
+    name: AUTHOR_NAME,
+    url: SITE_URL,
+  },
+  address: postalAddress,
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      contactType: 'business inquiries',
+      email: CONTACT_EMAIL,
+      url: `${SITE_URL}/contact`,
+      availableLanguage: ['English'],
+      areaServed: 'Worldwide',
+    },
+    {
+      '@type': 'ContactPoint',
+      contactType: 'technical support',
+      email: CONTACT_EMAIL,
+      url: `${SITE_URL}/.well-known/security.txt`,
+      availableLanguage: ['English'],
+      areaServed: 'Worldwide',
+    },
+  ],
+  knowsAbout: personSchema.knowsAbout,
+  sameAs: personSchema.sameAs,
 };
 
 /** WebSite entity, emitted on the homepage. */
@@ -62,6 +136,7 @@ export const websiteSchema: Record<string, unknown> = {
     name: AUTHOR_NAME,
     url: SITE_URL,
   },
+  copyrightHolder: { '@id': `${SITE_URL}#organization` },
 };
 
 /** BreadcrumbList for nested routes. Items are ordered root-first. */

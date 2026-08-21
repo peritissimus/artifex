@@ -13,13 +13,22 @@ import Base from '../layouts/Base.astro';
       <p class="page-kicker">404</p>
       <h1 class="section-title">Page not found</h1>
       <p class="not-found-copy">
-        The page you're looking for doesn't exist or has moved.
+        The page you're looking for doesn't exist or has moved. Nothing here sits behind
+        a login, so a 404 means the URL is wrong rather than that access was denied.
       </p>
       <nav class="not-found-links" aria-label="Suggested pages">
         <a href="/">← Back to home</a>
         <a href="/blog">Browse the blog</a>
         <a href="/software">Personal software</a>
+        <a href="/contact">Contact</a>
       </nav>
+      <p class="not-found-machine">
+        Reading this with a script? The same 404 is served as Markdown to anything that
+        does not ask for HTML — or fetch <a href="/404.md">/404.md</a> directly. The full
+        index is at <a href="/llms.txt">/llms.txt</a> and <a href="/sitemap-index.xml"
+          >/sitemap-index.xml</a
+        >.
+      </p>
     </div>
   </section>
 </Base>
@@ -29,6 +38,23 @@ import Base from '../layouts/Base.astro';
     .not-found-copy {
       margin-top: 1rem;
       max-width: 32rem;
+    }
+
+    .not-found-machine {
+      margin-top: 2rem;
+      max-width: 34rem;
+      font-size: 0.9375rem;
+      color: var(--muted);
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+
+        &:hover {
+          color: var(--fg);
+        }
+      }
     }
 
     .not-found-links {

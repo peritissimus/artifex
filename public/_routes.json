@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "description": "Only page routes reach functions/_middleware.js. Everything listed under exclude has a single representation and is served straight from the asset store, so it never pays for a Worker invocation.",
+  "include": ["/*"],
+  "exclude": [
+    "/_astro/*",
+    "/og/*",
+    "/project-screenshots/*",
+    "/.well-known/*",
+    "/apple-touch-icon.png",
+    "/favicon.ico",
+    "/favicon.svg",
+    "/llms.txt",
+    "/robots.txt",
+    "/rss.xml",
+    "/sitemap-0.xml",
+    "/sitemap-index.xml"
+  ]
+}

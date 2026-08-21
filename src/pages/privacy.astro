@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+import { organizationSchema } from '../lib/schema';
+import { privacyUpdated } from '../lib/privacy';
+---
+
+<Base
+  title="Privacy - peritissimus"
+  description="What peritissimus.com collects, what it does not, and how to get anything about you removed. No cookies, no advertising, no data sold."
+  currentPath="/privacy"
+  jsonLd={organizationSchema}
+>
+  <section id="privacy" class="content-section page-privacy">
+    <div class="section-inner">
+      <p class="page-kicker">Policy</p>
+      <h1 class="section-title">Privacy</h1>
+      <div class="section-content">
+        <p class="lede">
+          This is a personal portfolio, not a product. It has no accounts, no sign-up, no
+          advertising, and nothing to sell — so it collects the least it can get away with and still
+          know whether anyone is reading.
+        </p>
+
+        <h2>What is collected</h2>
+        <p>
+          Two analytics tools run on this site, and neither is given a name, an email address, or
+          anything else that identifies you personally.
+        </p>
+        <p>
+          <strong>Cloudflare Web Analytics</strong> records aggregate traffic — page views, referrers,
+          country, and browser — from the request itself. It sets no cookies and builds no cross-site
+          profile.
+        </p>
+        <p>
+          <strong>PostHog</strong> records which pages are read and which links are followed, so it is
+          possible to tell whether the résumé and case studies are useful. It stores a random visitor
+          identifier in your browser's <code>localStorage</code> rather than in a cookie, and it only
+          runs on <code>peritissimus.com</code> — development and preview builds are excluded.
+        </p>
+
+        <h2>What is not collected</h2>
+        <ul>
+          <li>No advertising or marketing cookies, and no ad networks of any kind.</li>
+          <li>No cross-site tracking pixels and no data broker integrations.</li>
+          <li>No form submissions — there is no form on this site.</li>
+          <li>Nothing is sold, rented, or shared for anyone else's marketing.</li>
+        </ul>
+
+        <h2>Email</h2>
+        <p>
+          The contact page publishes an email address. If you write, the message and your address
+          sit in an ordinary mailbox for as long as the conversation is useful, and are used only to
+          reply to you. You are not added to a list, because there is no list.
+        </p>
+
+        <h2>Where data lives</h2>
+        <p>
+          The site is served by Cloudflare, which processes request metadata to deliver pages and
+          block abuse. Analytics events are processed by PostHog. Both are third-party processors
+          with their own privacy policies. Aggregate analytics are retained for a rolling window and
+          are not joined to any other dataset.
+        </p>
+
+        <h2>Your choices</h2>
+        <p>
+          Blocking JavaScript, using a tracker blocker, or enabling Do Not Track stops PostHog from
+          loading; every page still works, because the content is prerendered HTML. Clearing site
+          data removes the local visitor identifier. To have anything associated with you deleted,
+          email <a href="mailto:149.kush@gmail.com">149.kush@gmail.com</a> and it will be removed.
+        </p>
+
+        <h2>Security and changes</h2>
+        <p>
+          Security contact details are published at <a href="/.well-known/security.txt">
+            /.well-known/security.txt</a
+          >. If this policy changes, the date below changes with it; there is no archive of prior
+          versions, because the substance has always been the same — collect almost nothing.
+        </p>
+
+        <p class="privacy-updated">Last updated {privacyUpdated}</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style lang="scss">
+  .page-privacy {
+    .section-content {
+      h2 {
+        margin-top: 2.5rem;
+        margin-bottom: 0.85rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--fg);
+        letter-spacing: 0.01em;
+      }
+
+      ul {
+        margin: 0 0 1.25rem 1.15rem;
+
+        li {
+          margin-bottom: 0.5rem;
+          text-wrap: pretty;
+        }
+      }
+
+      code {
+        font-size: 0.9em;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+
+        &:hover {
+          color: var(--fg);
+        }
+      }
+    }
+
+    .privacy-updated {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9375rem;
+    }
+  }
+</style>

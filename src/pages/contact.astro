@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { organizationSchema } from '../lib/schema';
 ---
 
 <Base
@@ -7,6 +8,7 @@ import Base from '../layouts/Base.astro';
   description="Get in touch with Kushal Patankar (peritissimus) — open to founding and staff engineering roles in applied AI and infrastructure. Reach out via email, GitHub, Twitter, or LinkedIn."
   ogImage="/og/contact.png"
   currentPath="/contact"
+  jsonLd={organizationSchema}
 >
   <section id="contact" class="content-section page-contact">
     <div class="section-inner">

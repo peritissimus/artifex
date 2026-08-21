@@ -4,3 +4,6 @@ Allow: /
 
 # Sitemap location
 Sitemap: https://peritissimus.com/sitemap-index.xml
+
+# Agent index: what this site is for, and how to fetch it as Markdown
+# https://peritissimus.com/llms.txt

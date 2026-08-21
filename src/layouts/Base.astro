@@ -3,6 +3,7 @@ import SEO from '../components/SEO.astro';
 import Analytics from '../components/Analytics.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { markdownTwinPath } from '../lib/content-negotiation.js';
 import newsreaderRegularUrl from '@fontsource/newsreader/files/newsreader-latin-400-normal.woff2?url';
 import '../styles/main.scss';
 
@@ -35,6 +36,10 @@ const {
   noindex,
   jsonLd,
 } = Astro.props;
+
+// Markdown twin of this page. Agents that cannot negotiate with an Accept
+// header can follow this link instead; see `functions/_middleware.js`.
+const markdownHref = markdownTwinPath(currentPath) ?? '/index.md';
 ---
 
 <!doctype html>
@@ -59,6 +64,9 @@ const {
 
     <!-- RSS feed -->
     <link rel="alternate" type="application/rss+xml" title="peritissimus — Blog" href="/rss.xml" />
+
+    <!-- Markdown representation of this page, for agents and LLM tooling -->
+    <link rel="alternate" type="text/markdown" title={`${title} (Markdown)`} href={markdownHref} />
 
     <!-- Theme adapts to system preference -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />

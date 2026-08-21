@@ -2,7 +2,7 @@
 
 Personal portfolio of Kushal Patankar — [peritissimus.com](https://peritissimus.com)
 
-A static site built with Astro. Every page is prerendered to HTML at build time and served from Cloudflare; there is no server runtime.
+A static site built with Astro. Every page is prerendered to HTML at build time and served from Cloudflare. A single Cloudflare Pages middleware sits in front of the assets to do `Accept`-header content negotiation — it picks between two prerendered files and never renders anything itself.
 
 ## Stack
 
@@ -12,6 +12,7 @@ A static site built with Astro. Every page is prerendered to HTML at build time 
 - **[anime.js](https://animejs.com)** — homepage and project-card motion
 - **[Satori](https://github.com/vercel/satori)** + **[resvg-js](https://github.com/yisibl/resvg-js)** — Open Graph image generation
 - **[Playwright](https://playwright.dev)** — end-to-end tests
+- **[Cloudflare Pages Functions](https://developers.cloudflare.com/pages/functions/)** — one middleware, in `functions/_middleware.js`
 
 ## Getting started
 
@@ -34,6 +35,8 @@ The dev server runs at `http://localhost:4321`.
 | `pnpm dev`                | Start the dev server                                |
 | `pnpm build`              | Build to `dist/`                                    |
 | `pnpm check`              | Alias for `build`; fails on type and content errors |
+| `pnpm test`               | Run unit tests, then Playwright tests               |
+| `pnpm test:unit`          | Run the `node --test` suites in `tests/unit/`       |
 | `pnpm test:e2e`           | Run Playwright tests                                |
 | `pnpm test:e2e:headed`    | Run Playwright tests in a visible browser           |
 | `pnpm playwright:install` | Download the Chromium build tests need              |
@@ -63,17 +66,27 @@ src/
 │   ├── SEO.astro       # Meta tags and JSON-LD
 │   └── ProjectArtwork.astro
 ├── layouts/            # Base.astro shell, Terminal.astro
+├── lib/
+│   ├── content-negotiation.js  # Accept parsing, shared with the middleware
+│   ├── markdown.ts     # Renderer for the .md twins
+│   ├── resume.ts       # Role history behind /about and /resume
+│   └── schema.ts       # JSON-LD builders
 ├── plugins/            # Custom remark/rehype plugins for blog HTML
 └── styles/main.scss
 
+functions/
+└── _middleware.js      # Accept-header content negotiation
+
 public/
 ├── _headers            # Cloudflare response headers
+├── _routes.json        # Which paths reach the middleware
 ├── .well-known/        # security.txt
 ├── og/                 # Generated OG images (committed)
 └── robots.txt
 
 scripts/generate-og-images.js
-tests/e2e/
+tests/unit/             # node --test: negotiation and middleware
+tests/e2e/              # Playwright
 ```
 
 ## Content
@@ -92,9 +105,83 @@ Astro 7 renders Markdown with Sätteri by default. This project overrides that a
 
 The reason is `src/plugins/rehype-blog-transform.js`, which is written against the remark/rehype APIs. It captures code-fence languages before Shiki runs, wraps sections in `.post-section`, brackets `h2` headings, and builds the `.code-block` markup the stylesheet expects. Porting it to Sätteri's `mdastPlugins`/`hastPlugins` hooks would work, but nothing forces the change yet.
 
+## Agent readability
+
+Everything on the site has a machine-readable representation, because a growing
+share of the traffic is an assistant answering a question about the person
+behind it rather than a person browsing.
+
+### Markdown twins
+
+Every page route has a `.md` sibling built from the same data: `/about` and
+`/about.md`, `/work/stone` and `/work/stone.md`, `/` and `/index.md`. They come
+from endpoints — `src/pages/[page].md.ts` for the single-file pages, and
+`blog/[...slug].md.ts` / `work/[...slug].md.ts` for the collections — so a role
+added to `src/lib/resume.ts` or a new post shows up in both representations at
+once. Blog and work twins carry the original Markdown source, with
+root-relative links rewritten to absolute URLs since a `.md` file is read
+without the page it came from.
+
+### Content negotiation
+
+`functions/_middleware.js` chooses between the two, following
+[acceptmarkdown.com](https://acceptmarkdown.com) and RFC 9110 §12.5.1:
+
+| Request                                 | Response                                  |
+| --------------------------------------- | ----------------------------------------- |
+| `Accept: text/html` (any browser)       | The HTML page, unchanged                  |
+| `Accept: text/markdown`                 | The `.md` twin, as `text/markdown`        |
+| `Accept: */*` — curl, previewers, feeds | HTML; a wildcard tie goes to HTML         |
+| `Accept: application/json`              | `406 Not Acceptable`                      |
+| A path that does not exist              | `404`, Markdown unless HTML was asked for |
+
+The parsing lives in `src/lib/content-negotiation.js` — plain JS with JSDoc
+types so both the bundled Worker and `node --test` can read it without a
+compile step. Two details are load-bearing:
+
+- **`Vary: Accept`** on every page response. Without it Cloudflare caches
+  whichever representation it saw first and serves that to everyone. It is set
+  both in `public/_headers` and by the middleware, and appended to Cloudflare's
+  own `Accept-Encoding` rather than replacing it.
+- **`next()` is single-use.** It advances through the Pages handler chain, so
+  the middleware looks up Markdown twins through the `ASSETS` binding instead;
+  spending `next()` on a twin that turns out not to exist would leave nothing
+  to fall back to. `tests/unit/middleware.test.js` throws on a second `next()`
+  to keep that from regressing.
+
+`public/_routes.json` keeps hashed assets, images, and feeds off the middleware
+entirely, so they cost no Worker invocation.
+
+### llms.txt
+
+`/llms.txt` is generated by `src/pages/llms.txt.ts` in the
+[llmstxt.org](https://llmstxt.org) shape, so the page lists cannot drift from
+the content collections. Its "When to use this site" section is the part that
+earns its keep: it names the questions this domain answers well — identity,
+hiring history, first-hand accounts of specific systems — and says outright
+what it is not for. "How to fetch this site" documents the negotiation above.
+
+### Structured data
+
+`src/lib/schema.ts` emits a `Person` and an `Organization` entity, both
+carrying `contactPoint` and `address`. The Organization is what an assistant
+checks when verifying that a business is real and reachable; a bare `Person`
+does not satisfy that check. `/about`, `/contact`, and `/privacy` are the trust
+anchors those checks look for, and each is a substantive page rather than a
+stub.
+
 ## Testing
 
-Playwright tests live in `tests/e2e/` and drive a real dev server, configured in `playwright.config.ts`.
+Two suites. `tests/unit/` runs on Node's built-in test runner (`pnpm test:unit`) and covers the pure pieces: `Accept` parsing and the middleware, the latter driven against a fake asset store so no Worker runtime is needed. `tests/e2e/` runs Playwright against a real dev server (`pnpm test:e2e`), configured in `playwright.config.ts`, and covers the rendered pages, the Markdown twins, `llms.txt`, and the JSON-LD.
+
+To exercise the middleware against the real runtime rather than a fake, build and serve the output with Wrangler:
+
+```bash
+pnpm build
+pnpm exec wrangler pages dev dist
+curl -s -o /dev/null -w '%{http_code}\n' http://localhost:8788/nope   # 404
+curl -sI -H 'Accept: text/markdown' http://localhost:8788/about        # text/markdown + Vary: Accept
+```
 
 The config sets `ASTRO_DEV_BACKGROUND=0`. Astro 7 detaches `astro dev` into a background daemon when it detects an AI coding agent; Playwright then sees the foreground process exit and reports `webServer exited early`. Forcing foreground mode keeps the suite behaving the same everywhere.
 
@@ -103,6 +190,8 @@ If tests fail to launch a browser after a dependency update, run `pnpm playwrigh
 ## Deployment
 
 Cloudflare builds and serves the site from the `main` branch through its Git integration. No deploy step lives in this repo.
+
+`functions/` is picked up automatically by Cloudflare Pages and compiled into a Worker that fronts the static assets; `public/_routes.json` narrows which paths reach it. If this project is ever moved to Workers Static Assets instead, the middleware needs a `wrangler` config with an `assets` binding and an entry Worker — the negotiation logic itself is runtime-agnostic.
 
 `public/_headers` controls caching and security headers. Hashed assets under `/_astro/*` are immutable for a year; HTML routes use `max-age=0` with `stale-while-revalidate`, listed per route family because `trailingSlash: 'never'` and `build.format: 'file'` mean a `/*.html` pattern never matches a real request. The catch-all `/*` block carries HSTS, `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` — keep `Cache-Control` out of it, since Cloudflare joins duplicate header values with a comma instead of overriding.
 

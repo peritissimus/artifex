@@ -20,6 +20,9 @@ playwright-report
 # Astro
 .astro
 
+# Wrangler local state (`wrangler pages dev`)
+.wrangler
+
 # Environment variables
 *.local
 .env
