@@ -4,7 +4,6 @@ import '@fontsource/newsreader/400-italic.css';
 import '@fontsource/newsreader/600.css';
 import '@fontsource/barlow-semi-condensed/600.css';
 import WeddingAgra from '../components/WeddingAgra.astro';
-const wedding = { names: 'Kush & Aru', date: '24 November 2026', city: 'Agra' };
 ---
 
 <!doctype html>
@@ -13,98 +12,136 @@ const wedding = { names: 'Kush & Aru', date: '24 November 2026', city: 'Agra' };
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#f5f0e5" />
+    <meta name="theme-color" content="#f7f4ec" />
     <title>Kush &amp; Aru — Save the Date · 24 November 2026 · Agra</title>
     <meta
       name="description"
-      content="Kush & Aru are getting married. Save the date: 24 November 2026, Agra. A two-page wedding newspaper."
+      content="The wedding issue. Kush & Aru, 24 November 2026, Agra. An A2 newspaper spread for our forever."
     />
   </head>
   <body>
     <div class="tools">
-      <div class="tool-title">
-        <strong>Our wedding newspaper</strong><p>Two pages. One forever.</p>
-      </div>
-      <div class="print-controls">
-        <button id="print" type="button">Print / Save PDF <span aria-hidden="true">↗</span></button>
-      </div>
+      <div>
+        <strong>Our wedding newspaper</strong><p>The wedding issue · Kush &amp; Aru</p>
+      </div><button id="print" type="button"
+        >Print / Save PDF <span aria-hidden="true">↗</span></button
+      >
     </div>
-    <p class="print-note" id="print-note" aria-live="polite">
-      One A2 landscape sheet · fold down the middle · print at 100% scale
+    <p class="print-note">
+      One A2 sheet · print both sides at 100% · flip on the short edge · fold down the middle
     </p>
-    <main class="spread" aria-label="Kush and Aru’s two-page save-the-date newspaper">
-      <article class="paper front" aria-label="Page 1: Save the date">
-        <div class="page-content">
-          <header>
-            <div class="topline">
-              <span>The wedding edition</span><span>Some news is worth keeping.</span>
+    <main aria-label="Four-page wedding newspaper, arranged for double-sided printing">
+      <p class="side-label">
+        <strong>Outside</strong><span>Back cover · 04 &nbsp; | &nbsp; Front cover · 01</span>
+      </p>
+      <div
+        class="preview-scroll outside-preview"
+        role="region"
+        aria-label="Outside spread: pages 4 and 1; scroll horizontally on a small screen"
+        tabindex="0"
+      >
+        <section class="spread" aria-label="Outside of the A2 sheet">
+          <div class="spread-content">
+            <header class="masthead">
+              <p class="publication">THE FOREVER TIMES</p>
+              <div class="issue-line">
+                <span>Agra, India</span><span>The Wedding Issue</span><span>November 24, 2026</span>
+              </div>
+            </header>
+            <section class="announcement" aria-labelledby="save-heading">
+              <h1 id="save-heading">SAVE THE DATE</h1>
+              <p>Some stories are meant to last a lifetime.</p>
+            </section>
+            <div class="pages">
+              <section class="page details" aria-label="Page 4: back cover, wedding details">
+                <p class="eyebrow">Together with our families</p>
+                <h2>Kush <span>&amp;</span> Aru</h2>
+                <p class="marrying">are getting married.</p>
+                <div class="ornament" aria-hidden="true">❦</div>
+                <p class="date">24 NOVEMBER<br /><strong>2026</strong></p>
+                <p class="location">AGRA, INDIA</p>
+                <footer><span>Formal invitation to follow</span><span>04</span></footer>
+              </section>
+              <section class="page portrait" aria-label="Page 1: front cover, our photograph">
+                <figure>
+                  <img
+                    src="/wedding/couple-placeholder.png"
+                    alt="Sample photograph: an AI-generated couple laughing together in an Agra-inspired courtyard"
+                    width="1774"
+                    height="887"
+                    loading="eager"
+                  />
+                  <figcaption>Sample photograph · Your favourite photo goes here</figcaption>
+                </figure>
+                <p class="photo-quote">“The beginning of<br /><em>our favourite chapter.”</em></p>
+                <p class="photo-note">A lifetime of love, laughter, and the little things.</p>
+                <footer><span>With love, Kush &amp; Aru</span><span>01</span></footer>
+              </section>
             </div>
-            <div class="masthead"><span>The</span> Forever Times</div>
-            <div class="edition">
-              <span>Agra, India</span><span>A very special announcement</span><span>No. 01</span>
-            </div>
-          </header>
-          <section class="cover-story" aria-labelledby="save-heading">
-            <p class="eyebrow">Clear your calendar. Open your heart.</p>
-            <h1 id="save-heading">
-              <span>SAVE</span><span class="the">THE</span><span>DATE</span>
-            </h1>
-            <p class="cover-names">{wedding.names}</p>
-            <p class="getting-married">are getting married!</p>
-          </section>
-          <div class="cover-date" aria-label={`${wedding.date}, ${wedding.city}`}>
-            <strong>24.11.2026</strong><span>AGRA</span>
           </div>
-          <footer><span>Kush &amp; Aru · The beginning of forever</span><span>01</span></footer>
-        </div>
-      </article>
-      <article class="paper inside" aria-label="Page 2: Kush and Aru’s wedding announcement">
-        <div class="page-content">
-          <header>
-            <div class="topline">
-              <span>Two hearts. One beautiful beginning.</span><span>The wedding edition</span>
+        </section>
+      </div>
+      <p class="side-label inside-label">
+        <strong>Inside</strong><span>Left page · 02 &nbsp; | &nbsp; Right page · 03</span>
+      </p>
+      <div
+        class="preview-scroll inside-preview"
+        role="region"
+        aria-label="Inside spread: pages 2 and 3; scroll horizontally on a small screen"
+        tabindex="0"
+      >
+        <section class="spread inner-spread" aria-label="Inside of the A2 sheet">
+          <div class="spread-content">
+            <header class="masthead">
+              <p class="publication">THE FOREVER TIMES</p><div class="issue-line">
+                <span>A note from the couple</span><span>The Wedding Issue</span><span
+                  >November 24, 2026</span
+                >
+              </div>
+            </header>
+            <div class="announcement inner-announcement">
+              <h2>A LIFE TOGETHER</h2><p>Love, laughter, and everything in between.</p>
             </div>
-            <div class="masthead"><span>The</span> Forever Times</div>
-            <div class="edition">
-              <span>Love, laughter &amp; happily ever after</span><span>No. 02</span>
+            <div class="pages">
+              <section class="page letter" aria-label="Page 2: a note from Kush and Aru">
+                <p class="eyebrow">To our favourite people</p>
+                <h3>Some things are better<br /><em>when we share them.</em></h3>
+                <div class="letter-copy">
+                  <p>
+                    We’re getting married. And as we begin this next chapter, what we look forward
+                    to most is having the people we love beside us.
+                  </p><p>
+                    So keep the twenty-fourth of November for us. Bring your joy, your dancing
+                    shoes, and yourselves. We’ll make the memories together.
+                  </p><p>
+                    Here’s to a day full of laughter, a room full of love, and a lifetime of little
+                    moments worth keeping.
+                  </p>
+                </div>
+                <p class="signature">With love,<br /><em>Kush &amp; Aru</em></p>
+                <footer><span>The beginning of our favourite chapter</span><span>02</span></footer>
+              </section>
+              <section class="page destination" aria-label="Page 3: meet us in Agra">
+                <p class="eyebrow">The city of our celebration</p><h3>Meet us in <em>Agra.</em></h3>
+                <figure class="city-art">
+                  <WeddingAgra /><figcaption>A city made for a love story.</figcaption>
+                </figure>
+                <p class="destination-date">24 NOVEMBER 2026</p><p class="destination-note">
+                  The place, the plans, and all the lovely details<br />will arrive with your formal
+                  invitation.
+                </p>
+                <footer><span>Agra, India · Keep this day for us</span><span>03</span></footer>
+              </section>
             </div>
-          </header>
-          <section class="love-story" aria-labelledby="couple-heading">
-            <p class="eyebrow">Extra, extra! We’re making it forever.</p>
-            <h2 id="couple-heading">Kush <em>&amp;</em> Aru</h2>
-            <p class="married-headline">WE’RE GETTING<br /><em>MARRIED!</em></p>
-          </section>
-          <figure class="agra-art">
-            <WeddingAgra /><figcaption>
-              Meet us in Agra. <em>A city made for a love story.</em>
-            </figcaption>
-          </figure>
-          <section class="story-columns" aria-label="A note from the couple">
-            <div>
-              <h3>With full hearts.</h3><p>
-                We’re beginning our forever, surrounded by our favourite people. Come for the love.
-                Stay for the laughter.
-              </p>
-            </div><div>
-              <h3>With you there.</h3><p>
-                Bring your joy and your dancing shoes. We can’t wait to celebrate this beautiful new
-                chapter with you.
-              </p>
-            </div>
-          </section>
-          <div class="inside-date">
-            <span>Save the date</span><strong>24 NOVEMBER 2026</strong><span>AGRA, INDIA</span>
           </div>
-          <footer>
-            <span>Formal invitation to follow · With love, Kush &amp; Aru</span><span>02</span>
-          </footer>
-        </div>
-      </article>
+        </section>
+      </div>
     </main>
-    <p class="screen-caption">Made to hold up, unfold, and remember.</p>
+    <p class="screen-caption">One sheet. Four pages. A story to keep.</p>
     <script>
       document.querySelector<HTMLButtonElement>('#print')?.addEventListener('click', async () => {
         await document.fonts.ready;
+        await Promise.all(Array.from(document.images, (image) => image.decode().catch(() => {})));
         window.print();
       });
     </script>
@@ -118,8 +155,8 @@ const wedding = { names: 'Kush & Aru', date: '24 November 2026', city: 'Agra' };
   }
   :global(html) {
     color-scheme: light;
-    background: #ded9ce;
-    color: #25231d;
+    background: #dedbd3;
+    color: #20201d;
   }
   :global(body) {
     padding: 28px;
@@ -127,42 +164,37 @@ const wedding = { names: 'Kush & Aru', date: '24 November 2026', city: 'Agra' };
     -webkit-font-smoothing: antialiased;
   }
   :global(::selection) {
-    background: #5b3f36;
+    background: #803f35;
     color: #fff;
   }
   .tools {
     max-width: 1440px;
     margin: auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 24px;
+    justify-content: space-between;
+    gap: 20px;
   }
-  .tool-title strong {
+  .tools strong {
     font-size: 19px;
     font-weight: 400;
   }
-  .tool-title p {
+  .tools p {
     font-size: 14px;
-    color: #655f53;
-    margin-top: 5px;
+    color: #635f56;
     font-style: italic;
-  }
-  .print-controls {
-    display: flex;
-    align-items: flex-end;
-    gap: 12px;
+    margin-top: 6px;
   }
   button {
     min-height: 44px;
-    background: #25231d;
-    color: #f5f0e5;
     padding: 12px 18px;
+    background: #20201d;
+    color: #f7f4ec;
     border: 0;
     font:
       12px 'Barlow Semi Condensed',
       sans-serif;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.7px;
     cursor: pointer;
     white-space: nowrap;
     transition:
@@ -175,8 +207,9 @@ const wedding = { names: 'Kush & Aru', date: '24 November 2026', city: 'Agra' };
   button:active {
     transform: scale(0.96);
   }
-  button:focus-visible {
-    outline: 2px solid #825047;
+  button:focus-visible,
+  .preview-scroll:focus-visible {
+    outline: 2px solid #803f35;
     outline-offset: 4px;
   }
   .print-note {
@@ -185,322 +218,311 @@ const wedding = { names: 'Kush & Aru', date: '24 November 2026', city: 'Agra' };
     font:
       12px 'Barlow Semi Condensed',
       sans-serif;
-    letter-spacing: 0.4px;
-    color: #655f53;
+    color: #635f56;
+    letter-spacing: 0.3px;
   }
-  .spread {
+  .side-label {
+    max-width: 1440px;
+    margin: 20px auto 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font:
+      12px 'Barlow Semi Condensed',
+      sans-serif;
+    letter-spacing: 0.5px;
+  }
+  .inside-label {
+    margin-top: 36px;
+  }
+  .inner-announcement h2 {
+    font-size: 6.5cqw;
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: 0.1cqw;
+    margin: 0;
+  }
+  .letter {
+    padding-right: 3cqw;
+    border-right: 0.08cqw solid #aaa397;
+  }
+  .destination {
+    padding-left: 3cqw;
+    text-align: center;
+  }
+  .letter h3,
+  .destination h3 {
+    font-size: 3.2cqw;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.08cqw;
+    margin: 1.4cqw 0 1.2cqw;
+  }
+  .letter-copy {
+    font-size: 1.4cqw;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+  .letter-copy p {
+    margin-bottom: 1.3cqw;
+  }
+  .letter-copy p:first-child:first-letter {
+    float: left;
+    font-size: 5.7cqw;
+    line-height: 0.85;
+    padding: 0.55cqw 0.5cqw 0 0;
+  }
+  .signature {
+    font-size: 1.8cqw;
+    line-height: 1.4;
+    margin-top: 0.5cqw;
+  }
+  .signature em {
+    font-size: 3cqw;
+  }
+  .city-art {
+    width: 70%;
+    margin: 0 auto;
+  }
+  .city-art :global(svg) {
+    max-height: 17cqw;
+  }
+  .destination-date {
+    font:
+      2.8cqw 'Barlow Semi Condensed',
+      sans-serif;
+    margin-top: 1.7cqw;
+  }
+  .destination-note {
+    font-size: 1.45cqw;
+    line-height: 1.45;
+    font-style: italic;
+    margin-top: 1cqw;
+  }
+  .preview-scroll {
     max-width: 1440px;
     margin: auto;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0;
     box-shadow:
-      0 2px 8px #0000000a,
-      0 20px 65px #00000018;
+      0 2px 8px #00000008,
+      0 20px 60px #00000014;
   }
-  .paper {
+  .spread {
     container-type: inline-size;
-    aspect-ratio: 210/297;
-    background: #f5f0e5;
-    min-width: 0;
     position: relative;
+    width: 100%;
+    aspect-ratio: 574/399;
+    background: #f7f4ec;
   }
-  .front {
-    box-shadow: inset -12px 0 20px -20px #4b423b;
-    border-right: 1px solid #b8b0a055;
-  }
-  .inside {
-    box-shadow: inset 12px 0 20px -20px #4b423b;
-  }
-  .page-content {
+  .spread-content {
     position: absolute;
-    inset: 4.5cqw 5cqw 3cqw;
+    inset: 2.6cqw 3.1cqw 1.8cqw;
     display: flex;
     flex-direction: column;
   }
-  .page-content > * {
+  .masthead {
+    text-align: center;
+  }
+  .publication {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 400;
+    font-size: 6.8cqw;
+    line-height: 1;
+    letter-spacing: 0.38cqw;
+    white-space: nowrap;
+    padding: 0.5cqw 0 1.2cqw;
+  }
+  .issue-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2cqw;
+    padding: 0.85cqw 0;
+    border-block: 0.08cqw solid;
+    font:
+      1.02cqw 'Barlow Semi Condensed',
+      sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.12cqw;
+  }
+  .issue-line span:nth-child(2) {
+    color: #8c3f32;
+    letter-spacing: 0.2cqw;
+  }
+  .announcement {
+    text-align: center;
+    padding: 2cqw 0 1.6cqw;
     flex-shrink: 0;
   }
-  .topline,
-  .edition,
+  h1 {
+    font-size: 10cqw;
+    word-spacing: 0.6cqw;
+    font-weight: 600;
+    line-height: 1.03;
+    letter-spacing: -0.38cqw;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .announcement > p {
+    font-size: 1.55cqw;
+    font-style: italic;
+    margin-top: 0.35cqw;
+  }
+  .pages {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+    min-height: 0;
+    border-top: 0.08cqw solid;
+  }
+  .page {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2.2cqw;
+  }
+  .details {
+    padding-right: 3cqw;
+    text-align: center;
+    border-right: 0.08cqw solid #aaa397;
+  }
+  .portrait {
+    padding-left: 3cqw;
+  }
   .eyebrow,
-  .getting-married,
-  .cover-date,
-  .inside-date,
-  footer,
-  figcaption {
+  .date,
+  .location,
+  figcaption,
+  footer {
     font-family: 'Barlow Semi Condensed', sans-serif;
     text-transform: uppercase;
   }
-  .topline {
-    display: flex;
-    justify-content: space-between;
-    gap: 2cqw;
-    border-bottom: 0.15cqw solid;
-    padding-bottom: 1.6cqw;
-    font-size: 1.2cqw;
-    letter-spacing: 0.13cqw;
+  .eyebrow {
+    font-size: 1cqw;
+    letter-spacing: 0.18cqw;
+    color: #8c3f32;
   }
-  .masthead {
-    font-size: 7.7cqw;
-    line-height: 1;
-    font-weight: 600;
-    letter-spacing: -0.35cqw;
-    text-align: center;
-    padding: 2.3cqw 0 1.9cqw;
+  h2 {
+    font-size: 6.6cqw;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.2cqw;
+    margin: 1.45cqw 0 0.3cqw;
     white-space: nowrap;
   }
-  .masthead > span {
-    font-size: 0.6em;
+  h2 > span {
     font-style: italic;
+    font-size: 0.8em;
+    padding: 0 0.35cqw;
+  }
+  .marrying {
+    font-size: 2.15cqw;
+    font-style: italic;
+  }
+  .ornament {
+    font-size: 3.2cqw;
+    line-height: 1;
+    margin: 1.35cqw 0 1cqw;
+  }
+  .date {
+    font-size: 3.45cqw;
+    line-height: 1.02;
+    letter-spacing: 0.05cqw;
+  }
+  .date strong {
+    font-family: 'Newsreader', serif;
+    font-size: 5.7cqw;
     font-weight: 400;
     letter-spacing: -0.15cqw;
+    display: inline-block;
+    margin-top: 0.4cqw;
   }
-  .edition {
-    display: flex;
-    justify-content: space-between;
-    gap: 1cqw;
-    border-block: 0.45cqw double;
-    padding: 1.1cqw 0;
-    font-size: 1.15cqw;
-    letter-spacing: 0.1cqw;
+  .location {
+    font-size: 1.6cqw;
+    letter-spacing: 0.35cqw;
+    margin-top: 0.6cqw;
   }
-  .cover-story {
-    text-align: center;
-    padding-top: 3.2cqw;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  .note {
+    font-size: 1.5cqw;
+    line-height: 1.45;
+    margin-top: 1.55cqw;
+    text-wrap: pretty;
   }
-  .eyebrow {
-    font-size: 1.45cqw;
-    letter-spacing: 0.22cqw;
+  .note em {
+    display: inline-block;
+    margin-top: 0.45cqw;
   }
-  h1 {
-    font-family: 'Barlow Semi Condensed', sans-serif;
-    font-weight: 600;
-    line-height: 0.79;
-    letter-spacing: -1cqw;
-    font-size: 27cqw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 2cqw 0 2.4cqw;
+  figure {
     width: 100%;
+    flex-shrink: 0;
   }
-  h1 > span {
+  figure img {
     display: block;
+    width: 100%;
+    height: 19.7cqw;
+    object-fit: cover;
+    object-position: 52% 35%;
+    filter: grayscale(1);
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    outline-offset: -1px;
   }
-  h1 .the {
-    font-family: 'Newsreader', serif;
-    font-style: italic;
-    font-size: 9cqw;
-    line-height: 1;
-    letter-spacing: -0.2cqw;
-    margin: 0.9cqw 0 0.2cqw;
-    font-weight: 400;
-  }
-  .cover-names {
-    font-size: 11.7cqw;
-    font-weight: 600;
-    line-height: 1.06;
-    letter-spacing: -0.4cqw;
-    margin-top: 1cqw;
-  }
-  .getting-married {
-    font-size: 2.45cqw;
-    letter-spacing: 0.28cqw;
-    margin: 1.4cqw 0 3cqw;
-  }
-  .cover-date {
+  figcaption {
+    font-size: 0.75cqw;
+    letter-spacing: 0.08cqw;
+    margin-top: 0.65cqw;
     text-align: center;
-    border-block: 0.5cqw double;
-    padding: 2.1cqw 0 1.7cqw;
   }
-  .cover-date strong {
-    display: block;
-    font-size: 11.9cqw;
-    line-height: 1;
-    letter-spacing: -0.18cqw;
-    font-weight: 600;
+  .photo-quote {
+    font-size: 3cqw;
+    line-height: 1.14;
+    letter-spacing: -0.05cqw;
+    text-align: center;
+    margin-top: 1.8cqw;
   }
-  .cover-date > span {
-    display: block;
-    font-size: 4.5cqw;
-    letter-spacing: 1.4cqw;
-    margin-top: 1.2cqw;
-    padding-left: 1.4cqw;
+  .photo-note {
+    font-size: 1.3cqw;
+    text-align: center;
+    margin-top: 0.85cqw;
+    font-style: italic;
   }
   footer {
     display: flex;
     justify-content: space-between;
-    gap: 2cqw;
-    border-top: 0.12cqw solid;
-    padding-top: 1.3cqw;
-    font-size: 1.15cqw;
-    letter-spacing: 0.1cqw;
+    gap: 1.5cqw;
+    font-size: 0.8cqw;
+    letter-spacing: 0.07cqw;
     margin-top: auto;
-  }
-  .love-story {
-    text-align: center;
-    padding: 2.2cqw 0 2cqw;
-  }
-  .love-story h2 {
-    font-size: 12.5cqw;
-    font-weight: 600;
-    line-height: 1.04;
-    letter-spacing: -0.4cqw;
-    margin: 2.1cqw 0;
-  }
-  .love-story h2 em {
-    font-weight: 400;
-    color: #754c43;
-  }
-  .married-headline {
-    font-family: 'Barlow Semi Condensed', sans-serif;
-    font-size: 7.6cqw;
-    font-weight: 600;
-    line-height: 0.95;
-    letter-spacing: -0.12cqw;
-  }
-  .married-headline em {
-    font-family: 'Newsreader', serif;
-    font-weight: 400;
-    font-size: 10.9cqw;
-    line-height: 1.15;
-    letter-spacing: -0.3cqw;
-  }
-  .agra-art {
-    width: 73%;
-    margin: 0 auto 1.9cqw;
-    min-height: 0;
-  }
-  .agra-art :global(svg) {
-    max-height: 23cqw;
-  }
-  figcaption {
-    font-size: 1.45cqw;
-    text-align: center;
-    letter-spacing: 0.1cqw;
-    margin-top: 0.8cqw;
-  }
-  figcaption em {
-    font-family: 'Newsreader', serif;
-    font-size: 1.8cqw;
-    text-transform: none;
-    letter-spacing: 0;
-    display: block;
-    margin-top: 0.5cqw;
-  }
-  .story-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3cqw;
-    padding: 2.4cqw 0;
-    border-block: 0.12cqw solid;
-  }
-  .story-columns > div + div {
-    border-left: 0.12cqw solid #b5ae9f;
-    padding-left: 3cqw;
-  }
-  .story-columns h3 {
-    font-size: 3.2cqw;
-    font-weight: 400;
-    letter-spacing: -0.08cqw;
-    line-height: 1.1;
-    margin-bottom: 0.9cqw;
-  }
-  .story-columns p {
-    font-size: 1.95cqw;
-    line-height: 1.45;
-    text-wrap: pretty;
-  }
-  .inside-date {
-    text-align: center;
-    padding: 2.7cqw 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1cqw;
-  }
-  .inside-date > span:first-child {
-    font-size: 2.2cqw;
-    letter-spacing: 0.4cqw;
-  }
-  .inside-date strong {
-    font-size: 5.95cqw;
-    line-height: 1;
-    letter-spacing: -0.05cqw;
-  }
-  .inside-date > span:last-child {
-    font-size: 2.5cqw;
-    letter-spacing: 0.65cqw;
+    padding-top: 1cqw;
+    border-top: 0.08cqw solid #aaa397;
   }
   .screen-caption {
     text-align: center;
     font-size: 15px;
     font-style: italic;
-    color: #655f53;
-    margin: 22px 0 0;
+    color: #635f56;
+    margin: 20px 0;
   }
   @media screen and (max-width: 800px) {
     :global(body) {
-      padding: 18px;
+      padding: 16px;
     }
-    .tools {
-      align-items: flex-start;
-    }
-    .print-controls {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 8px;
-    }
-    .tool-title strong {
-      font-size: 17px;
+    .preview-scroll {
+      overflow-x: auto;
     }
     .spread {
-      grid-template-columns: 1fr;
-      max-width: 620px;
-      gap: 20px;
-      box-shadow: none;
-    }
-    .paper {
-      box-shadow: 0 4px 20px #00000012;
-      border: 0;
+      min-width: 720px;
     }
     .print-note {
       line-height: 1.5;
-      max-width: 620px;
     }
-    .tools {
-      max-width: 620px;
+    .tools strong {
+      font-size: 17px;
     }
-  }
-  @media screen and (max-width: 450px) {
-    :global(body) {
-      padding: 12px;
-    }
-    .tools {
-      flex-direction: column;
-      gap: 14px;
-    }
-    .print-controls {
-      width: 100%;
-      flex-direction: row;
-      align-items: flex-end;
-      gap: 8px;
+    .tools p {
+      font-size: 12px;
     }
     button {
-      font-size: 10px;
-      padding-inline: 10px;
-    }
-    .print-note {
       font-size: 11px;
-      margin: 14px 0;
-    }
-    .screen-caption {
-      font-size: 13px;
+      padding: 12px;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -515,30 +537,31 @@ const wedding = { names: 'Kush & Aru', date: '24 November 2026', city: 'Agra' };
   @media print {
     :global(html),
     :global(body) {
-      background: white;
       padding: 0;
       margin: 0;
+      background: white;
     }
     .tools,
+    .side-label,
     .print-note,
     .screen-caption,
     :global(astro-dev-toolbar) {
       display: none;
     }
-    .spread {
+    .preview-scroll {
       width: 574mm;
       max-width: none;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
       box-shadow: none;
+      overflow: visible;
       break-inside: avoid;
     }
-    .paper {
-      width: 287mm;
+    .outside-preview {
+      break-after: page;
+    }
+    .spread {
+      width: 574mm;
       height: 399mm;
       aspect-ratio: auto;
-      box-shadow: none;
       print-color-adjust: exact;
       -webkit-print-color-adjust: exact;
       break-inside: avoid;
