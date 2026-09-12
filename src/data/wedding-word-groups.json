@@ -1,0 +1,38 @@
+{
+  "groups": [
+    {
+      "join": "HONEY ___",
+      "words": ["MOON", "BEE", "COMB", "DEW"]
+    },
+    {
+      "join": "___ RING",
+      "words": ["ONION", "BOXING", "KEY", "ENGAGEMENT"]
+    },
+    {
+      "join": "___ MATE",
+      "words": ["ROOM", "CLASS", "TEAM", "SOUL"]
+    },
+    {
+      "join": "___ TRIP",
+      "words": ["ROAD", "ROUND", "DAY", "GUILT"]
+    }
+  ],
+  "words": [
+    "SOUL",
+    "ONION",
+    "DAY",
+    "COMB",
+    "ROUND",
+    "MOON",
+    "KEY",
+    "CLASS",
+    "BEE",
+    "TEAM",
+    "BOXING",
+    "ROAD",
+    "ENGAGEMENT",
+    "DEW",
+    "GUILT",
+    "ROOM"
+  ]
+}

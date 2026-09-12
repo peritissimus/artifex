@@ -1,0 +1,86 @@
+{
+  "rows": 12,
+  "cols": 12,
+  "entries": [
+    {
+      "answer": "GURGAON",
+      "row": 0,
+      "col": 1,
+      "direction": "down",
+      "clue": "Where our story began; Gurugram’s other name. (7)",
+      "number": 1
+    },
+    {
+      "answer": "PATANKAR",
+      "row": 0,
+      "col": 9,
+      "direction": "down",
+      "clue": "The surname on the groom’s side of the headline. (8)",
+      "number": 2
+    },
+    {
+      "answer": "KUSHAL",
+      "row": 1,
+      "col": 0,
+      "direction": "across",
+      "clue": "“Kush” in full, on the front page. (6)",
+      "number": 3
+    },
+    {
+      "answer": "ARUTNA",
+      "row": 2,
+      "col": 6,
+      "direction": "across",
+      "clue": "“Aru” in full, on the front page. (6)",
+      "number": 4
+    },
+    {
+      "answer": "AGRA",
+      "row": 2,
+      "col": 11,
+      "direction": "down",
+      "clue": "Our next chapter has this city’s address. (4)",
+      "number": 5
+    },
+    {
+      "answer": "RISHIKESH",
+      "row": 3,
+      "col": 3,
+      "direction": "down",
+      "clue": "Our much-revisited getaway. Some places deserve an encore. (9)",
+      "number": 6
+    },
+    {
+      "answer": "MALIBUTOWN",
+      "row": 4,
+      "col": 0,
+      "direction": "across",
+      "clue": "Sounds Californian; our meet-cute was in this Gurugram neighbourhood. (6, 4)",
+      "number": 7
+    },
+    {
+      "answer": "THIRTY",
+      "row": 7,
+      "col": 6,
+      "direction": "across",
+      "clue": "Two and a half years, in monthly instalments. (6)",
+      "number": 8
+    },
+    {
+      "answer": "NOVEMBER",
+      "row": 9,
+      "col": 0,
+      "direction": "across",
+      "clue": "The calendar page you’ll want to keep free. (8)",
+      "number": 9
+    },
+    {
+      "answer": "RATHORE",
+      "row": 11,
+      "col": 0,
+      "direction": "across",
+      "clue": "The surname on the bride’s side of the headline. (7)",
+      "number": 10
+    }
+  ]
+}

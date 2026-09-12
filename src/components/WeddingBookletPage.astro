@@ -1,0 +1,475 @@
+---
+import WeddingGames from './WeddingGames.astro';
+import WeddingAgra from './WeddingAgra.astro';
+import WeddingMaze from './WeddingMaze.astro';
+import wordGroups from '../data/wedding-word-groups.json';
+import crossword from '../data/wedding-crossword.json';
+interface Props {
+  page: 1 | 2 | 3 | 4;
+}
+const { page } = Astro.props;
+const titles = {
+  1: 'Save the date',
+  2: 'The puzzle club',
+  3: 'Travel & mischief',
+  4: 'Until we celebrate',
+};
+const displayAnswer = (answer: string) =>
+  answer === 'MALIBUTOWN' ? 'Malibu Town' : answer.charAt(0) + answer.slice(1).toLowerCase();
+---
+
+<article
+  class:list={['booklet-page', `page-${page}`]}
+  aria-label={`Page ${page}: ${titles[page]}`}
+  data-page={page}
+>
+  <div class="page-content">
+    <header>
+      <p class="publication">The Forever Times</p><div class="issue-line">
+        <span>{page === 1 ? 'The wedding edition' : titles[page]}</span><span>24 November 2026</span
+        >
+      </div>
+    </header>
+    {
+      page === 1 && (
+        <>
+          <div class="announcement">
+            <>
+              <h1>SAVE THE DATE</h1>
+              <p class="deck">We’re getting married</p>
+              <p class="date">24 NOVEMBER 2026 · AGRA, INDIA</p>
+            </>
+          </div>
+          <div class="cover-lead">
+            <figure class="main-photo">
+              <>
+                <img
+                  src="/wedding/couple-placeholder.png"
+                  width="1774"
+                  height="887"
+                  alt="Photo 1 placeholder: an AI-generated couple; replace with your first photograph"
+                />
+                <figcaption>Photo 01 · Sample image</figcaption>
+              </>
+            </figure>
+            <div class="cover-note">
+              <>
+                <p class="eyebrow">A special announcement</p>
+                <h2>
+                  Keep this day
+                  <>
+                    <br />
+                    <em>for us.</em>
+                  </>
+                </h2>
+                <p>Together with our families, we can’t wait to celebrate with you.</p>
+                <p>Join us in Agra for the beginning of our married life.</p>
+                <p class="italic">Formal invitation to follow.</p>
+              </>
+            </div>
+          </div>
+          <p class="names">
+            Arutna Rathore
+            <>
+              <br />
+              <em>&amp;</em>
+            </>{' '}
+            Kushal Patankar
+          </p>
+          <div class="cover-bottom">
+            <>
+              <div>
+                <>
+                  <p class="eyebrow">Inside this issue</p>
+                  <h2>
+                    A little love.
+                    <>
+                      <br />
+                      <em>A little mischief.</em>
+                    </>
+                  </h2>
+                  <p>
+                    Turn the page for personal puzzles, a scenic detour, and a story only you can
+                    write.
+                  </p>
+                  <p class="contents">
+                    02 · Crossword & perfect matches
+                    <br />
+                    03 · A maze & a little mischief
+                    <br />
+                    04 · A note &amp; the answers
+                  </p>
+                </>
+              </div>
+              <figure class="second-photo">
+                <>
+                  <img
+                    src="/wedding/couple-placeholder.png"
+                    width="1774"
+                    height="887"
+                    alt="Photo 2 placeholder: another crop of the sample couple; replace with your second photograph"
+                  />
+                  <figcaption>Photo 02 · Sample crop</figcaption>
+                </>
+              </figure>
+            </>
+          </div>
+        </>
+      )
+    }
+    {page === 2 && <WeddingGames section="crossword" />}
+    {page === 3 && <WeddingGames section="diversions" />}
+    {
+      page === 4 && (
+        <>
+          <section class="closing">
+            <>
+              <p class="eyebrow">To our favourite people</p>
+              <h2>
+                See you in <em>Agra.</em>
+              </h2>
+              <p>
+                There’s a celebration to plan, but it’s the people who will make it ours. We hope
+                you’ll be there.
+              </p>
+              <figure class="city">
+                <>
+                  <WeddingAgra />
+                  <figcaption>The city of our celebration</figcaption>
+                </>
+              </figure>
+              <p class="closing-date">24 November 2026</p>
+              <p class="closing-note">
+                Venue and celebration details will arrive
+                <br />
+                with your formal invitation.
+              </p>
+            </>
+          </section>
+          <aside class="answer-key">
+            <>
+              <p class="eyebrow">The answers, if you must</p>
+              <h2>How did you do?</h2>
+              <div class="answer-columns">
+                <div>
+                  <>
+                    <h3>The crossword</h3>
+                    <p>
+                      {crossword.entries.map((entry) => (
+                        <span>
+                          {entry.number}
+                          {entry.direction === 'across' ? 'A' : 'D'}. {displayAnswer(entry.answer)}
+                          <br />
+                        </span>
+                      ))}
+                    </p>
+                  </>
+                </div>
+                <div>
+                  <h3>Perfect matches</h3>
+                  {wordGroups.groups.map((group) => (
+                    <p class="group-answer">
+                      <strong>{group.join}</strong>
+                      <br />
+                      {group.words.map((word) => word.toLowerCase()).join(' · ')}
+                    </p>
+                  ))}
+                </div>
+                <div>
+                  <>
+                    <h3>The scenic route</h3>
+                    <WeddingMaze solution />
+                    <p class="solution-note">
+                      The dotted line is the route. R marks your Rishikesh stop.
+                    </p>
+                    <p class="solution-note italic">
+                      The travel report has no right answers. The stranger, the better.
+                    </p>
+                  </>
+                </div>
+              </div>
+            </>
+          </aside>
+        </>
+      )
+    }
+    <footer>
+      <span
+        >{
+          page === 1
+            ? 'Formal invitation to follow'
+            : page === 2
+              ? 'Pencils encouraged · Answers on page 4'
+              : page === 3
+                ? 'No phones. No rush. A little mischief.'
+                : 'A day to celebrate. A paper to keep.'
+        }</span
+      ><span>{String(page).padStart(2, '0')}</span>
+    </footer>
+  </div>
+</article>
+<style>
+  .booklet-page {
+    container-type: inline-size;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    background: #f7f4ec;
+  }
+  .page-2 .publication,
+  .page-3 .publication {
+    font-size: 5.5cqw;
+    padding-bottom: 1.3cqw;
+  }
+  .page-2 header,
+  .page-3 header {
+    margin-bottom: 1.8cqw;
+  }
+  .page-2 .issue-line,
+  .page-3 .issue-line {
+    padding-block: 0.9cqw;
+  }
+  .page-content {
+    position: absolute;
+    inset: 5.2cqw 5.5cqw;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 2.8cqw;
+    flex-shrink: 0;
+  }
+  .publication {
+    font:
+      400 7.4cqw/1.1 'UnifrakturMaguntia',
+      Georgia,
+      serif;
+    padding-bottom: 2cqw;
+    white-space: nowrap;
+  }
+  .issue-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 1cqw;
+    border-top: 0.4cqw double #514b40;
+    border-bottom: 0.1cqw solid #514b40;
+    padding: 1.3cqw 0;
+    font:
+      1.15cqw/1.4 'Libre Baskerville',
+      Georgia,
+      serif;
+    letter-spacing: 0.12cqw;
+    text-transform: uppercase;
+  }
+  .announcement {
+    text-align: center;
+    margin-bottom: 2.4cqw;
+  }
+  h1 {
+    font:
+      600 9.7cqw/1 'Cormorant Garamond',
+      Georgia,
+      serif;
+    letter-spacing: -0.2cqw;
+    white-space: nowrap;
+  }
+  .deck {
+    font-size: 4cqw;
+    line-height: 1.3;
+    font-style: italic;
+  }
+  .date {
+    font:
+      1.85cqw/1.4 'Libre Baskerville',
+      Georgia,
+      serif;
+    letter-spacing: 0.13cqw;
+    margin-top: 0.8cqw;
+  }
+  .cover-lead {
+    display: grid;
+    grid-template-columns: 1.65fr 1fr;
+    gap: 2.5cqw;
+    border-top: 0.1cqw solid #aaa397;
+    padding-top: 2cqw;
+  }
+  figure img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    filter: grayscale(1);
+    outline: 1px solid rgba(0, 0, 0, 0.1);
+    outline-offset: -1px;
+  }
+  .main-photo img {
+    height: 37cqw;
+    object-position: 46% 35%;
+  }
+  figcaption {
+    font:
+      1cqw/1.4 'Libre Baskerville',
+      Georgia,
+      serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1cqw;
+    text-align: center;
+    margin-top: 0.8cqw;
+  }
+  .eyebrow {
+    font:
+      1.2cqw/1.4 'Libre Baskerville',
+      Georgia,
+      serif;
+    letter-spacing: 0.15cqw;
+    text-transform: uppercase;
+  }
+  h2 {
+    font:
+      500 4.5cqw/1.1 'Cormorant Garamond',
+      Georgia,
+      serif;
+    margin: 1cqw 0 1.5cqw;
+    text-wrap: balance;
+  }
+  .cover-note > p:not(.eyebrow),
+  .cover-bottom > div > p:not(.eyebrow),
+  .our-story > p:not(.eyebrow) {
+    font:
+      1.55cqw/1.6 'Libre Baskerville',
+      Georgia,
+      serif;
+    margin-bottom: 1.8cqw;
+    text-wrap: pretty;
+  }
+  .italic {
+    font-style: italic !important;
+  }
+  .names {
+    font-size: 5.3cqw;
+    line-height: 1.05;
+    text-align: center;
+    border-block: 0.1cqw solid #aaa397;
+    padding: 1.6cqw 0;
+    margin: 2.4cqw 0;
+  }
+  .names br {
+    display: none;
+  }
+  .names em {
+    margin-inline: 0.3em;
+  }
+  .cover-bottom {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 3cqw;
+    margin-bottom: 2cqw;
+  }
+  .second-photo img {
+    height: 26cqw;
+    object-position: 61% 35%;
+  }
+  .cover-bottom > div > .contents {
+    font-size: 1.2cqw;
+    line-height: 1.8;
+    border-top: 0.1cqw solid #aaa397;
+    padding-top: 1.3cqw;
+  }
+  .our-story {
+    border-bottom: 0.1cqw solid #aaa397;
+    padding-bottom: 1cqw;
+    margin-bottom: 2.4cqw;
+  }
+  .our-story h2 {
+    margin: 0.8cqw 0;
+  }
+  .closing {
+    text-align: center;
+  }
+  .closing h2 {
+    font-size: 8cqw;
+    margin: 2.5cqw 0;
+  }
+  .closing > p:not(.eyebrow):not(.closing-date):not(.closing-note) {
+    font:
+      1.8cqw/1.7 'Libre Baskerville',
+      Georgia,
+      serif;
+    max-width: 74cqw;
+    margin: 0 auto;
+  }
+  .city {
+    width: 67cqw;
+    margin: 3cqw auto 1cqw;
+  }
+  .city :global(svg) {
+    width: 100%;
+    height: 20cqw;
+  }
+  .closing-date {
+    font-size: 4.5cqw;
+    margin-top: 2cqw;
+  }
+  .closing-note {
+    font-size: 2.6cqw;
+    line-height: 1.4;
+    font-style: italic;
+    margin-top: 0.8cqw;
+  }
+  .answer-key {
+    border-top: 0.25cqw double #aaa397;
+    margin-top: 4cqw;
+    padding-top: 2cqw;
+  }
+  .answer-key h2 {
+    font-size: 4cqw;
+  }
+  .answer-columns {
+    display: grid;
+    grid-template-columns: 0.8fr 1fr 1.2fr;
+    gap: 2.5cqw;
+  }
+  .answer-columns h3 {
+    text-transform: uppercase;
+    font-size: 1.9cqw;
+    margin-bottom: 0.7cqw;
+  }
+  .answer-columns p,
+  .answer-key > p:not(.eyebrow) {
+    font:
+      1.25cqw/1.65 'Libre Baskerville',
+      Georgia,
+      serif;
+  }
+  .group-answer {
+    margin-bottom: 1cqw;
+  }
+  .group-answer strong {
+    font-weight: 400;
+    letter-spacing: 0.06cqw;
+  }
+  .solution-note {
+    margin-top: 1cqw;
+  }
+  .travel-answers {
+    border-top: 0.1cqw solid #aaa397;
+    margin: 1.7cqw 0 1cqw;
+    padding-top: 1.2cqw;
+  }
+  footer {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 2cqw;
+    padding-top: 1.4cqw;
+    margin-top: auto;
+    border-top: 0.1cqw solid #aaa397;
+    font:
+      1cqw/1.4 'Libre Baskerville',
+      Georgia,
+      serif;
+    letter-spacing: 0.08cqw;
+    text-transform: uppercase;
+  }
+</style>

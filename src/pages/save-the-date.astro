@@ -1,140 +1,85 @@
 ---
-import '@fontsource/newsreader/400.css';
-import '@fontsource/limelight/400.css';
-import '@fontsource/newsreader/400-italic.css';
-import '@fontsource/newsreader/600.css';
-import '@fontsource/barlow-semi-condensed/600.css';
-import WeddingAgra from '../components/WeddingAgra.astro';
+import '@fontsource/unifrakturmaguntia/400.css';
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource/cormorant-garamond/500-italic.css';
+import '@fontsource/cormorant-garamond/600.css';
+import '@fontsource/libre-baskerville/400.css';
+import WeddingBookletPage from '../components/WeddingBookletPage.astro';
+const sheets = [
+  {
+    name: 'Outer sheet',
+    description: 'Page 4 · back cover | Page 1 · save the date',
+    instruction: 'Fold with the printed side facing out.',
+    pages: [4, 1] as const,
+  },
+  {
+    name: 'Inner sheet',
+    description: 'Page 2 · crossword & word groups | Page 3 · maze & mischief',
+    instruction: 'Fold with the printed side facing in, then nest inside the outer sheet.',
+    pages: [2, 3] as const,
+  },
+];
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#f7f4ec" />
-    <title>Aru &amp; Kush — Save the Date · 24 November 2026 · Agra</title>
-    <meta
+  <head
+    ><meta charset="UTF-8" /><meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    /><meta name="robots" content="noindex, nofollow" /><meta
+      name="theme-color"
+      content="#f7f4ec"
+    /><title>Aru &amp; Kush — Save the Date · 24 November 2026 · Agra</title><meta
       name="description"
-      content="The wedding issue. Aru & Kush, 24 November 2026, Agra. An A2 newspaper spread for our forever."
-    />
-  </head>
+      content="The Forever Times. A wedding newspaper on two A2 sheets, printed single-sided and folded into four printed A3 pages."
+    /></head
+  >
   <body>
     <div class="tools">
       <div>
-        <strong>Our wedding newspaper</strong><p>The wedding issue · Aru &amp; Kush</p>
-      </div><button id="print" type="button"
-        >Print / Save PDF <span aria-hidden="true">↗</span></button
-      >
+        <strong>Our wedding newspaper</strong><p>
+          Two A2 sheets · Single-sided printing · Four printed A3 pages
+        </p>
+      </div><button id="print" type="button">Print / Save PDF ↗</button>
     </div>
     <p class="print-note">
-      One A2 sheet · print both sides at 100% · flip on the short edge · fold down the middle
+      A2 landscape (594 × 420 mm), actual size / 100%. Print each sheet on one side only. Fold both
+      down the centre and nest them with the blank backs together. The two cover photos are
+      placeholders.
     </p>
-    <main aria-label="Four-page wedding newspaper, arranged for double-sided printing">
-      <p class="side-label">
-        <strong>Outside</strong><span>Back cover · 04 &nbsp; | &nbsp; Front cover · 01</span>
-      </p>
-      <div
-        class="preview-scroll outside-preview"
-        role="region"
-        aria-label="Outside spread: pages 4 and 1; scroll horizontally on a small screen"
-        tabindex="0"
-      >
-        <section class="spread" aria-label="Outside of the A2 sheet">
-          <div class="spread-content">
-            <div class="pages">
-              <section class="page portrait" aria-label="Page 4: back cover, our photograph">
-                <header class="masthead">
-                  <p class="publication">The Forever Times</p>
-                  <div class="issue-line">
-                    <span>The Wedding Issue</span><span>24 November 2026</span>
-                  </div>
-                </header>
-                <p class="eyebrow cover-kicker">Together with our families</p>
-                <h2>Aru <span>&amp;</span> Kush</h2>
-                <p class="marrying">are getting married.</p>
-                <figure>
-                  <img
-                    src="/wedding/couple-placeholder.png"
-                    alt="Sample photograph: an AI-generated couple laughing together in an Agra-inspired courtyard"
-                    width="1774"
-                    height="887"
-                    loading="eager"
-                  />
-                  <figcaption>Sample photograph · Your favourite photo goes here</figcaption>
-                </figure>
-                <footer><span>With love, Aru &amp; Kush</span><span>04</span></footer>
-              </section>
-              <section class="page details" aria-label="Page 1: front cover, save the date">
-                <p class="eyebrow">A date to remember · A lifetime to follow</p>
-                <h1 id="save-heading"><span>SAVE</span><em>the</em><span>DATE</span></h1>
-                <p class="cover-names">Aru <em>&amp;</em> Kush</p>
-                <p class="date">24 NOVEMBER 2026</p>
-                <p class="location">AGRA, INDIA</p>
-                <footer><span>Formal invitation to follow</span><span>01</span></footer>
-              </section>
-            </div>
-          </div>
-        </section>
-      </div>
-      <p class="side-label inside-label">
-        <strong>Inside</strong><span>Left page · 02 &nbsp; | &nbsp; Right page · 03</span>
-      </p>
-      <div
-        class="preview-scroll inside-preview"
-        role="region"
-        aria-label="Inside spread: pages 2 and 3; scroll horizontally on a small screen"
-        tabindex="0"
-      >
-        <section class="spread inner-spread" aria-label="Inside of the A2 sheet">
-          <div class="spread-content">
-            <header class="masthead">
-              <p class="publication">THE FOREVER TIMES</p><div class="issue-line">
-                <span>A note from the couple</span><span>The Wedding Issue</span><span
-                  >November 24, 2026</span
-                >
+    <main aria-label="Two single-sided A2 print sheets for a folded wedding newspaper">
+      {
+        sheets.map((sheet) => (
+          <section class="sheet-section" aria-label={sheet.name}>
+            <>
+              <div class="sheet-label">
+                <>
+                  <strong>{sheet.name}</strong>
+                  <span>{sheet.description}</span>
+                </>
               </div>
-            </header>
-            <div class="announcement inner-announcement">
-              <h2>A LIFE TOGETHER</h2><p>Love, laughter, and everything in between.</p>
-            </div>
-            <div class="pages">
-              <section class="page letter" aria-label="Page 2: a note from Aru and Kush">
-                <p class="eyebrow">To our favourite people</p>
-                <h3>Some things are better<br /><em>when we share them.</em></h3>
-                <div class="letter-copy">
-                  <p>
-                    We’re getting married. And as we begin this next chapter, what we look forward
-                    to most is having the people we love beside us.
-                  </p><p>
-                    So keep the twenty-fourth of November for us. Bring your joy, your dancing
-                    shoes, and yourselves. We’ll make the memories together.
-                  </p><p>
-                    Here’s to a day full of laughter, a room full of love, and a lifetime of little
-                    moments worth keeping.
-                  </p>
+              <p class="fold-note">{sheet.instruction}</p>
+              <div
+                class="preview"
+                tabindex="0"
+                role="region"
+                aria-label={`${sheet.name}, two A3 pages; scroll horizontally on a small screen`}
+              >
+                <div class="sheet">
+                  {sheet.pages.map((page) => (
+                    <WeddingBookletPage page={page} />
+                  ))}
                 </div>
-                <p class="signature">With love,<br /><em>Aru &amp; Kush</em></p>
-                <footer><span>The beginning of our favourite chapter</span><span>02</span></footer>
-              </section>
-              <section class="page destination" aria-label="Page 3: meet us in Agra">
-                <p class="eyebrow">The city of our celebration</p><h3>Meet us in <em>Agra.</em></h3>
-                <figure class="city-art">
-                  <WeddingAgra /><figcaption>A city made for a love story.</figcaption>
-                </figure>
-                <p class="destination-date">24 NOVEMBER 2026</p><p class="destination-note">
-                  The place, the plans, and all the lovely details<br />will arrive with your formal
-                  invitation.
-                </p>
-                <footer><span>Agra, India · Keep this day for us</span><span>03</span></footer>
-              </section>
-            </div>
-          </div>
-        </section>
-      </div>
+              </div>
+            </>
+          </section>
+        ))
+      }
     </main>
-    <p class="screen-caption">One sheet. Four pages. A story to keep.</p>
+    <p class="screen-caption">
+      Outside: 4 | 1 &nbsp; · &nbsp; Inside: 2 | 3 &nbsp; · &nbsp; No printing on the reverse.
+    </p>
     <script>
       document.querySelector<HTMLButtonElement>('#print')?.addEventListener('click', async () => {
         await document.fonts.ready;
@@ -157,12 +102,13 @@ import WeddingAgra from '../components/WeddingAgra.astro';
   }
   :global(body) {
     padding: 28px;
-    font-family: 'Newsreader', Georgia, serif;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
     -webkit-font-smoothing: antialiased;
   }
   :global(::selection) {
     background: #803f35;
-    color: #fff;
+    color: white;
   }
   .tools {
     max-width: 1440px;
@@ -173,14 +119,26 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     gap: 20px;
   }
   .tools strong {
-    font-size: 19px;
-    font-weight: 400;
+    font-size: 23px;
+    font-weight: 500;
+  }
+  .tools p,
+  .print-note,
+  .fold-note,
+  .sheet-label,
+  .screen-caption {
+    font:
+      12px/1.6 'Libre Baskerville',
+      Georgia,
+      serif;
   }
   .tools p {
-    font-size: 14px;
+    margin-top: 5px;
+  }
+  .print-note {
+    max-width: 1440px;
+    margin: 16px auto 28px;
     color: #635f56;
-    font-style: italic;
-    margin-top: 6px;
   }
   button {
     min-height: 44px;
@@ -189,9 +147,9 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     color: #f7f4ec;
     border: 0;
     font:
-      12px 'Barlow Semi Condensed',
-      sans-serif;
-    letter-spacing: 0.7px;
+      12px 'Libre Baskerville',
+      Georgia,
+      serif;
     cursor: pointer;
     white-space: nowrap;
     transition:
@@ -205,340 +163,68 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     transform: scale(0.96);
   }
   button:focus-visible,
-  .preview-scroll:focus-visible {
+  .preview:focus-visible {
     outline: 2px solid #803f35;
     outline-offset: 4px;
   }
-  .print-note {
+  .sheet-section {
     max-width: 1440px;
-    margin: 18px auto;
-    font:
-      12px 'Barlow Semi Condensed',
-      sans-serif;
-    color: #635f56;
-    letter-spacing: 0.3px;
+    margin: 0 auto 34px;
   }
-  .side-label {
-    max-width: 1440px;
-    margin: 20px auto 12px;
+  .sheet-label {
     display: flex;
     justify-content: space-between;
     gap: 16px;
-    font:
-      12px 'Barlow Semi Condensed',
-      sans-serif;
-    letter-spacing: 0.5px;
   }
-  .inside-label {
-    margin-top: 36px;
+  .fold-note {
+    margin: 3px 0 10px;
+    color: #635f56;
   }
-  .inner-announcement h2 {
-    font-family: 'Limelight', Georgia, serif;
-    font-size: 5.6cqw;
-    line-height: 1.1;
-    font-weight: 400;
-    letter-spacing: 0.1cqw;
-    margin: 0;
-  }
-  .letter {
-    padding-right: 3cqw;
-    border-right: 0.08cqw solid #aaa397;
-  }
-  .destination {
-    padding-left: 3cqw;
-    text-align: center;
-  }
-  .letter h3,
-  .destination h3 {
-    font-size: 3.2cqw;
-    font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.08cqw;
-    margin: 1.4cqw 0 1.2cqw;
-  }
-  .letter-copy {
-    font-size: 1.4cqw;
-    line-height: 1.5;
-    text-wrap: pretty;
-  }
-  .letter-copy p {
-    margin-bottom: 1.3cqw;
-  }
-  .letter-copy p:first-child:first-letter {
-    float: left;
-    font-size: 5.7cqw;
-    line-height: 0.85;
-    padding: 0.55cqw 0.5cqw 0 0;
-  }
-  .signature {
-    font-size: 1.8cqw;
-    line-height: 1.4;
-    margin-top: 0.5cqw;
-  }
-  .signature em {
-    font-size: 3cqw;
-  }
-  .city-art {
-    width: 70%;
-    margin: 0 auto;
-  }
-  .city-art :global(svg) {
-    max-height: 17cqw;
-  }
-  .destination-date {
-    font:
-      2.8cqw 'Barlow Semi Condensed',
-      sans-serif;
-    margin-top: 1.7cqw;
-  }
-  .destination-note {
-    font-size: 1.45cqw;
-    line-height: 1.45;
-    font-style: italic;
-    margin-top: 1cqw;
-  }
-  .preview-scroll {
-    max-width: 1440px;
-    margin: auto;
+  .preview {
     box-shadow:
       0 2px 8px #00000008,
       0 20px 60px #00000014;
   }
-  .spread {
-    container-type: inline-size;
-    position: relative;
+  .sheet {
     width: 100%;
-    aspect-ratio: 574/399;
-    background: #f7f4ec;
-  }
-  .spread-content {
-    position: absolute;
-    inset: 2.6cqw 3.1cqw 1.8cqw;
-    display: flex;
-    flex-direction: column;
-  }
-  .masthead {
-    text-align: center;
-  }
-  .publication {
-    font-family: 'Limelight', Georgia, serif;
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 3.8cqw;
-    line-height: 1;
-    letter-spacing: 0.18cqw;
-    white-space: nowrap;
-    padding: 0.5cqw 0 1.2cqw;
-  }
-  .issue-line {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2cqw;
-    padding: 0.85cqw 0;
-    border-block: 0.08cqw solid;
-    font:
-      1.02cqw 'Barlow Semi Condensed',
-      sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.12cqw;
-  }
-  .issue-line span:nth-child(2) {
-    color: #20201d;
-    letter-spacing: 0.2cqw;
-  }
-  .announcement {
-    text-align: center;
-    padding: 2cqw 0 1.6cqw;
-    flex-shrink: 0;
-  }
-  h1 {
-    font-family: 'Limelight', Georgia, serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 10.8cqw;
-    font-weight: 400;
-    line-height: 0.95;
-    letter-spacing: -0.4cqw;
-    margin: 5.5cqw 0 4cqw;
-  }
-  h1 em {
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: 8.4cqw;
-    line-height: 0.9;
-    letter-spacing: -0.3cqw;
-    margin: 0.5cqw 0;
-  }
-  .outside-preview .pages {
-    border-top: 0;
-  }
-  .outside-preview .page {
-    padding-top: 0;
-  }
-  .outside-preview .portrait {
-    text-align: center;
-  }
-  .outside-preview .publication {
-    font-size: 2.9cqw;
-    font-weight: 400;
-    letter-spacing: -0.08cqw;
-    padding: 0.1cqw 0 1cqw;
-  }
-  .outside-preview .issue-line {
-    font-size: 0.85cqw;
-    gap: 1cqw;
-    border-top: 0.3cqw double;
-  }
-  .cover-kicker {
-    margin-top: 2.1cqw;
-  }
-  .outside-preview h2 {
-    font-size: 5.7cqw;
-    margin-top: 0.8cqw;
-  }
-  .outside-preview .marrying {
-    font-size: 1.65cqw;
-    margin-bottom: 1.7cqw;
-  }
-  .outside-preview figure img {
-    height: 33cqw;
-    object-position: 50% 35%;
-  }
-  .cover-names {
-    font-size: 4.8cqw;
-    letter-spacing: -0.12cqw;
-  }
-  .outside-preview .details > .eyebrow {
-    padding-block: 1.2cqw;
-    border-block: 0.08cqw solid;
-  }
-  .announcement > p {
-    font-size: 1.55cqw;
-    font-style: italic;
-    margin-top: 0.35cqw;
-  }
-  .pages {
+    aspect-ratio: 594 / 420;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    flex: 1;
-    min-height: 0;
-    border-top: 0.08cqw solid;
+    position: relative;
   }
-  .page {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    padding-top: 2.2cqw;
-  }
-  .details {
-    padding-left: 3cqw;
-    text-align: center;
-  }
-  .portrait {
-    padding-right: 3cqw;
-    border-right: 0.08cqw solid #aaa397;
-  }
-  .eyebrow,
-  .date,
-  .location,
-  figcaption,
-  footer {
-    font-family: 'Barlow Semi Condensed', sans-serif;
-    text-transform: uppercase;
-  }
-  .eyebrow {
-    font-size: 1cqw;
-    letter-spacing: 0.18cqw;
-    color: #20201d;
-  }
-  h2 {
-    font-size: 6.6cqw;
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.2cqw;
-    margin: 1.45cqw 0 0.3cqw;
-    white-space: nowrap;
-  }
-  h2 > span {
-    font-style: italic;
-    font-size: 0.8em;
-    padding: 0 0.35cqw;
-  }
-  .marrying {
-    font-size: 2.15cqw;
-    font-style: italic;
-  }
-  .date {
-    font-size: 3.1cqw;
-    line-height: 1.2;
-    letter-spacing: 0.04cqw;
-    margin-top: 1.4cqw;
-  }
-  .location {
-    font-size: 1.5cqw;
-    letter-spacing: 0.3cqw;
-    margin-top: 0.9cqw;
-  }
-  figure {
-    width: 100%;
-    flex-shrink: 0;
-  }
-  figure img {
-    display: block;
-    width: 100%;
-    height: 19.7cqw;
-    object-fit: cover;
-    object-position: 52% 35%;
-    filter: grayscale(1);
-    outline: 1px solid rgba(0, 0, 0, 0.1);
-    outline-offset: -1px;
-  }
-  figcaption {
-    font-size: 0.75cqw;
-    letter-spacing: 0.08cqw;
-    margin-top: 0.65cqw;
-    text-align: center;
-  }
-  footer {
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5cqw;
-    font-size: 0.8cqw;
-    letter-spacing: 0.07cqw;
-    margin-top: auto;
-    padding-top: 1cqw;
-    border-top: 0.08cqw solid #aaa397;
+  .sheet::after {
+    content: '';
+    position: absolute;
+    top: 3%;
+    bottom: 3%;
+    left: 50%;
+    border-left: 1px dashed #aaa397;
+    pointer-events: none;
   }
   .screen-caption {
     text-align: center;
-    font-size: 15px;
-    font-style: italic;
     color: #635f56;
-    margin: 20px 0;
   }
   @media screen and (max-width: 800px) {
     :global(body) {
-      padding: 16px;
+      padding: 12px;
     }
-    .preview-scroll {
+    .preview {
       overflow-x: auto;
     }
-    .spread {
-      min-width: 720px;
-    }
-    .print-note {
-      line-height: 1.5;
-    }
-    .tools strong {
-      font-size: 17px;
+    .sheet {
+      min-width: 960px;
     }
     .tools p {
-      font-size: 12px;
+      font-size: 10px;
+    }
+    .sheet-label {
+      flex-direction: column;
+      gap: 0;
     }
     button {
-      font-size: 11px;
-      padding: 12px;
+      font-size: 10px;
+      padding-inline: 10px;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -548,39 +234,47 @@ import WeddingAgra from '../components/WeddingAgra.astro';
   }
   @page {
     size: 594mm 420mm;
-    margin: 10mm;
+    margin: 0;
   }
   @media print {
     :global(html),
     :global(body) {
-      padding: 0;
       margin: 0;
+      padding: 0;
       background: white;
     }
     .tools,
-    .side-label,
     .print-note,
+    .fold-note,
+    .sheet-label,
     .screen-caption,
     :global(astro-dev-toolbar) {
       display: none;
     }
-    .preview-scroll {
-      width: 574mm;
+    .sheet-section {
+      width: 594mm;
       max-width: none;
-      box-shadow: none;
-      overflow: visible;
+      margin: 0;
+      break-after: page;
       break-inside: avoid;
     }
-    .outside-preview {
-      break-after: page;
+    .sheet-section:last-child {
+      break-after: auto;
     }
-    .spread {
-      width: 574mm;
-      height: 399mm;
+    .preview {
+      width: 594mm;
+      box-shadow: none;
+      overflow: visible;
+    }
+    .sheet {
+      width: 594mm;
+      height: 420mm;
       aspect-ratio: auto;
       print-color-adjust: exact;
       -webkit-print-color-adjust: exact;
-      break-inside: avoid;
+    }
+    .sheet::after {
+      display: none;
     }
   }
 </style>

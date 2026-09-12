@@ -1,0 +1,554 @@
+---
+import puzzle from '../data/wedding-crossword.json';
+import wordGroups from '../data/wedding-word-groups.json';
+import WeddingMaze from './WeddingMaze.astro';
+interface Props {
+  section: 'crossword' | 'diversions';
+}
+const { section } = Astro.props;
+const cells = Array.from({ length: puzzle.rows }, () =>
+  Array<string | null>(puzzle.cols).fill(null)
+);
+for (const entry of puzzle.entries) {
+  [...entry.answer].forEach((letter, i) => {
+    cells[entry.row + (entry.direction === 'down' ? i : 0)][
+      entry.col + (entry.direction === 'across' ? i : 0)
+    ] = letter;
+  });
+}
+const starts = new Map(puzzle.entries.map((entry) => [`${entry.row},${entry.col}`, entry.number]));
+const wordPrompts = [
+  'An adjective',
+  'A vehicle',
+  'A number',
+  'A plural noun',
+  'A food',
+  'An exclamation',
+];
+---
+
+<div class:list={['games-pages', section]}>
+  {
+    section === 'crossword' && (
+      <>
+        <div class="section-intro">
+          <>
+            <h2>
+              For better or <em>word.</em>
+            </h2>
+            <p>A little inside knowledge. A little lateral thinking. No phones required.</p>
+          </>
+        </div>
+        <section class="crossword-feature" aria-labelledby="crossword-heading">
+          <div class="game-heading">
+            <>
+              <h3 id="crossword-heading">
+                <span>01</span> A few things about us
+              </h3>
+              <p>10 clues · Start here</p>
+            </>
+          </div>
+          <div class="crossword-layout">
+            <div>
+              <svg
+                class="crossword-grid"
+                viewBox={`-1 -1 ${puzzle.cols * 32 + 2} ${puzzle.rows * 32 + 2}`}
+                role="img"
+                aria-labelledby="grid-title grid-desc"
+              >
+                <>
+                  <title id="grid-title">The couple’s crossword</title>
+                  <desc id="grid-desc">
+                    Twelve by twelve grid with ten interlocking answers. Clues on the right; answers
+                    on page 4.
+                  </desc>
+                </>
+                {cells.map((row, r) =>
+                  row.map((letter, c) => (
+                    <g>
+                      <rect
+                        x={c * 32}
+                        y={r * 32}
+                        width="32"
+                        height="32"
+                        fill={letter ? '#f7f4ec' : '#c9c3b6'}
+                        stroke="#514b40"
+                        stroke-width=".65"
+                      />
+                      {letter && starts.has(`${r},${c}`) && (
+                        <text
+                          x={c * 32 + 3}
+                          y={r * 32 + 9}
+                          font-family="Georgia,serif"
+                          font-size="8"
+                          fill="#20201d"
+                        >
+                          {starts.get(`${r},${c}`)}
+                        </text>
+                      )}
+                    </g>
+                  ))
+                )}
+              </svg>
+              <p class="small-note">
+                One letter per square. Leave out spaces.
+                <br />
+                Stuck? The front page is fair game.
+              </p>
+            </div>
+            <div class="clue-columns">
+              {['across', 'down'].map((direction) => (
+                <section aria-label={`${direction} clues`}>
+                  <h4>{direction}</h4>
+                  <ol class="clues">
+                    {puzzle.entries
+                      .filter((e) => e.direction === direction)
+                      .map((e) => (
+                        <li value={e.number}>
+                          <b>{e.number}</b>
+                          <p>{e.clue}</p>
+                        </li>
+                      ))}
+                  </ol>
+                </section>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section class="matches" aria-labelledby="matches-heading">
+          <div class="game-heading">
+            <>
+              <h3 id="matches-heading">
+                <span>02</span> Perfect matches
+              </h3>
+              <p>16 words · 4 connections</p>
+            </>
+          </div>
+          <p class="instruction">
+            Find four groups of four. Each group shares a word that goes before or after all four
+            entries. Mark matching words 1–4; use each word once.
+          </p>
+          <div class="word-grid">
+            {wordGroups.words.map((word) => (
+              <div>
+                <span>{word}</span>
+                <i aria-label="Write group number here" />
+              </div>
+            ))}
+          </div>
+          <div class="group-lines">
+            {[1, 2, 3, 4].map((n) => (
+              <div>
+                <b>{n}</b>
+                <span aria-label={`Group ${n} connecting word`} />
+              </div>
+            ))}
+          </div>
+          <p class="small-note">
+            Write the four connecting words above. Hint: think compound words and familiar phrases.
+          </p>
+        </section>
+        <div class="paper-strip">
+          <>
+            <b>THE HOUSE RULES</b>
+            <span>Teamwork is romantic. Stealing your partner’s pencil is not.</span>
+          </>
+        </div>
+      </>
+    )
+  }
+  {
+    section === 'diversions' && (
+      <>
+        <div class="section-intro">
+          <>
+            <h2>
+              The scenic route <em>to “I do”.</em>
+            </h2>
+            <p>It began in Malibu Town. Rishikesh became a repeat stop. Agra is next.</p>
+          </>
+        </div>
+        <section class="maze-feature" aria-labelledby="maze-heading">
+          <div class="game-heading">
+            <>
+              <h3 id="maze-heading">
+                <span>03</span> One more detour
+              </h3>
+              <p>A pencil adventure</p>
+            </>
+          </div>
+          <p class="instruction">
+            Get from Gurugram to Agra through the <b>R</b> checkpoint. Naturally, there’s a
+            Rishikesh stop. Stay inside the paths; no crossing walls.
+          </p>
+          <div class="route-legend">
+            <>
+              <span>
+                <b>01</b> GURUGRAM · START ↘
+              </span>
+              <span>
+                <b>R</b> RISHIKESH · EN ROUTE
+              </span>
+            </>
+          </div>
+          <div class="maze-frame">
+            <WeddingMaze />
+          </div>
+          <div class="route-finish">
+            <>
+              <span>Not to scale. Especially the detour.</span>
+              <b>AGRA · YOU MADE IT ↗</b>
+            </>
+          </div>
+        </section>
+        <section class="guest-report" aria-labelledby="report-heading">
+          <div class="game-heading">
+            <>
+              <h3 id="report-heading">
+                <span>04</span> Stop the press!
+              </h3>
+              <p>2 players · Maximum nonsense</p>
+            </>
+          </div>
+          <p class="instruction">
+            Cover the report below. Ask a friend for these six words without explaining why. Fill
+            them in, then read your breaking news aloud.
+          </p>
+          <div class="report-layout">
+            {' '}
+            <div class="prompt-grid">
+              {wordPrompts.map((prompt, i) => (
+                <div>
+                  <span>
+                    {i + 1} · {prompt}
+                  </span>
+                  <i aria-label={`Write ${prompt.toLowerCase()} here`} />
+                </div>
+              ))}
+            </div>
+            <div class="fiction-report">
+              <>
+                <p class="kicker">An entirely unverified travel report</p>
+                <h4>
+                  Couple packs for two days.
+                  <>
+                    <br />
+                    <em>Returns with a story.</em>
+                  </>
+                </h4>
+              </>
+              <p>
+                Witnesses described the trip as <span class="blank">1</span>. Aru and Kush arrived
+                in Rishikesh by <span class="blank">2</span>, carrying <span class="blank">3</span>{' '}
+                suitcases full of <span class="blank">4</span>. Asked about their plans, they
+                announced: “First, <span class="blank">5</span>. Then, absolutely nothing.” Their
+                official statement: “<span class="blank">6</span>!”
+              </p>
+            </div>
+          </div>
+        </section>
+        <div class="paper-strip">
+          <>
+            <b>CORRECTION</b>
+            <span>“One last trip before the wedding” was a suggestion, not a limit.</span>
+          </>
+        </div>
+      </>
+    )
+  }
+</div>
+<style>
+  .games-pages {
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 1.6cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4cqw;
+  }
+  .games-pages > * {
+    flex-shrink: 0;
+  }
+  .section-intro {
+    border-bottom: 0.3cqw double #514b40;
+    padding-bottom: 1.7cqw;
+  }
+  .kicker {
+    font:
+      1.15cqw/1.4 'Libre Baskerville',
+      Georgia,
+      serif;
+    letter-spacing: 0.13cqw;
+    text-transform: uppercase;
+  }
+  h2 {
+    font:
+      600 6.1cqw/1.05 'Cormorant Garamond',
+      Georgia,
+      serif;
+    letter-spacing: -0.08cqw;
+    margin: 0.7cqw 0 1cqw;
+    white-space: nowrap;
+  }
+  h2 em {
+    font-weight: 500;
+  }
+  .section-intro > p:last-child,
+  .instruction {
+    font:
+      1.35cqw/1.55 'Libre Baskerville',
+      Georgia,
+      serif;
+    text-wrap: pretty;
+  }
+  .game-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1cqw;
+    margin-bottom: 1.2cqw;
+  }
+  h3 {
+    font:
+      600 3.2cqw/1.15 'Cormorant Garamond',
+      Georgia,
+      serif;
+  }
+  h3 > span {
+    font:
+      1.25cqw 'Libre Baskerville',
+      Georgia,
+      serif;
+    display: inline-block;
+    border: 1px solid #514b40;
+    border-radius: 50%;
+    width: 3cqw;
+    height: 3cqw;
+    line-height: 3cqw;
+    text-align: center;
+    vertical-align: 0.4cqw;
+    margin-right: 1cqw;
+  }
+  .game-heading > p {
+    font:
+      italic 1.5cqw/1.3 'Cormorant Garamond',
+      Georgia,
+      serif;
+    white-space: nowrap;
+  }
+  .crossword-layout {
+    display: grid;
+    grid-template-columns: 40cqw 1fr;
+    gap: 2.7cqw;
+  }
+  .crossword-grid {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .small-note {
+    font:
+      italic 1.2cqw/1.55 'Libre Baskerville',
+      Georgia,
+      serif;
+    margin-top: 1.2cqw;
+  }
+  h4 {
+    font:
+      600 1.9cqw/1.2 'Cormorant Garamond',
+      Georgia,
+      serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1cqw;
+    margin-bottom: 0.8cqw;
+  }
+  .clue-columns {
+    display: grid;
+    gap: 1cqw;
+    align-content: start;
+  }
+  .clues {
+    list-style: none;
+  }
+  .clues li {
+    display: grid;
+    grid-template-columns: 1.9cqw 1fr;
+    gap: 0.3cqw;
+    margin-bottom: 0.7cqw;
+    font:
+      1.24cqw/1.48 'Libre Baskerville',
+      Georgia,
+      serif;
+  }
+  .clues li b {
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+  .matches {
+    border-top: 0.3cqw double #514b40;
+    padding-top: 1.8cqw;
+  }
+  .word-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75cqw;
+    margin-top: 1.4cqw;
+  }
+  .word-grid > div {
+    border: 0.1cqw solid #777064;
+    min-height: 4.8cqw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7cqw;
+    padding: 0.8cqw 1.1cqw;
+    background: #eeeadf;
+  }
+  .word-grid span {
+    font:
+      1.38cqw/1.3 'Libre Baskerville',
+      Georgia,
+      serif;
+    letter-spacing: 0.02cqw;
+  }
+  .word-grid i {
+    display: block;
+    flex-shrink: 0;
+    width: 1.6cqw;
+    height: 1.6cqw;
+    border-bottom: 0.1cqw solid #777064;
+  }
+  .group-lines {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5cqw;
+    margin-top: 1.7cqw;
+  }
+  .group-lines > div {
+    display: flex;
+    align-items: center;
+    gap: 1cqw;
+  }
+  .group-lines b {
+    font:
+      1.2cqw 'Libre Baskerville',
+      Georgia,
+      serif;
+  }
+  .group-lines span {
+    display: block;
+    border-bottom: 0.1cqw solid #aaa397;
+    height: 2.6cqw;
+    flex: 1;
+  }
+  .paper-strip {
+    border-top: 0.1cqw solid #777064;
+    padding: 1.2cqw 0;
+    margin-top: auto;
+    display: flex;
+    align-items: baseline;
+    gap: 1.5cqw;
+  }
+  .paper-strip b {
+    font:
+      600 1.4cqw 'Cormorant Garamond',
+      Georgia,
+      serif;
+    white-space: nowrap;
+    letter-spacing: 0.08cqw;
+  }
+  .paper-strip span {
+    font:
+      italic 1.22cqw/1.5 'Libre Baskerville',
+      Georgia,
+      serif;
+  }
+  .route-legend,
+  .route-finish {
+    display: flex;
+    justify-content: space-between;
+    gap: 2cqw;
+    font:
+      1.1cqw/1.4 'Libre Baskerville',
+      Georgia,
+      serif;
+    margin-top: 1.2cqw;
+    letter-spacing: 0.05cqw;
+  }
+  .route-legend b {
+    display: inline-block;
+    margin-right: 0.7cqw;
+  }
+  .maze-frame {
+    width: 61cqw;
+    margin: 0.8cqw auto 0;
+  }
+  .route-finish {
+    margin-top: 0.3cqw;
+  }
+  .route-finish > span {
+    font-style: italic;
+    letter-spacing: 0;
+  }
+  .route-finish b {
+    font-weight: 400;
+  }
+  .guest-report {
+    border-top: 0.3cqw double #514b40;
+    padding-top: 1.8cqw;
+  }
+  .report-layout {
+    display: grid;
+    grid-template-columns: 24cqw 1fr;
+    gap: 2cqw;
+    margin-top: 1.4cqw;
+  }
+  .prompt-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8cqw;
+    margin: 0;
+  }
+  .prompt-grid span {
+    display: block;
+    font:
+      1.16cqw/1.4 'Libre Baskerville',
+      Georgia,
+      serif;
+  }
+  .prompt-grid i {
+    display: block;
+    border-bottom: 0.1cqw solid #aaa397;
+    height: 2.8cqw;
+  }
+  .fiction-report {
+    background: #eeeadf;
+    border: 1px solid #aaa397;
+    padding: 1.7cqw 2cqw;
+  }
+  .fiction-report h4 {
+    font:
+      600 3.3cqw/1.05 'Cormorant Garamond',
+      Georgia,
+      serif;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0.7cqw 0 1cqw;
+  }
+  .fiction-report > p:last-child {
+    font:
+      1.35cqw/2.05 'Libre Baskerville',
+      Georgia,
+      serif;
+    text-wrap: pretty;
+  }
+  .blank {
+    display: inline-block;
+    min-width: 11cqw;
+    height: 2.3cqw;
+    border-bottom: 0.1cqw solid #514b40;
+    font-size: 1cqw;
+    vertical-align: baseline;
+    color: #514b40;
+  }
+</style>
