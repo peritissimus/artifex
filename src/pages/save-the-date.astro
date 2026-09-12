@@ -14,16 +14,16 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#f7f4ec" />
-    <title>Kush &amp; Aru — Save the Date · 24 November 2026 · Agra</title>
+    <title>Aru &amp; Kush — Save the Date · 24 November 2026 · Agra</title>
     <meta
       name="description"
-      content="The wedding issue. Kush & Aru, 24 November 2026, Agra. An A2 newspaper spread for our forever."
+      content="The wedding issue. Aru & Kush, 24 November 2026, Agra. An A2 newspaper spread for our forever."
     />
   </head>
   <body>
     <div class="tools">
       <div>
-        <strong>Our wedding newspaper</strong><p>The wedding issue · Kush &amp; Aru</p>
+        <strong>Our wedding newspaper</strong><p>The wedding issue · Aru &amp; Kush</p>
       </div><button id="print" type="button"
         >Print / Save PDF <span aria-hidden="true">↗</span></button
       >
@@ -44,15 +44,7 @@ import WeddingAgra from '../components/WeddingAgra.astro';
         <section class="spread" aria-label="Outside of the A2 sheet">
           <div class="spread-content">
             <div class="pages">
-              <section class="page details" aria-label="Page 4: back cover, wedding details">
-                <p class="eyebrow">A date to remember · A lifetime to follow</p>
-                <h1 id="save-heading"><span>SAVE</span><em>the</em><span>DATE</span></h1>
-                <p class="cover-names">Kush <em>&amp;</em> Aru</p>
-                <p class="date">24 NOVEMBER 2026</p>
-                <p class="location">AGRA, INDIA</p>
-                <footer><span>Formal invitation to follow</span><span>04</span></footer>
-              </section>
-              <section class="page portrait" aria-label="Page 1: front cover, our photograph">
+              <section class="page portrait" aria-label="Page 4: back cover, our photograph">
                 <header class="masthead">
                   <p class="publication">The Forever Times</p>
                   <div class="issue-line">
@@ -60,7 +52,7 @@ import WeddingAgra from '../components/WeddingAgra.astro';
                   </div>
                 </header>
                 <p class="eyebrow cover-kicker">Together with our families</p>
-                <h2>Kush <span>&amp;</span> Aru</h2>
+                <h2>Aru <span>&amp;</span> Kush</h2>
                 <p class="marrying">are getting married.</p>
                 <figure>
                   <img
@@ -72,7 +64,15 @@ import WeddingAgra from '../components/WeddingAgra.astro';
                   />
                   <figcaption>Sample photograph · Your favourite photo goes here</figcaption>
                 </figure>
-                <footer><span>With love, Kush &amp; Aru</span><span>01</span></footer>
+                <footer><span>With love, Aru &amp; Kush</span><span>04</span></footer>
+              </section>
+              <section class="page details" aria-label="Page 1: front cover, save the date">
+                <p class="eyebrow">A date to remember · A lifetime to follow</p>
+                <h1 id="save-heading"><span>SAVE</span><em>the</em><span>DATE</span></h1>
+                <p class="cover-names">Aru <em>&amp;</em> Kush</p>
+                <p class="date">24 NOVEMBER 2026</p>
+                <p class="location">AGRA, INDIA</p>
+                <footer><span>Formal invitation to follow</span><span>01</span></footer>
               </section>
             </div>
           </div>
@@ -100,7 +100,7 @@ import WeddingAgra from '../components/WeddingAgra.astro';
               <h2>A LIFE TOGETHER</h2><p>Love, laughter, and everything in between.</p>
             </div>
             <div class="pages">
-              <section class="page letter" aria-label="Page 2: a note from Kush and Aru">
+              <section class="page letter" aria-label="Page 2: a note from Aru and Kush">
                 <p class="eyebrow">To our favourite people</p>
                 <h3>Some things are better<br /><em>when we share them.</em></h3>
                 <div class="letter-copy">
@@ -115,7 +115,7 @@ import WeddingAgra from '../components/WeddingAgra.astro';
                     moments worth keeping.
                   </p>
                 </div>
-                <p class="signature">With love,<br /><em>Kush &amp; Aru</em></p>
+                <p class="signature">With love,<br /><em>Aru &amp; Kush</em></p>
                 <footer><span>The beginning of our favourite chapter</span><span>02</span></footer>
               </section>
               <section class="page destination" aria-label="Page 3: meet us in Agra">
@@ -432,12 +432,12 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     padding-top: 2.2cqw;
   }
   .details {
-    padding-right: 3cqw;
+    padding-left: 3cqw;
     text-align: center;
-    border-right: 0.08cqw solid #aaa397;
   }
   .portrait {
-    padding-left: 3cqw;
+    padding-right: 3cqw;
+    border-right: 0.08cqw solid #aaa397;
   }
   .eyebrow,
   .date,
