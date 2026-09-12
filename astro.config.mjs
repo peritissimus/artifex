@@ -20,7 +20,9 @@ function contentLastmodDates() {
       const source = readFileSync(new URL(`${dir}/${file}`, import.meta.url), 'utf8');
       const frontmatter = source.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? '';
       for (const field of fields) {
-        const value = frontmatter.match(new RegExp(`^${field}:\\s*['"]?(\\d{4}-\\d{2}-\\d{2})`, 'm'))?.[1];
+        const value = frontmatter.match(
+          new RegExp(`^${field}:\\s*['"]?(\\d{4}-\\d{2}-\\d{2})`, 'm')
+        )?.[1];
         if (value) {
           dates[`${routePrefix}/${file.replace(/\.(md|mdx)$/, '')}`] = value;
           break;
@@ -44,7 +46,8 @@ export default defineConfig({
     mdx(),
     sitemap({
       // Keep noindex routes out of the sitemap.
-      filter: (page) => !page.includes('/terminal') && !page.includes('/404'),
+      filter: (page) =>
+        !['/terminal', '/404', '/save-the-date'].some((route) => page.includes(route)),
       serialize(item) {
         const path = new URL(item.url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
         const lastmod = lastmodDates[path];

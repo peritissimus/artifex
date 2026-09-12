@@ -1,0 +1,840 @@
+---
+import '@fontsource/newsreader/400.css';
+import '@fontsource/newsreader/400-italic.css';
+import '@fontsource/newsreader/600.css';
+import '@fontsource/barlow-semi-condensed/600.css';
+
+// Wedding details confirmed by the couple.
+const wedding = {
+  firstName: 'Kush',
+  secondName: 'Aru',
+  year: '2026',
+  city: 'Agra',
+  day: '24',
+  month: 'November',
+};
+const draft = !wedding.firstName || !wedding.secondName || !wedding.year;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f5f0e5" />
+    <title>Kush &amp; Aru — Save the Date · 24 November 2026 · Agra</title>
+    <meta
+      name="description"
+      content="A very special edition. Save the date for Kush and Aru’s wedding on 24 November 2026 in Agra."
+    />
+  </head>
+  <body>
+    <div class="tools">
+      <p>
+        {draft ? 'Design preview · year to be confirmed' : 'Our wedding newspaper'}<span
+          >A2 portrait · 420 × 594 mm</span
+        >
+      </p><button id="print" type="button"
+        >Print / Save PDF <span aria-hidden="true">↗</span></button
+      >
+    </div>
+    <main class="paper">
+      <header>
+        <div class="topline">
+          <span>Some news is worth keeping.</span><span>The wedding edition</span>
+        </div>
+        <div class="masthead"><span>The</span> Forever Times</div>
+        <div class="edition">
+          <span>Agra, India</span><span>A little paper. A very big announcement.</span><span
+            >Special edition · No. 01</span
+          >
+        </div>
+      </header>
+      <section class="announcement" aria-labelledby="headline">
+        <p class="eyebrow">Extra, extra! A lifetime of love begins.</p>
+        <h1 id="headline">We’re getting<br /><em>married!</em></h1>
+        <p class="names">
+          {wedding.firstName || '[Your name]'}
+          <span>&amp;</span>
+          {wedding.secondName || '[Your partner’s name]'}
+        </p>
+        <p class="deck">
+          With full hearts and our favourite people,<br />we’re beginning our forever.
+        </p>
+      </section>
+      <div class="feature">
+        <aside class="column left-column">
+          <p class="eyebrow">The occasion</p><h2>
+            Two hearts.<br /><em>One beautiful<br />beginning.</em>
+          </h2><p>A new chapter is on its way, and we would love for you to be a part of it.</p><p>
+            Keep the day for us. There will be love, laughter, and memories we’ll carry for a
+            lifetime.
+          </p><div class="small-rule"></div><p class="italic">
+            The best part?<br />Having you there.
+          </p>
+        </aside>
+        <figure class="agra-art">
+          <svg
+            viewBox="0 0 600 470"
+            xmlns="http://www.w3.org/2000/svg"
+            role="img"
+            aria-labelledby="agra-title agra-desc"
+          >
+            <title id="agra-title">A love letter to Agra</title><desc id="agra-desc"
+              >An ornamental line illustration inspired by Agra’s domes, arches, gardens, and
+              reflecting pools.</desc
+            >
+            <defs
+              ><pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse"
+                ><path
+                  d="M0 5 5 0"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width=".35"
+                  opacity=".3"></path></pattern
+              ><pattern id="water" width="32" height="12" patternUnits="userSpaceOnUse"
+                ><path d="M2 6h12m5 3h8" stroke="currentColor" stroke-width=".6" opacity=".35"
+                ></path></pattern
+              ><g id="arch"
+                ><path d="M0 55V24Q0 12 15 0Q30 12 30 24V55Z"></path><path
+                  d="M5 55V25Q5 16 15 7Q25 16 25 25V55"></path></g
+              ><g id="tower"
+                ><path d="M-9 0h18l-3-145H-6Z" fill="url(#hatch)"></path><path
+                  d="M-11-42h22m-21-48h20m-20-48h20M-12-145h24v-7h-24Zm3-7v-18h18v18m-20-18h22Q9-181 0-187Q-9-181-11-170Z"
+                ></path><path d="M0-187v-10m-13 55h26m-18-25v15m10-15v15"></path></g
+              ><g id="tree"
+                ><path
+                  d="M0 0v-65m0 57c-28-6-20-24-8-28-19-9-10-23 1-24-10-12 0-28 7-34 7 6 17 22 7 34 11 1 20 15 1 24 12 4 20 22-8 28"
+                ></path></g
+              ></defs
+            >
+            <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round">
+              <circle cx="300" cy="195" r="168" opacity=".16"></circle><path
+                d="M73 320h454M48 328h504M32 336h536"></path>
+              <use href="#tower" transform="translate(92 319)"></use><use
+                href="#tower"
+                transform="translate(508 319)"></use>
+              <use href="#tower" transform="translate(173 318) scale(.74)"></use><use
+                href="#tower"
+                transform="translate(427 318) scale(.74)"></use>
+              <path d="M198 316V213h204v103M212 213v-21h176v21M251 191v-31h98v31" fill="url(#hatch)"
+              ></path>
+              <path d="M241 160h118Q377 124 345 99Q316 77 300 57Q284 77 255 99Q223 124 241 160Z"
+              ></path>
+              <path
+                d="M249 158Q237 124 267 101Q288 83 300 58Q312 83 333 101Q363 124 351 158M300 58v-23m-7 10h14m-10-13 3-7 3 7M245 166h110m-101 9h92m-101 10h110"
+              ></path>
+              <path d="M265 316v-59q0-27 35-50 35 23 35 50v59M273 316v-57q0-21 27-40 27 19 27 40v57"
+              ></path>
+              <use href="#arch" transform="translate(218 249) scale(.8)"></use><use
+                href="#arch"
+                transform="translate(359 249) scale(.8)"></use>
+              <path d="M198 231h66m72 0h66M199 306h64m74 0h65M255 215v101m90-101v101"></path>
+              <path
+                d="M213 191v-18h36v18m-40-18h44q0-18-22-31-22 13-22 31Zm22-31v-12M351 191v-18h36v18m-40-18h44q0-18-22-31-22 13-22 31Zm22-31v-12"
+              ></path>
+              <path d="m275 338-44 118h138l-44-118Z" fill="url(#water)"></path><path
+                d="m264 338-63 118m135-118 63 118M288 351h24m-28 15h32m-39 18h46m-55 23h64m-76 27h88"
+                opacity=".7"></path>
+              <use href="#tree" transform="translate(137 407) scale(.75)"></use><use
+                href="#tree"
+                transform="translate(182 373) scale(.45)"></use><use
+                href="#tree"
+                transform="translate(463 407) scale(.75)"></use><use
+                href="#tree"
+                transform="translate(418 373) scale(.45)"></use>
+              <path
+                d="M61 412h122m234 0h122M39 440h133m256 0h133M119 89q8-8 16 0 8-8 16 0m295 21q7-7 14 0 7-7 14 0"
+                opacity=".6"></path>
+            </g>
+          </svg>
+          <figcaption>Agra <span>—</span> a city made for a love story.</figcaption>
+        </figure>
+        <aside class="column right-column">
+          <p class="eyebrow">The destination</p><h2>Meet us<br /><em>in Agra.</em></h2><p>
+            Pack a little joy and your dancing shoes. We’re bringing our favourite people together
+            for a celebration close to our hearts.
+          </p><div class="stamp">
+            <span>With love, from</span><strong>AGRA</strong><span>India · 24 November</span>
+          </div><p class="italic">Come for the wedding.<br />Stay for the memories.</p>
+        </aside>
+      </div>
+      <section
+        class="date-band"
+        aria-label={`Save the date: ${wedding.day} ${wedding.month} ${wedding.year} in ${wedding.city}`}
+      >
+        <p class="save-label">Save<br /><em>the date.</em></p><div class="date">
+          <strong>24</strong><div>
+            <span>November</span><span class="year">{wedding.year || '[Year]'}</span>
+          </div>
+        </div><p class="place">Agra<span>India</span></p>
+      </section>
+      <footer>
+        <p>Formal invitation to follow.</p><span aria-hidden="true">♡</span><p>
+          Until then, keep this day for us.
+        </p>
+      </footer>
+      {draft && <p class="draft-note">Design proof · year awaiting confirmation</p>}
+    </main>
+    <script>
+      document.querySelector<HTMLButtonElement>('#print')?.addEventListener('click', async () => {
+        await document.fonts.ready;
+        window.print();
+      });
+    </script>
+  </body>
+</html>
+<style>
+  :global(*) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  :global(html) {
+    color-scheme: light;
+    background: #ded9ce;
+    color: #28261f;
+  }
+  :global(body) {
+    padding: 28px;
+    font-family: 'Newsreader', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  :global(::selection) {
+    background: #693d36;
+    color: #fff;
+  }
+  .tools {
+    max-width: 1120px;
+    margin: 0 auto 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    font:
+      14px 'Newsreader',
+      serif;
+  }
+  .tools p span {
+    display: block;
+    font:
+      11px 'Barlow Semi Condensed',
+      sans-serif;
+    letter-spacing: 1px;
+    margin-top: 5px;
+    text-transform: uppercase;
+    color: #5f5b51;
+  }
+  button {
+    min-height: 44px;
+    background: #28261f;
+    color: #f5f0e5;
+    padding: 12px 18px;
+    border: 0;
+    font:
+      12px 'Barlow Semi Condensed',
+      sans-serif;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+      background 150ms,
+      transform 150ms;
+  }
+  button:hover {
+    background: #504a3e;
+  }
+  button:active {
+    transform: scale(0.96);
+  }
+  button:focus-visible {
+    outline: 2px solid #693d36;
+    outline-offset: 4px;
+  }
+  .paper {
+    max-width: 1120px;
+    margin: auto;
+    background: #f5f0e5;
+    padding: 32px 42px 18px;
+    box-shadow:
+      0 2px 5px #0000000a,
+      0 15px 55px #00000012;
+  }
+  .topline,
+  .edition,
+  .eyebrow,
+  figcaption,
+  .stamp span,
+  .year,
+  .place span,
+  .draft-note {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid;
+    padding-bottom: 12px;
+    font-size: 10px;
+  }
+  .masthead {
+    text-align: center;
+    font-size: clamp(48px, 7.7vw, 96px);
+    font-weight: 600;
+    letter-spacing: -4px;
+    line-height: 1;
+    padding: 25px 0 17px;
+    white-space: nowrap;
+  }
+  .masthead > span {
+    font-weight: 400;
+    font-style: italic;
+    font-size: 0.58em;
+    letter-spacing: -2px;
+  }
+  .edition {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 10px;
+    border-block: 3px double;
+    padding: 11px 0;
+  }
+  .edition > span:nth-child(2) {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 14px;
+  }
+  .announcement {
+    text-align: center;
+    padding: 36px 0 29px;
+  }
+  .eyebrow {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  h1 {
+    font-size: clamp(68px, 10.8vw, 132px);
+    font-weight: 600;
+    line-height: 0.88;
+    letter-spacing: -5px;
+    margin: 26px 0 23px;
+  }
+  h1 em {
+    font-weight: 400;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  .names {
+    font-size: clamp(25px, 3vw, 38px);
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+  .names > span {
+    font-style: italic;
+    color: #825047;
+    font-size: 1.2em;
+    padding: 0 8px;
+  }
+  .deck {
+    font-size: 18px;
+    line-height: 1.4;
+    margin-top: 13px;
+    font-style: italic;
+  }
+  .feature {
+    display: grid;
+    grid-template-columns: 1fr 2.8fr 1fr;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    padding: 24px 0;
+    gap: 22px;
+  }
+  .column {
+    padding-top: 8px;
+  }
+  .left-column {
+    border-right: 1px solid #b5ae9f;
+    padding-right: 20px;
+  }
+  .right-column {
+    border-left: 1px solid #b5ae9f;
+    padding-left: 20px;
+  }
+  h2 {
+    font-size: 29px;
+    letter-spacing: -0.6px;
+    font-weight: 400;
+    line-height: 1.04;
+    margin: 17px 0;
+  }
+  .column > p:not(.eyebrow) {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 12px 0;
+    text-wrap: pretty;
+  }
+  .column .italic {
+    font-style: italic;
+    font-size: 17px !important;
+  }
+  .small-rule {
+    width: 40px;
+    border-top: 1px solid;
+    margin: 19px 0;
+  }
+  .agra-art {
+    align-self: center;
+    text-align: center;
+  }
+  .agra-art svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: #514a3c;
+  }
+  figcaption {
+    font-size: 9px;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+  figcaption span {
+    padding: 0 5px;
+  }
+  .stamp {
+    border: 3px double #716451;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin: 24px auto;
+    transform: rotate(-9deg);
+    max-width: 145px;
+    color: #6e4d43;
+  }
+  .stamp span {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+  .stamp strong {
+    font-size: 27px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin: 7px 0;
+  }
+  .date-band {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    border-bottom: 4px double;
+    padding: 25px 0 21px;
+  }
+  .save-label {
+    font-size: 36px;
+    line-height: 1.05;
+    text-align: left;
+  }
+  .save-label em {
+    font-weight: 400;
+  }
+  .date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border-inline: 1px solid #b5ae9f;
+  }
+  .date > strong {
+    font-size: 99px;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -5px;
+  }
+  .date > div {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .date > div > span:first-child {
+    font-size: 32px;
+  }
+  .year {
+    font-size: 14px;
+  }
+  .place {
+    font-size: 37px;
+    font-style: italic;
+  }
+  .place span {
+    display: block;
+    font-size: 10px;
+    font-style: normal;
+    margin-top: 8px;
+  }
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    font-size: 14px;
+    font-style: italic;
+    padding: 20px 0 10px;
+  }
+  footer > span {
+    font-size: 27px;
+    color: #825047;
+  }
+  .draft-note {
+    text-align: center;
+    font-size: 9px;
+    color: #77675d;
+    padding-top: 8px;
+  }
+  @media screen and (max-width: 800px) {
+    .paper {
+      padding: 24px;
+    }
+    .feature {
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+    }
+    .left-column {
+      border: 0;
+      padding: 0;
+    }
+    .right-column {
+      grid-column: 1/-1;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      border-left: 0;
+      border-top: 1px solid #b5ae9f;
+      padding: 20px 0 0;
+    }
+    .right-column .eyebrow,
+    .right-column .italic {
+      display: none;
+    }
+    .right-column h2 {
+      flex-shrink: 0;
+      margin: 0;
+    }
+    .stamp {
+      min-width: 110px;
+      margin: 0;
+    }
+    .date-band {
+      gap: 12px;
+    }
+    .date {
+      gap: 10px;
+    }
+    .date > strong {
+      font-size: 76px;
+    }
+    .date > div > span:first-child {
+      font-size: 24px;
+    }
+    .save-label {
+      font-size: 29px;
+    }
+    .place {
+      font-size: 30px;
+    }
+    .edition > span:nth-child(2) {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    :global(body) {
+      padding: 0;
+    }
+    .tools {
+      padding: 15px;
+      margin: 0;
+      font-size: 12px;
+      gap: 10px;
+    }
+    .tools p {
+      max-width: 190px;
+    }
+    .tools p span {
+      font-size: 9px;
+    }
+    button {
+      font-size: 10px;
+      padding: 12px;
+    }
+    .paper {
+      padding: 21px 20px 16px;
+      box-shadow: none;
+    }
+    .topline {
+      font-size: 8px;
+      letter-spacing: 0.7px;
+    }
+    .masthead {
+      font-size: clamp(35px, 9.5vw, 48px);
+      letter-spacing: -1.8px;
+      padding: 22px 0 16px;
+    }
+    .masthead > span {
+      letter-spacing: -1px;
+    }
+    .edition {
+      font-size: 8px;
+      letter-spacing: 0.8px;
+    }
+    .announcement {
+      padding: 28px 0 24px;
+    }
+    .eyebrow {
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+    h1 {
+      font-size: clamp(58px, 15vw, 76px);
+      letter-spacing: -2.5px;
+      margin: 23px 0;
+    }
+    .names {
+      font-size: 25px;
+    }
+    .deck {
+      font-size: 16px;
+    }
+    .feature {
+      grid-template-columns: 1fr;
+      padding-top: 18px;
+      gap: 22px;
+    }
+    .agra-art {
+      grid-row: 1;
+    }
+    .column h2 {
+      font-size: 30px;
+    }
+    .left-column {
+      columns: 2;
+      column-gap: 22px;
+    }
+    .left-column .eyebrow {
+      column-span: all;
+      margin-bottom: 16px;
+    }
+    .left-column h2 {
+      margin-top: 0;
+    }
+    .left-column .small-rule {
+      display: none;
+    }
+    .right-column {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .right-column h2 {
+      flex-basis: calc(100% - 132px);
+    }
+    .right-column > p:not(.eyebrow) {
+      flex-basis: 100%;
+      order: 3;
+    }
+    .stamp {
+      width: 110px;
+    }
+    .date-band {
+      grid-template-columns: 1fr 2fr;
+      gap: 18px;
+      padding: 22px 0;
+    }
+    .date {
+      border-right: 0;
+      gap: 8px;
+      padding-left: 10px;
+    }
+    .date > strong {
+      font-size: 72px;
+    }
+    .date > div > span:first-child {
+      font-size: 23px;
+    }
+    .save-label {
+      font-size: 29px;
+    }
+    .place {
+      grid-column: 1/-1;
+      font-size: 27px;
+    }
+    .place span {
+      display: inline;
+      font-size: 9px;
+      margin-left: 9px;
+    }
+    footer {
+      font-size: 12px;
+      gap: 12px;
+      line-height: 1.3;
+    }
+    .draft-note {
+      font-size: 8px;
+      letter-spacing: 0.8px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    button {
+      transition: none;
+    }
+  }
+  @page {
+    size: 420mm 594mm;
+    margin: 15mm;
+  }
+  @media print {
+    :global(html),
+    :global(body) {
+      background: white;
+      padding: 0;
+      color: #28261f;
+    }
+    .tools,
+    :global(astro-dev-toolbar) {
+      display: none;
+    }
+    .paper {
+      width: 390mm;
+      max-width: none;
+      padding: 8mm 10mm 5mm;
+      box-shadow: none;
+      background: #f5f0e5;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .topline {
+      font-size: 11pt;
+      padding-bottom: 5mm;
+    }
+    .masthead {
+      font-size: 100pt;
+      padding: 9mm 0 7mm;
+    }
+    .edition {
+      font-size: 10pt;
+      padding: 4mm 0;
+    }
+    .edition > span:nth-child(2) {
+      font-size: 15pt;
+    }
+    .announcement {
+      padding: 13mm 0 10mm;
+    }
+    .eyebrow {
+      font-size: 11pt;
+    }
+    h1 {
+      font-size: 142pt;
+      margin: 10mm 0 8mm;
+      letter-spacing: -6pt;
+    }
+    .names {
+      font-size: 37pt;
+    }
+    .deck {
+      font-size: 20pt;
+      margin-top: 5mm;
+    }
+    .feature {
+      grid-template-columns: 1fr 2.8fr 1fr;
+      padding: 9mm 0;
+      gap: 8mm;
+    }
+    .left-column {
+      padding-right: 7mm;
+    }
+    .right-column {
+      padding-left: 7mm;
+    }
+    .column {
+      padding-top: 3mm;
+    }
+    h2 {
+      font-size: 29pt;
+      margin: 7mm 0;
+    }
+    .column > p:not(.eyebrow) {
+      font-size: 13pt;
+      line-height: 1.5;
+      margin: 5mm 0;
+    }
+    .column .italic {
+      font-size: 16pt !important;
+    }
+    .small-rule {
+      margin: 7mm 0;
+    }
+    .stamp {
+      max-width: 49mm;
+      margin: 9mm auto;
+    }
+    .stamp strong {
+      font-size: 28pt;
+    }
+    .stamp span {
+      font-size: 8pt;
+    }
+    figcaption {
+      font-size: 9pt;
+      margin-top: 4mm;
+    }
+    .date-band {
+      padding: 10mm 0 8mm;
+      gap: 8mm;
+    }
+    .save-label {
+      font-size: 39pt;
+    }
+    .date {
+      gap: 8mm;
+    }
+    .date > strong {
+      font-size: 108pt;
+    }
+    .date > div > span:first-child {
+      font-size: 35pt;
+    }
+    .year {
+      font-size: 15pt;
+    }
+    .place {
+      font-size: 41pt;
+    }
+    .place span {
+      font-size: 11pt;
+    }
+    footer {
+      font-size: 14pt;
+      padding: 7mm 0 3mm;
+    }
+    .draft-note {
+      font-size: 9pt;
+    }
+    header,
+    .announcement,
+    .feature,
+    .date-band,
+    footer {
+      break-inside: avoid;
+    }
+  }
+</style>
