@@ -42,27 +42,25 @@ import WeddingAgra from '../components/WeddingAgra.astro';
       >
         <section class="spread" aria-label="Outside of the A2 sheet">
           <div class="spread-content">
-            <header class="masthead">
-              <p class="publication">THE FOREVER TIMES</p>
-              <div class="issue-line">
-                <span>Agra, India</span><span>The Wedding Issue</span><span>November 24, 2026</span>
-              </div>
-            </header>
-            <section class="announcement" aria-labelledby="save-heading">
-              <h1 id="save-heading">SAVE THE DATE</h1>
-              <p>Some stories are meant to last a lifetime.</p>
-            </section>
             <div class="pages">
               <section class="page details" aria-label="Page 4: back cover, wedding details">
-                <p class="eyebrow">Together with our families</p>
-                <h2>Kush <span>&amp;</span> Aru</h2>
-                <p class="marrying">are getting married.</p>
-                <div class="ornament" aria-hidden="true">❦</div>
-                <p class="date">24 NOVEMBER<br /><strong>2026</strong></p>
+                <p class="eyebrow">A date to remember · A lifetime to follow</p>
+                <h1 id="save-heading"><span>SAVE</span><em>the</em><span>DATE</span></h1>
+                <p class="cover-names">Kush <em>&amp;</em> Aru</p>
+                <p class="date">24 NOVEMBER 2026</p>
                 <p class="location">AGRA, INDIA</p>
                 <footer><span>Formal invitation to follow</span><span>04</span></footer>
               </section>
               <section class="page portrait" aria-label="Page 1: front cover, our photograph">
+                <header class="masthead">
+                  <p class="publication">The Forever Times</p>
+                  <div class="issue-line">
+                    <span>The Wedding Issue</span><span>24 November 2026</span>
+                  </div>
+                </header>
+                <p class="eyebrow cover-kicker">Together with our families</p>
+                <h2>Kush <span>&amp;</span> Aru</h2>
+                <p class="marrying">are getting married.</p>
                 <figure>
                   <img
                     src="/wedding/couple-placeholder.png"
@@ -73,8 +71,6 @@ import WeddingAgra from '../components/WeddingAgra.astro';
                   />
                   <figcaption>Sample photograph · Your favourite photo goes here</figcaption>
                 </figure>
-                <p class="photo-quote">“The beginning of<br /><em>our favourite chapter.”</em></p>
-                <p class="photo-note">A lifetime of love, laughter, and the little things.</p>
                 <footer><span>With love, Kush &amp; Aru</span><span>01</span></footer>
               </section>
             </div>
@@ -325,9 +321,9 @@ import WeddingAgra from '../components/WeddingAgra.astro';
   .publication {
     font-family: 'Newsreader', Georgia, serif;
     font-weight: 400;
-    font-size: 6.8cqw;
+    font-size: 3.8cqw;
     line-height: 1;
-    letter-spacing: 0.38cqw;
+    letter-spacing: 0.18cqw;
     white-space: nowrap;
     padding: 0.5cqw 0 1.2cqw;
   }
@@ -345,7 +341,7 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     letter-spacing: 0.12cqw;
   }
   .issue-line span:nth-child(2) {
-    color: #8c3f32;
+    color: #20201d;
     letter-spacing: 0.2cqw;
   }
   .announcement {
@@ -354,13 +350,63 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     flex-shrink: 0;
   }
   h1 {
-    font-size: 10cqw;
-    word-spacing: 0.6cqw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12.8cqw;
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.65cqw;
+    margin: 5cqw 0 3cqw;
+  }
+  h1 em {
+    font-size: 8.4cqw;
+    line-height: 0.9;
+    letter-spacing: -0.3cqw;
+    margin: 0.5cqw 0;
+  }
+  .outside-preview .pages {
+    border-top: 0;
+  }
+  .outside-preview .page {
+    padding-top: 0;
+  }
+  .outside-preview .portrait {
+    text-align: center;
+  }
+  .outside-preview .publication {
+    font-size: 3.55cqw;
     font-weight: 600;
-    line-height: 1.03;
-    letter-spacing: -0.38cqw;
-    white-space: nowrap;
-    margin: 0;
+    letter-spacing: -0.12cqw;
+    padding: 0.1cqw 0 1cqw;
+  }
+  .outside-preview .issue-line {
+    font-size: 0.85cqw;
+    gap: 1cqw;
+    border-top: 0.3cqw double;
+  }
+  .cover-kicker {
+    margin-top: 2.1cqw;
+  }
+  .outside-preview h2 {
+    font-size: 5.7cqw;
+    margin-top: 0.8cqw;
+  }
+  .outside-preview .marrying {
+    font-size: 1.65cqw;
+    margin-bottom: 1.7cqw;
+  }
+  .outside-preview figure img {
+    height: 33cqw;
+    object-position: 50% 35%;
+  }
+  .cover-names {
+    font-size: 4.8cqw;
+    letter-spacing: -0.12cqw;
+  }
+  .outside-preview .details > .eyebrow {
+    padding-block: 1.2cqw;
+    border-block: 0.08cqw solid;
   }
   .announcement > p {
     font-size: 1.55cqw;
@@ -399,7 +445,7 @@ import WeddingAgra from '../components/WeddingAgra.astro';
   .eyebrow {
     font-size: 1cqw;
     letter-spacing: 0.18cqw;
-    color: #8c3f32;
+    color: #20201d;
   }
   h2 {
     font-size: 6.6cqw;
@@ -418,38 +464,16 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     font-size: 2.15cqw;
     font-style: italic;
   }
-  .ornament {
-    font-size: 3.2cqw;
-    line-height: 1;
-    margin: 1.35cqw 0 1cqw;
-  }
   .date {
-    font-size: 3.45cqw;
-    line-height: 1.02;
-    letter-spacing: 0.05cqw;
-  }
-  .date strong {
-    font-family: 'Newsreader', serif;
-    font-size: 5.7cqw;
-    font-weight: 400;
-    letter-spacing: -0.15cqw;
-    display: inline-block;
-    margin-top: 0.4cqw;
+    font-size: 3.1cqw;
+    line-height: 1.2;
+    letter-spacing: 0.04cqw;
+    margin-top: 1.4cqw;
   }
   .location {
-    font-size: 1.6cqw;
-    letter-spacing: 0.35cqw;
-    margin-top: 0.6cqw;
-  }
-  .note {
     font-size: 1.5cqw;
-    line-height: 1.45;
-    margin-top: 1.55cqw;
-    text-wrap: pretty;
-  }
-  .note em {
-    display: inline-block;
-    margin-top: 0.45cqw;
+    letter-spacing: 0.3cqw;
+    margin-top: 0.9cqw;
   }
   figure {
     width: 100%;
@@ -470,19 +494,6 @@ import WeddingAgra from '../components/WeddingAgra.astro';
     letter-spacing: 0.08cqw;
     margin-top: 0.65cqw;
     text-align: center;
-  }
-  .photo-quote {
-    font-size: 3cqw;
-    line-height: 1.14;
-    letter-spacing: -0.05cqw;
-    text-align: center;
-    margin-top: 1.8cqw;
-  }
-  .photo-note {
-    font-size: 1.3cqw;
-    text-align: center;
-    margin-top: 0.85cqw;
-    font-style: italic;
   }
   footer {
     display: flex;
