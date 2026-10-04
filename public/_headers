@@ -28,6 +28,10 @@
 # s-maxage only applies once a Cloudflare Cache Rule marks HTML cache-eligible.
 /
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+  # Agent discovery (RFC 8288). Pages comma-joins these, which is valid for Link.
+  Link: </llms.txt>; rel="describedby"; type="text/plain"
+  Link: </rss.xml>; rel="alternate"; type="application/rss+xml"; title="peritissimus blog"
+  Link: </sitemap-index.xml>; rel="sitemap"; type="application/xml"
 /about
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 /contact

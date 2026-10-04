@@ -1,5 +1,7 @@
 # Allow all crawlers
+# Content Signals (contentsignals.org): how collected content may be used.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 # Sitemap location
