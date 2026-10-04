@@ -3,7 +3,7 @@ title: Stone
 company: Stone
 kind: personal
 role: Designer & Engineer
-description: A local-first desktop workspace that turns notes, meetings, and daily context into useful project memory.
+description: Stone is a free, open-source, local-first note-taking app for Mac. Notes, journals, tasks, and meeting transcripts stay as plain Markdown files on your own disk.
 dateRange: 2025 - Present
 sortDate: 2025-10-29
 location: Independent
@@ -31,3 +31,5 @@ Most knowledge tools make you choose: a smart, connected workspace that lives on
 **Meetings become memory, not homework.** Stone records system audio and microphone together with acoustic echo cancellation, transcribes on-device with Whisper, and files the result as a searchable meeting record with its own summary. The audio is yours: replay it, re-transcribe it, or set it to auto-delete on your own schedule.
 
 **Retrieval is the payoff.** Full-text search, semantic search, topic clustering, a link graph, and related-note scoring all run on your machine, so context from three months ago resurfaces exactly when a project needs it. AI sits behind your data — optional, local-first, and never a requirement for the workspace to be useful.
+
+**Read more about Stone.** [What Stone is and who it is for](/blog/stone-local-first-note-taking-app) covers the features and how to install it. [Local meeting transcription with whisper.cpp](/blog/local-meeting-transcription-whisper-cpp) explains the recorder and echo cancellation. [Markdown as the source of truth](/blog/markdown-notes-sqlite-search-index) explains how search works over plain files.

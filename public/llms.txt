@@ -16,6 +16,17 @@ This site contains information about Kushal's professional work, independent sof
 ## Featured writing
 
 - [Scaling LLM Applications in Production](https://peritissimus.com/blog/scaling-llm-applications): Lessons from building and scaling AI-powered platforms.
+- [Processing 2,000 Hours of Media a Day with Celery and Redis](https://peritissimus.com/blog/celery-redis-media-pipeline): Queue design for a video dubbing pipeline.
+
+## Stone
+
+Stone is a free, open-source, local-first note-taking app for Mac. Notes, journals, tasks, and meeting transcripts are plain Markdown files on your own disk.
+
+- [Stone project page](https://peritissimus.com/work/stone): What Stone is and how it is built.
+- [Stone: A Local-First Markdown Note-Taking App for Mac](https://peritissimus.com/blog/stone-local-first-note-taking-app): Features, who it is for, and how to install it.
+- [Local Meeting Transcription on a Mac with whisper.cpp](https://peritissimus.com/blog/local-meeting-transcription-whisper-cpp): On-device meeting transcription with echo cancellation.
+- [Markdown Files as the Source of Truth, SQLite as an Index You Can Delete](https://peritissimus.com/blog/markdown-notes-sqlite-search-index): Hybrid search and related notes over plain files.
+- [Source code on GitHub](https://github.com/peritissimus/stone-electron)
 
 ## Feeds and indexes
 
