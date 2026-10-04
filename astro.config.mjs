@@ -8,7 +8,7 @@ import { remarkCaptureCodeLang, rehypeBlogTransform } from './src/plugins/rehype
 
 /**
  * Map of route path -> lastmod date, read from content frontmatter
- * (`updated` falling back to `date` for blog, `sortDate` for work).
+ * (`updated` falling back to `date` for blog, or to `sortDate` for work).
  */
 function contentLastmodDates() {
   /** @type {Record<string, string>} */
@@ -32,7 +32,7 @@ function contentLastmodDates() {
   };
 
   collect('./src/content/blog', '/blog', ['updated', 'date']);
-  collect('./src/content/work', '/work', ['sortDate']);
+  collect('./src/content/work', '/work', ['updated', 'sortDate']);
   return dates;
 }
 

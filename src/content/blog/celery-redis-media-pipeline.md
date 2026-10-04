@@ -1,10 +1,11 @@
 ---
 title: "Processing 2,000 Hours of Media a Day with Celery and Redis"
 date: 2026-07-26
+updated: 2026-10-05
 author: Kushal Patankar
 category: Infrastructure
-tags: [Celery, Redis, Distributed Systems, Python, Architecture, Queues]
-description: What running a video dubbing pipeline at 2K hours of daily content taught me about queue design, worker acknowledgment, and where a 50% speedup actually comes from.
+tags: [Celery, Redis, Distributed Systems, Python, Architecture, Queues, acks_late, Visibility Timeout]
+description: What running a video dubbing pipeline at 2K hours of daily content taught me about queue design, acks_late, the Redis visibility timeout, and where a 50% speedup actually comes from.
 readTime: 11 min read
 ---
 
@@ -144,6 +145,24 @@ The second one is unglamorous and saved us repeatedly. Media libraries allocate 
 
 Late acknowledgment has a consequence worth stating plainly: your tasks must be safe to run twice. A requeued job will re-execute work that may have partially completed. Write outputs to deterministic paths, make database writes idempotent, and check whether a stage's output already exists before redoing it.
 
+## The Redis visibility timeout redelivers long tasks
+
+Late acknowledgment on a Redis broker comes with a timer that is easy to miss. Redis has no native acknowledgments, so Celery emulates them: a delivered message that has not been acknowledged within the `visibility_timeout` is handed to another worker. The default is one hour.
+
+With `task_acks_late=True`, a task is unacknowledged for as long as it runs. A transcode that takes 70 minutes is therefore redelivered at minute 60, while the first copy is still working. Now two workers process the same job, and nothing has failed.
+
+Set the timeout above your longest task, with room to spare:
+
+```python
+celery_app.conf.broker_transport_options = {
+    "visibility_timeout": 6 * 60 * 60,  # longer than the slowest job
+}
+```
+
+The trade-off runs the other way too. When a worker is killed outright, its unacknowledged message is not redelivered until the timeout expires. A six-hour timeout means a job lost to a hard kill can sit for six hours before another worker sees it. This is one more reason to keep job state in your own database: a sweeper that finds jobs stuck in a stage past their expected duration can requeue them in minutes instead of waiting on the broker.
+
+Tasks scheduled with `eta` or `countdown` are subject to the same timer. A task scheduled further out than the visibility timeout is redelivered and runs more than once.
+
 ## Where the 50% actually came from
 
 I want to be precise about this number, because "we made it 50% faster" invites the assumption that we optimized the slow parts. We mostly did not.
@@ -201,6 +220,10 @@ Redis works well as the broker and result backend for this workload, provided me
 ### What is the difference between `acks_late` and `task_reject_on_worker_lost`?
 
 `acks_late` delays acknowledgment until the task completes, so an unfinished message returns to the queue. `task_reject_on_worker_lost` covers the case where the worker process dies outright rather than raising an exception. Enable both for long-running work; either one alone leaves a gap.
+
+### Why does my long-running Celery task run twice on Redis?
+
+The task ran longer than the broker's `visibility_timeout`, which defaults to one hour. With `acks_late` enabled the message stays unacknowledged while the task runs, so Redis redelivers it to a second worker. Raise `visibility_timeout` in `broker_transport_options` above your longest task, and make the task safe to run twice.
 
 ### When should a pipeline stage get its own queue?
 

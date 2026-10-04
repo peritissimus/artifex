@@ -1,10 +1,11 @@
 ---
-title: "Local Meeting Transcription on a Mac with whisper.cpp"
+title: "whisper.cpp Meeting Transcription: Fixing Echo, Hallucinations, and Loops"
 date: 2026-09-17
+updated: 2026-10-05
 author: Kushal Patankar
 category: AI/LLM
-tags: [Whisper, whisper.cpp, Transcription, Echo Cancellation, Electron, Local AI]
-description: How Stone records and transcribes meetings entirely on-device — two audio tracks, DTLN echo cancellation with delay compensation, Whisper large-v3-turbo, and summaries that know which lines to distrust.
+tags: [Whisper, whisper.cpp, Transcription, Whisper Hallucination, Echo Cancellation, Electron, Local AI]
+description: How to transcribe meetings fully offline on a Mac with whisper.cpp — two audio tracks, echo cancellation with delay compensation, and how to stop Whisper hallucinating on silence or looping the same phrase.
 readTime: 10 min read
 ---
 
@@ -73,13 +74,13 @@ I moved to whisper.cpp, built from source and bundled with the app as a command-
 
 The larger model matters for the way people really talk. It handles multiple languages and speakers who switch between them mid-sentence, which the small English model could not.
 
-## Skip the silence
+## Stopping Whisper from hallucinating on silence
 
 Whisper is trained on speech. Give it thirty seconds of silence or keyboard noise and it invents something — often a phrase like "Thank you for watching."
 
 Stone runs Silero VAD first to find the regions that contain a voice, and only those reach Whisper. This removes most hallucinated lines and also makes transcription faster, since long meetings are full of pauses.
 
-## Collapse the loops
+## Collapsing Whisper's repetition loops
 
 Even with voice detection, Whisper sometimes gets stuck. It repeats one phrase, segment after segment, for a minute or more.
 

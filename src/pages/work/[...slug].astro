@@ -54,7 +54,7 @@ const breadcrumbs = breadcrumbSchema([
 ---
 
 <Base
-  title={`${work.data.title} - ${kindLabel} - peritissimus`}
+  title={work.data.seoTitle ? `${work.data.seoTitle} - peritissimus` : `${work.data.title} - ${kindLabel} - peritissimus`}
   ogTitle={`${work.data.title} — ${work.data.role}`}
   description={work.data.description}
   ogImage={ogImage}

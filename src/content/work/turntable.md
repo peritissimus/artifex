@@ -4,6 +4,7 @@ company: Turntable
 kind: personal
 role: Designer & Engineer
 description: A browser-based 3D device mockup studio for turning interface screenshots into polished product imagery.
+seoTitle: "Turntable – 3D Device Mockup Studio in the Browser"
 dateRange: '2026'
 sortDate: 2026-07-15
 location: Independent

@@ -1,10 +1,11 @@
 ---
-title: "Markdown Files as the Source of Truth, SQLite as an Index You Can Delete"
+title: "Hybrid Search in SQLite: FTS5, Embeddings, and Rank Fusion"
 date: 2026-09-26
+updated: 2026-10-05
 author: Kushal Patankar
 category: Architecture
-tags: [SQLite, Markdown, Local-First, Semantic Search, Embeddings, FTS5]
-description: How a local-first notes app keeps plain Markdown as the only durable data while still offering full-text search, semantic search, reranking, and related notes — all from a SQLite index that can be rebuilt at any time.
+tags: [SQLite, FTS5, Hybrid Search, Reciprocal Rank Fusion, Embeddings, Semantic Search, Markdown, Local-First]
+description: How to build hybrid search in SQLite — FTS5 full-text plus embeddings, merged with reciprocal rank fusion and a cross-encoder reranker — while plain Markdown files stay the only durable data.
 readTime: 9 min read
 ---
 
@@ -54,7 +55,7 @@ So each note's index record stores the model name and vector dimensions it was b
 
 This only works because of the first rule. Rebuilding is always safe, because the files are still there.
 
-## Hybrid search: two rankings merged
+## Hybrid search in SQLite: FTS5 and embeddings merged with rank fusion
 
 Full-text search and semantic search fail in opposite ways.
 
@@ -132,6 +133,10 @@ Store the notes as files if you care about portability and longevity, and use SQ
 ### What is reciprocal rank fusion?
 
 It is a way to merge several ranked lists. Each item scores `1 / (k + rank)` in every list where it appears, and the scores are summed. It needs no score normalization, which makes it a good fit for combining keyword and vector search.
+
+### Can SQLite do hybrid search?
+
+Yes. Use an FTS5 virtual table for keyword search and store embeddings alongside your rows for vector similarity. Run both queries, then merge the two ranked lists with reciprocal rank fusion. No separate search service is needed.
 
 ### Do I need a vector database for semantic search over notes?
 

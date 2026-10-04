@@ -24,8 +24,9 @@ Stone is a free, open-source, local-first note-taking app for Mac. Notes, journa
 
 - [Stone project page](https://peritissimus.com/work/stone): What Stone is and how it is built.
 - [Stone: A Local-First Markdown Note-Taking App for Mac](https://peritissimus.com/blog/stone-local-first-note-taking-app): Features, who it is for, and how to install it.
-- [Local Meeting Transcription on a Mac with whisper.cpp](https://peritissimus.com/blog/local-meeting-transcription-whisper-cpp): On-device meeting transcription with echo cancellation.
-- [Markdown Files as the Source of Truth, SQLite as an Index You Can Delete](https://peritissimus.com/blog/markdown-notes-sqlite-search-index): Hybrid search and related notes over plain files.
+- [whisper.cpp Meeting Transcription: Fixing Echo, Hallucinations, and Loops](https://peritissimus.com/blog/local-meeting-transcription-whisper-cpp): On-device meeting transcription with echo cancellation.
+- [Hybrid Search in SQLite: FTS5, Embeddings, and Rank Fusion](https://peritissimus.com/blog/markdown-notes-sqlite-search-index): Hybrid search and related notes over plain files.
+- [Stone vs Obsidian vs Granola](https://peritissimus.com/blog/stone-vs-obsidian-vs-granola): An honest comparison for local notes and meeting transcription.
 - [Source code on GitHub](https://github.com/peritissimus/stone-electron)
 
 ## Feeds and indexes

@@ -1,6 +1,7 @@
 ---
 title: "Stone: A Local-First Markdown Note-Taking App for Mac"
 date: 2026-09-08
+updated: 2026-10-05
 author: Kushal Patankar
 category: Product
 tags: [Stone, Note-Taking, Local-First, Markdown, Personal Knowledge Management]
@@ -119,7 +120,7 @@ In the folder you choose as your workspace, as Markdown files. Search indexes an
 
 ### How is Stone different from Obsidian?
 
-Both keep notes as local Markdown files. Stone is narrower and more opinionated: daily journals, cross-note tasks, meeting recording with on-device transcription, and semantic search are built in rather than added through plugins. Obsidian has a much larger plugin ecosystem and mobile apps, and Stone has neither.
+Both keep notes as local Markdown files. Stone is narrower and more opinionated: daily journals, cross-note tasks, meeting recording with on-device transcription, and semantic search are built in rather than added through plugins. Obsidian has a much larger plugin ecosystem and mobile apps, and Stone has neither. There is a longer comparison in [Stone vs Obsidian vs Granola](/blog/stone-vs-obsidian-vs-granola).
 
 ### Can I sync Stone between computers?
 

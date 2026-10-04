@@ -4,6 +4,7 @@ company: Fitroom
 kind: personal
 role: Designer & Engineer
 description: An AI couple try-on studio that renders two people in chosen outfits as a single true-to-height portrait.
+seoTitle: "Fitroom – AI Couple Outfit Try-On Studio"
 dateRange: '2026'
 sortDate: 2026-07-07
 location: Independent

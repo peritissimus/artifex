@@ -3,6 +3,7 @@ title: SimpleSounds
 company: SimpleSounds
 role: Co-Founder
 description: Built high-fidelity AI voice-over platform, ranked top 10 globally on pioneer.app.
+seoTitle: "SimpleSounds – AI Voice-Over Platform (Co-Founder)"
 dateRange: January 2021 - December 2021
 location: Bengaluru
 order: 4

@@ -4,6 +4,7 @@ company: IREM
 kind: personal
 role: Preservation Engineer
 description: A working restoration of the I Remember WebGL memory archive, recovered from an archived site and rebuilt for modern browsers.
+seoTitle: "IREM – Restoring the I Remember WebGL Archive"
 dateRange: '2026'
 sortDate: 2026-04-26
 location: Independent

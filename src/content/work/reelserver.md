@@ -4,6 +4,7 @@ company: ReelServer
 kind: personal
 role: Systems Engineer
 description: A private Reel-processing service that turns fragile downloads into queued, observable, failure-aware jobs.
+seoTitle: "ReelServer – Queued, Failure-Aware Reel Processing Service"
 dateRange: '2026'
 sortDate: 2026-01-17
 location: Private project

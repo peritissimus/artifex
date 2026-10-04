@@ -81,6 +81,34 @@ const WORK_PAGES = [
   },
 ];
 
+// Personal projects (read from content directory); the roles above keep
+// their hand-written descriptions.
+function getPersonalProjects() {
+  const workDir = path.join(ROOT_DIR, 'src/content/work');
+  if (!fs.existsSync(workDir)) return [];
+
+  const listed = new Set(WORK_PAGES.map((page) => page.slug));
+  const unquote = (value) => value.trim().replace(/^(['"])([\s\S]*)\1$/, '$2');
+
+  return fs
+    .readdirSync(workDir)
+    .filter((f) => f.endsWith('.md') && !listed.has(f.replace('.md', '')))
+    .map((file) => {
+      const content = fs.readFileSync(path.join(workDir, file), 'utf-8');
+      const frontmatter = content.match(/^---\n([\s\S]*?)\n---/)?.[1];
+      if (!frontmatter) return null;
+      const title = frontmatter.match(/^title:\s*(.+)$/m)?.[1];
+      const description = frontmatter.match(/^description:\s*(.+)$/m)?.[1];
+      return {
+        slug: file.replace('.md', ''),
+        title: title ? unquote(title) : file.replace('.md', ''),
+        description: description ? unquote(description) : '',
+        type: 'work',
+      };
+    })
+    .filter(Boolean);
+}
+
 // Blog posts (read from content directory)
 function getBlogPosts() {
   const blogDir = path.join(ROOT_DIR, 'src/content/blog');
@@ -353,7 +381,7 @@ async function main() {
   }
 
   // Generate work pages
-  for (const page of WORK_PAGES) {
+  for (const page of [...WORK_PAGES, ...getPersonalProjects()]) {
     const template = getBaseTemplate(page);
     const outputPath = path.join(OG_OUTPUT_DIR, `work/${page.slug}.png`);
     await generateOGImage(template, outputPath, fonts);

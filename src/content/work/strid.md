@@ -4,6 +4,7 @@ company: Strid
 kind: personal
 role: Designer & Engineer
 description: An on-device redaction engine and native document workflow with first-class support for Indian banking identifiers.
+seoTitle: "Strid – On-Device Document Redaction for Indian Banking IDs"
 dateRange: '2026'
 sortDate: 2026-03-14
 location: Independent

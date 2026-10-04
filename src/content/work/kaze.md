@@ -4,6 +4,7 @@ company: Kaze
 kind: personal
 role: Engineer
 description: A local code-search CLI for finding relevant files, functions, classes, and methods with natural-language queries.
+seoTitle: "Kaze – Local Natural-Language Code Search CLI"
 dateRange: '2025'
 sortDate: 2025-03-12
 location: Independent

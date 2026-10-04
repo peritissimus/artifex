@@ -3,6 +3,7 @@ title: Dubverse
 company: Dübverse
 role: Founding Engineer
 description: Built AI video dubbing platform scaling to 600K+ hours across 1M+ users.
+seoTitle: "Dubverse – Building an AI Video Dubbing Platform (Founding Engineer)"
 dateRange: January 2022 - April 2024
 location: Gurugram, Haryana
 order: 3

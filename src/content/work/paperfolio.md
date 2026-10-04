@@ -4,6 +4,7 @@ company: Paperfolio
 kind: personal
 role: Designer & Engineer
 description: A paper-trading and research platform for screening Indian equities and testing portfolio strategies.
+seoTitle: "Paperfolio – Paper Trading and Screening for Indian Equities"
 dateRange: 'January 2026'
 sortDate: 2026-01-06
 location: Independent

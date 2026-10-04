@@ -3,6 +3,8 @@
 User-agent: *
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
+# Cloudflare's email-obfuscation endpoint; it 404s for crawlers.
+Disallow: /cdn-cgi/
 
 # Sitemap location
 Sitemap: https://peritissimus.com/sitemap-index.xml

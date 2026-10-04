@@ -4,6 +4,7 @@ company: Birdbrain
 kind: personal
 role: Designer & Engineer
 description: A private Twitter/X bookmark archive with AI summaries, topic classification, search, and automatic hydration.
+seoTitle: "Birdbrain – Private Twitter/X Bookmark Archive with AI Search"
 dateRange: "2026"
 sortDate: 2026-01-21
 location: Independent

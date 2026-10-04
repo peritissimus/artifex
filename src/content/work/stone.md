@@ -6,6 +6,8 @@ role: Designer & Engineer
 description: Stone is a free, open-source, local-first note-taking app for Mac. Notes, journals, tasks, and meeting transcripts stay as plain Markdown files on your own disk.
 dateRange: 2025 - Present
 sortDate: 2025-10-29
+updated: 2026-10-05
+seoTitle: Stone – Local-First Note-Taking App for Mac
 location: Independent
 order: 101
 technologies: [Electron, TypeScript, React, SQLite, Whisper, Local AI, Apple Calendar, Apple Mail]
@@ -32,4 +34,4 @@ Most knowledge tools make you choose: a smart, connected workspace that lives on
 
 **Retrieval is the payoff.** Full-text search, semantic search, topic clustering, a link graph, and related-note scoring all run on your machine, so context from three months ago resurfaces exactly when a project needs it. AI sits behind your data — optional, local-first, and never a requirement for the workspace to be useful.
 
-**Read more about Stone.** [What Stone is and who it is for](/blog/stone-local-first-note-taking-app) covers the features and how to install it. [Local meeting transcription with whisper.cpp](/blog/local-meeting-transcription-whisper-cpp) explains the recorder and echo cancellation. [Markdown as the source of truth](/blog/markdown-notes-sqlite-search-index) explains how search works over plain files.
+**Read more about Stone.** [What Stone is and who it is for](/blog/stone-local-first-note-taking-app) covers the features and how to install it. [Local meeting transcription with whisper.cpp](/blog/local-meeting-transcription-whisper-cpp) explains the recorder and echo cancellation. [Markdown as the source of truth](/blog/markdown-notes-sqlite-search-index) explains how search works over plain files. [Stone vs Obsidian vs Granola](/blog/stone-vs-obsidian-vs-granola) compares it honestly with the two tools it is most often measured against.

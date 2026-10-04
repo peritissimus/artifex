@@ -4,6 +4,7 @@ company: Tabbit
 kind: personal
 role: Designer & Engineer
 description: A minimal Chrome extension that uses AI to group messy browser tabs into useful native tab groups.
+seoTitle: "Tabbit – AI Tab Grouping Chrome Extension"
 dateRange: '2026'
 sortDate: 2026-05-15
 location: Independent
