@@ -166,8 +166,7 @@ a {
     color: var(--muted);
     transition: color 0.15s var(--ease);
 
-    &:hover,
-    &.active {
+    &:hover {
       color: var(--fg);
     }
   }
