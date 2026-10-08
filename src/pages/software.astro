@@ -2,26 +2,9 @@
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import ProjectArtwork from '../components/ProjectArtwork.astro';
+import { softwareCards, softwareProjects } from '../lib/projects';
 
-const cardMeta = {
-  stone: { className: 'project-card--stone', mark: 'memory' },
-  turntable: { className: 'project-card--turntable', mark: 'form' },
-  birdbrain: { className: 'project-card--birdbrain', mark: 'signal' },
-  tabbit: { className: 'project-card--tabbit', mark: 'tabs' },
-  garatch: { className: 'project-card--garatch', mark: 'pulse' },
-  fitroom: { className: 'project-card--fitroom', mark: 'fit' },
-  strid: { className: 'project-card--strid', mark: 'strid' },
-  kaze: { className: 'project-card--kaze', mark: 'kaze' },
-  paperfolio: { className: 'project-card--paperfolio', mark: 'paperfolio' },
-} as const;
-
-const projects = (await getCollection('work', ({ data }) => data.kind === 'personal'))
-  .filter((work) => work.id in cardMeta)
-  .sort((a, b) => {
-    if (a.id === 'stone') return -1;
-    if (b.id === 'stone') return 1;
-    return (b.data.sortDate?.getTime() ?? 0) - (a.data.sortDate?.getTime() ?? 0);
-  });
+const projects = softwareProjects(await getCollection('work'));
 ---
 
 <Base
@@ -44,7 +27,7 @@ const projects = (await getCollection('work', ({ data }) => data.kind === 'perso
       <div class="software-grid">
         {
           projects.map((project) => {
-            const meta = cardMeta[project.id as keyof typeof cardMeta];
+            const meta = softwareCards[project.id as keyof typeof softwareCards];
             return (
               <a
                 class={`software-card ${meta.className}`}

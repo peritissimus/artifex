@@ -14,6 +14,8 @@ interface Props {
   modifiedDate?: string;
   author?: string;
   noindex?: boolean;
+  /** Path of this page's markdown twin, advertised to agents as an alternate. */
+  markdownPath?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
@@ -29,6 +31,7 @@ const {
   modifiedDate,
   author = 'peritissimus',
   noindex = false,
+  markdownPath,
   jsonLd,
 } = Astro.props;
 
@@ -61,6 +64,7 @@ const fullCanonicalUrl = normalizeCanonicalUrl(canonicalUrl || Astro.url.href);
 <meta name="author" content={author} />
 <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 <link rel="canonical" href={fullCanonicalUrl} />
+{markdownPath && <link rel="alternate" type="text/markdown" href={`${siteUrl}${markdownPath}`} />}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />

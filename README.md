@@ -2,7 +2,7 @@
 
 Personal portfolio of Kushal Patankar — [peritissimus.com](https://peritissimus.com)
 
-A static site built with Astro. Every page is prerendered to HTML at build time and served from Cloudflare; there is no server runtime.
+A static site built with Astro. Every page is prerendered at build time and served from Cloudflare Pages. The only runtime code is a small Pages Function that serves each page as HTML or Markdown depending on the request's `Accept` header — see [Agents](#agents).
 
 ## Stack
 
@@ -34,6 +34,8 @@ The dev server runs at `http://localhost:4321`.
 | `pnpm dev`                | Start the dev server                                |
 | `pnpm build`              | Build to `dist/`                                    |
 | `pnpm check`              | Alias for `build`; fails on type and content errors |
+| `pnpm test:unit`          | Run unit tests for the Pages Function               |
+| `pnpm test:pages`         | Serve `dist/` in the Pages runtime and test it      |
 | `pnpm test:e2e`           | Run Playwright tests                                |
 | `pnpm test:e2e:headed`    | Run Playwright tests in a visible browser           |
 | `pnpm playwright:install` | Download the Chromium build tests need              |
@@ -53,6 +55,8 @@ src/
 │   ├── work/           # [...slug] template
 │   ├── terminal.astro  # WebGL scene
 │   ├── rss.xml.js      # RSS feed
+│   ├── llms.txt.ts     # /llms.txt, built from the collections
+│   ├── *.md.ts         # Markdown twins of each page (see Agents)
 │   └── 404.astro
 ├── content/            # Markdown source
 │   ├── blog/           # Blog posts
@@ -63,17 +67,26 @@ src/
 │   ├── SEO.astro       # Meta tags and JSON-LD
 │   └── ProjectArtwork.astro
 ├── layouts/            # Base.astro shell, Terminal.astro
+├── lib/                # Schema.org builders, résumé data, markdown helpers
 ├── plugins/            # Custom remark/rehype plugins for blog HTML
 └── styles/main.scss
 
+functions/
+├── _middleware.js      # Pages Function: HTML/Markdown content negotiation
+└── lib/negotiation.js
+
 public/
 ├── _headers            # Cloudflare response headers
+├── _routes.json        # Which paths run the Pages Function
 ├── .well-known/        # security.txt
 ├── og/                 # Generated OG images (committed)
 └── robots.txt
 
 scripts/generate-og-images.js
-tests/e2e/
+tests/
+├── unit/               # node:test — Accept parsing and the Function's responses
+├── pages/              # node:test — dist/ served by `wrangler pages dev`
+└── e2e/                # Playwright, against the dev server
 ```
 
 ## Content
@@ -92,7 +105,22 @@ Astro 7 renders Markdown with Sätteri by default. This project overrides that a
 
 The reason is `src/plugins/rehype-blog-transform.js`, which is written against the remark/rehype APIs. It captures code-fence languages before Shiki runs, wraps sections in `.post-section`, brackets `h2` headings, and builds the `.code-block` markup the stylesheet expects. Porting it to Sätteri's `mdastPlugins`/`hastPlugins` hooks would work, but nothing forces the change yet.
 
+## Agents
+
+The site is built to be read by AI agents as well as people.
+
+- **Markdown twins.** Every page that uses `Base.astro` has a Markdown version at the same path plus `.md` — `/about.md`, `/blog/<slug>.md`, and `/index.md` for the homepage. Blog posts and work entries reuse their source Markdown; the hand-written pages (`/`, `/about`, `/contact`, `/software`, `/resume`, `/blog`) repeat their copy in `src/pages/*.md.ts`, so **edit both files when you change that copy**. `tests/e2e/markdown-twins.spec.ts` fails when they drift. Each HTML page advertises its twin with `<link rel="alternate" type="text/markdown">`.
+- **Content negotiation.** `functions/_middleware.js` serves the twin at the page's own URL when a request prefers `text/markdown` (q-values honoured, ties broken by the order the client lists types), answers `406` when neither HTML nor Markdown is acceptable, and sends `Vary: Accept, Accept-Encoding` on both representations. This follows [acceptmarkdown.com](https://acceptmarkdown.com). Markdown served this way is `Cache-Control: private` so a shared cache can never hand it to a browser.
+- **404s.** Unknown paths return a real `404`. Agents that prefer Markdown get `/404.md` as the body, which links to `llms.txt` and the sitemap; the HTML 404 page links to both too.
+- **`/llms.txt`** follows [llmstxt.org](https://llmstxt.org). It is generated from the collections by `src/pages/llms.txt.ts`, links to the Markdown twins, and opens with when-to-use guidance for agents.
+
+`public/_routes.json` keeps images, fonts, feeds, and other static files off the Function, so they stay free static requests. Only page routes and unknown paths count toward the Workers request quota.
+
+If a Cloudflare Cache Rule ever makes HTML cache-eligible at the edge, add `Accept` to its cache key or bypass the cache for requests whose `Accept` contains `text/markdown`: Cloudflare's cache keys on the URL alone, so otherwise agents can be served the cached HTML.
+
 ## Testing
+
+`pnpm test:unit` covers Accept parsing and every response the Function can give, against a fake asset server. `pnpm test:pages` needs a build: it serves `dist/` with `wrangler pages dev` — Cloudflare's own Pages runtime, with `functions/`, `_headers`, and `_routes.json` applied — and checks every sitemap page, the 404 and 406 responses, `llms.txt`, and the structured data over HTTP. CI runs both after the build.
 
 Playwright tests live in `tests/e2e/` and drive a real dev server, configured in `playwright.config.ts`.
 
@@ -102,9 +130,9 @@ If tests fail to launch a browser after a dependency update, run `pnpm playwrigh
 
 ## Deployment
 
-Cloudflare builds and serves the site from the `main` branch through its Git integration. No deploy step lives in this repo.
+Cloudflare Pages builds and serves the site from the `main` branch through its Git integration, and deploys `functions/` alongside `dist/`. No deploy step lives in this repo.
 
-`public/_headers` controls caching and security headers. Hashed assets under `/_astro/*` are immutable for a year; HTML routes use `max-age=0` with `stale-while-revalidate`, listed per route family because `trailingSlash: 'never'` and `build.format: 'file'` mean a `/*.html` pattern never matches a real request. The catch-all `/*` block carries HSTS, `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` — keep `Cache-Control` out of it, since Cloudflare joins duplicate header values with a comma instead of overriding.
+`public/_headers` controls caching and security headers. Hashed assets under `/_astro/*` are immutable for a year; HTML routes use `max-age=0` with `stale-while-revalidate`, listed per route family because `trailingSlash: 'never'` and `build.format: 'file'` mean a `/*.html` pattern never matches a real request. The catch-all `/*` block carries HSTS, `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` — keep `Cache-Control` out of it, since Cloudflare joins duplicate header values with a comma instead of overriding. These headers also reach responses that pass through the Pages Function, because it builds every response from a static asset's headers.
 
 ## Analytics
 
