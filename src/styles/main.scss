@@ -158,20 +158,6 @@ a {
   color: var(--faint);
 }
 
-.footer-nav {
-  display: flex;
-  gap: 1.4rem;
-
-  a {
-    color: var(--muted);
-    transition: color 0.15s var(--ease);
-
-    &:hover {
-      color: var(--fg);
-    }
-  }
-}
-
 // ── Page scaffold ───────────────────────────────────────────────────────────
 .info-wrapper {
   flex: 1;

@@ -1,30 +1,17 @@
 import { expect, test } from '@playwright/test';
 
-test('the footer adds profile links without repeating the header navigation', async ({ page }) => {
+test('the footer is only the copyright line, with no links', async ({ page }) => {
   await page.goto('/about');
-
-  const headerLinks = await page
-    .locator('header.header nav a')
-    .evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-  const footerLinks = await page
-    .locator('footer.footer a')
-    .evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-
-  expect(headerLinks.length).toBeGreaterThan(0);
-  expect(footerLinks.filter((href) => headerLinks.includes(href))).toEqual([]);
-  expect(footerLinks).toEqual([
-    'https://github.com/peritissimus',
-    'https://linkedin.com/in/peritissimus',
-  ]);
+  const footer = page.locator('footer.footer');
+  await expect(footer).toHaveText(/^\s*Kushal Patankar © \d{4}\s*$/);
+  await expect(footer.locator('a')).toHaveCount(0);
 });
 
 test.describe('on a phone', () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
-  test('the footer fits without scrolling the page sideways', async ({ page }) => {
+  test('pages do not scroll sideways', async ({ page }) => {
     await page.goto('/about');
-    const lastLink = await page.locator('footer.footer a').last().boundingBox();
-    expect(lastLink!.x + lastLink!.width).toBeLessThanOrEqual(390);
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth
     );
