@@ -42,6 +42,13 @@ jobs:
       - name: Build project
         run: pnpm run build
 
+      - name: Unit tests
+        run: pnpm test:unit
+
+      # Serves dist/ through Cloudflare's Pages runtime (functions, _headers, _routes.json).
+      - name: Pages runtime tests
+        run: pnpm test:pages
+
   release:
     name: Version & Release
     needs: build

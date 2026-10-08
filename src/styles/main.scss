@@ -509,6 +509,13 @@ a {
   background-color: #ead4b0;
 }
 
+.project-card--dotfiles {
+  --card-surface: #dcdcc8;
+  --card-serial: 'Nº 13';
+  --art-depth-opacity: 0.12;
+  background-color: #dcdcc8;
+}
+
 .project-artwork {
   position: relative;
   display: flex;

@@ -8,18 +8,42 @@ export const SITE_URL = 'https://peritissimus.com';
 
 export const AUTHOR_NAME = 'Kushal Patankar';
 
+export const CONTACT_EMAIL = '149.kush@gmail.com';
+
+/**
+ * Stable node IDs, so the Person and WebSite blocks on different pages resolve
+ * to one entity each — the "peritissimus" site name and the person behind it.
+ */
+export const PERSON_ID = `${SITE_URL}/#person`;
+export const WEBSITE_ID = `${SITE_URL}/#website`;
+
 /** Canonical Person entity for Kushal Patankar (peritissimus). */
 export const personSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': PERSON_ID,
   name: AUTHOR_NAME,
   alternateName: 'peritissimus',
   url: SITE_URL,
   jobTitle: 'Founding Engineer & System Architect',
   description:
     'Founding engineer and system architect building scalable AI products and infrastructure.',
-  email: 'mailto:149.kush@gmail.com',
+  email: `mailto:${CONTACT_EMAIL}`,
   image: `${SITE_URL}/og/home.png`,
+  // City-level only, matching the location the site already publishes.
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bengaluru',
+    addressRegion: 'Karnataka',
+    addressCountry: 'IN',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'professional inquiries',
+    email: CONTACT_EMAIL,
+    url: `${SITE_URL}/contact`,
+    availableLanguage: 'en',
+  },
   alumniOf: {
     '@type': 'CollegeOrUniversity',
     name: 'Indian Institute of Technology Kharagpur',
@@ -27,6 +51,7 @@ export const personSchema: Record<string, unknown> = {
   worksFor: {
     '@type': 'Organization',
     name: 'Zoca',
+    url: 'https://zoca.in',
   },
   // Drives entity-level topical relevance — this is what a recruiter's
   // "<stack> engineer" search has to match against.
@@ -53,12 +78,14 @@ export const personSchema: Record<string, unknown> = {
 export const websiteSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
+  '@id': WEBSITE_ID,
   name: 'peritissimus',
-  alternateName: AUTHOR_NAME,
+  alternateName: [AUTHOR_NAME, 'peritissimus.com'],
   url: SITE_URL,
   inLanguage: 'en',
   publisher: {
     '@type': 'Person',
+    '@id': PERSON_ID,
     name: AUTHOR_NAME,
     url: SITE_URL,
   },

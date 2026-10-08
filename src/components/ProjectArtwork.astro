@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse' | 'fit' | 'strid' | 'kaze' | 'reelserver' | 'irem' | 'paperfolio';
+  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse' | 'fit' | 'strid' | 'kaze' | 'reelserver' | 'irem' | 'paperfolio' | 'dotfiles';
   detail?: 'card' | 'blueprint';
 }
 
@@ -1002,6 +1002,34 @@ const { variant, detail = 'card' } = Astro.props;
         <rect class="artwork-surface artwork-hero" x="105" y="81" width="48" height="19" rx="5" />
         <path d="M112 88h19M112 94h31" opacity=".62" />
         <path d="m142 87 3 3 5-7" />
+      </svg>
+    )
+  }
+  {
+    variant === 'dotfiles' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-card-depth artwork-shadow-plane" x="22" y="19" width="142" height="94" rx="7" />
+        <rect class="artwork-surface artwork-hero" x="18" y="15" width="142" height="94" rx="7" />
+        <circle cx="27" cy="23" r="1.8" />
+        <circle cx="34" cy="23" r="1.8" />
+        <circle cx="41" cy="23" r="1.8" />
+        <path class="artwork-structure" d="M18 30h142M97 30v64M97 61h63M18 94h142" />
+        <path d="M25 39h3M25 46h3M25 53h3M25 60h3M25 67h3M25 74h3M25 81h3" opacity=".35" />
+        <path d="M33 39h30M37 46h42M37 53h26M33 60h18M37 67h46M37 74h30M33 81h14" opacity=".7" />
+        <path class="artwork-hero" d="m104 39 4 3.2-4 3.2" />
+        <path d="M112 42.2h20" opacity=".65" />
+        <path class="artwork-hero anim-caret" d="M136.5 38.6v7.2" />
+        <path d="M104 52h44" opacity=".38" />
+        <path d="M104 70h30M104 77h46M104 84h22" opacity=".55" />
+        <rect x="25" y="98.5" width="24" height="6" rx="3" opacity=".6" />
+        <path d="M55 101.5h22" opacity=".4" />
+        <g class="anim-chip">
+          <circle class="artwork-hero" cx="128" cy="101.5" r="2.6" />
+          <circle cx="138" cy="101.5" r="2.6" />
+          <circle cx="148" cy="101.5" r="2.6" />
+        </g>
+        <path class="anim-sparkle" d="m153 9 1.2 2.7 2.7 1.2-2.7 1.2-1.2 2.7-1.2-2.7-2.7-1.2 2.7-1.2z" />
       </svg>
     )
   }

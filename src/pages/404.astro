@@ -20,6 +20,10 @@ import Base from '../layouts/Base.astro';
         <a href="/blog">Browse the blog</a>
         <a href="/software">Personal software</a>
       </nav>
+      <p class="not-found-copy not-found-index">
+        Looking for something specific? The <a href="/sitemap-index.xml">sitemap</a> lists every
+        page, and <a href="/llms.txt">llms.txt</a> summarises the site for AI agents.
+      </p>
     </div>
   </section>
 </Base>
@@ -31,12 +35,12 @@ import Base from '../layouts/Base.astro';
       max-width: 32rem;
     }
 
-    .not-found-links {
+    .not-found-index {
       margin-top: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
+    }
 
+    .not-found-links,
+    .not-found-index {
       a {
         color: inherit;
         text-decoration: underline;
@@ -46,6 +50,13 @@ import Base from '../layouts/Base.astro';
           opacity: 0.7;
         }
       }
+    }
+
+    .not-found-links {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
     }
   }
 </style>
