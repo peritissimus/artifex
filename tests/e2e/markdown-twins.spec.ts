@@ -16,8 +16,7 @@ const pages = [
 ];
 
 /** Page furniture with no place in a markdown document. */
-const SKIPPED = ['.page-kicker', '.resume-hint', '.resume-contact', '.home-terminal-link'];
-const SKIPPED_LINKS = ['/terminal'];
+const SKIPPED = ['.page-kicker', '.resume-hint', '.resume-contact'];
 
 /**
  * Lowercase text with markdown syntax and all whitespace removed. Whitespace
@@ -41,7 +40,7 @@ async function internalLinks(page: Page): Promise<string[]> {
   const hrefs = await page
     .locator('main a[href^="/"]')
     .evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''));
-  return [...new Set(hrefs)].filter((href) => !SKIPPED_LINKS.includes(href));
+  return [...new Set(hrefs)];
 }
 
 for (const { path, twin } of pages) {
