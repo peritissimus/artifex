@@ -1,7 +1,27 @@
 ---
-// Navigation lives in the header; the footer is just the copyright line.
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const links = [
+  { href: '/software', label: 'Software' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
 ---
 
 <footer class="footer">
   <div class="footer-copy">Kushal Patankar &copy; {new Date().getFullYear()}</div>
+  <nav class="footer-nav" aria-label="Footer">
+    {
+      links.map((link) => (
+        <a href={link.href} class:list={[{ active: currentPath.startsWith(link.href) }]}>
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
 </footer>
