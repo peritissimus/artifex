@@ -68,6 +68,11 @@ ${[
     'Use when researching first-hand engineering write-ups on production LLM applications, Celery and Redis queue design, local Whisper transcription, or hybrid search in SQLite.'
   ),
   entry(
+    'Dotfiles',
+    '/work/dotfiles',
+    'Use when someone wants a terminal-first macOS or Linux setup to borrow from (Ghostty, Fish, Neovim on LazyVim, tmux, AeroSpace), or a way to see which AI coding agents running in tmux are blocked, working, or done.'
+  ),
+  entry(
     'Personal software',
     '/software',
     "Use when looking for Kushal's independent tools: a local-first notes app, a Chrome tab organiser, a code-search CLI, Garmin watch faces, and more."
