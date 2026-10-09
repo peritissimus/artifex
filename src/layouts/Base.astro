@@ -20,6 +20,9 @@ interface Props {
   author?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  // Pages laid out on the wide column (home, software) so the header and
+  // footer share their left edge instead of the reading column's.
+  wide?: boolean;
 }
 
 const {
@@ -35,6 +38,7 @@ const {
   author,
   noindex,
   jsonLd,
+  wide = false,
 } = Astro.props;
 ---
 
@@ -122,7 +126,7 @@ const {
 
     <Analytics />
   </head>
-  <body>
+  <body class:list={[{ "layout-wide": wide }]}>
     <Header currentPath={currentPath} />
 
     <main class="info-wrapper">

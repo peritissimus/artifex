@@ -4,7 +4,7 @@ company: SimpleSounds
 role: Co-Founder
 description: Built high-fidelity AI voice-over platform, ranked top 10 globally on pioneer.app.
 seoTitle: "SimpleSounds – AI Voice-Over Platform (Co-Founder)"
-dateRange: January 2021 - December 2021
+dateRange: January 2021 – December 2021
 location: Bengaluru
 order: 4
 technologies: [Neural Voice Synthesis, Google Colab, ngrok, Python, AI/ML, 48kHz Audio]

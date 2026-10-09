@@ -20,6 +20,7 @@ const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort
   description="Founding engineer and system architect building scalable AI products and infrastructure."
   ogImage="/og/home.png"
   currentPath="/"
+  wide
   jsonLd={[personSchema, websiteSchema]}
 >
   <section class="content-section page-home">
@@ -52,9 +53,10 @@ const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort
         </p>
         <div class="project-deck">
           {
-            projects.map((project) => (
+            projects.map((project, i) => (
               <a
                 class={`project-card ${project.className}`}
+                style={`--card-serial: "Nº ${String(i + 1).padStart(2, "0")}"`}
                 href={`/work/${project.slug}`}
                 aria-label={`${project.name}: ${project.description}`}
               >
@@ -70,6 +72,9 @@ const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort
             ))
           }
         </div>
+        <p class="project-deck-hint" aria-hidden="true">
+          <span>←</span> Swipe to browse <span>→</span>
+        </p>
       </section>
 
       <section class="home-section" aria-labelledby="selected-work-heading">
@@ -127,7 +132,7 @@ const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort
     // applyMode() writes transforms and stacking styles can force the browser
     // to synchronously recalculate layout during startup.
     const deckStartsBelowFold =
-      !reduceMotion.matches && deck.getBoundingClientRect().top > window.innerHeight * 0.85;
+      !reduceMotion.matches && deck.getBoundingClientRect().top > window.innerHeight * 1.25;
 
     deck.classList.add('is-enhanced');
     const spring = (stiffness: number, damping: number) => animeSpring({ stiffness, damping });

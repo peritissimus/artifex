@@ -4,7 +4,7 @@ company: Zoca
 role: Sr Software Engineer / IC
 description: Leading technical projects and driving innovation at Zoca, focusing on 0-to-1 product initiatives and infrastructure optimization.
 seoTitle: "Zoca – Senior Software Engineer Case Study"
-dateRange: November 2024 - Present
+dateRange: November 2024 – Present
 location: Bengaluru
 order: 1
 technologies: [TypeScript, NestJS, Terraform, AWS, Message Queues, LLM Integration, Web Scraping, LocalStack]

@@ -12,6 +12,7 @@ const projects = softwareProjects(await getCollection('work'));
   description="Independent software by Kushal Patankar: a local-first notes app, a Chrome tab organiser, a code-search CLI, Garmin watch faces, and other tools built outside of work."
   ogImage="/og/home.png"
   currentPath="/software"
+  wide
 >
   <section class="content-section page-software">
     <div class="section-inner">
@@ -26,11 +27,12 @@ const projects = softwareProjects(await getCollection('work'));
 
       <div class="software-grid">
         {
-          projects.map((project) => {
+          projects.map((project, i) => {
             const meta = softwareCards[project.id as keyof typeof softwareCards];
             return (
               <a
                 class={`software-card ${meta.className}`}
+                style={`--card-serial: "Nº ${String(i + 1).padStart(2, "0")}"`}
                 href={`/work/${project.id}`}
                 aria-label={`${project.data.title}: ${project.data.description}`}
               >

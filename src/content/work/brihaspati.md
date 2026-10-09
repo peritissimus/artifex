@@ -4,7 +4,7 @@ company: Brihaspati
 role: Founding Engineer
 description: Built mobile app and scalable backend infrastructure with AI-powered personalization.
 seoTitle: "Brihaspati – AI Personalization App and Backend (Founding Engineer)"
-dateRange: May 2024 - November 2024
+dateRange: May 2024 – November 2024
 location: Noida, UP
 order: 2
 technologies: [Django, PostgreSQL, AWS, Flutter, Clean Architecture, Prompt Engineering, AI/ML]

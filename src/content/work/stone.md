@@ -4,7 +4,7 @@ company: Stone
 kind: personal
 role: Designer & Engineer
 description: Stone is a free, open-source, local-first note-taking app for Mac. Notes, journals, tasks, and meeting transcripts stay as plain Markdown files on your own disk.
-dateRange: 2025 - Present
+dateRange: 2025 – Present
 sortDate: 2025-10-29
 updated: 2026-10-05
 seoTitle: Stone – Local-First Note-Taking App for Mac

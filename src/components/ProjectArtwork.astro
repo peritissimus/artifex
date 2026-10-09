@@ -334,12 +334,12 @@ const { variant, detail = 'card' } = Astro.props;
         <rect width="180" height="128" style="fill:url(#glo-sig);stroke:none" />
         <rect class="artwork-surface" x="52" y="0" width="96" height="128" />
         <path d="M52 0v128M148 0v128" opacity=".5" />
-        <circle class="artwork-card-depth artwork-shadow-plane" cx="32.5" cy="30.5" r="12" />
-        <g class="anim-bird">
+        <circle class="artwork-card-depth artwork-shadow-plane" cx="32.5" cy="34.5" r="12" />
+        <g class="anim-bird" transform="translate(0 4)">
           <circle class="artwork-surface artwork-structure" cx="30" cy="28" r="12" />
           <path d="M23.6 33.3c4.6 1 7.8-1.2 7.8-5.3v-.6l1.6-1-1.8-.3c-.7-1.3-2.3-1.8-3.6-1.1-1.1.6-1.6 1.9-1.2 3.1-2.4-.1-4.5-1.2-6-3-.8 1.4-.4 3.2 1 4.1l-1.4-.4c0 1.5 1 2.8 2.5 3.1h-1.3c.4 1.2 1.5 2.1 2.4 2.4z" />
         </g>
-        <path d="M135 19h8v11l-4-3-4 3z" />
+        <path d="M135 23h8v11l-4-3-4 3z" />
         <path class="artwork-hero" d="M60 25h24" />
         <path d="M88 25h13M104.5 25h7" opacity=".45" />
         <path d="M60 33h80M60 38.5h62" opacity=".85" />
@@ -378,7 +378,8 @@ const { variant, detail = 'card' } = Astro.props;
         <rect class="artwork-structure" x="8" y="10" width="164" height="108" rx="7" />
         <path d="M46 10v108M128 10v108" />
 
-        <path d="M13.6 22.3c4.6 1 7.8-1.2 7.8-5.3v-.6l1.6-1-1.8-.3c-.7-1.3-2.3-1.8-3.6-1.1-1.1.6-1.6 1.9-1.2 3.1-2.4-.1-4.5-1.2-6-3-.8 1.4-.4 3.2 1 4.1l-1.4-.4c0 1.5 1 2.8 2.5 3.1h-1.3c.4 1.2 1.5 2.1 2.4 2.4z" />
+        <path d="M13.2 13.6h7.6v10.8l-3.8-2.9-3.8 2.9z" />
+        <path d="M15 17.2h4M15 19.6h2.5" opacity=".6" />
 
         <rect class="artwork-soft-surface artwork-structure" x="11" y="27" width="32" height="8.5" rx="2.5" />
         <path d="M15 29.4h3.6v4.8l-1.8-1.3-1.8 1.3z" />
@@ -457,7 +458,7 @@ const { variant, detail = 'card' } = Astro.props;
         <rect class="artwork-structure" x="132" y="29" width="36" height="24" rx="3" />
         <text x="135" y="34.5" font-size="2.8" font-weight="650">About Birdbrain</text>
         <path d="M135 38.5h29M135 42h30M135 45.5h22" opacity=".7" />
-        <text x="135" y="50.5" font-size="2.4">GitHub · Twitter</text>
+        <text x="135" y="50.5" font-size="2.4">GitHub · Source</text>
 
         <g class="artwork-detail">
           <rect x="133" y="60" width="9" height="8" rx="2" />
@@ -739,7 +740,7 @@ const { variant, detail = 'card' } = Astro.props;
     )
   }
   {
-    variant === 'fit' && (
+    variant === 'fit' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
         <defs>
           <pattern id="pt-fit" width="12" height="3.2" patternUnits="userSpaceOnUse">
@@ -888,15 +889,20 @@ const { variant, detail = 'card' } = Astro.props;
     )
   }
   {
-    variant === 'strid' && (
+    variant === 'strid' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
         <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
         <rect class="artwork-card-depth artwork-shadow-plane" x="43" y="15" width="96" height="102" rx="8" />
         <rect class="artwork-surface artwork-hero" x="39" y="11" width="96" height="102" rx="8" />
         <path d="M49 25h42M49 32h68M49 39h55" opacity=".55" />
-        <rect x="48" y="48" width="58" height="8" rx="2" style="fill:currentColor;stroke:none" />
-        <rect x="69" y="62" width="51" height="8" rx="2" style="fill:currentColor;stroke:none" />
-        <rect x="48" y="76" width="38" height="8" rx="2" style="fill:currentColor;stroke:none" />
+        <g class="artwork-card-depth artwork-hatch">
+          <path d="m50 56 4-4m4 4 4-4m4 4 4-4m4 4 4-4m4 4 4-4m4 4 4-4m4 4 4-4" />
+          <path d="m71 70 4-4m4 4 4-4m4 4 4-4m4 4 4-4m4 4 4-4m4 4 4-4" />
+          <path d="m50 84 4-4m4 4 4-4m4 4 4-4m4 4 4-4" />
+        </g>
+        <rect class="artwork-soft-surface artwork-structure" x="48" y="48" width="58" height="8" rx="2" />
+        <rect class="artwork-soft-surface artwork-structure" x="69" y="62" width="51" height="8" rx="2" />
+        <rect class="artwork-soft-surface artwork-structure" x="48" y="76" width="38" height="8" rx="2" />
         <path d="M49 94h68M49 101h46" opacity=".42" />
         <g class="anim-sparkle">
           <path d="M28 29v-9h9M143 20h9v9M28 96v9h9M143 105h9v-9" />
@@ -907,9 +913,10 @@ const { variant, detail = 'card' } = Astro.props;
     )
   }
   {
-    variant === 'kaze' && (
+    variant === 'kaze' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
         <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <g transform="translate(0 4)">
         <g class="anim-chip">
           <rect class="artwork-surface artwork-structure" x="14" y="23" width="46" height="24" rx="5" />
           <path d="M21 31h23M21 38h31" opacity=".65" />
@@ -929,11 +936,12 @@ const { variant, detail = 'card' } = Astro.props;
         <circle cx="123" cy="35" r="5" />
         <path d="m127 39 5 5M137 34h17M120 52h34M120 60h25M120 72h34M120 80h20" opacity=".7" />
         <path class="anim-sparkle" d="m103 16 1.2 2.7 2.7 1.2-2.7 1.2-1.2 2.7-1.2-2.7-2.7-1.2 2.7-1.2z" />
+        </g>
       </svg>
     )
   }
   {
-    variant === 'reelserver' && (
+    variant === 'reelserver' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
         <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
         <rect class="artwork-surface artwork-hero" x="63" y="12" width="54" height="20" rx="6" />
@@ -956,7 +964,7 @@ const { variant, detail = 'card' } = Astro.props;
     )
   }
   {
-    variant === 'irem' && (
+    variant === 'irem' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
         <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
         <path d="M18 65c20-39 49-53 81-45 31 8 50 33 63 73M20 91c35 20 78 18 139-8" opacity=".3" />
@@ -981,7 +989,7 @@ const { variant, detail = 'card' } = Astro.props;
     )
   }
   {
-    variant === 'paperfolio' && (
+    variant === 'paperfolio' && detail === 'card' && (
       <svg viewBox="0 0 180 128" role="presentation">
         <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
         <rect class="artwork-surface artwork-structure" x="15" y="17" width="150" height="94" rx="7" />
@@ -1030,6 +1038,485 @@ const { variant, detail = 'card' } = Astro.props;
           <circle cx="148" cy="101.5" r="2.6" />
         </g>
         <path class="anim-sparkle" d="m153 9 1.2 2.7 2.7 1.2-2.7 1.2-1.2 2.7-1.2-2.7-2.7-1.2 2.7-1.2z" />
+      </svg>
+    )
+  }
+  {
+    variant === 'fit' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-structure" x="8" y="10" width="164" height="108" rx="7" />
+        <path d="M126 10v108" />
+        <text x="13" y="17" font-size="2.7">STUDIO / COUPLE TRY-ON</text>
+        <text x="119" y="17" font-size="2.7" text-anchor="end">RENDER 1:1</text>
+        <path d="M8 21h118" />
+
+        <path d="M20 30v76" opacity=".55" />
+        <path d="M18 30h4M18 45h4M18 60h4M18 75h4M18 90h4M18 106h4" opacity=".55" />
+        <text x="12" y="31" font-size="2.2" text-anchor="end" transform="rotate(0)">190</text>
+        <text x="16" y="61" font-size="2.2" text-anchor="end">160</text>
+        <text x="16" y="91" font-size="2.2" text-anchor="end">130</text>
+        <text x="16" y="107" font-size="2.2" text-anchor="end">0</text>
+        <path d="M24 106h96" opacity=".7" />
+        <ellipse class="artwork-soft-surface" cx="72" cy="106" rx="36" ry="3" />
+
+        <path d="M24 36h40" stroke-dasharray="2 2.5" opacity=".55" />
+        <path d="M24 49h50" stroke-dasharray="2 2.5" opacity=".55" />
+
+        <g class="anim-person">
+          <circle class="artwork-hero" cx="58" cy="42.5" r="6.5" />
+          <path class="artwork-hero" d="M58 51c-5 0-8.2 2.8-9.2 7.2L45 96h26l-3.8-37.8C66.2 53.8 63 51 58 51z" />
+          <path d="M53.5 96v10M62.5 96v10M51 106h5.2M60 106h5.2" />
+          <path d="M49 72h18" opacity=".45" />
+        </g>
+        <g class="anim-person">
+          <circle class="artwork-hero" cx="92" cy="55.5" r="6" />
+          <path class="artwork-hero" d="M92 63c-4.2 0-6.9 2.3-7.8 6L79 95h26l-5.2-26c-.9-3.7-3.6-6-7.8-6z" />
+          <path d="M88 95v11M96 95v11M85.8 106h5M93.6 106h5" />
+          <path d="M83 78h18" opacity=".45" />
+        </g>
+
+        <g class="artwork-detail">
+          <path d="M66 36v13" opacity=".7" />
+          <path d="m64.5 38 1.5-2 1.5 2M64.5 47l1.5 2 1.5-2" opacity=".7" />
+          <text x="68.5" y="44" font-size="2.3">Δ 14 CM</text>
+          <path d="M108 36h8M108 49h8" opacity=".55" />
+          <text x="117" y="37" font-size="2.3">A · 178 CM</text>
+          <text x="117" y="50" font-size="2.3">B · 164 CM</text>
+          <text x="24" y="114" font-size="2.3">GROUND PLANE · SHARED SCALE</text>
+        </g>
+
+        <text x="131" y="29" font-size="2.6">WARDROBE</text>
+        <path d="M131 31h36" opacity=".6" />
+        <g class="anim-chip">
+          <rect class="artwork-soft-surface artwork-structure" x="131" y="35" width="36" height="20" rx="3" />
+          <path d="M149 42v-2.2a1.8 1.8 0 1 1 1.8-1.8" />
+          <path d="m140 48 9-5 9 5M140 48h18" />
+          <text x="135" y="53.5" font-size="2.2">LINEN SHIRT · A</text>
+        </g>
+        <g class="anim-chip">
+          <rect class="artwork-soft-surface artwork-structure" x="131" y="59" width="36" height="20" rx="3" />
+          <path d="M149 66v-2.2a1.8 1.8 0 1 1 1.8-1.8" />
+          <path d="M146 66h6l3.2 9h-12.4z" />
+          <text x="135" y="77.5" font-size="2.2">MIDI DRESS · B</text>
+        </g>
+        <rect class="artwork-structure" x="131" y="84" width="36" height="7" rx="3.5" />
+        <path d="m136 87.5 1 1.7 1.7 1-1.7 1-1 1.7-1-1.7-1.7-1 1.7-1z" transform="translate(0 -2.5)" />
+        <text x="141" y="88.6" font-size="2.3">Render pair</text>
+        <text x="131" y="98" font-size="2.2">MODEL · GEMINI IMAGE</text>
+        <text x="131" y="103" font-size="2.2">OUTPUT · 2048 × 2048</text>
+        <text x="131" y="108" font-size="2.2">POSE · LOCKED</text>
+        <g class="artwork-detail">
+          <path d="M131 112h36" opacity=".4" />
+          <text x="131" y="116.5" font-size="2.2">SAME FRAME · SAME LIGHT</text>
+        </g>
+      </svg>
+    )
+  }
+  {
+    variant === 'strid' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-structure" x="8" y="10" width="164" height="108" rx="7" />
+        <path d="M118 10v108" />
+        <text x="13" y="17" font-size="2.7">DOCUMENT / BANK STATEMENT.PDF</text>
+        <text x="113" y="17" font-size="2.7" text-anchor="end">PAGE 1 / 3</text>
+        <path d="M8 21h110" />
+
+        <rect class="artwork-card-depth artwork-shadow-plane" x="26" y="29" width="76" height="86" rx="2" />
+        <rect class="artwork-surface artwork-hero" x="23" y="26" width="76" height="86" rx="2" />
+        <path d="M30 34h22" class="artwork-structure" />
+        <path d="M30 40h40M30 44h34" opacity=".45" />
+
+        <path d="M30 52h12" opacity=".6" />
+        <rect class="artwork-soft-surface artwork-hero" x="44" y="49.5" width="30" height="5" rx="1.2" />
+        <text x="46" y="53.2" font-size="2.2">PAN · ABCDE1234F</text>
+        <path d="M78 52h14" opacity=".45" />
+
+        <path d="M30 61h16" opacity=".6" />
+        <rect class="artwork-soft-surface artwork-hero" x="48" y="58.5" width="36" height="5" rx="1.2" />
+        <text x="50" y="62.2" font-size="2.2">AADHAAR · XXXX 4471</text>
+
+        <path d="M30 70h18M50 70h34" opacity=".45" />
+        <path d="M30 76h26" opacity=".45" />
+        <rect class="artwork-soft-surface artwork-hero" x="58" y="73.5" width="28" height="5" rx="1.2" />
+        <text x="60" y="77.2" font-size="2.2">IFSC · HDFC0001</text>
+
+        <path d="M30 86h50M30 90h44M30 94h56M30 98h30" opacity=".4" />
+        <rect class="artwork-soft-surface artwork-hero" x="62" y="102.5" width="30" height="5" rx="1.2" />
+        <text x="64" y="106.2" font-size="2.2">A/C · ••••••8821</text>
+
+        <g class="artwork-detail">
+          <path d="M74 52h30" stroke-dasharray="1.5 1.5" opacity=".45" />
+          <path d="M84 61h20" stroke-dasharray="1.5 1.5" opacity=".45" />
+          <path d="M86 76h18" stroke-dasharray="1.5 1.5" opacity=".45" />
+          <path d="M92 105h12" stroke-dasharray="1.5 1.5" opacity=".45" />
+          <path d="M23 118v2.5M99 118v2.5M23 119.2h76" opacity=".55" />
+          <text x="52" y="116.5" font-size="2.2">A4 · 210 MM</text>
+        </g>
+
+        <text x="123" y="29" font-size="2.6">DETECTIONS · 4</text>
+        <path d="M123 31h44" opacity=".6" />
+        <g class="anim-chip">
+          <rect x="123" y="35" width="3.6" height="3.6" rx=".8" />
+          <path d="m124 37 .8.9 1.5-1.8" />
+          <text x="129" y="38" font-size="2.3">PAN</text>
+          <text x="167" y="38" font-size="2.1" text-anchor="end">0.99</text>
+        </g>
+        <g class="anim-chip">
+          <rect x="123" y="43" width="3.6" height="3.6" rx=".8" />
+          <path d="m124 45 .8.9 1.5-1.8" />
+          <text x="129" y="46" font-size="2.3">AADHAAR</text>
+          <text x="167" y="46" font-size="2.1" text-anchor="end">0.98</text>
+        </g>
+        <g class="anim-chip">
+          <rect x="123" y="51" width="3.6" height="3.6" rx=".8" />
+          <path d="m124 53 .8.9 1.5-1.8" />
+          <text x="129" y="54" font-size="2.3">IFSC</text>
+          <text x="167" y="54" font-size="2.1" text-anchor="end">0.97</text>
+        </g>
+        <g class="anim-chip">
+          <rect x="123" y="59" width="3.6" height="3.6" rx=".8" />
+          <path d="m124 61 .8.9 1.5-1.8" />
+          <text x="129" y="62" font-size="2.3">ACCOUNT NO.</text>
+          <text x="167" y="62" font-size="2.1" text-anchor="end">0.94</text>
+        </g>
+
+        <path d="M123 68h44" opacity=".4" />
+        <text x="123" y="74" font-size="2.3">MODE</text>
+        <rect class="artwork-soft-surface artwork-structure" x="123" y="76.5" width="21" height="6" rx="3" />
+        <text x="126" y="80.6" font-size="2.2">Black box</text>
+        <rect class="artwork-structure" x="146" y="76.5" width="21" height="6" rx="3" />
+        <text x="150" y="80.6" font-size="2.2">Pixelate</text>
+
+        <rect class="artwork-structure" x="123" y="88" width="44" height="7" rx="3.5" />
+        <path class="artwork-hero" d="M129.5 88.8c2.4.9 3.6 1.2 3.6 1.2v2.8c0 2.4-1.5 4-3.6 5.1-2.1-1.1-3.6-2.7-3.6-5.1V90s1.2-.3 3.6-1.2z" />
+        <text x="138" y="92.6" font-size="2.3">Redact &amp; export</text>
+
+        <g class="artwork-detail">
+          <text x="123" y="103" font-size="2.2">ENGINE · ON-DEVICE</text>
+          <text x="123" y="108" font-size="2.2">UPLOAD · NONE</text>
+          <text x="123" y="113" font-size="2.2">RULES · IN · BANKING</text>
+        </g>
+      </svg>
+    )
+  }
+  {
+    variant === 'kaze' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-structure" x="8" y="10" width="164" height="108" rx="7" />
+        <circle cx="15.5" cy="16.5" r="1.5" />
+        <circle cx="20.5" cy="16.5" r="1.5" />
+        <circle cx="25.5" cy="16.5" r="1.5" />
+        <text x="90" y="17.6" font-size="2.6" text-anchor="middle">kaze — ~/code/reelserver</text>
+        <path d="M8 22h164" />
+
+        <text x="14" y="31" font-size="3">$</text>
+        <text x="19" y="31" font-size="3">kaze "where do failed uploads get retried"</text>
+        <path class="artwork-hero anim-caret" d="M103 27.5v4.5" />
+
+        <text x="14" y="40" font-size="2.4" opacity=".75">INDEXED 1,284 FILES · 9,730 SYMBOLS · 0.6S</text>
+        <path d="M14 43h152" opacity=".35" />
+
+        <g class="anim-row">
+          <circle class="artwork-hero" cx="17.5" cy="51" r="2" />
+          <text x="23" y="52" font-size="2.8" font-weight="600">src/queue/retry.ts</text>
+          <text x="80" y="52" font-size="2.4">:42</text>
+          <text x="166" y="52" font-size="2.3" text-anchor="end">0.91</text>
+          <text x="23" y="57" font-size="2.4" opacity=".75">export async function retryFailed(job: UploadJob)</text>
+        </g>
+        <g class="anim-row">
+          <circle cx="17.5" cy="66" r="2" />
+          <text x="23" y="67" font-size="2.8" font-weight="600">src/workers/upload.ts</text>
+          <text x="86" y="67" font-size="2.4">:118</text>
+          <text x="166" y="67" font-size="2.3" text-anchor="end">0.84</text>
+          <text x="23" y="72" font-size="2.4" opacity=".75">if (attempt &lt; MAX_ATTEMPTS) queue.push(job, backoff(attempt))</text>
+        </g>
+        <g class="anim-row">
+          <circle cx="17.5" cy="81" r="2" />
+          <text x="23" y="82" font-size="2.8" font-weight="600">src/api/jobs.ts</text>
+          <text x="65" y="82" font-size="2.4">:27</text>
+          <text x="166" y="82" font-size="2.3" text-anchor="end">0.71</text>
+          <text x="23" y="87" font-size="2.4" opacity=".75">router.post('/jobs/:id/retry', requeue)</text>
+        </g>
+
+        <path d="M14 93h152" opacity=".35" />
+        <rect class="artwork-soft-surface artwork-structure" x="14" y="97" width="152" height="14" rx="3" />
+        <path d="m19 102.4.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9z" />
+        <text x="25" y="102.6" font-size="2.4">ANSWER</text>
+        <text x="25" y="107.6" font-size="2.5">Retries are scheduled in retry.ts and re-enqueued with exponential backoff.</text>
+
+        <g class="artwork-detail">
+          <path d="M106 47h3M106 57.5h3M106 47v10.5" opacity=".55" />
+          <text x="111" y="53" font-size="2.2">TOP HIT · HYBRID RANK</text>
+          <text x="14" y="115.5" font-size="2.2">EMBEDDINGS · LOCAL · SQLITE</text>
+          <text x="166" y="115.5" font-size="2.2" text-anchor="end">NO NETWORK</text>
+        </g>
+      </svg>
+    )
+  }
+  {
+    variant === 'reelserver' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+
+        <rect class="artwork-structure" x="12" y="28" width="30" height="16" rx="4" />
+        <text x="27" y="35" font-size="2.6" text-anchor="middle">API</text>
+        <text x="27" y="40" font-size="2.2" text-anchor="middle" opacity=".7">POST /reels</text>
+
+        <path class="artwork-hero" d="M42 36h14" />
+        <path d="m54 34 2 2-2 2" />
+
+        <rect class="artwork-surface artwork-hero" x="58" y="26" width="38" height="20" rx="4" />
+        <text x="77" y="33" font-size="2.6" text-anchor="middle">QUEUE</text>
+        <g class="anim-row">
+          <rect x="63" y="36.5" width="6" height="5" rx="1" />
+          <rect x="70.5" y="36.5" width="6" height="5" rx="1" />
+          <rect x="78" y="36.5" width="6" height="5" rx="1" />
+          <rect x="85.5" y="36.5" width="6" height="5" rx="1" opacity=".4" />
+        </g>
+
+        <path d="M96 36h12" class="artwork-hero" />
+        <path d="M108 36v-16h10M108 36h10M108 36v16h10" />
+        <path d="m116 18 2 2-2 2M116 34l2 2-2 2M116 50l2 2-2 2" />
+
+        <g class="anim-chip">
+          <rect class="artwork-structure" x="120" y="13" width="44" height="14" rx="3" />
+          <circle cx="126" cy="20" r="1.8" />
+          <text x="130" y="19" font-size="2.4">WORKER 1</text>
+          <text x="130" y="23.5" font-size="2.1" opacity=".7">transcode · 62%</text>
+          <rect x="151" y="18.5" width="10" height="2.6" rx="1.3" />
+          <rect class="artwork-soft-surface" x="151" y="18.5" width="6.2" height="2.6" rx="1.3" />
+        </g>
+        <g class="anim-chip">
+          <rect class="artwork-structure" x="120" y="29" width="44" height="14" rx="3" />
+          <circle cx="126" cy="36" r="1.8" />
+          <path d="m125 35 1 1 2-2" />
+          <text x="130" y="35" font-size="2.4">WORKER 2</text>
+          <text x="130" y="39.5" font-size="2.1" opacity=".7">thumbnail · done</text>
+        </g>
+        <g class="anim-chip">
+          <rect class="artwork-structure" x="120" y="45" width="44" height="14" rx="3" />
+          <circle cx="126" cy="52" r="1.8" />
+          <path d="m124.8 50.8 2.4 2.4m0-2.4-2.4 2.4" />
+          <text x="130" y="51" font-size="2.4">WORKER 3</text>
+          <text x="130" y="55.5" font-size="2.1" opacity=".7">failed · retry 2/5</text>
+        </g>
+
+        <path d="M142 59v9h-65v-13" stroke-dasharray="2 2" opacity=".6" />
+        <path d="m75 57 2-2 2 2" opacity=".6" />
+        <text x="110" y="72" font-size="2.2" text-anchor="middle">BACKOFF · 2ˢ · 8ˢ · 32ˢ → DEAD LETTER</text>
+
+        <path d="M27 44v38" opacity=".55" />
+        <rect class="artwork-structure" x="12" y="82" width="30" height="24" rx="4" />
+        <text x="27" y="89" font-size="2.6" text-anchor="middle">STATE</text>
+        <text x="16" y="95" font-size="2.1">queued · 12</text>
+        <text x="16" y="99.5" font-size="2.1">running · 3</text>
+        <text x="16" y="104" font-size="2.1">failed · 1</text>
+
+        <ellipse class="artwork-surface artwork-hero" cx="90" cy="88" rx="16" ry="5.5" />
+        <path d="M74 88v14c0 3 7.2 5.5 16 5.5s16-2.5 16-5.5V88M74 95c0 3 7.2 5.5 16 5.5s16-2.5 16-5.5" />
+        <text x="90" y="113.5" font-size="2.4" text-anchor="middle">POSTGRES · JOB LEDGER</text>
+        <path d="M42 94h32" opacity=".55" />
+        <path d="M90 82.5V75" opacity=".55" />
+
+        <rect class="artwork-structure" x="120" y="82" width="44" height="24" rx="4" />
+        <text x="142" y="89" font-size="2.6" text-anchor="middle">STORAGE</text>
+        <rect x="126" y="93" width="12" height="8" rx="1.5" />
+        <path d="m128 99 3-3 2 2 2-3 3 4" />
+        <text x="141" y="96" font-size="2.1">reel.mp4</text>
+        <text x="141" y="100.5" font-size="2.1">poster.jpg</text>
+        <path d="M106 94h14" opacity=".55" />
+        <path d="m118 92 2 2-2 2" opacity=".55" />
+        <path d="M142 59v23" opacity="0" />
+
+        <g class="artwork-detail">
+          <text x="12" y="17" font-size="2.7">PIPELINE / REEL INGEST</text>
+          <text x="100" y="17" font-size="2.7" text-anchor="end">AT-LEAST-ONCE</text>
+          <path d="M12 115h152" opacity=".35" />
+          <text x="12" y="120" font-size="2.2">IDEMPOTENT JOBS · VISIBILITY TIMEOUT 90ˢ · DLQ ALERTS</text>
+        </g>
+      </svg>
+    )
+  }
+  {
+    variant === 'irem' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-card-depth artwork-plane" x="8" y="10" width="40" height="108" rx="7" />
+        <rect class="artwork-structure" x="8" y="10" width="164" height="108" rx="7" />
+        <path d="M48 10v108M130 10v108" />
+
+        <text x="13" y="17.5" font-size="2.6">ARCHIVE · 1,106</text>
+        <path d="M8 21h40" opacity=".6" />
+        <g class="anim-row">
+          <rect class="artwork-soft-surface artwork-structure" x="12" y="25" width="32" height="9" rx="2" />
+          <rect x="14.5" y="27" width="5" height="5" rx=".8" />
+          <text x="22" y="29.4" font-size="2.2">#0412</text>
+          <text x="22" y="32.6" font-size="1.9" opacity=".7">2011 · restored</text>
+        </g>
+        <g class="anim-row">
+          <rect x="14.5" y="38" width="5" height="5" rx=".8" />
+          <text x="22" y="40.4" font-size="2.2">#0413</text>
+          <text x="22" y="43.6" font-size="1.9" opacity=".7">2011 · restored</text>
+        </g>
+        <g class="anim-row">
+          <rect x="14.5" y="49" width="5" height="5" rx=".8" />
+          <text x="22" y="51.4" font-size="2.2">#0414</text>
+          <text x="22" y="54.6" font-size="1.9" opacity=".7">2012 · queued</text>
+        </g>
+        <g class="anim-row">
+          <rect x="14.5" y="60" width="5" height="5" rx=".8" />
+          <text x="22" y="62.4" font-size="2.2">#0415</text>
+          <text x="22" y="65.6" font-size="1.9" opacity=".7">2012 · broken</text>
+        </g>
+        <path d="M14 72h28M14 77h22M14 82h26M14 87h18" opacity=".3" />
+
+        <text x="54" y="17.5" font-size="2.6">VIEWER · WEBGL2</text>
+        <text x="124" y="17.5" font-size="2.6" text-anchor="end">60 FPS</text>
+        <path d="M48 21h82" opacity=".6" />
+        <g opacity=".6">
+          <circle cx="60" cy="38" r="1.1" /><circle cx="70" cy="30" r="1.3" /><circle cx="110" cy="33" r="1.2" />
+          <circle cx="120" cy="60" r="1.1" /><circle cx="64" cy="92" r="1.3" /><circle cx="118" cy="96" r="1.2" />
+          <circle cx="96" cy="104" r="1" />
+        </g>
+        <g class="anim-orbit">
+          <ellipse cx="89" cy="66" rx="36" ry="17" transform="rotate(-14 89 66)" opacity=".35" />
+          <circle class="artwork-hero" cx="121" cy="56" r="2.4" />
+        </g>
+        <rect class="artwork-card-depth artwork-shadow-plane" x="70" y="46" width="42" height="44" rx="4" />
+        <rect class="artwork-surface artwork-hero" x="67" y="43" width="42" height="44" rx="4" />
+        <rect class="artwork-structure" x="71" y="47" width="34" height="24" rx="2.5" />
+        <path d="m73 68 9-8 7 5 5-6 9 9" />
+        <circle cx="97" cy="53" r="2.6" />
+        <path d="M72 77h26M72 82h18" opacity=".6" />
+        <g class="artwork-detail">
+          <path d="M60 112h62" opacity=".35" />
+          <text x="54" y="110" font-size="2.2">DRAG · ORBIT</text>
+          <text x="124" y="110" font-size="2.2" text-anchor="end">SCROLL · ZOOM</text>
+        </g>
+
+        <text x="135" y="17.5" font-size="2.6">RESTORE</text>
+        <path d="M130 21h42" opacity=".6" />
+        <text x="135" y="28" font-size="2.1">SOURCE</text>
+        <text x="135" y="32" font-size="2.3">Flash · 2011</text>
+        <text x="135" y="39" font-size="2.1">TARGET</text>
+        <text x="135" y="43" font-size="2.3">WebGL2 · 2026</text>
+        <path d="M135 47h32" opacity=".35" />
+        <text x="135" y="53" font-size="2.1">SHADERS</text>
+        <rect x="135" y="55.5" width="32" height="3" rx="1.5" />
+        <rect class="artwork-soft-surface" x="135" y="55.5" width="29" height="3" rx="1.5" />
+        <text x="135" y="64" font-size="2.1">TEXTURES</text>
+        <rect x="135" y="66.5" width="32" height="3" rx="1.5" />
+        <rect class="artwork-soft-surface" x="135" y="66.5" width="32" height="3" rx="1.5" />
+        <text x="135" y="75" font-size="2.1">AUDIO</text>
+        <rect x="135" y="77.5" width="32" height="3" rx="1.5" />
+        <rect class="artwork-soft-surface" x="135" y="77.5" width="18" height="3" rx="1.5" />
+        <path d="M135 85h32" opacity=".35" />
+        <rect class="artwork-structure" x="135" y="90" width="32" height="7" rx="3.5" />
+        <text x="151" y="94.6" font-size="2.3" text-anchor="middle">Publish build</text>
+        <g class="artwork-detail">
+          <text x="135" y="105" font-size="2.1">BYTES · 1:1 WITH ORIGINAL</text>
+          <text x="135" y="110" font-size="2.1">LICENSE · CC BY-NC</text>
+        </g>
+      </svg>
+    )
+  }
+  {
+    variant === 'paperfolio' && detail === 'blueprint' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <rect class="artwork-structure" x="8" y="10" width="164" height="108" rx="7" />
+        <path d="M122 10v108M8 74h114" />
+
+        <text x="13" y="17.5" font-size="2.6">PORTFOLIO · PAPER</text>
+        <text x="60" y="17.5" font-size="2.6">₹ 12,48,300</text>
+        <text x="117" y="17.5" font-size="2.6" text-anchor="end">+8.4% · 90D</text>
+        <path d="M8 21h114" opacity=".6" />
+
+        <path d="M16 68h100" opacity=".35" />
+        <path d="M16 58h100M16 48h100M16 38h100M16 28h100" opacity=".15" />
+        <text x="118" y="29" font-size="1.9" opacity=".6">13.0L</text>
+        <text x="118" y="49" font-size="1.9" opacity=".6">12.0L</text>
+        <text x="118" y="69" font-size="1.9" opacity=".6">11.0L</text>
+        <g class="anim-row">
+          <path d="M24 52v14M21 56h6v7h-6z" />
+          <path d="M34 46v16M31 50h6v8h-6z" />
+          <path d="M44 48v12M41 51h6v6h-6z" />
+          <path d="M54 38v18M51 43h6v9h-6z" />
+          <path d="M64 41v14M61 45h6v7h-6z" />
+          <path d="M74 32v16M71 36h6v8h-6z" />
+          <path d="M84 34v12M81 37h6v6h-6z" />
+          <path d="M94 27v14M91 30h6v8h-6z" />
+          <path d="M104 29v10M101 31h6v6h-6z" />
+        </g>
+        <path class="artwork-hero" d="M16 62c10-2 18-6 28-8s18 2 28-6 16-12 22-14 10-6 18-6" opacity=".9" />
+        <circle class="artwork-surface artwork-hero anim-sparkle" cx="104" cy="31" r="2.6" />
+        <g class="artwork-detail">
+          <path d="M94 24v4M94 24h10" opacity=".55" />
+          <text x="96" y="23" font-size="2.1">NIFTY 50 · REBASED</text>
+        </g>
+
+        <text x="13" y="81" font-size="2.4">POSITIONS</text>
+        <text x="60" y="81" font-size="2.1" opacity=".7">QTY</text>
+        <text x="80" y="81" font-size="2.1" opacity=".7">AVG</text>
+        <text x="117" y="81" font-size="2.1" opacity=".7" text-anchor="end">P&amp;L</text>
+        <path d="M13 83h104" opacity=".35" />
+        <g class="anim-row">
+          <text x="13" y="89" font-size="2.3">HDFCBANK</text>
+          <text x="60" y="89" font-size="2.2">40</text>
+          <text x="80" y="89" font-size="2.2">1,612</text>
+          <text x="117" y="89" font-size="2.2" text-anchor="end">+4.2%</text>
+        </g>
+        <g class="anim-row">
+          <text x="13" y="96" font-size="2.3">INFY</text>
+          <text x="60" y="96" font-size="2.2">25</text>
+          <text x="80" y="96" font-size="2.2">1,488</text>
+          <text x="117" y="96" font-size="2.2" text-anchor="end">−1.1%</text>
+        </g>
+        <g class="anim-row">
+          <text x="13" y="103" font-size="2.3">TATAMOTORS</text>
+          <text x="60" y="103" font-size="2.2">60</text>
+          <text x="80" y="103" font-size="2.2">792</text>
+          <text x="117" y="103" font-size="2.2" text-anchor="end">+12.8%</text>
+        </g>
+        <g class="anim-row">
+          <text x="13" y="110" font-size="2.3">GOLDBEES</text>
+          <text x="60" y="110" font-size="2.2">120</text>
+          <text x="80" y="110" font-size="2.2">64.3</text>
+          <text x="117" y="110" font-size="2.2" text-anchor="end">+3.6%</text>
+        </g>
+
+        <text x="127" y="17.5" font-size="2.6">ORDER</text>
+        <path d="M122 21h50" opacity=".6" />
+        <rect class="artwork-soft-surface artwork-structure" x="127" y="25" width="18" height="6" rx="3" />
+        <text x="136" y="29.2" font-size="2.2" text-anchor="middle">Buy</text>
+        <rect class="artwork-structure" x="149" y="25" width="18" height="6" rx="3" />
+        <text x="158" y="29.2" font-size="2.2" text-anchor="middle">Sell</text>
+        <text x="127" y="38" font-size="2.1" opacity=".7">SYMBOL</text>
+        <rect class="artwork-structure" x="127" y="40" width="40" height="7" rx="2" />
+        <text x="130" y="44.8" font-size="2.4">RELIANCE</text>
+        <text x="127" y="53" font-size="2.1" opacity=".7">QTY</text>
+        <rect class="artwork-structure" x="127" y="55" width="18" height="7" rx="2" />
+        <text x="130" y="59.8" font-size="2.4">10</text>
+        <text x="149" y="53" font-size="2.1" opacity=".7">LIMIT</text>
+        <rect class="artwork-structure" x="149" y="55" width="18" height="7" rx="2" />
+        <text x="152" y="59.8" font-size="2.4">2,940</text>
+        <text x="127" y="68" font-size="2.1" opacity=".7">EST. COST</text>
+        <text x="167" y="68" font-size="2.3" text-anchor="end">₹ 29,400</text>
+        <rect class="artwork-surface artwork-hero" x="127" y="72" width="40" height="8" rx="4" />
+        <text x="147" y="77.3" font-size="2.4" text-anchor="middle">Place paper order</text>
+
+        <path d="M122 86h50" opacity=".35" />
+        <text x="127" y="92" font-size="2.4">RESEARCH</text>
+        <rect class="artwork-structure" x="127" y="95" width="40" height="7" rx="2" />
+        <text x="130" y="99.6" font-size="2.1">Q3 results · summary</text>
+        <rect class="artwork-structure" x="127" y="104" width="40" height="7" rx="2" />
+        <text x="130" y="108.6" font-size="2.1">Sector · auto · notes</text>
+        <g class="artwork-detail">
+          <text x="127" y="115.5" font-size="2.1">NO REAL MONEY · NSE EOD DATA</text>
+        </g>
       </svg>
     )
   }
