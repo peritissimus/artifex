@@ -28,9 +28,6 @@
 
   --measure: 42rem; // reading column
   --wide: 58rem; // wider layouts (cards, work)
-  // The column the page is laid out on. Header and footer follow it so the
-  // logo, the title and the copyright share one left edge on every page.
-  --column: var(--measure);
   --gutter: 1.5rem;
   --ease: cubic-bezier(0.2, 0, 0, 1);
 }
@@ -102,14 +99,9 @@ a {
 }
 
 // ── Header ──────────────────────────────────────────────────────────────────
-// Wide pages (home, software) opt in via Base's `wide` prop.
-.layout-wide {
-  --column: var(--wide);
-}
-
 .header {
   width: 100%;
-  max-width: calc(var(--column) + 2 * var(--gutter));
+  max-width: calc(var(--wide) + 2 * var(--gutter));
   margin: 0 auto;
   padding: 2rem var(--gutter);
   display: flex;
@@ -153,7 +145,7 @@ a {
 // ── Footer ──────────────────────────────────────────────────────────────────
 .footer {
   width: 100%;
-  max-width: calc(var(--column) + 2 * var(--gutter));
+  max-width: calc(var(--wide) + 2 * var(--gutter));
   margin: 6rem auto 0;
   padding: 2rem var(--gutter);
   border-top: 1px solid var(--border);
