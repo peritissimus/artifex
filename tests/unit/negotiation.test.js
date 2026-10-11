@@ -168,6 +168,18 @@ const site = () =>
 const accept = (value) => ({ headers: { Accept: value } });
 
 describe('negotiate', () => {
+  it('redirects www page requests to the canonical origin', async () => {
+    const request = new Request('https://www.peritissimus.com/about?ref=test');
+    const response = await negotiate(
+      request,
+      { ASSETS: { fetch: async () => assert.fail() } },
+      () => assert.fail()
+    );
+
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get('Location'), 'https://peritissimus.com/about?ref=test');
+  });
+
   it('serves the markdown twin at the page URL when markdown is preferred', async () => {
     for (const header of ['text/markdown', CLAUDE_CODE]) {
       const response = await site().handle('/about', accept(header));

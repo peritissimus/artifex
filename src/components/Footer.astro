@@ -11,6 +11,12 @@ const links = [
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
+
+const profiles = [
+  { href: 'https://github.com/peritissimus', label: 'GitHub' },
+  { href: 'https://linkedin.com/in/peritissimus', label: 'LinkedIn' },
+  { href: 'https://twitter.com/peritissimus_', label: 'X' },
+];
 ---
 
 <footer class="footer">
@@ -20,6 +26,15 @@ const links = [
       links.map((link) => (
         <a href={link.href} class:list={[{ active: currentPath.startsWith(link.href) }]}>
           {link.label}
+        </a>
+      ))
+    }
+  </nav>
+  <nav class="footer-profiles" aria-label="Professional profiles">
+    {
+      profiles.map((profile) => (
+        <a href={profile.href} rel="me noopener noreferrer">
+          {profile.label}
         </a>
       ))
     }
