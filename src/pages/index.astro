@@ -15,21 +15,22 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
 ---
 
 <Base
-  title="peritissimus | Kushal Patankar"
-  description="Founding engineer and system architect building scalable AI products and infrastructure."
+  title="Kushal Patankar — Applied AI & Distributed Systems Engineer"
+  description="Kushal Patankar builds scalable AI infrastructure, applied AI products, distributed systems, and local-first personal software."
   ogImage="/og/home.png"
   currentPath="/"
-  wide
   jsonLd={[personSchema, websiteSchema]}
 >
   <section class="content-section page-home">
     <div class="section-inner home-inner">
       <div class="home-hero">
-        <p class="page-kicker">System architect &amp; engineer</p>
+        <p class="page-kicker">Applied AI &amp; distributed systems engineer</p>
         <h1 class="home-title">I build AI products and the systems that make them scale.</h1>
         <p class="home-intro">
-          I’m Kushal Patankar, a founding engineer working across product, infrastructure, and
-          applied AI. Currently building tools for local businesses at Zoca.
+          I’m Kushal Patankar, a founding engineer working across applied AI engineering, scalable
+          AI infrastructure, and distributed systems. I turn AI capabilities into reliable
+          products and build local-first personal software outside of work. Currently building
+          tools for local businesses at Zoca.
         </p>
         <div class="home-primary-links" aria-label="Primary links">
           <a href="/about">More about me <span aria-hidden="true">→</span></a>
@@ -48,7 +49,8 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
           <a href="/software">All projects →</a>
         </div>
         <p class="project-deck-intro">
-          Small tools and independent experiments I design and build outside of work.
+          Local-first personal software and independent experiments I design and build outside of
+          work.
         </p>
         <div class="project-deck">
           {

@@ -15,20 +15,20 @@ export const GET: APIRoute = async () => {
 
   return markdownResponse(
     markdownDocument({
-      title: 'peritissimus — Kushal Patankar',
+      title: 'Kushal Patankar — Applied AI & Distributed Systems Engineer',
       description:
-        'Founding engineer and system architect building scalable AI products and infrastructure.',
+        'Kushal Patankar builds scalable AI infrastructure, applied AI products, distributed systems, and local-first personal software.',
       path: '/',
       body: [
         '## I build AI products and the systems that make them scale.',
-        'I’m Kushal Patankar, a founding engineer working across product, infrastructure, and applied AI. Currently building tools for local businesses at Zoca.',
+        'I’m Kushal Patankar, a founding engineer working across applied AI engineering, scalable AI infrastructure, and distributed systems. I turn AI capabilities into reliable products and build local-first personal software outside of work. Currently building tools for local businesses at Zoca.',
         [
           `- ${link('More about me', '/about')}`,
           `- ${link('Résumé', '/resume')}`,
           `- ${link('Get in touch', '/contact')}`,
         ].join('\n'),
         '## Personal software',
-        'Small tools and independent experiments I design and build outside of work.',
+        'Local-first personal software and independent experiments I design and build outside of work.',
         [
           ...featuredProjects.map(
             (project) => `- ${link(project.name, `/work/${project.slug}`)}: ${project.description}`

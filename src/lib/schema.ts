@@ -25,9 +25,9 @@ export const personSchema: Record<string, unknown> = {
   name: AUTHOR_NAME,
   alternateName: 'peritissimus',
   url: SITE_URL,
-  jobTitle: 'Founding Engineer & System Architect',
+  jobTitle: 'Applied AI & Distributed Systems Engineer',
   description:
-    'Founding engineer and system architect building scalable AI products and infrastructure.',
+    'Founding engineer building scalable AI infrastructure, applied AI products, distributed systems, and local-first personal software.',
   email: `mailto:${CONTACT_EMAIL}`,
   image: `${SITE_URL}/og/home.png`,
   // City-level only, matching the location the site already publishes.
@@ -56,12 +56,14 @@ export const personSchema: Record<string, unknown> = {
   // Drives entity-level topical relevance — this is what a recruiter's
   // "<stack> engineer" search has to match against.
   knowsAbout: [
+    'Scalable AI Infrastructure',
+    'Applied AI Engineering',
+    'Distributed Systems Engineering',
+    'Local-First Software',
+    'Personal Software',
     'Software Architecture',
-    'Distributed Systems',
     'Backend Engineering',
-    'Applied AI',
     'Large Language Models',
-    'AI Infrastructure',
     'TypeScript',
     'Python',
     'Cloud Infrastructure',
