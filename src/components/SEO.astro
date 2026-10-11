@@ -62,7 +62,10 @@ const fullCanonicalUrl = normalizeCanonicalUrl(canonicalUrl || Astro.url.href);
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="author" content={author} />
-<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+<meta
+  name="robots"
+  content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'}
+/>
 <link rel="canonical" href={fullCanonicalUrl} />
 {markdownPath && <link rel="alternate" type="text/markdown" href={`${siteUrl}${markdownPath}`} />}
 
@@ -85,15 +88,19 @@ const fullCanonicalUrl = normalizeCanonicalUrl(canonicalUrl || Astro.url.href);
 <meta name="twitter:image" content={fullOgImageUrl} />
 <meta name="twitter:image:alt" content={imageAlt} />
 
-{type === 'article' && publishedDate && (
-  <>
-    <meta property="article:published_time" content={publishedDate} />
-    {modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
-    <meta property="article:author" content={author} />
-  </>
-)}
+{
+  type === 'article' && publishedDate && (
+    <>
+      <meta property="article:published_time" content={publishedDate} />
+      {modifiedDate && <meta property="article:modified_time" content={modifiedDate} />}
+      <meta property="article:author" content={author} />
+    </>
+  )
+}
 
 <!-- Structured Data (JSON-LD) -->
-{jsonLdBlocks.map((block) => (
-  <script type="application/ld+json" set:html={JSON.stringify(block)} />
-))}
+{
+  jsonLdBlocks.map((block) => (
+    <script type="application/ld+json" set:html={JSON.stringify(block)} />
+  ))
+}

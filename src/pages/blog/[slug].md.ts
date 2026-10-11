@@ -1,4 +1,5 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
+import { relatedPosts } from '../../lib/related-posts';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { absolutizeLinks, isoDate, markdownDocument, markdownResponse } from '../../lib/markdown';
 
@@ -8,8 +9,9 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 /** Markdown twin of `/blog/<slug>`: the post's own markdown source. */
-export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = ({ props: { post } }) => {
+export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = async ({ props: { post } }) => {
   const { data } = post;
+  const related = relatedPosts(post.id, await getCollection('blog'));
 
   return markdownResponse(
     markdownDocument({
@@ -28,6 +30,14 @@ export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = ({ props: { post
           .filter(Boolean)
           .join('\n'),
         absolutizeLinks(post.body ?? ''),
+        related.length > 0 &&
+          absolutizeLinks(
+            [
+              '## Continue reading',
+              ...related.map((entry) => `- [${entry.data.title}](/blog/${entry.id})`),
+              '\nExplore [personal software projects and practical guides](/software).',
+            ].join('\n')
+          ),
       ],
     })
   );
