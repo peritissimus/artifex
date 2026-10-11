@@ -4,7 +4,7 @@ company: Tabbit
 kind: personal
 role: Designer & Engineer
 description: A minimal Chrome extension that uses AI to group messy browser tabs into useful native tab groups.
-seoTitle: "Tabbit – AI Tab Grouping Chrome Extension"
+seoTitle: 'Tabbit – AI Tab Grouping Chrome Extension'
 dateRange: '2026'
 sortDate: 2026-05-15
 location: Independent
@@ -38,3 +38,5 @@ Chrome already has a good answer to tab chaos — native tab groups — but nobo
 **The small features are held to the same standard.** Dedupe normalizes URLs — stripping tracking parameters and fragments — before closing exact duplicates, and never touches active or pinned tabs. Sessions snapshot a window to local storage and restore it later. A one-line context field ("dev at Acme: AWS infra, Linear, ChatGPT") steers the AI's group names toward your actual life.
 
 **And it stays honest about privacy and weight.** Only titles and trimmed URLs are sent, exclusively to OpenAI with your own key, which never leaves `chrome.storage.local`. The whole extension is plain Manifest V3 JavaScript — no framework, no bundler, no dependencies — with the grouping logic factored into pure functions that run under Node for tests.
+
+For the broader approach, read [how to build your first personal software tool](/blog/how-to-build-personal-software): choose one recurring job, keep the scope small, and test how it fails.

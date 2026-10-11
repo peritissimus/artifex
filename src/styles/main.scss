@@ -716,6 +716,96 @@ a {
   text-wrap: pretty;
 }
 
+// A compact reading path in the same column as the page introduction.
+.software-reading {
+  max-width: var(--measure);
+  margin: 2.5rem auto 0;
+
+  h2 {
+    font-family: var(--sans);
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  > p {
+    margin: 0.75rem 0 1.25rem;
+    color: var(--muted);
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  li {
+    border-bottom: 1px solid var(--border);
+  }
+
+  a {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 1rem;
+    min-height: 44px;
+    padding: 1rem 0;
+    color: var(--fg);
+    text-decoration: none;
+
+    &:hover strong,
+    &:focus-visible strong {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 4px;
+    }
+  }
+}
+
+.software-reading-label {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+
+.software-reading-copy {
+  strong {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+
+  > span {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+}
+
+@media (max-width: 540px) {
+  .software-reading a {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+  }
+
+  .software-reading-label {
+    grid-column: 1 / -1;
+  }
+}
+
 .software-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));

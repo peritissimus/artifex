@@ -15,7 +15,7 @@ export const GET: APIRoute = async () => {
         'Engineering notes by Kushal Patankar on LLM applications, queues and distributed systems, local AI, search, and building local-first software.',
       path: '/blog',
       body: [
-        'Thoughts on AI, system architecture, and building scalable products.',
+        'Notes on personal software, local AI, and the engineering behind useful tools.',
         posts
           .map(
             (post) =>
