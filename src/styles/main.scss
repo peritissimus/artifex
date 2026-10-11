@@ -166,7 +166,8 @@ a {
   color: var(--faint);
 }
 
-.footer-nav {
+.footer-nav,
+.footer-profiles {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.4rem;
@@ -180,6 +181,10 @@ a {
       color: var(--fg);
     }
   }
+}
+
+.footer-profiles {
+  margin-left: auto;
 }
 
 // ── Page scaffold ───────────────────────────────────────────────────────────
@@ -1945,10 +1950,15 @@ a {
     gap: 0.75rem;
   }
 
-  .footer-nav a {
+  .footer-nav a,
+  .footer-profiles a {
     display: inline-flex;
     min-height: 2.25rem;
     align-items: center;
+  }
+
+  .footer-profiles {
+    margin-left: 0;
   }
 
   .home-title {

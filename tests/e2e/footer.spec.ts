@@ -1,13 +1,20 @@
 import { expect, test } from '@playwright/test';
 
-test('the footer links to Software, Blog, About, and Contact only', async ({ page }) => {
+test('the footer links to site sections and professional profiles', async ({ page }) => {
   await page.goto('/about');
-  const links = page.locator('footer.footer a');
+  const links = page.locator('footer.footer .footer-nav a');
 
   await expect(links).toHaveText(['Software', 'Blog', 'About', 'Contact']);
   expect(
     await links.evaluateAll((anchors) => anchors.map((anchor) => anchor.getAttribute('href')))
   ).toEqual(['/software', '/blog', '/about', '/contact']);
+  const profiles = page.locator('footer.footer .footer-profiles a');
+  await expect(profiles).toHaveText(['GitHub', 'LinkedIn', 'X']);
+  expect(await profiles.evaluateAll((anchors) => anchors.map((anchor) => anchor.rel))).toEqual([
+    'me noopener noreferrer',
+    'me noopener noreferrer',
+    'me noopener noreferrer',
+  ]);
   await expect(page.locator('footer.footer')).toContainText(/Kushal Patankar © \d{4}/);
 });
 
