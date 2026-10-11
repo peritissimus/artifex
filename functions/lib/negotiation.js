@@ -206,9 +206,20 @@ function markdownFile(response, pathname) {
  * @returns {Promise<Response>}
  */
 export async function negotiate(request, env, next) {
+  const url = new URL(request.url);
+
+  // Keep every HTML page on one origin. Canonical tags consolidate indexing,
+  // but a redirect also consolidates links, analytics, and browser history.
+  if (
+    (request.method === 'GET' || request.method === 'HEAD') &&
+    url.hostname === 'www.peritissimus.com'
+  ) {
+    url.hostname = 'peritissimus.com';
+    return Response.redirect(url, 308);
+  }
+
   if (request.method !== 'GET' && request.method !== 'HEAD') return next();
 
-  const url = new URL(request.url);
   /** Fetch another static asset, by default keeping this request's method and headers. */
   const asset = (path, init = request) => env.ASSETS.fetch(new Request(new URL(path, url), init));
 
