@@ -9,9 +9,9 @@ export const GET: APIRoute = async () => {
     .sort((a, b) => a.data.order - b.data.order)
     .slice(0, 3);
 
-  const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-  )[0];
+  const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+    .slice(0, 3);
 
   return markdownResponse(
     markdownDocument({
@@ -42,9 +42,13 @@ export const GET: APIRoute = async () => {
               `- ${link(work.data.company, `/work/${work.id}`)} (${work.data.dateRange}): ${work.data.description}`
           )
           .join('\n'),
-        latestPost && '## Latest writing',
-        latestPost &&
-          `- ${link(latestPost.data.title, `/blog/${latestPost.id}`)} (${latestPost.data.readTime || '5 min read'}): ${latestPost.data.description}`,
+        latestPosts.length > 0 && '## Latest writing',
+        latestPosts
+          .map(
+            (latestPost) =>
+              `- ${link(latestPost.data.title, `/blog/${latestPost.id}`)} (${latestPost.data.readTime || '5 min read'}): ${latestPost.data.description}`
+          )
+          .join('\n'),
       ],
     })
   );

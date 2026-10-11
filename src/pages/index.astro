@@ -9,10 +9,9 @@ const selectedWork = (await getCollection('work', ({ data }) => data.kind === 'p
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 3);
 
-const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-)[0];
-
+const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <Base
@@ -56,7 +55,7 @@ const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort
             projects.map((project, i) => (
               <a
                 class={`project-card ${project.className}`}
-                style={`--card-serial: "Nº ${String(i + 1).padStart(2, "0")}"`}
+                style={`--card-serial: "Nº ${String(i + 1).padStart(2, '0')}"`}
                 href={`/work/${project.slug}`}
                 aria-label={`${project.name}: ${project.description}`}
               >
@@ -96,17 +95,19 @@ const latestPost = (await getCollection('blog', ({ data }) => !data.draft)).sort
       </section>
 
       {
-        latestPost && (
+        latestPosts.length > 0 && (
           <section class="home-section" aria-labelledby="latest-writing-heading">
             <div class="home-section-header">
               <h2 id="latest-writing-heading">Latest writing</h2>
             </div>
             <div class="home-list">
-              <a class="home-list-item home-writing-item" href={`/blog/${latestPost.id}`}>
-                <span class="home-list-title">{latestPost.data.title}</span>
-                <span class="home-list-description">{latestPost.data.description}</span>
-                <span class="home-list-meta">{latestPost.data.readTime || '5 min read'}</span>
-              </a>
+              {latestPosts.map((latestPost) => (
+                <a class="home-list-item home-writing-item" href={`/blog/${latestPost.id}`}>
+                  <span class="home-list-title">{latestPost.data.title}</span>
+                  <span class="home-list-description">{latestPost.data.description}</span>
+                  <span class="home-list-meta">{latestPost.data.readTime || '5 min read'}</span>
+                </a>
+              ))}
             </div>
           </section>
         )

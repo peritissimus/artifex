@@ -12,7 +12,7 @@ export const GET: APIRoute = async () => {
     markdownDocument({
       title: 'Blog',
       description:
-        'Engineering notes by Kushal Patankar on LLM applications, queues and distributed systems, local AI, search, and building local-first software.',
+        'Build personal software with practical guides by Kushal Patankar: local AI, searchable notes, X bookmark archives, and the engineering behind them.',
       path: '/blog',
       body: [
         'Notes on personal software, local AI, and the engineering behind useful tools.',

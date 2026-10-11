@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { relatedPosts } from '../../lib/related-posts';
 import { getCollection, render } from 'astro:content';
 import { blogPostingSchema, breadcrumbSchema } from '../../lib/schema';
 
@@ -12,7 +13,9 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const related = relatedPosts(post.id, await getCollection('blog'));
+const contents = headings.filter((heading) => heading.depth === 2);
 
 const publishedIso = post.data.date.toISOString();
 const modifiedIso = post.data.updated?.toISOString();
@@ -73,7 +76,9 @@ function formatDate(date: Date): string {
         <h1 class="post-title">{post.data.title}</h1>
 
         <div class="post-info">
-          <span class="post-author">{post.data.author || 'Kushal Patankar'}</span>
+          <a class="post-author" href="/about" rel="author"
+            >{post.data.author || 'Kushal Patankar'}</a
+          >
           <span class="meta-separator" aria-hidden="true">/</span>
           <span class="post-read-time">{post.data.readTime || '5 min read'}</span>
           <span class="meta-separator" aria-hidden="true">/</span>
@@ -81,9 +86,44 @@ function formatDate(date: Date): string {
         </div>
       </div>
 
+      {
+        contents.length > 2 && (
+          <nav class="post-content" aria-label="On this page">
+            <details>
+              <summary>On this page</summary>
+              <ul>
+                {contents.map((heading) => (
+                  <li>
+                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </nav>
+        )
+      }
+
       <div class="post-content">
         <Content />
       </div>
+
+      {
+        related.length > 0 && (
+          <nav class="post-content" aria-labelledby="related-reading-title">
+            <h2 id="related-reading-title">Continue reading</h2>
+            <ul>
+              {related.map((entry) => (
+                <li>
+                  <a href={`/blog/${entry.id}`}>{entry.data.title}</a>
+                </li>
+              ))}
+            </ul>
+            <p>
+              Explore <a href="/software">personal software projects and practical guides</a>.
+            </p>
+          </nav>
+        )
+      }
 
       <div class="post-footer-nav">
         <a href="/blog" class="nav-link">← All posts</a>

@@ -8,7 +8,8 @@ import { remarkCaptureCodeLang, rehypeBlogTransform } from './src/plugins/rehype
 
 /**
  * Map of route path -> lastmod date, read from content frontmatter
- * (`updated` falling back to `date` for blog, or to `sortDate` for work).
+ * (`updated` falling back to publication `date` for blog).
+ * Project sort dates describe project chronology, not page modification.
  */
 function contentLastmodDates() {
   /** @type {Record<string, string>} */
@@ -32,7 +33,7 @@ function contentLastmodDates() {
   };
 
   collect('./src/content/blog', '/blog', ['updated', 'date']);
-  collect('./src/content/work', '/work', ['updated', 'sortDate']);
+  collect('./src/content/work', '/work', ['updated']);
   return dates;
 }
 
@@ -47,7 +48,7 @@ export default defineConfig({
     sitemap({
       // Keep noindex routes out of the sitemap.
       filter: (page) =>
-        !['/terminal', '/404', '/save-the-date'].some((route) => page.includes(route)),
+        !['/terminal', '/404', '/save-the-date', '/newspaper'].some((route) => page.includes(route)),
       serialize(item) {
         const path = new URL(item.url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
         const lastmod = lastmodDates[path];

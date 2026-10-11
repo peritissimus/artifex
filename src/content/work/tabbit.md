@@ -1,4 +1,5 @@
 ---
+updated: 2026-10-12
 title: Tabbit
 company: Tabbit
 kind: personal
