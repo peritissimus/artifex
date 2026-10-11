@@ -4,7 +4,7 @@ date: 2026-10-12
 author: Kushal Patankar
 category: Personal Software
 tags: [Personal Software, X Bookmarks, SQLite]
-description: Inside Birdbrain: capturing X bookmarks, searching saved posts, and separating local storage from hosted AI.
+description: 'Inside Birdbrain: capturing X bookmarks, searching saved posts, and separating local storage from hosted AI.'
 readTime: 5 min read
 ---
 
