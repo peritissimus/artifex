@@ -9,6 +9,7 @@ import '../styles/main.scss';
 
 interface Props {
   title: string;
+  analytics?: boolean;
   ogTitle?: string;
   description: string;
   ogImage?: string;
@@ -27,6 +28,7 @@ interface Props {
 
 const {
   title,
+  analytics = true,
   ogTitle,
   description,
   ogImage,
@@ -43,7 +45,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-analytics={analytics ? 'enabled' : 'disabled'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -124,9 +126,9 @@ const {
       }
     </style>
 
-    <Analytics />
+    {analytics && <Analytics />}
   </head>
-  <body class:list={[{ "layout-wide": wide }]}>
+  <body class:list={[{ 'layout-wide': wide }]}>
     <Header currentPath={currentPath} />
 
     <main class="info-wrapper">

@@ -49,6 +49,12 @@ jobs:
       - name: Pages runtime tests
         run: pnpm test:pages
 
+      - name: Install browser for notes-search checks
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Notes search browser tests
+        run: pnpm exec playwright test tests/e2e/notes-search.spec.ts
+
   release:
     name: Version & Release
     needs: build

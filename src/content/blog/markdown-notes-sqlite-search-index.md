@@ -1,7 +1,7 @@
 ---
 title: "Hybrid Search in SQLite: FTS5, Embeddings, and Rank Fusion"
 date: 2026-09-26
-updated: 2026-10-05
+updated: 2026-10-12
 author: Kushal Patankar
 category: Architecture
 tags: [SQLite, FTS5, Hybrid Search, Reciprocal Rank Fusion, Embeddings, Semantic Search, Markdown, Local-First]
@@ -14,6 +14,8 @@ There is one rule in [Stone](/work/stone) that every other storage decision foll
 Stone is a local-first note-taking app. Notes are Markdown files in a folder. A SQLite database sits beside them and makes search fast. The rule says the database holds nothing that cannot be recomputed from the files.
 
 It sounds like a small promise. Keeping it shaped most of the app.
+
+Try the keyword-search piece in the [browser demo and reproducible SQLite benchmark](/blog/sqlite-fts5-notes-search-benchmark). It isolates FTS5 from the semantic search system described here.
 
 ## Why the files have to win
 
