@@ -4,7 +4,7 @@ company: Fitroom
 kind: personal
 role: Designer & Engineer
 description: An AI couple try-on studio that renders two people in chosen outfits as a single true-to-height portrait.
-seoTitle: "Fitroom – AI Couple Outfit Try-On Studio"
+seoTitle: 'Fitroom – AI Couple Outfit Try-On Studio'
 dateRange: '2026'
 sortDate: 2026-07-07
 location: Independent
@@ -38,3 +38,5 @@ Virtual try-on tools are built for one person at a time, and they quietly lie: f
 **The wardrobe is persistent and clean.** People and outfits are saved server-side and reused across sessions, and every outfit is pre-processed down to the garment alone. That isolation step means a prominent model in a product photo can never leak their face or build into your couple's portrait.
 
 **The plumbing respects reality.** Generation and isolation run as polled background jobs rather than long-lived requests, so nothing trips serverless timeouts, and orphaned jobs are swept up on restart. A model picker switches per render between OpenAI's gpt-image models and Google's Nano Banana family, every render is stored with its prompt and model, and the composer keeps the ritual quick: ⌘Enter to generate, draft or high-quality, cancel in flight, download as PNG.
+
+Fitroom is one of the examples in [what personal software means and why I build it](/blog/what-is-personal-software).
