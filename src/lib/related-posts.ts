@@ -2,7 +2,12 @@ import type { CollectionEntry } from 'astro:content';
 
 /** Editorial reading paths: keep recommendations relevant, stable, and crawlable. */
 const readingPaths = [
-  ['what-is-personal-software', 'how-to-build-personal-software', 'searchable-x-bookmark-archive'],
+  [
+    'what-is-personal-software',
+    'how-to-build-personal-software',
+    'new-tab-productivity',
+    'searchable-x-bookmark-archive',
+  ],
   [
     'stone-local-first-note-taking-app',
     'stone-vs-obsidian-vs-granola',
