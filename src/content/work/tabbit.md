@@ -43,4 +43,4 @@ Tabbit began as a way to tidy a crowded tab bar. It has grown into the page I wa
 
 **Keep the implementation small enough to understand.** The extension runs plain Manifest V3 JavaScript without a framework or runtime bundling step. Provider transport, page readers, storage, build lifecycle and feature workflows are separate modules; the new-tab views have their own controllers. Shared contracts, incremental type checking and regression tests cover the boundaries that matter, including persistent builds, native CLI failures and tabs disappearing during organization. Browser fixture checks verify the interface separately from live extension behavior.
 
-I wrote more about the motivation in [After the Terminal, the New Tab Is My Most-Visited Screen](/blog/new-tab-productivity): why the space between browser tasks deserves as much care as the tools inside them.
+I wrote more about the motivation in [Why I Upgraded the Screen I Visit Most After the Terminal](/blog/new-tab-productivity): why the space between browser tasks deserves as much care as the tools inside them.

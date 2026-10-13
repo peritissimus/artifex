@@ -1,16 +1,16 @@
 ---
-title: 'After the Terminal, the New Tab Is My Most-Visited Screen'
+title: 'Why I Upgraded the Screen I Visit Most After the Terminal'
 date: 2026-10-13
 author: Kushal Patankar
 category: Personal Software
 tags: [Personal Software, Developer Productivity, Browser Extensions, Tabbit]
-description: How I made my browser’s new tab useful with work links, dev servers, and a compact feed—and reduced the friction between tasks.
+description: My new tab was already my most-visited screen after the terminal. That is why I upgraded it with work links, dev servers, and a compact feed.
 readTime: 5 min read
 ---
 
-After the terminal, the browser’s new tab is the screen I visit most. That is my experience of the working day, not a number from a screen-time report. I open it to find a pull request, return to an internal tool, check a local app, or look something up before going back to code.
+The browser’s new tab was already my most-visited screen after the terminal. That is why I decided to upgrade it. I was opening it throughout the day to find a pull request, return to an internal tool, check a local app, or look something up before going back to code.
 
-For a screen I encounter so often, I had given very little thought to what should be on it.
+The habit was already there. I wanted the screen to serve that habit better: put useful things within reach whenever I arrived, then help me get on with the task.
 
 Most of my attention went into the terminal: the commands, shortcuts, and small adjustments that make repeated work easier. The new tab was just the space before the next URL. Eventually, that felt like a missed opportunity. It was already part of my routine. I could make it useful without creating another place I had to remember to visit.
 
