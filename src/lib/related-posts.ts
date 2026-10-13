@@ -2,6 +2,11 @@ import type { CollectionEntry } from 'astro:content';
 
 /** Editorial reading paths: keep recommendations relevant, stable, and crawlable. */
 const readingPaths = [
+  [
+    'sqlite-fts5-notes-search-benchmark',
+    'markdown-notes-sqlite-search-index',
+    'how-to-build-personal-software',
+  ],
   ['what-is-personal-software', 'how-to-build-personal-software', 'searchable-x-bookmark-archive'],
   [
     'stone-local-first-note-taking-app',

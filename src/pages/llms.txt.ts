@@ -87,6 +87,11 @@ ${[
   entry('Résumé', '/resume', 'Experience, skills, and education.'),
   entry('Software', '/software', 'Independent software projects and experiments.'),
   entry('Blog', '/blog', 'Technical articles about AI products and infrastructure.'),
+  entry(
+    'Notes search lab',
+    '/tools/notes-search',
+    'Browser SQLite FTS5 demo with local Markdown import and a reproducible benchmark.'
+  ),
   entry('Contact', '/contact', 'Ways to contact Kushal.'),
 ].join('\n')}
 

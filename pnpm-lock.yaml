@@ -37,6 +37,9 @@ importers:
       '@fontsource/unifrakturmaguntia':
         specifier: ^5.3.0
         version: 5.3.0
+      '@sqlite.org/sqlite-wasm':
+        specifier: 3.53.4-build2
+        version: 3.53.4-build2
       animejs:
         specifier: ^4.5.0
         version: 4.5.0(three@0.181.2)
@@ -1735,6 +1738,13 @@ packages:
       {
         integrity: sha512-Z92FwKpCtfaW1V0jTU/fh3QzYEZN8wDwrzRIBoADCJfn4mJCNcJN/XegifX7BDrQ8/h9Xh/JnbyMchL0FqXrkg==,
       }
+
+  '@sqlite.org/sqlite-wasm@3.53.4-build2':
+    resolution:
+      {
+        integrity: sha512-kQVArGJA4z7s56Dm8t+eTBXad4LiohuVj9pfgDNOcxa+Ic5xMrWlLPTq6cT0hw5S4MIvtpsraW+B0wD+IPvC7A==,
+      }
+    engines: { node: '>=22' }
 
   '@tybys/wasm-util@0.10.3':
     resolution:
@@ -5023,6 +5033,8 @@ snapshots:
   '@sindresorhus/is@7.2.0': {}
 
   '@speed-highlight/core@1.2.17': {}
+
+  '@sqlite.org/sqlite-wasm@3.53.4-build2': {}
 
   '@tybys/wasm-util@0.10.3':
     dependencies:

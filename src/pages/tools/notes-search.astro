@@ -1,0 +1,277 @@
+---
+import Base from '../../layouts/Base.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+---
+
+<Base
+  title="Search Markdown Notes with SQLite FTS5 — Live Demo"
+  description="Try SQLite full-text search in your browser. Search sample notes or import Markdown files locally, then explore a reproducible 1k–100k-note benchmark."
+  currentPath="/tools/notes-search"
+  analytics={false}
+  jsonLd={breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Notes search lab', path: '/tools/notes-search' },
+  ])}
+>
+  <section class="content-section lab-page">
+    <div class="section-inner">
+      <p class="page-kicker">A small working experiment</p>
+      <h1>Find the note you remember.</h1>
+      <p class="lede">
+        SQLite full-text search, running in your browser. Start with six sample notes, or bring a
+        small folder of your own.
+      </p>
+      <div id="search-lab" class="lab">
+        <div class="lab-top">
+          <span>Notes search lab</span><span id="note-count">Six sample notes ready</span>
+        </div>
+        <button id="start-lab" class="primary">Start search</button>
+        <noscript
+          ><p>
+            Enable JavaScript to run the search demo. The <a
+              href="/blog/sqlite-fts5-notes-search-benchmark">tutorial and benchmark</a
+            > work without it.
+          </p></noscript
+        >
+        <fieldset disabled>
+          <legend class="sr-only">Search controls</legend>
+          <form>
+            <label for="note-query">What are you looking for?</label>
+            <div class="query-row">
+              <input
+                id="note-query"
+                type="search"
+                value="sqlite"
+                maxlength="200"
+                autocomplete="off"
+                placeholder="Try sqlite or release checklist"
+              /><button type="submit" class="primary">Search</button>
+            </div>
+            <label class="phrase"><input type="checkbox" id="phrase" /> Match an exact phrase</label
+            >
+          </form>
+          <div class="examples">
+            <span>Try:</span><button data-query="sqlite">sqlite</button><button
+              data-query="release checklist">release checklist</button
+            ><button data-query="backup">backup</button>
+          </div>
+          <details class="import">
+            <summary>Search your own files</summary><p>
+              Choose up to 100 Markdown or text files, 2 MB total. They replace the samples. Files
+              are read in this tab, not uploaded by the demo. Closing or refreshing the page clears
+              the index; your originals are untouched.
+            </p><label for="note-files">Choose .md or .txt files</label><input
+              id="note-files"
+              type="file"
+              multiple
+              accept=".md,.txt"
+            /><button id="reset-notes" type="button">Restore sample notes</button>
+          </details>
+        </fieldset>
+        <p id="lab-status" role="status" aria-live="polite">
+          Start to load the SQLite engine. No account needed.
+        </p>
+        <ol id="lab-results" aria-label="Search results"></ol>
+      </div>
+      <div class="post-content">
+        <h2>Small enough to understand</h2>
+        <p>
+          This uses SQLite FTS5 in a web worker, with an in-memory index and ranked results. All
+          words must match unless you choose exact phrase. It searches word tokens, not arbitrary
+          substrings or semantic similarity. Markdown is indexed as plain text, including its
+          markup.
+        </p>
+        <p>
+          The timer measures the count and ranked-result queries inside the worker. It excludes
+          engine download, indexing, messaging, and rendering. It is not directly comparable with
+          the native Python benchmark.
+        </p>
+        <p>
+          Note text, filenames, and searches are not sent to a server by this demo. PostHog is
+          disabled on this page. Hosting may still collect ordinary page-visit analytics.
+        </p>
+        <h2>Measure it yourself</h2>
+        <p>
+          <a href="/blog/sqlite-fts5-notes-search-benchmark"
+            >Read the SQLite notes-search tutorial and 1k–100k-note benchmark</a
+          >, including the schema, limitations, raw timings, and a script you can run locally.
+        </p>
+        <p>
+          For a larger application, see <a href="/blog/markdown-notes-sqlite-search-index"
+            >how Stone combines full-text search and embeddings</a
+          >.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+<script>
+  import '../../components/search-lab/client';
+</script>
+<style>
+  .lab-page h1 {
+    font-family: var(--font-display, 'Newsreader', serif);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 400;
+    line-height: 1.06;
+    text-wrap: balance;
+    margin: 1rem 0;
+  }
+  .lede {
+    font-size: 1.15rem;
+    max-width: 40rem;
+    margin-bottom: 2rem;
+  }
+  .lab {
+    padding: 1.5rem;
+    margin: 2rem 0 3rem;
+    border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+    border-radius: 12px;
+  }
+  .lab-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+  }
+  #note-count,
+  #lab-status {
+    font-variant-numeric: tabular-nums;
+  }
+  fieldset {
+    border: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  fieldset:disabled {
+    opacity: 0.5;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .query-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+  input[type='search'] {
+    min-width: 0;
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--fg);
+    font: inherit;
+  }
+  button {
+    min-height: 44px;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--fg);
+    font: inherit;
+    cursor: pointer;
+    transition: scale 120ms;
+  }
+  button:active {
+    scale: 0.96;
+  }
+  button.primary {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  #start-lab {
+    margin-bottom: 1rem;
+  }
+  :where(button, input, summary):focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+  .phrase {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    margin: 0.5rem 0;
+  }
+  .phrase input {
+    width: 18px;
+    height: 18px;
+  }
+  .examples {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .import {
+    margin-top: 1rem;
+  }
+  summary {
+    cursor: pointer;
+    min-height: 44px;
+    align-content: center;
+  }
+  .import p {
+    font-size: 0.9rem;
+    margin: 0.5rem 0 1rem;
+  }
+  input[type='file'] {
+    max-width: 100%;
+    display: block;
+    margin: 0.5rem 0 1rem;
+  }
+  #lab-status {
+    font-size: 0.85rem;
+    margin: 1.5rem 0 0;
+  }
+  #lab-results {
+    list-style: none;
+    padding: 0;
+  }
+  #lab-results :global(li) {
+    padding: 1.2rem 0;
+    border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+    margin-top: 1rem;
+    overflow-wrap: anywhere;
+  }
+  #lab-results :global(h3) {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  #lab-results :global(p) {
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  @media (max-width: 480px) {
+    .lab {
+      padding: 1rem;
+    }
+    .query-row {
+      flex-wrap: wrap;
+    }
+    .query-row input {
+      flex-basis: 100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    button {
+      transition: none;
+    }
+    button:active {
+      scale: 1;
+    }
+  }
+</style>

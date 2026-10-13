@@ -14,6 +14,7 @@ export const GET: APIRoute = async () => {
       description: personalSoftware.description,
       path: '/software',
       body: [
+        'Try the [notes-search lab →](https://peritissimus.com/tools/notes-search) — Search Markdown with SQLite in your browser.',
         personalSoftware.intro,
         `## ${personalSoftware.heading}`,
         personalSoftware.explanation,
