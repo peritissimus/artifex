@@ -54,6 +54,7 @@ export const softwareCards = {
   kaze: { className: 'project-card--kaze', mark: 'kaze' },
   paperfolio: { className: 'project-card--paperfolio', mark: 'paperfolio' },
   dotfiles: { className: 'project-card--dotfiles', mark: 'dotfiles' },
+  blueprint: { className: 'project-card--blueprint', mark: 'plan' },
 } as const;
 
 /** Personal projects for `/software`: Stone first, then newest first. */

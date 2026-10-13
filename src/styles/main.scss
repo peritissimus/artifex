@@ -532,6 +532,13 @@ a {
   background-color: #dcdcc8;
 }
 
+.project-card--blueprint {
+  --card-surface: #d6dedb;
+  --card-serial: 'Nº 14';
+  --art-depth-opacity: 0.12;
+  background-color: #d6dedb;
+}
+
 .project-artwork {
   position: relative;
   display: flex;

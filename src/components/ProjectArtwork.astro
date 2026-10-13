@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse' | 'fit' | 'strid' | 'kaze' | 'reelserver' | 'irem' | 'paperfolio' | 'dotfiles';
+  variant: 'memory' | 'form' | 'signal' | 'tabs' | 'pulse' | 'fit' | 'strid' | 'kaze' | 'reelserver' | 'irem' | 'paperfolio' | 'dotfiles' | 'plan';
   detail?: 'card' | 'blueprint';
 }
 
@@ -1038,6 +1038,38 @@ const { variant, detail = 'card' } = Astro.props;
           <circle cx="148" cy="101.5" r="2.6" />
         </g>
         <path class="anim-sparkle" d="m153 9 1.2 2.7 2.7 1.2-2.7 1.2-1.2 2.7-1.2-2.7-2.7-1.2 2.7-1.2z" />
+      </svg>
+    )
+  }
+  {
+    variant === 'plan' && (
+      <svg viewBox="0 0 180 128" role="presentation">
+        <rect class="artwork-support" x="3" y="5" width="174" height="118" rx="10" />
+        <path class="artwork-shadow-plane" d="M41 31h106v74H41z" />
+        <path class="artwork-surface artwork-hero" d="M36 26h106v74H36z" />
+        <path class="artwork-plane" d="M36 26h24l-24 30zM96 26h28l-34 74H62z" />
+        <path class="artwork-structure" d="M88 26v26M88 64v36M36 62h30M78 62h10M88 70h54" />
+        <path d="M66 62a12 12 0 0 1 12 12M78 62v12" opacity=".7" />
+        <path class="artwork-hero" d="M52 26h18M104 26h22M142 40v16" style="stroke:var(--card-surface);stroke-width:2.4;stroke-opacity:1" />
+        <path d="M52 24.5h18M52 27.5h18M104 24.5h22M104 27.5h22M140.5 40v16M143.5 40v16" />
+        <g class="anim-row">
+          <rect class="artwork-structure" x="42" y="32" width="22" height="18" rx="2" />
+          <path d="M42 38h22M47 34.5h5M54 34.5h5" opacity=".7" />
+        </g>
+        <g class="anim-row">
+          <rect class="artwork-structure" x="98" y="36" width="30" height="11" rx="3" />
+          <path d="M98 44h30" opacity=".7" />
+          <circle cx="113" cy="57" r="5" />
+        </g>
+        <g class="anim-row">
+          <rect class="artwork-structure" x="44" y="76" width="16" height="16" rx="2" />
+          <path d="M96 78h18v14H96zM120 80h14v10h-14z" opacity=".8" />
+        </g>
+        <path d="M36 108h106M36 106v4M142 106v4M88 106v4" opacity=".45" />
+        <g class="anim-orbit">
+          <circle class="artwork-surface artwork-hero" cx="158" cy="22" r="5" />
+          <path d="M158 12v3M158 29v3M148 22h3M165 22h3M151 15l2 2M163 27l2 2M165 15l-2 2M153 27l-2 2" />
+        </g>
       </svg>
     )
   }
