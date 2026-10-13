@@ -35,8 +35,9 @@ export const featuredProjects = [
   {
     name: 'Tabbit',
     slug: 'tabbit',
-    description: 'An AI browser extension that groups and tidies crowded tab bars.',
-    blurb: 'AI tidying for crowded tab bars.',
+    description:
+      'A personal new tab for work links, dev servers, AI briefs, discovery, and native tab groups.',
+    blurb: 'A calmer starting point for browser work.',
     className: 'project-card--tabbit',
     mark: 'tabs' as const,
   },

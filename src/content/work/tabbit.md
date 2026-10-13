@@ -1,43 +1,44 @@
 ---
-updated: 2026-10-12
+updated: 2026-10-13
+seoTitle: Tabbit – Personal AI New Tab and Chrome Tab Organizer
 title: Tabbit
 company: Tabbit
 kind: personal
 role: Designer & Engineer
-description: A minimal Chrome extension that uses AI to group messy browser tabs into useful native tab groups.
-seoTitle: 'Tabbit – AI Tab Grouping Chrome Extension'
+description: A personal Chrome new tab with work shortcuts, dev servers, an AI brief, a discovery feed, and native tab organization.
 dateRange: '2026'
-sortDate: 2026-05-15
+sortDate: 2026-10-13
 location: Independent
 order: 104
-technologies: [JavaScript, Chrome Extensions, Manifest V3, OpenAI API]
+technologies: [JavaScript, Chrome Extensions, Manifest V3, OpenAI API, Codex CLI, Claude Code]
 achievements:
-  - '**One-click organization** — Reads tab titles and URLs, asks a model to cluster them by theme, and applies the plan as native Chrome tab groups'
-  - '**Developer-aware grouping** — localhost, 127.0.0.1, and 0.0.0.0 tabs always land in a guaranteed Local group, even if the AI call fails'
-  - '**Safe deduplication** — Strips tracking parameters before comparing, closes exact duplicates, and always protects active and pinned tabs'
-  - '**Zero-dependency footprint** — Plain Manifest V3 with no framework, no bundler, and no build step; the grouping logic is pure, unit-tested functions'
+  - '**An everyday starting point** — Work shortcuts and local dev servers stay near the top, with a compact brief and a feed of relevant news and products below'
+  - '**Builds that survive the tab** — Background workflows save progress and completed editions, so closing the new tab does not discard a running brief or feed'
+  - '**Your choice of AI** — OpenAI API access or a locally signed-in Codex or Claude CLI, with separate model dropdowns for selection and writing'
+  - '**Native organization, close at hand** — Organize the current window from the new tab, preserve pinned tabs, and keep Chrome’s own groups'
+  - '**Evidence-led discovery** — Browsing interests, source text and thumbs-up/down feedback guide a compact feed ranked by practical impact and recency'
 screenshot:
-  src: '/project-screenshots/tabbit.webp'
-  alt: 'Tabbit Chrome extension showing tab grouping controls, AI context, model settings, and saved sessions'
-  caption: 'The compact extension lives where the problem does—inside Chrome, one click away from the current window.'
-  width: 360
-  height: 668
+  src: '/project-screenshots/tabbit-newtab.jpg'
+  alt: 'Tabbit new-tab preview with search, pill-shaped Organize tabs and Settings controls, work shortcuts, dev servers, a compact brief, and a discovery feed'
+  caption: 'The new tab brings daily work within reach. This preview uses illustrative data, not a live browsing history or current news feed.'
+  width: 1280
+  height: 1300
 externalUrl: https://github.com/peritissimus/tabbit
-outcome: 'Tabbit turns tab cleanup from a recurring chore into a single, reversible action that works with Chrome rather than replacing it.'
+outcome: 'Tabbit gives my browser a useful starting point: the places I work, the threads worth returning to, and the releases worth a closer look.'
 ---
 
-Chrome already has a good answer to tab chaos — native tab groups — but nobody has the patience to maintain them by hand. Tabbit's entire thesis is that the feature just needs a librarian. It is deliberately not another tab manager: no new UI to live in, no sidebar workspace, no account. One click, and your window snaps into labeled, colored, native groups.
+Tabbit began as a way to tidy a crowded tab bar. It has grown into the page I want to see between tasks: familiar work links, running dev servers, a short brief, and a small collection of relevant news and new products. Native Chrome tab groups still do the organizing. The new tab makes the rest of the browser easier to return to.
 
-**How the idea started.** My browser regularly becomes a map of the work in progress: localhost servers, GitHub, infrastructure dashboards, documentation, internal tools, and AI assistants all mixed into one strip. Chrome's native groups are useful, but manually creating and maintaining them is exactly the kind of small chore that disappears until the window is unmanageable. Tabbit came from wanting the groups without the housekeeping.
+**Start with the things I open every day.** Editable shortcuts and local dev servers sit near the top. Search jumps to open tabs and recent pages, with web search when needed. The brief stays compact until expanded, and secondary lists—work links, open tabs and saved sessions—stay out of the main reading path. Rounded pill controls keep Settings, organization and feed actions easy to find.
 
-**Why it is personal software.** I use Tabbit on the browser state I already have instead of moving that state into somebody else's tab-management system. It knows that local development deserves its own group, accepts a one-line description of the way I work, and uses my own API key. There is no account, sync service, or new workspace to maintain—the extension does one recurring job for me and then gets out of the way.
+**Let the work continue after the tab closes.** Brief and feed generation run in the extension’s background worker, with progress and results saved to local storage. Opening another new tab shows the same work instead of starting over. Cached dashboard data appears first, then refreshes quietly. Build timing exposes how much time selection, reading and writing took; interrupted builds follow explicit recovery rules rather than spinning indefinitely.
 
-**Organize is one honest action.** The popup reads the current window's tab titles and URLs, sends them to an OpenAI model with a strict JSON contract, and applies the returned plan through Chrome's own `tabGroups` API. Because the output is native groups, everything stays reversible and familiar — collapse them, rename them, or hit Ungroup and be back where you started.
+**Choose the model without changing the workflow.** Settings offer OpenAI API access, a Codex subscription through the local `codex` CLI, or a Claude subscription through `claude -p`. Model dropdowns separate grouping and page selection from brief and feed writing. Claude defaults to Sonnet for selection and Opus for writing; its choices are stored separately from the Codex/OpenAI choices. Subscription access needs a one-time local native-host installation and uses the CLI’s existing login and plan limits. Tabbit does not extract authentication tokens.
 
-**It respects how developers actually browse.** Any localhost, 127.0.0.1, or 0.0.0.0 tab is peeled off into a guaranteed **Local** group before the AI ever sees the list — your dev servers never end up filed under "Miscellaneous." If the model call fails or returns bad JSON, a built-in heuristic groups by domain instead, so the button always works.
+**A small feed should earn its place.** Recent browsing helps select relevant sources, while an explicit watchlist includes major AI labs and community launch feeds. Source text and links give the model evidence to work from; returned links must refer to supplied candidates. The feed ranks by likely practical impact and freshness, with dated recent announcements favored over aging stories. Thumbs-up and thumbs-down feedback guide later editions. Impact labels are editorial estimates, and scraped pages can be incomplete—the feed is a useful shortlist, not a guarantee that every announcement has been found.
 
-**The small features are held to the same standard.** Dedupe normalizes URLs — stripping tracking parameters and fragments — before closing exact duplicates, and never touches active or pinned tabs. Sessions snapshot a window to local storage and restore it later. A one-line context field ("dev at Acme: AWS infra, Linear, ChatGPT") steers the AI's group names toward your actual life.
+**Keep organization native and deliberate.** The new tab’s Organize tabs button works on the current window, leaving pinned tabs alone. It uses the selected AI provider when configured, or local grouping when AI is not configured. The job saves its status, prevents duplicate runs for that window, and rechecks tabs before applying groups. AI errors remain visible and retryable. Local development tabs receive dedicated grouping. The popup also retains deduplication, cleanup, ungrouping and saved sessions.
 
-**And it stays honest about privacy and weight.** Only titles and trimmed URLs are sent, exclusively to OpenAI with your own key, which never leaves `chrome.storage.local`. The whole extension is plain Manifest V3 JavaScript — no framework, no bundler, no dependencies — with the grouping logic factored into pure functions that run under Node for tests.
+**Be clear about what leaves the browser.** Grouping sends tab titles and trimmed URLs. Brief and feed builds can also send browsing-derived context, feedback, and text and links from selected pages to the chosen provider; signed-in pages may contain private content. Settings and cached results live in Chrome’s local extension storage. There is no Tabbit account or hosted Tabbit backend, but AI generation still uses the selected provider’s service.
 
-For the broader approach, read [how to build your first personal software tool](/blog/how-to-build-personal-software): choose one recurring job, keep the scope small, and test how it fails.
+**Keep the implementation small enough to understand.** The extension runs plain Manifest V3 JavaScript without a framework or runtime bundling step. Provider transport, page readers, storage, build lifecycle and feature workflows are separate modules; the new-tab views have their own controllers. Shared contracts, incremental type checking and regression tests cover the boundaries that matter, including persistent builds, native CLI failures and tabs disappearing during organization. Browser fixture checks verify the interface separately from live extension behavior.
