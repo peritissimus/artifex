@@ -22,7 +22,18 @@ const navItems = [
     {
       navItems.map((item, index) => (
         <>
-          <a href={item.href} class:list={['menu-item', { active: currentPath === item.href }]}>
+          <a
+            href={item.href}
+            class:list={[
+              'menu-item',
+              { active: currentPath === item.href || currentPath.startsWith(`${item.href}/`) },
+            ]}
+            aria-current={
+              currentPath === item.href || currentPath.startsWith(`${item.href}/`)
+                ? 'page'
+                : undefined
+            }
+          >
             {item.label}
           </a>
           {index < navItems.length - 1 && <span class="menu-separator">//</span>}

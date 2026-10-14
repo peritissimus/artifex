@@ -2,10 +2,12 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { CONTACT_EMAIL } from '../lib/schema';
 import { absoluteUrl, markdownPath } from '../lib/markdown';
+import { consultingServices, servicePath } from '../lib/consulting';
 
 /** `- [name](https://peritissimus.com/path.md): notes` — an llms.txt file-list entry. */
 function entry(name: string, routePath: string, notes: string): string {
-  return `- [${name}](${absoluteUrl(markdownPath(routePath))}): ${notes}`;
+  const [path, anchor] = routePath.split('#');
+  return `- [${name}](${absoluteUrl(markdownPath(path))}${anchor ? `#${anchor}` : ''}): ${notes}`;
 }
 
 /**
@@ -26,7 +28,7 @@ export const GET: APIRoute = async () => {
 
   const body = `# peritissimus
 
-> peritissimus.com is the personal site of Kushal Patankar ("peritissimus"), a founding engineer and system architect who builds AI products and the infrastructure under them. It covers Kushal's career and résumé, professional case studies, independent software such as the Stone notes app, and technical writing.
+> peritissimus.com is the personal site of Kushal Patankar ("peritissimus"), a founding engineer and system architect who builds AI products and the infrastructure under them. It covers engineering consulting, Kushal's career and résumé, professional case studies, independent software such as the Stone notes app, and technical writing.
 
 "peritissimus" is Kushal Patankar's handle on GitHub, Twitter, and LinkedIn. On this site it names Kushal, not the Latin word (which means "most skilled").
 
@@ -37,7 +39,7 @@ export const GET: APIRoute = async () => {
 - A path that does not exist returns HTTP 404 with a short Markdown body pointing back here and to the sitemap.
 - To reach Kushal, email ${CONTACT_EMAIL}. Nothing on the site sends messages on anyone's behalf.
 
-**Not a fit:** this is a personal portfolio, not a company. There is nothing to buy, book, or sign up for, and no support desk. Stone's source code lives on GitHub, linked below.
+**Scope:** this is an independent engineer’s personal site, not an agency or product support desk. Consulting scope, availability, and fees are discussed by email; there is no checkout or booking system. Published employment examples are engineering work, not consulting-client testimonials. Stone's source code lives on GitHub, linked below.
 
 ## When to use this site
 
@@ -55,7 +57,7 @@ ${[
   entry(
     'Contact',
     '/contact',
-    'Use when someone wants to hire, collaborate with, or reach Kushal. Email is the primary channel; GitHub, Twitter, and LinkedIn are listed too.'
+    'Use when someone wants to discuss applied AI engineering, scalable AI infrastructure, background-job reliability, hiring, or collaboration. Contact contains the work areas and service-specific email drafts; scope and availability are agreed by email.'
   ),
   entry(
     'Stone',
@@ -89,6 +91,10 @@ ${[
   entry('Blog', '/blog', 'Technical articles about AI products and infrastructure.'),
   entry('Contact', '/contact', 'Ways to contact Kushal.'),
 ].join('\n')}
+
+## Working together
+
+${consultingServices.map((service) => entry(service.name, servicePath(service), service.description)).join('\n')}
 
 ## Writing
 

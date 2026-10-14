@@ -1,6 +1,6 @@
 ---
 /**
- * PostHog — recruiter-intent events.
+ * PostHog — professional and consulting-intent events.
  *
  * Traffic itself is covered by Cloudflare Web Analytics, which Pages injects
  * automatically; nothing for it is needed here, and adding the beacon by hand
@@ -50,6 +50,7 @@
       // worth fixing.
       const CONVERTING = new Set([
         'contact_email_click',
+        'consulting_inquiry_click',
         'resume_download',
         'social_profile_click',
       ]);
@@ -65,6 +66,38 @@
         }
       };
 
+      const consultingServices = new Set([
+        'applied-ai-engineering',
+        'scalable-ai-infrastructure',
+        'distributed-systems-reliability',
+      ]);
+      if (location.pathname === '/contact') {
+        const seenTopics = new Set<string>();
+        const recordTopic = (topic: Element) => {
+          if (
+            !(topic instanceof HTMLDetailsElement) ||
+            !topic.open ||
+            !consultingServices.has(topic.id) ||
+            seenTopics.has(topic.id)
+          )
+            return;
+          seenTopics.add(topic.id);
+          track('consulting_service_details_opened', {
+            service: topic.id,
+            path: location.pathname,
+          });
+        };
+        document.querySelectorAll('.contact-service[open]').forEach(recordTopic);
+        document.addEventListener(
+          'toggle',
+          (event) => {
+            if (event.target instanceof Element && event.target.matches('.contact-service'))
+              recordTopic(event.target);
+          },
+          true
+        );
+      }
+
       // --- Recruiter-intent signals ------------------------------------
       // A pageview says someone arrived. These say they were interested.
 
@@ -78,6 +111,12 @@
 
         if (href.startsWith('mailto:')) {
           track('contact_email_click', { path: location.pathname });
+          const service = link.getAttribute('data-consulting-service');
+          if (service && (service === 'general' || consultingServices.has(service))) {
+            // Measures an email-draft click, not a sent message or qualified lead.
+            // Never capture the draft body, typed project details, or credentials.
+            track('consulting_inquiry_click', { service, path: location.pathname });
+          }
           return;
         }
 

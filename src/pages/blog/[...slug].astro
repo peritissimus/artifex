@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ConsultingRelated from '../../components/ConsultingRelated.astro';
 import { relatedPosts } from '../../lib/related-posts';
 import { getCollection, render } from 'astro:content';
 import { blogPostingSchema, breadcrumbSchema } from '../../lib/schema';
@@ -128,6 +129,7 @@ function formatDate(date: Date): string {
       <div class="post-footer-nav">
         <a href="/blog" class="nav-link">← All posts</a>
       </div>
+      <ConsultingRelated path={`/blog/${post.id}`} />
     </div>
   </article>
 </Base>

@@ -1,28 +1,143 @@
 ---
 import Base from '../layouts/Base.astro';
+import {
+  consultingServices,
+  consultingWorkingStyle,
+  inquiryDescription,
+  inquiryHref,
+  servicePath,
+} from '../lib/consulting';
+import { personSchema, serviceSchema } from '../lib/schema';
 ---
 
 <Base
-  title="Contact - peritissimus"
-  description="Get in touch with Kushal Patankar (peritissimus) — open to founding and staff engineering roles in applied AI and infrastructure. Reach out via email, GitHub, Twitter, or LinkedIn."
+  title="Contact — Kushal Patankar"
+  description="Discuss an applied AI engineering, infrastructure, or distributed systems project with Kushal Patankar. Consulting inquiries and engineering conversations welcome."
   ogImage="/og/contact.png"
   currentPath="/contact"
+  jsonLd={[
+    personSchema,
+    ...consultingServices.map((service) =>
+      serviceSchema({
+        name: service.title,
+        description: service.description,
+        path: servicePath(service),
+      })
+    ),
+  ]}
 >
   <section id="contact" class="content-section page-contact">
     <div class="section-inner">
-      <p class="page-kicker">Open channels</p>
+      <p class="page-kicker">A conversation is a good start</p>
       <h1 class="section-title">Contact</h1>
       <div class="section-content">
         <p class="lede">
-          Interested in collaboration, have a project in mind, or just want to connect? Feel
-          free to reach out through any of the channels below.
+          Have a product to build or a system to untangle? I’m open to focused consulting
+          conversations in applied AI engineering, scalable AI infrastructure, and distributed
+          systems.
         </p>
 
         <p class="contact-availability">
-          Currently building at <a href="/work/zoca">Zoca</a>, and open to conversations about
-          founding and staff engineering roles — particularly in applied AI, distributed
-          backends, and the infrastructure underneath them.
+          Currently building at <a href="/work/zoca">Zoca</a>. We can discuss scope and availability
+          once the problem is clear. Founding and staff engineering conversations are welcome too.
         </p>
+
+        <section
+          class="contact-work-areas"
+          id="working-together"
+          aria-labelledby="work-areas-heading"
+        >
+          <h2 id="work-areas-heading">Working together</h2>
+          <p>{consultingWorkingStyle}</p>
+          {
+            consultingServices.map((service) => (
+              <details class="contact-service" id={service.slug}>
+                <summary>
+                  <span class="contact-service-name">{service.name}</span>
+                  <span class="contact-service-summary">{service.summary}</span>
+                  <span class="contact-service-indicator" aria-hidden="true" />
+                </summary>
+                <div class="contact-service-body">
+                  <p>{service.introduction}</p>
+                  <h3>{service.question}</h3>
+                  {service.problems.map((problem) => (
+                    <div>
+                      <h4>{problem.title}</h4>
+                      <p>{problem.detail}</p>
+                    </div>
+                  ))}
+                  <h3>How I approach the work</h3>
+                  <ol>
+                    {service.approach.map((step) => (
+                      <li>
+                        <h4>{step.title}</h4>
+                        <p>{step.detail}</p>
+                      </li>
+                    ))}
+                  </ol>
+                  <h3>What we can scope together</h3>
+                  <ul>
+                    {service.deliverables.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                  <p>{service.scope}</p>
+                  <h3>Relevant engineering work</h3>
+                  {service.evidence.map((item) => (
+                    <div>
+                      <h4>
+                        <a href={item.path}>{item.title} ↗</a>
+                      </h4>
+                      <p>{item.detail}</p>
+                    </div>
+                  ))}
+                  <h3>A few practical questions</h3>
+                  {service.questions.map((item) => (
+                    <div>
+                      <h4>{item.question}</h4>
+                      <p>{item.answer}</p>
+                    </div>
+                  ))}
+                  <a
+                    class="contact-topic-email"
+                    href={inquiryHref(service.slug)}
+                    data-consulting-service={service.slug}
+                  >
+                    Email me about {service.name.toLowerCase()} ↗
+                  </a>
+                </div>
+              </details>
+            ))
+          }
+        </section>
+
+        <section class="contact-project" aria-labelledby="contact-project-heading">
+          <h2 id="contact-project-heading">Tell me about the project.</h2>
+          <p>{inquiryDescription}</p>
+          <label for="consulting-service">What would you like to discuss?</label>
+          <select id="consulting-service">
+            <option value="general" data-email={inquiryHref()}
+              >A project or engineering question</option
+            >
+            {
+              consultingServices.map((service) => (
+                <option value={service.slug} data-email={inquiryHref(service.slug)}>
+                  {service.name}
+                </option>
+              ))
+            }
+          </select>
+          <a
+            id="contact-project-email"
+            class="contact-project-button"
+            href={inquiryHref()}
+            data-consulting-service="general"
+            >Email me about a project <span aria-hidden="true">↗</span></a
+          >
+          <p class="contact-project-note">
+            This opens a draft in your email app. Nothing is submitted through the website.
+          </p>
+        </section>
 
         <div class="contact-links">
           <a href="/resume" class="contact-link">
@@ -85,3 +200,35 @@ import Base from '../layouts/Base.astro';
     </div>
   </section>
 </Base>
+
+<script>
+  const serviceSelect = document.querySelector<HTMLSelectElement>('#consulting-service');
+  const emailLink = document.querySelector<HTMLAnchorElement>('#contact-project-email');
+  if (serviceSelect && emailLink) {
+    const requested = new URLSearchParams(location.search).get('service');
+    if (
+      requested &&
+      Array.from(serviceSelect.options).some((option) => option.value === requested)
+    ) {
+      serviceSelect.value = requested;
+    }
+    const updateInquiry = () => {
+      const option = serviceSelect.selectedOptions[0];
+      emailLink.href = option.dataset.email || emailLink.href;
+      emailLink.dataset.consultingService = option.value;
+    };
+    updateInquiry();
+    serviceSelect.addEventListener('change', updateInquiry);
+    const openLinkedTopic = () => {
+      const slug = location.hash.slice(1);
+      const topic = document.getElementById(slug);
+      if (topic instanceof HTMLDetailsElement && topic.classList.contains('contact-service')) {
+        topic.open = true;
+        serviceSelect.value = slug;
+        updateInquiry();
+      }
+    };
+    openLinkedTopic();
+    addEventListener('hashchange', openLinkedTopic);
+  }
+</script>
