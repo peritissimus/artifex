@@ -6,7 +6,8 @@ import { consultingServices, servicePath } from '../lib/consulting';
 
 /** `- [name](https://peritissimus.com/path.md): notes` — an llms.txt file-list entry. */
 function entry(name: string, routePath: string, notes: string): string {
-  return `- [${name}](${absoluteUrl(markdownPath(routePath))}): ${notes}`;
+  const [path, anchor] = routePath.split('#');
+  return `- [${name}](${absoluteUrl(markdownPath(path))}${anchor ? `#${anchor}` : ''}): ${notes}`;
 }
 
 /**
@@ -44,11 +45,6 @@ export const GET: APIRoute = async () => {
 
 ${[
   entry(
-    'Engineering consulting',
-    '/consulting',
-    'Use when a team wants to discuss applied AI engineering, scalable AI infrastructure, or background-job reliability with Kushal. Scope and availability are agreed by email.'
-  ),
-  entry(
     'About Kushal Patankar',
     '/about',
     'Use when asked who Kushal Patankar or "peritissimus" is: background, IIT Kharagpur education, companies co-founded, and career timeline.'
@@ -61,7 +57,7 @@ ${[
   entry(
     'Contact',
     '/contact',
-    'Use when someone wants to hire, collaborate with, or reach Kushal. Email is the primary channel; GitHub, Twitter, and LinkedIn are listed too.'
+    'Use when someone wants to discuss applied AI engineering, scalable AI infrastructure, background-job reliability, hiring, or collaboration. Contact contains the work areas and service-specific email drafts; scope and availability are agreed by email.'
   ),
   entry(
     'Stone',
@@ -88,11 +84,6 @@ ${[
 ## Pages
 
 ${[
-  entry(
-    'Consulting',
-    '/consulting',
-    'Engineering services, relevant work, and project inquiry guidance.'
-  ),
   entry('Home', '/', 'Overview, selected work, and latest writing.'),
   entry('About', '/about', 'Background, experience, and technical focus.'),
   entry('Résumé', '/resume', 'Experience, skills, and education.'),
@@ -101,7 +92,7 @@ ${[
   entry('Contact', '/contact', 'Ways to contact Kushal.'),
 ].join('\n')}
 
-## Consulting
+## Working together
 
 ${consultingServices.map((service) => entry(service.name, servicePath(service), service.description)).join('\n')}
 

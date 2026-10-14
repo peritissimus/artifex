@@ -119,12 +119,12 @@ export function serviceSchema(service: {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `${url}#service`,
+    '@id': url.includes('#') ? `${url}-service` : `${url}#service`,
     name: service.name,
     serviceType: service.name,
     description: service.description,
     url,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url.split('#')[0] },
     provider: { '@type': 'Person', '@id': PERSON_ID, name: AUTHOR_NAME, url: SITE_URL },
   };
 }

@@ -41,11 +41,11 @@ export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = async ({ props: 
             ].join('\n')
           ),
         services.length > 0 && '## Working on a similar problem?',
-        services.length > 0 && 'I’m open to focused consulting conversations around these systems.',
+        services.length > 0 &&
+          'I’m open to focused engineering conversations around these systems.',
         services
           .map(
-            (service) =>
-              `- [${service.name} consulting →](https://peritissimus.com${servicePath(service)})`
+            (service) => `- [${service.name} →](https://peritissimus.com${servicePath(service)})`
           )
           .join('\n'),
       ],
