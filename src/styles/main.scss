@@ -6,6 +6,7 @@
 // without its condensed proportions.
 // ─────────────────────────────────────────────────────────────────────────
 
+@use './consulting';
 @import '@fontsource/newsreader/400.css';
 @import '@fontsource/newsreader/400-italic.css';
 
@@ -120,6 +121,8 @@ a {
 
 .menu {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: baseline;
   gap: 1.4rem;
   font-size: 0.9rem;
@@ -130,6 +133,9 @@ a {
 }
 
 .menu-item {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
   color: var(--muted);
   transition: color 0.15s var(--ease);
 
@@ -1926,7 +1932,7 @@ a {
 
   .menu {
     width: 100%;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: flex-start;
     gap: clamp(0.75rem, 4vw, 1rem);
     font-size: 0.85rem;

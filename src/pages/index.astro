@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import ProjectArtwork from '../components/ProjectArtwork.astro';
 import { personSchema, websiteSchema } from '../lib/schema';
 import { featuredProjects as projects } from '../lib/projects';
+import { consultingServices, servicePath } from '../lib/consulting';
 
 const selectedWork = (await getCollection('work', ({ data }) => data.kind === 'professional'))
   .sort((a, b) => a.data.order - b.data.order)
@@ -28,16 +29,40 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
         <h1 class="home-title">I build AI products and the systems that make them scale.</h1>
         <p class="home-intro">
           I’m Kushal Patankar, a founding engineer working across applied AI engineering, scalable
-          AI infrastructure, and distributed systems. I turn AI capabilities into reliable
-          products and build local-first personal software outside of work. Currently building
-          tools for local businesses at Zoca.
+          AI infrastructure, and distributed systems. I turn AI capabilities into reliable products
+          and build local-first personal software outside of work. Currently building tools for
+          local businesses at Zoca.
         </p>
         <div class="home-primary-links" aria-label="Primary links">
+          <a href="/consulting">Discuss a project <span aria-hidden="true">→</span></a>
           <a href="/about">More about me <span aria-hidden="true">→</span></a>
-          <a href="/resume">Résumé <span aria-hidden="true">→</span></a>
           <a href="/contact">Get in touch <span aria-hidden="true">→</span></a>
         </div>
       </div>
+
+      <section class="home-section home-consulting" aria-labelledby="home-consulting-heading">
+        <div class="home-section-header">
+          <h2 id="home-consulting-heading">Working together</h2>
+          <a href="/consulting">Consulting →</a>
+        </div>
+        <p class="home-consulting-intro">
+          Focused engineering help for a product you’re building or a system you’re trying to
+          understand.
+        </p>
+        <div class="home-list">
+          {
+            consultingServices.map((service) => (
+              <a class="home-list-item" href={servicePath(service)}>
+                <span class="home-list-title">{service.name}</span>
+                <span class="home-list-description">{service.summary}</span>
+                <span class="home-list-meta" aria-hidden="true">
+                  →
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
 
       <section
         class="project-deck-section"

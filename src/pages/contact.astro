@@ -1,28 +1,58 @@
 ---
 import Base from '../layouts/Base.astro';
+import { consultingServices, inquiryDescription, inquiryHref } from '../lib/consulting';
 ---
 
 <Base
-  title="Contact - peritissimus"
-  description="Get in touch with Kushal Patankar (peritissimus) — open to founding and staff engineering roles in applied AI and infrastructure. Reach out via email, GitHub, Twitter, or LinkedIn."
+  title="Consulting & Contact — Kushal Patankar"
+  description="Discuss an applied AI engineering, infrastructure, or distributed systems project with Kushal Patankar. Consulting inquiries and engineering conversations welcome."
   ogImage="/og/contact.png"
   currentPath="/contact"
 >
   <section id="contact" class="content-section page-contact">
     <div class="section-inner">
-      <p class="page-kicker">Open channels</p>
+      <p class="page-kicker">A conversation is a good start</p>
       <h1 class="section-title">Contact</h1>
       <div class="section-content">
         <p class="lede">
-          Interested in collaboration, have a project in mind, or just want to connect? Feel
-          free to reach out through any of the channels below.
+          Have a product to build or a system to untangle? I’m open to focused consulting
+          conversations in applied AI engineering, scalable AI infrastructure, and distributed
+          systems.
         </p>
 
         <p class="contact-availability">
-          Currently building at <a href="/work/zoca">Zoca</a>, and open to conversations about
-          founding and staff engineering roles — particularly in applied AI, distributed
-          backends, and the infrastructure underneath them.
+          Currently building at <a href="/work/zoca">Zoca</a>. We can discuss scope and availability
+          once the problem is clear. You can read about <a href="/consulting">working together</a>;
+          founding and staff engineering conversations are welcome too.
         </p>
+
+        <section class="contact-project" aria-labelledby="contact-project-heading">
+          <h2 id="contact-project-heading">Tell me about the project.</h2>
+          <p>{inquiryDescription}</p>
+          <label for="consulting-service">What would you like to discuss?</label>
+          <select id="consulting-service">
+            <option value="general" data-email={inquiryHref()}
+              >A project or engineering question</option
+            >
+            {
+              consultingServices.map((service) => (
+                <option value={service.slug} data-email={inquiryHref(service.slug)}>
+                  {service.name}
+                </option>
+              ))
+            }
+          </select>
+          <a
+            id="contact-project-email"
+            class="consulting-button"
+            href={inquiryHref()}
+            data-consulting-service="general"
+            >Email me about a project <span aria-hidden="true">↗</span></a
+          >
+          <p class="contact-project-note">
+            This opens a draft in your email app. Nothing is submitted through the website.
+          </p>
+        </section>
 
         <div class="contact-links">
           <a href="/resume" class="contact-link">
@@ -85,3 +115,24 @@ import Base from '../layouts/Base.astro';
     </div>
   </section>
 </Base>
+
+<script>
+  const serviceSelect = document.querySelector<HTMLSelectElement>('#consulting-service');
+  const emailLink = document.querySelector<HTMLAnchorElement>('#contact-project-email');
+  if (serviceSelect && emailLink) {
+    const requested = new URLSearchParams(location.search).get('service');
+    if (
+      requested &&
+      Array.from(serviceSelect.options).some((option) => option.value === requested)
+    ) {
+      serviceSelect.value = requested;
+    }
+    const updateInquiry = () => {
+      const option = serviceSelect.selectedOptions[0];
+      emailLink.href = option.dataset.email || emailLink.href;
+      emailLink.dataset.consultingService = option.value;
+    };
+    updateInquiry();
+    serviceSelect.addEventListener('change', updateInquiry);
+  }
+</script>
