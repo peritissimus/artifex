@@ -13,19 +13,6 @@ const pages = [
   { path: '/software', twin: '/software.md' },
   { path: '/resume', twin: '/resume.md' },
   { path: '/blog', twin: '/blog.md' },
-  { path: '/consulting', twin: '/consulting.md' },
-  {
-    path: '/consulting/applied-ai-engineering',
-    twin: '/consulting/applied-ai-engineering.md',
-  },
-  {
-    path: '/consulting/scalable-ai-infrastructure',
-    twin: '/consulting/scalable-ai-infrastructure.md',
-  },
-  {
-    path: '/consulting/distributed-systems-reliability',
-    twin: '/consulting/distributed-systems-reliability.md',
-  },
 ];
 
 /** Page furniture with no place in a markdown document. */

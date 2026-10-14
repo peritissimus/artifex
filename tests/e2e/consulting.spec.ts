@@ -1,11 +1,48 @@
 import { expect, test } from '@playwright/test';
 
-test('a service-specific inquiry retains its context on the contact page', async ({ page }) => {
-  await page.goto('/consulting/applied-ai-engineering');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Applied AI Engineering Consulting'
-  );
-  await page.getByRole('link', { name: 'Other ways to get in touch →', exact: true }).click();
+const services = [
+  'applied-ai-engineering',
+  'scalable-ai-infrastructure',
+  'distributed-systems-reliability',
+];
+
+test('Contact is the single place to discuss a project', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('header nav a')).toHaveText([
+    'Software',
+    'Blog',
+    'About',
+    'Résumé',
+    'Contact',
+  ]);
+  await expect(page.locator('a[href^="/consulting"]')).toHaveCount(0);
+  await expect(page.locator('.home-consulting')).toHaveCount(0);
+  await page.locator('header').getByRole('link', { name: 'Contact', exact: true }).click();
+  await expect(page).toHaveURL(/\/contact$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Contact');
+});
+
+test('service details can be opened by pointer and closed by keyboard', async ({ page }) => {
+  await page.goto('/contact');
+  for (const slug of services) {
+    const details = page.locator(`details#${slug}`);
+    const summary = details.locator('summary').first();
+    await expect(summary).toBeVisible();
+    await expect(details).toHaveJSProperty('open', false);
+    await summary.click();
+    await expect(details).toHaveJSProperty('open', true);
+    await expect(details.locator('a[href^="/work/"]').first()).toBeVisible();
+    await expect(details.locator('a[href^="/blog/"]').first()).toBeVisible();
+    await summary.focus();
+    await summary.press('Enter');
+    await expect(details).toHaveJSProperty('open', false);
+  }
+});
+
+test('a service query preselects the contact draft and the picker can change it', async ({
+  page,
+}) => {
+  await page.goto('/contact?service=applied-ai-engineering');
   await expect(page.locator('#consulting-service')).toHaveValue('applied-ai-engineering');
   const email = page.locator('#contact-project-email');
   await expect(email).toHaveAttribute('data-consulting-service', 'applied-ai-engineering');
@@ -30,15 +67,9 @@ test('unknown inquiry topics fall back to the general draft', async ({ page }) =
   );
 });
 
-test.describe('consulting on a narrow phone', () => {
+test.describe('Contact and the homepage on a narrow phone', () => {
   test.use({ viewport: { width: 360, height: 800 } });
-  for (const path of [
-    '/consulting',
-    '/consulting/applied-ai-engineering',
-    '/consulting/scalable-ai-infrastructure',
-    '/consulting/distributed-systems-reliability',
-    '/contact',
-  ]) {
+  for (const path of ['/', '/contact']) {
     test(`${path} stays within the viewport`, async ({ page }) => {
       await page.goto(path);
       expect(
@@ -47,6 +78,16 @@ test.describe('consulting on a narrow phone', () => {
         )
       ).toBe(0);
       await expect(page.locator('h1')).toBeVisible();
+      if (path === '/contact') {
+        for (const slug of services) {
+          await page.locator(`details#${slug} > summary`).click();
+        }
+        expect(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+          )
+        ).toBe(0);
+      }
     });
   }
 });

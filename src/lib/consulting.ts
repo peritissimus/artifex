@@ -16,19 +16,13 @@ export interface ConsultingService {
   questions: Array<{ question: string; answer: string }>;
 }
 
-export const consultingTitle = 'AI Engineering Consulting — Kushal Patankar';
-export const consultingDescription =
-  'Applied AI engineering and scalable AI infrastructure consulting with Kushal Patankar: production LLM workflows, distributed backends, and reliable job processing.';
-export const consultingIntroduction =
-  'I’m Kushal Patankar. I work on applied AI engineering, scalable AI infrastructure, and the distributed systems around them. If you’re building an AI product or trying to understand where an existing system is breaking down, I’m open to a conversation.';
 export const consultingWorkingStyle =
   'I like to start with a concrete question: what should the system do, what is it doing instead, and what would make the difference measurable? From there, we can agree on a small, useful piece of work—an architecture review, an implementation, or a focused investigation.';
-export const inquiryTitle = 'Tell me what you’re building.';
 export const inquiryDescription =
   'A few sentences about the product, the constraint you’re running into, and the kind of help you need are enough to start. Include your stack and timeline if you know them. Please leave out credentials and confidential customer data.';
 
-// Each page owns a different buyer problem. New topics need first-hand evidence
-// and a distinct scope, not just another keyword variation of an existing page.
+// Work areas live in Contact, not separate landing pages. Shared data keeps
+// the expandable HTML sections, Markdown copy, and inquiry topics aligned.
 export const consultingServices: ConsultingService[] = [
   {
     slug: 'applied-ai-engineering',
@@ -326,7 +320,7 @@ export const consultingServices: ConsultingService[] = [
 ];
 
 export function servicePath(service: ConsultingService): string {
-  return `/consulting/${service.slug}`;
+  return `/contact#${service.slug}`;
 }
 
 export function inquiryHref(slug = 'general'): string {

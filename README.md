@@ -105,11 +105,11 @@ Astro 7 renders Markdown with Sätteri by default. This project overrides that a
 
 The reason is `src/plugins/rehype-blog-transform.js`, which is written against the remark/rehype APIs. It captures code-fence languages before Shiki runs, wraps sections in `.post-section`, brackets `h2` headings, and builds the `.code-block` markup the stylesheet expects. Porting it to Sätteri's `mdastPlugins`/`hastPlugins` hooks would work, but nothing forces the change yet.
 
-### Consulting pages
+### Working together in Contact
 
-`/consulting` introduces three distinct services: applied AI engineering, scalable AI infrastructure, and distributed systems reliability. `src/lib/consulting.ts` supplies the service copy, evidence links, and inquiry templates to both HTML and Markdown routes. Edit that source when changing a service; do not create near-duplicate pages for keyword variations.
+`/contact` contains three expandable work areas: applied AI engineering, scalable AI infrastructure, and distributed systems reliability. `src/lib/consulting.ts` supplies the copy, evidence links, and inquiry templates to the Contact HTML and Markdown versions. Keep these details within Contact; the site has no separate Consulting navigation item or landing pages.
 
-Related articles and project pages link back to relevant services through `servicesForContent()`. The contact page can select a service from its `?service=` parameter. Email links open a prefilled draft; the site does not send or store project inquiries.
+Related articles and project pages link to Contact topic anchors through `servicesForContent()`. Following an anchor opens its work-area details and selects the matching email topic. The contact page can also select a service from its `?service=` parameter. Email links open a prefilled draft; the site does not send or store project inquiries.
 
 `docs/seo-opportunities.json` records query hypotheses, dated primary sources, and the publication gate for trend-led content. Product releases and social discussion are topic leads, not verified search demand. Record a release date only after a production deployment is verified.
 
@@ -169,7 +169,7 @@ diagnosis on its own:
 | Event                  | Fires when                                                         |
 | ---------------------- | ------------------------------------------------------------------ |
 | `contact_email_click`  | A `mailto:` link is clicked                                        |
-| `consulting_service_view` | A consulting service page is loaded on the production hostname |
+| `consulting_service_details_opened` | A work-area disclosure is opened on Contact, once per topic per pageview |
 | `consulting_inquiry_click` | A contextual consulting email-draft link is clicked (`service` and `path` only) |
 | `resume_download`      | A `.pdf`, résumé, or CV link is clicked                            |
 | `social_profile_click` | An outbound LinkedIn/GitHub/Twitter link is clicked (`network`)    |

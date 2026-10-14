@@ -4,10 +4,10 @@ test('the footer links to site sections and professional profiles', async ({ pag
   await page.goto('/about');
   const links = page.locator('footer.footer .footer-nav a');
 
-  await expect(links).toHaveText(['Consulting', 'Software', 'Blog', 'About', 'Contact']);
+  await expect(links).toHaveText(['Software', 'Blog', 'About', 'Contact']);
   expect(
     await links.evaluateAll((anchors) => anchors.map((anchor) => anchor.getAttribute('href')))
-  ).toEqual(['/consulting', '/software', '/blog', '/about', '/contact']);
+  ).toEqual(['/software', '/blog', '/about', '/contact']);
   const profiles = page.locator('footer.footer .footer-profiles a');
   await expect(profiles).toHaveText(['GitHub', 'LinkedIn', 'X']);
   expect(await profiles.evaluateAll((anchors) => anchors.map((anchor) => anchor.rel))).toEqual([

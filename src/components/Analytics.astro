@@ -71,9 +71,31 @@
         'scalable-ai-infrastructure',
         'distributed-systems-reliability',
       ]);
-      const servicePage = location.pathname.replace(/^\/consulting\//, '').replace(/\/$/, '');
-      if (location.pathname.startsWith('/consulting/') && consultingServices.has(servicePage)) {
-        track('consulting_service_view', { service: servicePage, path: location.pathname });
+      if (location.pathname === '/contact') {
+        const seenTopics = new Set<string>();
+        const recordTopic = (topic: Element) => {
+          if (
+            !(topic instanceof HTMLDetailsElement) ||
+            !topic.open ||
+            !consultingServices.has(topic.id) ||
+            seenTopics.has(topic.id)
+          )
+            return;
+          seenTopics.add(topic.id);
+          track('consulting_service_details_opened', {
+            service: topic.id,
+            path: location.pathname,
+          });
+        };
+        document.querySelectorAll('.contact-service[open]').forEach(recordTopic);
+        document.addEventListener(
+          'toggle',
+          (event) => {
+            if (event.target instanceof Element && event.target.matches('.contact-service'))
+              recordTopic(event.target);
+          },
+          true
+        );
       }
 
       // --- Recruiter-intent signals ------------------------------------
