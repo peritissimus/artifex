@@ -1,5 +1,6 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { relatedPosts } from '../../lib/related-posts';
+import { servicePath, servicesForContent } from '../../lib/consulting';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { absolutizeLinks, isoDate, markdownDocument, markdownResponse } from '../../lib/markdown';
 
@@ -12,6 +13,7 @@ export const getStaticPaths = (async () => {
 export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = async ({ props: { post } }) => {
   const { data } = post;
   const related = relatedPosts(post.id, await getCollection('blog'));
+  const services = servicesForContent(`/blog/${post.id}`);
 
   return markdownResponse(
     markdownDocument({
@@ -38,6 +40,14 @@ export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = async ({ props: 
               '\nExplore [personal software projects and practical guides](/software).',
             ].join('\n')
           ),
+        services.length > 0 && '## Working on a similar problem?',
+        services.length > 0 && 'I’m open to focused consulting conversations around these systems.',
+        services
+          .map(
+            (service) =>
+              `- [${service.name} consulting →](https://peritissimus.com${servicePath(service)})`
+          )
+          .join('\n'),
       ],
     })
   );

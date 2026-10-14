@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import ConsultingInquiry from '../../components/ConsultingInquiry.astro';
+import {
+  consultingServices,
+  inquiryHref,
+  servicePath,
+  type ConsultingService,
+} from '../../lib/consulting';
+import { AUTHOR_NAME, breadcrumbSchema, personSchema, serviceSchema } from '../../lib/schema';
+export function getStaticPaths() {
+  return consultingServices.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+interface Props {
+  service: ConsultingService;
+}
+const { service } = Astro.props;
+const path = servicePath(service);
+const otherServices = consultingServices.filter((item) => item.slug !== service.slug);
+---
+
+<Base
+  title={`${service.title} — ${AUTHOR_NAME}`}
+  description={service.description}
+  ogImage="/og/home.png"
+  currentPath={path}
+  jsonLd={[
+    personSchema,
+    serviceSchema({ name: service.title, description: service.description, path }),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Consulting', path: '/consulting' },
+      { name: service.name, path },
+    ]),
+  ]}
+>
+  <article class="content-section page-consulting">
+    <div class="section-inner consulting-inner">
+      <div class="consulting-back"><a href="/consulting">← Consulting</a></div>
+      <header class="consulting-hero">
+        <p class="page-kicker">Kushal Patankar · Independent engineering</p>
+        <h1 class="section-title">{service.title}</h1>
+        <p class="consulting-lede">{service.summary}</p>
+        <p>{service.introduction}</p>
+        <div class="consulting-actions">
+          <a
+            class="consulting-button"
+            href={inquiryHref(service.slug)}
+            data-consulting-service={service.slug}
+            >Email me about your system <span aria-hidden="true">↗</span></a
+          >
+          <a class="consulting-text-link" href="#relevant-work">Read the relevant work ↓</a>
+        </div>
+      </header>
+
+      <section class="consulting-section" aria-labelledby="problem-heading">
+        <h2 id="problem-heading">{service.question}</h2>
+        <div class="consulting-problems">
+          {
+            service.problems.map((problem) => (
+              <div>
+                <>
+                  <h3>{problem.title}</h3>
+                  <p>{problem.detail}</p>
+                </>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="consulting-section" aria-labelledby="approach-heading">
+        <h2 id="approach-heading">How I approach the work</h2>
+        <ol class="consulting-steps">
+          {
+            service.approach.map((step) => (
+              <li>
+                <>
+                  <h3>{step.title}</h3>
+                  <p>{step.detail}</p>
+                </>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="consulting-section" aria-labelledby="deliverables-heading">
+        <h2 id="deliverables-heading">What we can scope together</h2>
+        <ul class="consulting-deliverables">
+          {service.deliverables.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="consulting-scope">{service.scope}</p>
+      </section>
+
+      <section class="consulting-section" id="relevant-work" aria-labelledby="evidence-heading">
+        <h2 id="evidence-heading">Relevant engineering work</h2>
+        <div class="consulting-evidence">
+          {
+            service.evidence.map((item) => (
+              <div>
+                <>
+                  <h3>
+                    <a href={item.path}>
+                      {item.title} <span aria-hidden="true">↗</span>
+                    </a>
+                  </h3>
+                  <p>{item.detail}</p>
+                </>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="consulting-section" aria-labelledby="questions-heading">
+        <h2 id="questions-heading">A few practical questions</h2>
+        <div class="consulting-questions">
+          {
+            service.questions.map((item) => (
+              <details>
+                <>
+                  <summary>{item.question}</summary>
+                  <p>{item.answer}</p>
+                </>
+              </details>
+            ))
+          }
+        </div>
+      </section>
+
+      <nav class="consulting-section consulting-other" aria-labelledby="other-services-heading">
+        <h2 id="other-services-heading">A different starting point?</h2>
+        <ul>
+          {
+            otherServices.map((item) => (
+              <li>
+                <a href={servicePath(item)}>{item.name} consulting →</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <ConsultingInquiry service={service.slug} />
+    </div>
+  </article>
+</Base>

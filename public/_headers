@@ -36,6 +36,10 @@
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 /contact
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/consulting
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/consulting/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 /software
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 /terminal

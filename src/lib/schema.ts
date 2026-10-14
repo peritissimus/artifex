@@ -109,6 +109,26 @@ export function breadcrumbSchema(
   };
 }
 
+/** Service metadata describes the visible offer; it is not a ranking guarantee. */
+export function serviceSchema(service: {
+  name: string;
+  description: string;
+  path: string;
+}): Record<string, unknown> {
+  const url = `${SITE_URL}${service.path}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: service.name,
+    serviceType: service.name,
+    description: service.description,
+    url,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    provider: { '@type': 'Person', '@id': PERSON_ID, name: AUTHOR_NAME, url: SITE_URL },
+  };
+}
+
 function absoluteUrl(pathOrUrl: string): string {
   return pathOrUrl.startsWith('http') ? pathOrUrl : `${SITE_URL}${pathOrUrl}`;
 }

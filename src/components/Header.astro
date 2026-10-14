@@ -6,6 +6,7 @@ interface Props {
 const { currentPath = '/' } = Astro.props;
 
 const navItems = [
+  { href: '/consulting', label: 'Consulting' },
   { href: '/software', label: 'Software' },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
@@ -22,7 +23,18 @@ const navItems = [
     {
       navItems.map((item, index) => (
         <>
-          <a href={item.href} class:list={['menu-item', { active: currentPath === item.href }]}>
+          <a
+            href={item.href}
+            class:list={[
+              'menu-item',
+              { active: currentPath === item.href || currentPath.startsWith(`${item.href}/`) },
+            ]}
+            aria-current={
+              currentPath === item.href || currentPath.startsWith(`${item.href}/`)
+                ? 'page'
+                : undefined
+            }
+          >
             {item.label}
           </a>
           {index < navItems.length - 1 && <span class="menu-separator">//</span>}

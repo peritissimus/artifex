@@ -1,0 +1,288 @@
+// Consulting uses the site's editorial language, without another visual system.
+.consulting-inner {
+  max-width: 46rem;
+}
+
+.consulting-back {
+  margin-bottom: 2rem;
+  color: var(--muted);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+}
+
+.page-consulting {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  li {
+    text-wrap: pretty;
+  }
+  p {
+    color: var(--muted);
+  }
+}
+
+.consulting-hero {
+  .section-title {
+    max-width: 19ch;
+  }
+  p {
+    margin-bottom: 1.5rem;
+  }
+  .consulting-lede {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--fg);
+  }
+}
+
+.consulting-section,
+.consulting-inquiry {
+  margin-top: 3.75rem;
+  scroll-margin-top: 2rem;
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.75rem, 3.5vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  p {
+    margin-bottom: 1.25rem;
+  }
+
+  a:not(.consulting-button):not(.consulting-service-link) {
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 4px;
+    &:hover {
+      text-decoration-color: var(--fg);
+    }
+  }
+}
+
+.consulting-service-link {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+
+  h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.65rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    margin: 0;
+  }
+  &:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  &:hover h3 {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+.consulting-number {
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  padding-top: 0.4rem;
+}
+.consulting-arrow {
+  padding-top: 0.2rem;
+}
+.consulting-problems > div,
+.consulting-evidence > div {
+  margin-bottom: 2rem;
+}
+
+.consulting-steps,
+.consulting-deliverables,
+.consulting-other ul {
+  padding-left: 1.25rem;
+  li {
+    padding-left: 0.35rem;
+    margin-bottom: 1rem;
+  }
+  li::marker {
+    color: var(--faint);
+  }
+}
+
+.consulting-scope {
+  padding-left: 1rem;
+  border-left: 2px solid var(--border);
+  margin-top: 1.75rem;
+  font-size: 0.95rem;
+}
+.consulting-questions {
+  details {
+    border-top: 1px solid var(--border);
+  }
+  details:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  summary {
+    cursor: pointer;
+    padding: 1rem 0;
+    min-height: 2.75rem;
+    font-weight: 500;
+  }
+  p {
+    padding-right: 1rem;
+  }
+}
+
+.consulting-inquiry {
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  p {
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+}
+
+.consulting-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1.75rem;
+}
+.consulting-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+  background: var(--fg);
+  color: var(--bg);
+  border-radius: 0.25rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.consulting-text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 0.95rem;
+}
+.consulting-button:focus-visible,
+.consulting-service-link:focus-visible,
+.consulting-text-link:focus-visible,
+.consulting-questions summary:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 5px;
+}
+
+.consulting-related {
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  padding-top: 1.75rem;
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  p {
+    margin: 0.75rem 0;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+  ul {
+    list-style: none;
+  }
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 4px;
+  }
+}
+
+.contact-project {
+  margin: 2.5rem 0 3rem;
+  h2 {
+    font-family: var(--serif);
+    color: var(--fg);
+    font-weight: 400;
+    font-size: 1.75rem;
+    text-wrap: balance;
+    margin-bottom: 1rem;
+  }
+  label {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--fg);
+    margin-bottom: 0.5rem;
+  }
+  select {
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.6rem 0.75rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--fg);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+  select:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 3px;
+  }
+  .contact-project-note {
+    margin: 0.75rem 0 0;
+    font-size: 0.85rem;
+  }
+}
+
+.home-consulting-intro {
+  color: var(--muted);
+  max-width: 38rem;
+  text-wrap: pretty;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .consulting-section,
+  .consulting-inquiry {
+    margin-top: 3rem;
+  }
+  .consulting-service-link {
+    grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+    gap: 0.75rem;
+  }
+  .consulting-service-link h3 {
+    font-size: 1.4rem;
+  }
+}

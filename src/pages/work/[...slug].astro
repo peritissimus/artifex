@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ConsultingRelated from '../../components/ConsultingRelated.astro';
 import { getCollection, render } from 'astro:content';
 import ProjectArtwork from '../../components/ProjectArtwork.astro';
 import { workSchema, breadcrumbSchema } from '../../lib/schema';
@@ -51,20 +52,31 @@ const detailSchema = workSchema({
 });
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', path: '/' },
-  { name: work.data.kind === 'personal' ? 'Software' : 'About', path: work.data.kind === 'personal' ? '/software' : '/about' },
+  {
+    name: work.data.kind === 'personal' ? 'Software' : 'About',
+    path: work.data.kind === 'personal' ? '/software' : '/about',
+  },
   { name: work.data.title, path: `/work/${work.id}` },
 ]);
 ---
 
 <Base
-  title={work.data.seoTitle ? `${work.data.seoTitle} - peritissimus` : `${work.data.title} - ${kindLabel} - peritissimus`}
+  title={work.data.seoTitle
+    ? `${work.data.seoTitle} - peritissimus`
+    : `${work.data.title} - ${kindLabel} - peritissimus`}
   ogTitle={`${work.data.title} — ${work.data.role}`}
   description={work.data.description}
   ogImage={ogImage}
   currentPath={`/work/${work.id}`}
   jsonLd={[detailSchema, breadcrumbs]}
 >
-  <article class:list={['content-section', 'work-detail', { 'work-detail--personal': work.data.kind === 'personal' }]}>
+  <article
+    class:list={[
+      'content-section',
+      'work-detail',
+      { 'work-detail--personal': work.data.kind === 'personal' },
+    ]}
+  >
     <div class="section-inner">
       <div class="work-header">
         <div class="work-back">
@@ -81,26 +93,30 @@ const breadcrumbs = breadcrumbSchema([
           <span class="work-separator">•</span>
           <span class="work-location">{work.data.location}</span>
         </div>
-        {work.data.externalUrl && (
-          <a
-            href={work.data.externalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="work-link"
-          >
-            {new URL(work.data.externalUrl).hostname} →
-          </a>
-        )}
-        {work.data.kind === 'personal' && artworkVariant && (
-          <figure class={`project-blueprint project-blueprint--${work.id}`}>
-            <div class="project-blueprint-labels" aria-hidden="true">
-              <span>Product study</span>
-              <span>Archive {String(work.data.order - 100).padStart(2, '0')}</span>
-            </div>
-            <ProjectArtwork variant={artworkVariant} detail="blueprint" />
-            <figcaption>{work.data.description}</figcaption>
-          </figure>
-        )}
+        {
+          work.data.externalUrl && (
+            <a
+              href={work.data.externalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="work-link"
+            >
+              {new URL(work.data.externalUrl).hostname} →
+            </a>
+          )
+        }
+        {
+          work.data.kind === 'personal' && artworkVariant && (
+            <figure class={`project-blueprint project-blueprint--${work.id}`}>
+              <div class="project-blueprint-labels" aria-hidden="true">
+                <span>Product study</span>
+                <span>Archive {String(work.data.order - 100).padStart(2, '0')}</span>
+              </div>
+              <ProjectArtwork variant={artworkVariant} detail="blueprint" />
+              <figcaption>{work.data.description}</figcaption>
+            </figure>
+          )
+        }
       </div>
 
       <div class="work-content">
@@ -110,64 +126,75 @@ const breadcrumbs = breadcrumbSchema([
         </div>
       </div>
 
-      {work.data.kind === 'personal' && work.data.screenshot && (
-        <figure class:list={['project-screenshot', `project-screenshot--${work.id}`]}>
-          <img
-            src={work.data.screenshot.src}
-            alt={work.data.screenshot.alt}
-            width={work.data.screenshot.width}
-            height={work.data.screenshot.height}
-            loading="lazy"
-            decoding="async"
-          />
-          <figcaption>{work.data.screenshot.caption}</figcaption>
-        </figure>
-      )}
+      {
+        work.data.kind === 'personal' && work.data.screenshot && (
+          <figure class:list={['project-screenshot', `project-screenshot--${work.id}`]}>
+            <img
+              src={work.data.screenshot.src}
+              alt={work.data.screenshot.alt}
+              width={work.data.screenshot.width}
+              height={work.data.screenshot.height}
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>{work.data.screenshot.caption}</figcaption>
+          </figure>
+        )
+      }
 
       <div class="work-content">
-        {work.data.achievements.length > 0 && (
-          <div class="work-section">
-            <h3>Key Achievements</h3>
-            <ul class="achievement-list">
-              {work.data.achievements.map((achievement) => (
-                <li set:html={parseMarkdown(achievement)} />
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {work.data.technologies.length > 0 && (
-          <div class="work-section">
-            <h3>Technologies</h3>
-            <div class="tech-grid">
-              {work.data.technologies.map((tech) => (
-                <span class="tech-tag">{tech}</span>
-              ))}
+        {
+          work.data.achievements.length > 0 && (
+            <div class="work-section">
+              <h3>Key Achievements</h3>
+              <ul class="achievement-list">
+                {work.data.achievements.map((achievement) => (
+                  <li set:html={parseMarkdown(achievement)} />
+                ))}
+              </ul>
             </div>
-          </div>
-        )}
+          )
+        }
 
-        {work.data.stats && work.data.stats.length > 0 && (
-          <div class="work-section">
-            <h3>Impact</h3>
-            <div class="impact-stats">
-              {work.data.stats.map((stat) => (
-                <div class="stat-item">
-                  <div class="stat-value">{stat.value}</div>
-                  <div class="stat-label">{stat.label}</div>
-                </div>
-              ))}
+        {
+          work.data.technologies.length > 0 && (
+            <div class="work-section">
+              <h3>Technologies</h3>
+              <div class="tech-grid">
+                {work.data.technologies.map((tech) => (
+                  <span class="tech-tag">{tech}</span>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
 
-        {work.data.outcome && (
-          <div class="work-section">
-            <h3>Outcome</h3>
-            <p>{work.data.outcome}</p>
-          </div>
-        )}
+        {
+          work.data.stats && work.data.stats.length > 0 && (
+            <div class="work-section">
+              <h3>Impact</h3>
+              <div class="impact-stats">
+                {work.data.stats.map((stat) => (
+                  <div class="stat-item">
+                    <div class="stat-value">{stat.value}</div>
+                    <div class="stat-label">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        }
+
+        {
+          work.data.outcome && (
+            <div class="work-section">
+              <h3>Outcome</h3>
+              <p>{work.data.outcome}</p>
+            </div>
+          )
+        }
       </div>
+      <ConsultingRelated path={`/work/${work.id}`} />
     </div>
   </article>
 </Base>
