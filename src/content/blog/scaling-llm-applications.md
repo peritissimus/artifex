@@ -1,11 +1,12 @@
 ---
 title: "Scaling LLM Applications: Context, Queues, and the Cost of Personalization"
 date: 2025-01-15
+updated: 2026-10-17
 author: Kushal Patankar
 category: AI/LLM
 tags: [LLM, Production, Architecture, Context, Message Queues]
 description: What 100K+ daily requests and AI workflows for 1,000+ businesses taught me about context selection, asynchronous execution, cost, and quality.
-readTime: 9 min read
+readTime: 11 min read
 ---
 
 At 100K+ requests per day, our hardest LLM failures rarely looked like model failures. They looked like missing context, duplicate jobs, growing queue latency, and prompts whose cost increased faster than their usefulness.
@@ -15,6 +16,8 @@ At [Brihaspati](/work/brihaspati), context-aware personalization helped improve 
 ## Scaling an LLM application means controlling everything around the model
 
 Model throughput is only one constraint. A production system must also decide which context belongs in a request, when work should leave the request-response cycle, how retries avoid duplicate output, and what quality means after the response arrives.
+
+By LLM application infrastructure, I mean the services around inference: APIs, retrieval, queues, workers, job state, and monitoring. The examples here concern that layer. Hosting model weights, scheduling GPU fleets, and training models introduce a different set of capacity and hardware problems, even when they sit behind the same product.
 
 I now think about four separate budgets:
 
@@ -77,6 +80,8 @@ This adds machinery, but it gives the system a place to enforce the rules that m
 
 The queue does not make generation faster. It makes slow and unreliable work manageable.
 
+The [Celery and Redis media pipeline](/blog/celery-redis-media-pipeline) shows the same boundary in a different workload, including what acknowledgment settings and redelivery mean for a long-running job.
+
 ## Prompts need versions, schemas, and token budgets
 
 Prompts behave like code but often receive less discipline. A sentence changes, output quality shifts, and nobody can connect the regression to a deployed version.
@@ -134,6 +139,22 @@ I track the two groups separately.
 - Retention for users who receive personalized output.
 
 A prompt can reduce latency while making the product worse. A more expensive model can be justified if it reduces rework. You need both sets of metrics to see the trade.
+
+## Establish a cost, latency, and quality baseline before optimizing
+
+Before trying a cheaper model or a new cache, I would keep a versioned set of representative tasks and write down what makes an output acceptable. For a content-generation workflow, that might mean correct business facts, valid structured output, and text a business can use without substantial correction. The comparison below is a proposed measurement plan, not another measured result from these products.
+
+| Measure | What to record for the same set of tasks |
+| --- | --- |
+| Cost per accepted result | Model charges plus allocated retrieval and worker costs, including failed attempts and retries, divided by the number of accepted results. State how shared infrastructure costs were allocated. |
+| End-to-end latency | p50 and p95 time from accepting a request to usable output. Record queue wait and provider time separately so moving work into a queue does not hide the user's wait. |
+| Quality | Accepted results divided by attempted tasks, using the same acceptance rule. Keep failure categories such as wrong business facts, invalid output, and corrections needed. |
+
+Keep failed, timed-out, and cancelled jobs in the record. Report their rates beside completed-job latency rather than dropping them from the comparison. If no result meets the acceptance rule, cost per accepted result is undefined, not zero.
+
+For each run, record the model, prompt and source-data versions, token counts, concurrency, cache state, and the date and prices used for costing. Repeat trials to expose output variation, and report the sample size. Use redacted or synthetic inputs when production data should not enter a replay.
+
+Then change one thing, such as context selection or model routing, and compare the same tasks again. For caching, report cache hits and misses separately. I would call a change an improvement only if it meets the quality threshold and reduces the cost or waiting time that matters to the user. A lower token bill alone is not enough if the result needs more correction.
 
 ## The approaches that stop working first
 

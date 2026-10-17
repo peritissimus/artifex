@@ -1,6 +1,6 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { relatedPosts } from '../../lib/related-posts';
-import { servicePath, servicesForContent } from '../../lib/consulting';
+import { servicePath, servicesForContent, relatedInquiryIntroduction } from '../../lib/consulting';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { absolutizeLinks, isoDate, markdownDocument, markdownResponse } from '../../lib/markdown';
 
@@ -41,11 +41,10 @@ export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = async ({ props: 
             ].join('\n')
           ),
         services.length > 0 && '## Working on a similar problem?',
-        services.length > 0 &&
-          'I’m open to focused engineering conversations around these systems.',
+        services.length > 0 && relatedInquiryIntroduction,
         services
           .map(
-            (service) => `- [${service.name} →](https://peritissimus.com${servicePath(service)})`
+            (service) => `- [${service.title} →](https://peritissimus.com${servicePath(service)})`
           )
           .join('\n'),
       ],

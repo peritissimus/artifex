@@ -20,6 +20,13 @@ export const consultingWorkingStyle =
   'I like to start with a concrete question: what should the system do, what is it doing instead, and what would make the difference measurable? From there, we can agree on a small, useful piece of work—an architecture review, an implementation, or a focused investigation.';
 export const inquiryDescription =
   'A few sentences about the product, the constraint you’re running into, and the kind of help you need are enough to start. Include your stack and timeline if you know them. Please leave out credentials and confidential customer data.';
+export const contactTitle = 'LLM Applications & Infrastructure — Contact Kushal Patankar';
+export const contactDescription =
+  'LLM application development services and LLM infrastructure consulting with Kushal Patankar: product integration, reliable background work, latency, and cost.';
+export const contactIntroduction =
+  'Have a product to build or a system to untangle? I help teams build LLM applications and make them reliable in production. My work spans applied AI engineering, application infrastructure, and distributed systems.';
+export const relatedInquiryIntroduction =
+  'For a similar project, we can discuss a focused implementation, architecture review, or investigation.';
 
 // Work areas live in Contact, not separate landing pages. Shared data keeps
 // the expandable HTML sections, Markdown copy, and inquiry topics aligned.
@@ -27,12 +34,12 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: 'applied-ai-engineering',
     name: 'Applied AI engineering',
-    title: 'Applied AI Engineering Consulting',
+    title: 'LLM Application Development Services',
     description:
-      'Applied AI engineering consulting for teams moving LLM prototypes into useful products: retrieval, model integration, evaluation, and production workflows.',
-    summary: 'Turn a promising AI prototype into a useful, maintainable product.',
+      'LLM application development services using existing models: product integration, retrieval, representative evaluations, and production workflows.',
+    summary: 'Turn an LLM prototype into a useful, maintainable product.',
     introduction:
-      'An AI demo can work beautifully once and still be difficult to ship. I help connect the model to the rest of the product: the data it can use, the actions it can take, the output a user can trust, and the backend that keeps the workflow running.',
+      'An AI prototype can work well and still be difficult to ship. My applied AI engineering work connects existing models to the rest of a product: useful context, permitted actions, output checks, and a backend that keeps the workflow running. We can start with an existing prototype or one well-defined feature.',
     question: 'What needs to work before this becomes a real product?',
     problems: [
       {
@@ -123,13 +130,12 @@ export const consultingServices: ConsultingService[] = [
   {
     slug: 'scalable-ai-infrastructure',
     name: 'Scalable AI infrastructure',
-    title: 'Scalable AI Infrastructure Consulting',
+    title: 'LLM Infrastructure Consulting',
     description:
-      'Scalable AI infrastructure consulting for production LLM applications: queues, distributed workers, capacity, observability, and cost-aware architecture.',
-    summary:
-      'Give an existing AI application room to grow without losing control of cost or latency.',
+      'LLM infrastructure consulting for applications using hosted model APIs: queues, workers, deployment, observability, and cost-and-latency reviews.',
+    summary: 'Give an LLM application room to grow without losing control of cost or latency.',
     introduction:
-      'Scaling an AI application is rarely just a matter of calling a faster model. It means deciding who owns a job, how much work can run at once, what happens when a provider slows down, and how cost changes with traffic. I work on those application and infrastructure boundaries.',
+      'Scalable AI infrastructure starts with the work around the model call: who owns a job, how much can run at once, and what happens when the provider slows down. I help teams examine those application boundaries, then make focused changes to capacity, recovery, and deployment. This work applies to applications using hosted model APIs; it does not require running your own model fleet.',
     question: 'Where does the system reach its limit?',
     problems: [
       {
@@ -173,7 +179,7 @@ export const consultingServices: ConsultingService[] = [
     deliverables: [
       'A bottleneck review with measured constraints and a prioritized architecture plan.',
       'Queue, worker, or deployment changes for the agreed workload.',
-      'A capacity and cost model with explicit assumptions and quality trade-offs.',
+      'A cost-and-latency baseline for representative jobs, with quality checks and explicit capacity assumptions.',
       'Monitoring and operating notes for the team maintaining the system.',
     ],
     scope:
@@ -211,9 +217,9 @@ export const consultingServices: ConsultingService[] = [
           'No. Applications using hosted model APIs still need capacity limits, durable jobs, cost controls, and recovery. Self-hosting is a separate decision that should follow workload and operating requirements.',
       },
       {
-        question: 'Can you reduce our LLM costs?',
+        question: 'Can we start with an LLM cost and latency review?',
         answer:
-          'A review can identify avoidable work, oversized context, and routing or caching opportunities. Savings depend on your workload and quality requirements; I would establish a baseline before proposing a target.',
+          'Yes. Start with representative jobs and a definition of a useful result, then compare provider cost, retries, queue time, end-to-end latency, and output quality. The review can identify avoidable work, oversized context, and routing or caching opportunities. Savings depend on your workload; I would establish a baseline before proposing a target.',
       },
       {
         question: 'What information helps with an infrastructure review?',

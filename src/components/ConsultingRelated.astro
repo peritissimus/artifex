@@ -1,5 +1,5 @@
 ---
-import { servicesForContent, servicePath } from '../lib/consulting';
+import { servicesForContent, servicePath, relatedInquiryIntroduction } from '../lib/consulting';
 interface Props {
   path: string;
 }
@@ -10,11 +10,11 @@ const services = servicesForContent(Astro.props.path);
   services.length > 0 && (
     <aside class="contact-related" aria-labelledby="contact-related-heading">
       <h2 id="contact-related-heading">Working on a similar problem?</h2>
-      <p>I’m open to focused engineering conversations around these systems.</p>
+      <p>{relatedInquiryIntroduction}</p>
       <ul>
         {services.map((service) => (
           <li>
-            <a href={servicePath(service)}>{service.name} →</a>
+            <a href={servicePath(service)}>{service.title} →</a>
           </li>
         ))}
       </ul>

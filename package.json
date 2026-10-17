@@ -16,6 +16,7 @@
     "format:check": "prettier --check .",
     "og:generate": "node scripts/generate-og-images.js",
     "posthog:dashboard": "node scripts/posthog-dashboard.js",
+    "seo:lookup": "node scripts/serper-lookup.js",
     "astro": "astro"
   },
   "dependencies": {

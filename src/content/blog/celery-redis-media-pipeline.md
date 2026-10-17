@@ -1,11 +1,11 @@
 ---
 title: "Processing 2,000 Hours of Media a Day with Celery and Redis"
 date: 2026-07-26
-updated: 2026-10-05
+updated: 2026-10-17
 author: Kushal Patankar
 category: Infrastructure
 tags: [Celery, Redis, Distributed Systems, Python, Architecture, Queues, acks_late, Visibility Timeout]
-description: What running a video dubbing pipeline at 2K hours of daily content taught me about queue design, acks_late, the Redis visibility timeout, and where a 50% speedup actually comes from.
+description: What a video dubbing pipeline at 2K hours of daily content taught me about Celery, Redis, safe retries, and a workload-specific 50% reduction in generation time.
 readTime: 11 min read
 ---
 
@@ -14,6 +14,8 @@ At 2,000 hours of media a day, the failures that cost us the most were never the
 A crash is loud. A worker dies, the job disappears from every dashboard, and someone notices. A half-finished job is quiet: the audio separated, the translation completed, the synthesis started, and then the container restarted during a deploy. The user sees a project stuck at 60% forever, and the only evidence lives in a log line nobody read.
 
 At [Dubverse](/work/dubverse), the video dubbing platform grew to 600K+ hours of processed content across 1M+ users. Moving that work onto Celery and Redis cut content generation time by 50%. The speedup mattered, but the durability mattered more. This is what I would tell myself before building that pipeline again.
+
+This is also part of [production LLM application infrastructure](/blog/scaling-llm-applications): a translation or analysis call needs durable job state, bounded execution, and a way to recover after failure. Those responsibilities remain whether inference runs locally or behind a provider API. Queue settings alone do not make an external model call safe to repeat; that still depends on the application's handling of duplicate work and side effects.
 
 ## Media work arrives faster than it processes
 
@@ -163,7 +165,7 @@ The trade-off runs the other way too. When a worker is killed outright, its unac
 
 Tasks scheduled with `eta` or `countdown` are subject to the same timer. A task scheduled further out than the visibility timeout is redelivered and runs more than once.
 
-## Where the 50% actually came from
+## Where the 50% reduction in generation time came from
 
 I want to be precise about this number, because "we made it 50% faster" invites the assumption that we optimized the slow parts. We mostly did not.
 

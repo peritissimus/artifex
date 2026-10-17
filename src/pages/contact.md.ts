@@ -3,6 +3,8 @@ import { CONTACT_EMAIL } from '../lib/schema';
 import {
   consultingServices,
   consultingWorkingStyle,
+  contactDescription,
+  contactIntroduction,
   inquiryDescription,
   inquiryHref,
 } from '../lib/consulting';
@@ -13,11 +15,10 @@ export const GET: APIRoute = () =>
   markdownResponse(
     markdownDocument({
       title: 'Contact',
-      description:
-        'Discuss an applied AI engineering, infrastructure, or distributed systems project with Kushal Patankar. Consulting inquiries and engineering conversations welcome.',
+      description: contactDescription,
       path: '/contact',
       body: [
-        'Have a product to build or a system to untangle? I’m open to focused consulting conversations in applied AI engineering, scalable AI infrastructure, and distributed systems.',
+        contactIntroduction,
         `Currently building at ${link('Zoca', '/work/zoca')}. We can discuss scope and availability once the problem is clear. Founding and staff engineering conversations are welcome too.`,
         '## Working together',
         consultingWorkingStyle,
@@ -25,6 +26,7 @@ export const GET: APIRoute = () =>
           [
             `### ${service.name}`,
             service.summary,
+            `#### ${service.title}`,
             service.introduction,
             `#### ${service.question}`,
             ...service.problems.map((problem) => `##### ${problem.title}\n\n${problem.detail}`),

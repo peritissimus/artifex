@@ -5,10 +5,34 @@ import { test } from 'node:test';
 const SITE_URL = 'https://peritissimus.com';
 const DIST = new URL('../../dist/', import.meta.url);
 const SERVICES = [
-  { slug: 'applied-ai-engineering', name: 'Applied AI engineering' },
-  { slug: 'scalable-ai-infrastructure', name: 'Scalable AI infrastructure' },
-  { slug: 'distributed-systems-reliability', name: 'Distributed systems reliability' },
+  {
+    slug: 'applied-ai-engineering',
+    name: 'Applied AI engineering',
+    title: 'LLM Application Development Services',
+    phrase: 'LLM application development',
+  },
+  {
+    slug: 'scalable-ai-infrastructure',
+    name: 'Scalable AI infrastructure',
+    title: 'LLM Infrastructure Consulting',
+    phrase: 'LLM infrastructure consulting',
+  },
+  {
+    slug: 'distributed-systems-reliability',
+    name: 'Distributed systems reliability',
+    title: 'Distributed Systems Reliability Consulting',
+  },
 ];
+const CONTENT_SERVICES = {
+  '/work/zoca': ['applied-ai-engineering', 'scalable-ai-infrastructure'],
+  '/work/brihaspati': ['applied-ai-engineering'],
+  '/work/dubverse': ['scalable-ai-infrastructure', 'distributed-systems-reliability'],
+  '/blog/scaling-llm-applications': ['applied-ai-engineering', 'scalable-ai-infrastructure'],
+  '/blog/celery-redis-media-pipeline': [
+    'distributed-systems-reliability',
+    'scalable-ai-infrastructure',
+  ],
+};
 const REMOVED_ROUTES = ['/consulting', ...SERVICES.map(({ slug }) => `/consulting/${slug}`)];
 const read = (path) => readFileSync(new URL(path, DIST), 'utf8');
 
@@ -43,6 +67,20 @@ function schemaNodes(value) {
   if (Array.isArray(value)) return value.flatMap(schemaNodes);
   if (!value || typeof value !== 'object') return [];
   return [value, ...schemaNodes(value['@graph'])];
+}
+
+function serviceDisclosure(html, slug) {
+  const matches = [...main(html).matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)].filter(
+    ([, attrs]) => attribute(attrs, 'id') === slug
+  );
+  assert.equal(matches.length, 1, `Missing or duplicate service anchor: ${slug}`);
+  return matches[0][2];
+}
+
+function serviceSchemas(html) {
+  return [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
+    .flatMap(([, json]) => schemaNodes(JSON.parse(json)))
+    .filter((block) => [block['@type']].flat().includes('Service'));
 }
 
 function assertNoPriceOrRating(value) {
@@ -106,8 +144,10 @@ test('Contact remains indexable and its Markdown twin carries the visible servic
   const canonical = html.match(/<link\b[^>]*rel="canonical"[^>]*>/)?.[0] ?? '';
   assert.equal(attribute(canonical, 'href'), `${SITE_URL}/contact`);
   assert.doesNotMatch(html, /name="robots" content="[^"]*noindex/);
-  assert.ok(html.match(/<title>(.*?)<\/title>/)?.[1]);
+  const title = html.match(/<title>(.*?)<\/title>/)?.[1] ?? '';
+  assert.ok(title);
   assert.equal([...main(html).matchAll(/<h1\b/g)].length, 1);
+  assert.equal(plain(main(html).match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? ''), 'contact');
   for (const [, , attrs, copy] of main(html).matchAll(
     /<(h[1-3]|p|li|dt|dd)\b([^>]*)>([\s\S]*?)<\/\1>/g
   )) {
@@ -120,6 +160,15 @@ test('Contact remains indexable and its Markdown twin carries the visible servic
   const description = html.match(/<meta\b[^>]*name="description"[^>]*>/)?.[0] ?? '';
   assert.ok(attribute(description, 'content'));
   assert.ok(plain(markdown).includes(plain(attribute(description, 'content'))));
+  const metadata = plain(`${title} ${attribute(description, 'content')}`);
+  for (const { phrase } of SERVICES.filter((service) => service.phrase)) {
+    assert.ok(metadata.includes(plain(phrase)), `Missing Contact metadata topic: ${phrase}`);
+    assert.ok(
+      plain(main(html)).includes(plain(phrase)),
+      `Missing visible Contact topic: ${phrase}`
+    );
+    assert.ok(plain(markdown).includes(plain(phrase)), `Missing Markdown topic: ${phrase}`);
+  }
   const alternate = html.match(/<link\b[^>]*type="text\/markdown"[^>]*>/)?.[0] ?? '';
   assert.equal(attribute(alternate, 'href'), `${SITE_URL}/contact.md`);
   for (const tag of anchors(main(html))) {
@@ -133,18 +182,23 @@ test('Contact remains indexable and its Markdown twin carries the visible servic
 test('Contact exposes three native service disclosures with valid project and article evidence', () => {
   const html = read('contact.html');
   const markdown = read('contact.md');
-  for (const { slug, name } of SERVICES) {
-    const disclosures = [...main(html).matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)].filter(
-      ([, attrs]) => attribute(attrs, 'id') === slug
-    );
-    assert.equal(disclosures.length, 1, `Missing or duplicate service anchor: ${slug}`);
-    const content = disclosures[0][2];
+  for (const { slug, name, title } of SERVICES) {
+    const content = serviceDisclosure(html, slug);
     const summary = content.match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/)?.[1] ?? '';
     assert.ok(plain(summary).includes(plain(name)), `Missing service summary: ${slug}`);
     assert.ok(plain(markdown).includes(plain(name)), `Missing Markdown service: ${slug}`);
     const summaryCopy = plain(summary).replace(plain(name), '');
     assert.ok(summaryCopy, `Missing descriptive service summary: ${slug}`);
     assert.ok(plain(markdown).includes(summaryCopy), `Missing Markdown summary: ${slug}`);
+    const headings = [...content.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/g)].map(([, text]) =>
+      plain(text)
+    );
+    assert.equal(
+      headings.filter((heading) => heading === plain(title)).length,
+      1,
+      `The service title must be a visible heading: ${slug}`
+    );
+    assert.ok(plain(markdown).includes(plain(title)), `Missing Markdown service title: ${slug}`);
     const links = anchors(content).map((tag) => attribute(tag, 'href'));
     for (const prefix of ['/work/', '/blog/']) {
       const proof = links.filter((href) => href.startsWith(prefix));
@@ -159,23 +213,96 @@ test('Contact exposes three native service disclosures with valid project and ar
 
 test('Contact service structured data points to real page anchors and the Person provider', () => {
   const html = read('contact.html');
-  const blocks = [
-    ...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g),
-  ].flatMap(([, json]) => schemaNodes(JSON.parse(json)));
-  const services = blocks.filter((block) => [block['@type']].flat().includes('Service'));
+  const services = serviceSchemas(html);
   assert.equal(services.length, SERVICES.length);
-  for (const { slug } of SERVICES) {
+  for (const { slug, title } of SERVICES) {
     const url = `${SITE_URL}/contact#${slug}`;
     const matching = services.filter((service) => service.url === url);
     assert.equal(matching.length, 1, `Missing or duplicate Contact service schema: ${url}`);
     const service = matching[0];
     assert.ok(html.includes(`id="${slug}"`), `Missing schema target: ${url}`);
-    assert.ok(service.name && service.description, `Missing service identity: ${url}`);
+    assert.equal(service.name, title, `Schema must name the visible service: ${url}`);
+    assert.ok(service.description, `Missing service description: ${url}`);
     assert.equal(service.provider?.['@id'], `${SITE_URL}/#person`, url);
     if (service.provider['@type']) {
       assert.ok([service.provider['@type']].flat().includes('Person'), url);
     }
     assertNoPriceOrRating(service);
+  }
+});
+
+test('LLM services retain existing-model scope and qualified cost claims', () => {
+  const html = read('contact.html');
+  const schemas = serviceSchemas(html);
+  for (const { slug, phrase } of SERVICES.filter((service) => service.phrase)) {
+    const content = serviceDisclosure(html, slug);
+    const introduction = content.match(/<p\b[^>]*>([\s\S]*?)<\/p>/)?.[1] ?? '';
+    const description =
+      schemas.find((service) => service.url === `${SITE_URL}/contact#${slug}`)?.description ?? '';
+    for (const [label, text] of [
+      ['introduction', introduction],
+      ['schema description', description],
+    ]) {
+      assert.match(
+        plain(text),
+        /(?:existing|hosted)(?:ai)?models|modelapis/,
+        `LLM application scope missing from ${slug} ${label}`
+      );
+    }
+    assert.ok(
+      plain(description).includes(plain(phrase)),
+      `Missing service schema topic: ${phrase}`
+    );
+  }
+  assert.match(
+    plain(serviceDisclosure(html, 'applied-ai-engineering')),
+    /notfoundation-modeltraining/
+  );
+  const infrastructure = plain(serviceDisclosure(html, 'scalable-ai-infrastructure'));
+  assert.match(infrastructure, /doesnotoffergpu-fleetmanagement,distributedmodeltraining/);
+  assert.match(infrastructure, /savingsdependonyourworkload|savingsarenotguaranteed/);
+});
+
+test('relevant engineering pages link to the matching Contact evidence with descriptive titles in both formats', () => {
+  const contact = read('contact.html');
+  for (const [path, slugs] of Object.entries(CONTENT_SERVICES)) {
+    const html = read(`${path.slice(1)}.html`);
+    const markdown = read(`${path.slice(1)}.md`);
+    const related =
+      main(html).match(
+        /<aside\b[^>]*class="[^"]*\bcontact-related\b[^"]*"[^>]*>([\s\S]*?)<\/aside>/
+      )?.[1] ?? '';
+    assert.ok(related, `Missing contextual Contact links: ${path}`);
+    const links = [...related.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)];
+    assert.deepEqual(
+      links.map(([, attrs]) => attribute(attrs, 'href')).sort(),
+      slugs.map((slug) => `/contact#${slug}`).sort(),
+      `Incorrect related services: ${path}`
+    );
+    const markdownLinks = [
+      ...markdown.matchAll(/\[([^\]]+)\]\((https:\/\/peritissimus\.com\/contact#[^)]+)\)/g),
+    ];
+    for (const slug of slugs) {
+      const service = SERVICES.find((item) => item.slug === slug);
+      const target = `/contact#${slug}`;
+      const label = links.find(([, attrs]) => attribute(attrs, 'href') === target)?.[2] ?? '';
+      assert.equal(plain(label).replace(/[→↗]/g, ''), plain(service.title), path);
+      assert.ok(
+        markdownLinks.some(
+          ([, label, href]) =>
+            href === `${SITE_URL}${target}` &&
+            plain(label).replace(/[→↗]/g, '') === plain(service.title)
+        ),
+        `Missing descriptive Markdown Contact link: ${path} → ${slug}`
+      );
+      const evidence = anchors(serviceDisclosure(contact, slug)).map((tag) =>
+        attribute(tag, 'href')
+      );
+      assert.ok(
+        evidence.includes(path),
+        `Contact must point back to its evidence: ${slug} → ${path}`
+      );
+    }
   }
 });
 

@@ -15,6 +15,7 @@ export const GET: APIRoute = () =>
         'IIT Kharagpur graduate (B.Tech, 2021) with 6+ years of experience spanning founding engineer roles, technical leadership, and entrepreneurship. Specialized in backend architecture, frontend development, infrastructure automation, and AI integration.',
         'Previously co-founded **Deepmynd Innovative Technologies** and **Brihaspati AI**, crafting next-generation products with AI prowess tailored for consumers. At Brihaspati, implemented dynamic prompt engineering and context-aware memory retrieval improving D7 retention by 20%.',
         'As a founding member at **Dübverse**, helped design, architect, develop and scale an enterprise-grade AI video dubbing platform processing 570,000+ hours of audio-video content for 1M+ users. 6-7000 production git commits across eight codebases, achieving 40%+ B2B growth.',
+        `For a project involving ${link('LLM application development', '/contact#applied-ai-engineering')} or ${link('LLM infrastructure consulting', '/contact#scalable-ai-infrastructure')}, Contact outlines the work we can scope together.`,
         '## Highlights',
         metrics.map((metric) => `- **${metric.value}** ${metric.label}`).join('\n'),
         '## Work experience',

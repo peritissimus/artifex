@@ -1,9 +1,10 @@
 ---
 title: Zoca
+updated: 2026-10-17
 company: Zoca
 role: Sr Software Engineer / IC
-description: Leading technical projects and driving innovation at Zoca, focusing on 0-to-1 product initiatives and infrastructure optimization.
-seoTitle: "Zoca – Senior Software Engineer Case Study"
+description: "LLM application development at Zoca: content generation for 1,000+ businesses, AI website workflows, and queue-backed TypeScript services."
+seoTitle: "Zoca – LLM Application Development & AI Workflows"
 dateRange: November 2024 – Present
 location: Bengaluru
 order: 1
@@ -29,4 +30,8 @@ stats:
     label: "0-to-1 Products"
 ---
 
-Leading technical projects and driving innovation at Zoca, focusing on 0-to-1 product initiatives, infrastructure optimization, and building scalable AI-powered systems for 1,000+ businesses.
+I build LLM application workflows for local businesses at Zoca. My work includes an automated social content system serving 1,000+ businesses and a configuration-driven website builder with contextual data scraping and AI-assisted modifications.
+
+An important part of that work is deciding where generation belongs in the backend. I introduced a message queue and worker architecture that separates long-running AI workflows from user-facing requests. The NestJS API creates a job, while workers own its execution and persist its status. That boundary gives generation a lifecycle beyond a single HTTP request.
+
+Alongside the product work, I migrated infrastructure to Terraform, improved build pipelines, and set up LocalStack for local AWS development. The infrastructure and build changes cut deployment time from 1.5 minutes to 1–4 seconds. I explain the reasoning around context selection, job ownership, and useful product outcomes in [Scaling LLM Applications](/blog/scaling-llm-applications).

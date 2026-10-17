@@ -3,6 +3,9 @@ import Base from '../layouts/Base.astro';
 import {
   consultingServices,
   consultingWorkingStyle,
+  contactTitle,
+  contactDescription,
+  contactIntroduction,
   inquiryDescription,
   inquiryHref,
   servicePath,
@@ -11,8 +14,8 @@ import { personSchema, serviceSchema } from '../lib/schema';
 ---
 
 <Base
-  title="Contact — Kushal Patankar"
-  description="Discuss an applied AI engineering, infrastructure, or distributed systems project with Kushal Patankar. Consulting inquiries and engineering conversations welcome."
+  title={contactTitle}
+  description={contactDescription}
   ogImage="/og/contact.png"
   currentPath="/contact"
   jsonLd={[
@@ -31,11 +34,7 @@ import { personSchema, serviceSchema } from '../lib/schema';
       <p class="page-kicker">A conversation is a good start</p>
       <h1 class="section-title">Contact</h1>
       <div class="section-content">
-        <p class="lede">
-          Have a product to build or a system to untangle? I’m open to focused consulting
-          conversations in applied AI engineering, scalable AI infrastructure, and distributed
-          systems.
-        </p>
+        <p class="lede">{contactIntroduction}</p>
 
         <p class="contact-availability">
           Currently building at <a href="/work/zoca">Zoca</a>. We can discuss scope and availability
@@ -58,6 +57,7 @@ import { personSchema, serviceSchema } from '../lib/schema';
                   <span class="contact-service-indicator" aria-hidden="true" />
                 </summary>
                 <div class="contact-service-body">
+                  <h3>{service.title}</h3>
                   <p>{service.introduction}</p>
                   <h3>{service.question}</h3>
                   {service.problems.map((problem) => (

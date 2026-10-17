@@ -1,0 +1,104 @@
+{
+  "updated": "2026-10-17",
+  "goal": "Qualified engineering and consulting inquiries",
+  "research": {
+    "provider": "Serper Google Search API",
+    "observedAt": "2026-10-17T13:07:00Z",
+    "country": "us",
+    "language": "en",
+    "queriesChecked": 12,
+    "organicResultsRequestedPerQuery": 10,
+    "monthlySearchVolume": null,
+    "keywordDifficulty": null,
+    "interpretation": "Priorities reflect observed search intent and portfolio fit, not measured demand, ranking difficulty, or a growth trend.",
+    "snapshotLocation": "Dated source snapshots and the full research summary are preserved in this chat's visualization directory under serper-consulting-2026-10-17."
+  },
+  "queryGroups": [
+    {
+      "query": "LLM application development services",
+      "priority": "primary",
+      "intentObserved": "Mostly application implementation and service-provider results, with educational content mixed in.",
+      "destination": "/contact#applied-ai-engineering",
+      "evidence": ["/work/zoca", "/work/brihaspati", "/blog/scaling-llm-applications"],
+      "scope": "Hands-on product integration using existing models, retrieval, backend workflows, representative evaluations, and handover."
+    },
+    {
+      "query": "LLM infrastructure consulting",
+      "priority": "primary",
+      "intentObserved": "Technical consulting, architecture, and deployment providers, with private-model and hardware expectations mixed in.",
+      "destination": "/contact#scalable-ai-infrastructure",
+      "evidence": [
+        "/work/dubverse",
+        "/work/zoca",
+        "/blog/scaling-llm-applications",
+        "/blog/celery-redis-media-pipeline"
+      ],
+      "scope": "Application infrastructure around model calls: queues, workers, retries, workload isolation, provider limits, observability, and deployment. Not GPU-fleet management or foundation-model training."
+    },
+    {
+      "query": "LLM cost optimization consulting",
+      "priority": "supporting",
+      "intentObserved": "Predominantly guides, playbooks, and comparisons; dedicated service offers also appear.",
+      "destination": "/contact#scalable-ai-infrastructure",
+      "evidence": ["/blog/scaling-llm-applications"],
+      "publicationGate": "Use a cost-and-latency baseline and output-quality checks. Publish quantified savings only when an original workload-specific comparison supports them."
+    },
+    {
+      "query": "LLM deployment consulting",
+      "priority": "supporting",
+      "intentObserved": "Commercial deployment services, often emphasizing private or on-premise model hosting.",
+      "destination": "/contact#scalable-ai-infrastructure",
+      "scope": "Application deployment and production integration. Do not imply specialist GPU inference hosting."
+    },
+    {
+      "query": "applied AI engineering consulting",
+      "priority": "identity and secondary acquisition",
+      "intentObserved": "Mixed consulting brands, careers, hiring, and role-definition content.",
+      "destination": "/contact#applied-ai-engineering",
+      "scope": "Retain applied AI engineering as the expertise description, paired with specific LLM application work and evidence."
+    }
+  ],
+  "siteConstraints": [
+    "Contact is the single inquiry destination. Its fragment anchors are not separate canonical landing pages.",
+    "Keep the Applied AI engineering and Scalable AI infrastructure labels, existing anchors, and topic-specific email drafts.",
+    "Do not restore separate Consulting navigation, a homepage sales section, or near-duplicate synonym pages.",
+    "Use a quiet, curious, concrete personal voice. Preserve published result attribution and workload boundaries.",
+    "Keep HTML, Markdown twins, visible headings, structured data, and descriptive inquiry links aligned."
+  ],
+  "publicationGate": [
+    "An existing engineering problem or original project evidence must justify the content; a trend or product release alone is not demand validation.",
+    "Use dated primary sources for external technical claims. Search suggestions and competitor page counts are not search-volume measurements.",
+    "Do not relabel 100K+ backend requests as model calls, a 50% generation-time improvement as LLM cost savings, or deployment-speed improvements as inference benchmarks.",
+    "Prefer improving an existing useful article or case study to publishing a thin landing page.",
+    "Check built HTML, Markdown parity, internal anchors, inquiry behavior, and narrow-screen layout before handoff.",
+    "Record a production release date only after a deployment is verified. Local edits and passing tests are not proof of publication."
+  ],
+  "primarySources": [
+    {
+      "url": "https://winder.ai/services/llm-consulting-development/",
+      "checked": "2026-10-17",
+      "role": "LLM services comparator"
+    },
+    {
+      "url": "https://codetheorem.co/llm-application-development/",
+      "checked": "2026-10-17",
+      "role": "Application development comparator"
+    },
+    {
+      "url": "https://www.navyaai.com/services/llm-cost-optimization",
+      "checked": "2026-10-17",
+      "role": "Cost-optimization service comparator"
+    },
+    {
+      "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+      "checked": "2026-10-17",
+      "role": "People-first content guidance"
+    },
+    {
+      "url": "https://developers.google.com/search/docs/appearance/title-link",
+      "checked": "2026-10-17",
+      "role": "Descriptive page-title guidance"
+    }
+  ],
+  "productionReleaseDateVerified": null
+}

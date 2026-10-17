@@ -1,9 +1,10 @@
 ---
 title: Dubverse
+updated: 2026-10-17
 company: Dübverse
 role: Founding Engineer
-description: Built AI video dubbing platform scaling to 600K+ hours across 1M+ users.
-seoTitle: "Dubverse – Building an AI Video Dubbing Platform (Founding Engineer)"
+description: Built AI application infrastructure for Dubverse, with Celery and Redis media processing across 600K+ hours of content and 1M+ users.
+seoTitle: "Dubverse – AI Application Infrastructure"
 dateRange: January 2022 – April 2024
 location: Gurugram, Haryana
 order: 3
@@ -33,4 +34,8 @@ stats:
     label: "Uptime"
 ---
 
-Led development of an AI-powered video dubbing platform from inception to scaling across 1M+ users and 600K+ hours of processed content. Built core features, microservices infrastructure, and comprehensive monitoring systems.
+I led development of Dubverse’s AI video dubbing platform, from the creation and editing flows in Next.js to the Django and Node.js services behind them. The product grew to serve 1M+ users and process 600K+ hours of content. My work connected the tools people used to create a project with the application infrastructure that produced the result.
+
+I built distributed media processing with Celery and Redis for a workload of 2K hours of content a day. The pipeline changes reduced content generation time by 50%. Separating stages and resuming failed jobs from the affected stage reduced waiting and repeated work across the pipeline.
+
+I also worked on AWS scaling and the monitoring stack, using Mixpanel, Metabase, Grafana, and Sentry to understand product behavior and application failures. [Processing 2,000 Hours of Media a Day with Celery and Redis](/blog/celery-redis-media-pipeline) explains the queue boundaries, durable job state, and worker recovery decisions behind that processing work.

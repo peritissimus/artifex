@@ -41,8 +41,25 @@ The dev server runs at `http://localhost:4321`.
 | `pnpm playwright:install` | Download the Chromium build tests need              |
 | `pnpm og:generate`        | Regenerate Open Graph images into `public/og/`      |
 | `pnpm posthog:dashboard`  | Create the Recruiter Funnel dashboard in PostHog    |
+| `pnpm seo:lookup`         | Save Google SERP snapshots through Serper           |
 | `pnpm format`             | Format with Prettier                                |
 | `pnpm format:check`       | Check formatting without writing                    |
+
+## Keyword research
+
+`scripts/serper-lookup.js` reads `SERPER_API_URL` and `SERPER_API_KEY` from your shell or the ignored `.env` file. Shell values take precedence. Use `https://google.serper.dev` or `https://google.serper.dev/search` as the URL. Keep the key local; the script does not print request headers or save the key.
+
+Preview a request without using credits:
+
+```bash
+pnpm seo:lookup --query "scalable AI infrastructure" --query "applied AI engineering" --dry-run
+```
+
+Remove `--dry-run` to run it. The default market is US, in English; use `--country in` to check India. Each unique query makes one request for up to 10 organic results, with no automatic retries, pagination, or follow-up searches. A run accepts at most 10 queries. Live requests consume Serper credits.
+
+Each result is saved as a new, dated JSON file in ignored `output/seo/`. Files include the request, timestamps, provider response, organic positions, related searches, questions, and matches for `peritissimus.com`. Use `--domain` or `--out` to change those defaults. Earlier files are never overwritten; a failure stops further requests and preserves completed lookups.
+
+These are search-result snapshots, not GSC metrics. A missing domain match means only that the site was absent from the returned results. Related searches and questions do not measure monthly search demand. Search volume and SEO difficulty remain `null` because this endpoint does not supply them. See [Serper](https://serper.dev/) for the service and `pnpm seo:lookup --help` for options.
 
 ## Structure
 
@@ -95,7 +112,7 @@ Blog posts and work entries are Astro content collections. Add a Markdown file t
 
 `src/content.config.ts` defines both schemas with Zod, so a missing or mistyped frontmatter field fails the build rather than rendering blank. Blog posts require `title`, `description`, and `date`; work entries require `title`, `company`, `role`, `description`, `dateRange`, `location`, and `order`. Both accept optional extras — see the schema for the full list.
 
-Two fields drive things outside the page itself. `updated` (blog) and `sortDate` (work) supply `lastmod` dates to the sitemap, read directly from frontmatter in `astro.config.mjs`. Setting `draft: true` keeps a post out of the index.
+Modification dates also drive the sitemap. Blog `updated` dates fall back to the publication `date`; work pages use `updated` only. These are read directly from frontmatter in `astro.config.mjs`. Work `sortDate` describes project chronology, not page modification. Setting `draft: true` keeps a post out of the index.
 
 After adding a post, run `pnpm og:generate` and commit the resulting PNG. OG images are generated locally and committed, so CI does no image work.
 
@@ -107,11 +124,11 @@ The reason is `src/plugins/rehype-blog-transform.js`, which is written against t
 
 ### Working together in Contact
 
-`/contact` contains three expandable work areas: applied AI engineering, scalable AI infrastructure, and distributed systems reliability. `src/lib/consulting.ts` supplies the copy, evidence links, and inquiry templates to the Contact HTML and Markdown versions. Keep these details within Contact; the site has no separate Consulting navigation item or landing pages.
+`/contact` contains three expandable work areas: applied AI engineering, scalable AI infrastructure, and distributed systems reliability. The first two describe LLM application development services and LLM infrastructure consulting, with explicit boundaries around existing-model application work. `src/lib/consulting.ts` supplies the copy, evidence links, and inquiry templates to the Contact HTML and Markdown versions. Keep these details within Contact; the site has no separate Consulting navigation item or landing pages.
 
-Related articles and project pages link to Contact topic anchors through `servicesForContent()`. Following an anchor opens its work-area details and selects the matching email topic. The contact page can also select a service from its `?service=` parameter. Email links open a prefilled draft; the site does not send or store project inquiries.
+Related articles and project pages link to Contact topic anchors through `servicesForContent()`, using the visible service title as the link label in both HTML and Markdown. Following an anchor opens its work-area details and selects the matching email topic. The contact page can also select a service from its `?service=` parameter. Email links open a prefilled draft; the site does not send or store project inquiries.
 
-`docs/seo-opportunities.json` records query hypotheses, dated primary sources, and the publication gate for trend-led content. Product releases and social discussion are topic leads, not verified search demand. Record a release date only after a production deployment is verified.
+`docs/seo-opportunities.json` records query hypotheses, the October 17 Serper intent research, dated primary sources, and the publication gate for trend-led content. Search volume and keyword difficulty remain unknown. Product releases and social discussion are topic leads, not verified search demand. A cost-and-latency review starts with representative jobs and quality criteria, not a promised savings percentage. Record a release date only after a production deployment is verified.
 
 ## Agents
 
