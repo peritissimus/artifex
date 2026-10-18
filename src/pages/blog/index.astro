@@ -53,26 +53,24 @@ const breadcrumbs = breadcrumbSchema([
         {
           sortedPosts.map((post) => (
             <article class="blog-card">
-              <a href={`/blog/${post.id}`} class="blog-card-link">
+              <a
+                href={`/blog/${post.id}`}
+                class="blog-card-link"
+                aria-labelledby={`blog-title-${post.id}`}
+                aria-describedby={`blog-description-${post.id}`}
+              >
                 <div class="blog-card-header">
                   <time class="blog-date" datetime={formatDate(post.data.date)}>
                     {formatDate(post.data.date)}
                   </time>
-                  <span class="blog-tag">{post.data.category || 'AI/LLM'}</span>
                 </div>
                 <div class="blog-card-body">
-                  <h2 class="blog-title">{post.data.title}</h2>
-                  <p class="blog-excerpt">{post.data.description}</p>
-                </div>
-                <div class="blog-card-footer">
-                  <div class="blog-meta">
-                    <span class="read-time">{post.data.readTime || '5 min read'}</span>
-                    <span class="meta-separator" aria-hidden="true">
-                      /
-                    </span>
-                    <span class="blog-topics">{post.data.tags.slice(0, 3).join(', ')}</span>
-                  </div>
-                  <span class="blog-card-cta">Read note</span>
+                  <h2 id={`blog-title-${post.id}`} class="blog-title">
+                    {post.data.title}
+                  </h2>
+                  <p id={`blog-description-${post.id}`} class="blog-excerpt">
+                    {post.data.description}
+                  </p>
                 </div>
               </a>
             </article>

@@ -19,7 +19,7 @@ export const GET: APIRoute = async () => {
         posts
           .map(
             (post) =>
-              `- ${link(post.data.title, `/blog/${post.id}`)} (${isoDate(post.data.date)}, ${post.data.readTime || '5 min read'}): ${post.data.description}`
+              `- ${link(post.data.title, `/blog/${post.id}`)} (${isoDate(post.data.date)}): ${post.data.description}`
           )
           .join('\n'),
         `Feed: ${link('RSS', '/rss.xml')}`,
