@@ -121,6 +121,8 @@ function getBlogPosts() {
     if (!frontmatterMatch) return null;
 
     const frontmatter = frontmatterMatch[1];
+    // Draft metadata must not become a public social image.
+    if (/^draft:\s*true[ \t]*(?:#.*)?$/mi.test(frontmatter)) return null;
     const titleMatch = frontmatter.match(/title:\s*(.+)/);
     const descMatch = frontmatter.match(/description:\s*(.+)/);
 
