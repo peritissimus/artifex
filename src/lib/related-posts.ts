@@ -20,6 +20,7 @@ const readingPaths = [
     'celery-redis-media-pipeline',
     'scaling-llm-applications',
   ],
+  ['frameworks-for-ai-coding', 'how-to-build-personal-software', 'scaling-llm-applications'],
 ];
 
 export function relatedPosts(postId: string, posts: CollectionEntry<'blog'>[]) {

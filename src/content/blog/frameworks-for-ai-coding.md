@@ -6,7 +6,7 @@ category: AI/LLM
 tags: [AI Coding, Software Engineering, Frameworks]
 description: Whether frameworks built around human programmers still make sense for AI coding, and what a safe change asks of either.
 readTime: 4 min read
-draft: true
+draft: false
 ---
 
 I keep coming back to a question about AI coding: if an agent writes much of the implementation, should we still organize software around the same conveniences we designed for ourselves?
