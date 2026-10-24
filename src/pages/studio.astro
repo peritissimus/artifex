@@ -1,0 +1,463 @@
+---
+import { getCollection } from 'astro:content';
+import SEO from '../components/SEO.astro';
+import ProjectArtwork from '../components/ProjectArtwork.astro';
+import { softwareProjects, softwareCards } from '../lib/projects';
+import { roles } from '../lib/resume';
+import '../styles/main.scss';
+import '../styles/studio.scss';
+
+// Plates — real personal software, pulled live from the work collection and
+// stamped with the same generative marks used across the site.
+const works = await getCollection('work');
+const plates = softwareProjects(works).map((project, i) => {
+  const card = softwareCards[project.id as keyof typeof softwareCards];
+  return {
+    slug: project.id,
+    title: project.data.title,
+    description: project.data.description,
+    role: project.data.role,
+    dateRange: project.data.dateRange,
+    tech: project.data.technologies.slice(0, 4),
+    mark: card.mark,
+    n: String(i + 1).padStart(2, '0'),
+  };
+});
+
+// Commissions — the professional record, kept as a ruled ledger.
+const ledger = roles.filter((role) => role.date && role.company).slice(0, 6);
+
+const principles = [
+  {
+    k: 'Precision',
+    v: 'A nib leaves no room for a second attempt. The first line is the line. I build the same way — the interface, the schema, the edge case, drawn once and drawn true.',
+  },
+  {
+    k: 'Finish',
+    v: 'A sketch is not a drawing. Shipped is not the same as done. I take the work to the last 5% — the part most people skip and everyone feels.',
+  },
+  {
+    k: 'Ownership',
+    v: 'One hand holds the whole piece: design, system, deploy, the memory loop end to end. No handoffs where the intent leaks out.',
+  },
+  {
+    k: 'Momentum',
+    v: 'I get it done. Fewer meetings about the drawing, more of the drawing. I am the studio and the agency — brief in, finished work out.',
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f4ee" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0a08" media="(prefers-color-scheme: dark)" />
+    <SEO
+      title="The Studio — Kushal Patankar (149.KUSH)"
+      ogTitle="The Studio — ink, precision, systems"
+      description="Kushal Patankar (149.KUSH): an ink artist who became an engineer. A monochrome studio of precise, finished work — personal software drawn once and drawn true."
+      ogImage="/og/home.png"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+
+  <body class="studio-page">
+    <!-- Registration marks: the sheet is pinned to the drafting table -->
+    <i class="reg reg-tl" aria-hidden="true"></i>
+    <i class="reg reg-tr" aria-hidden="true"></i>
+    <i class="reg reg-bl" aria-hidden="true"></i>
+    <i class="reg reg-br" aria-hidden="true"></i>
+
+    <header class="studio-nav">
+      <a class="nav-home" href="/"><span aria-hidden="true">↖</span> PERITISSIMUS</a>
+      <span class="nav-caption">SHEET 149 · INK &amp; SYSTEMS</span>
+      <a
+        class="nav-ig"
+        href="https://instagram.com/149.kush"
+        target="_blank"
+        rel="noopener noreferrer">@149.KUSH <span aria-hidden="true">↗</span></a
+      >
+    </header>
+
+    <main class="sheet">
+      <!-- ─── Masthead ─────────────────────────────────────────────── -->
+      <section class="masthead">
+        <div class="mast-copy" data-stagger>
+          <p class="kick reveal">The studio of Kushal Patankar</p>
+          <h1 class="mast-title reveal">
+            I started with a nib and a&nbsp;straight line.<br />
+            <em>Now I draw systems.</em>
+          </h1>
+          <p class="mast-lede reveal">
+            Ink taught me the only lesson that mattered: the first stroke is the stroke. No undo,
+            no fog, no hiding a wobble under more marks. I carried that discipline into code. Same
+            hand, same patience, same refusal to leave a line half-drawn.
+          </p>
+          <div class="mast-meta reveal" aria-hidden="true">
+            <span>EST. PEN &amp; PAPER</span>
+            <span class="dot">·</span>
+            <span>MEDIUM — INK, VECTOR, SYSTEM</span>
+            <span class="dot">·</span>
+            <span>EDITION OF ONE</span>
+          </div>
+        </div>
+
+        <!-- The drawing: a hatched ink flourish that resolves into a vector
+             path with control handles and a bracket. The nib draws it on. -->
+        <figure class="mast-plate reveal" aria-label="An ink stroke resolving into a vector path">
+          <svg class="inkwork" viewBox="0 0 360 300" role="img" aria-hidden="true">
+            <defs>
+              <pattern id="hatch-mast" width="6" height="6" patternUnits="userSpaceOnUse"
+                patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="0" y2="6" class="hatch-line" />
+              </pattern>
+            </defs>
+
+            <!-- plate frame + corner ticks -->
+            <g class="plate-frame">
+              <path class="tick" d="M12 4v16M4 12h16" />
+              <path class="tick" d="M348 4v16M356 12h-16" />
+              <path class="tick" d="M12 296v-16M4 288h16" />
+              <path class="tick" d="M348 296v-16M356 288h-16" />
+            </g>
+
+            <!-- hatched ink mass (left: the artist's origin) -->
+            <circle class="ink-fill draw" cx="104" cy="150" r="58"
+              style="fill:url(#hatch-mast)" />
+            <circle class="ink-ring draw" cx="104" cy="150" r="58" />
+
+            <!-- the long confident flourish -->
+            <path
+              class="flourish draw"
+              d="M46 214 C 86 150, 70 92, 118 96 C 162 100, 150 176, 196 162 C 246 147, 232 86, 286 96"
+            />
+
+            <!-- nib (driven along the flourish by JS) -->
+            <g class="nib">
+              <path d="M286 96 l24 -14 -6 18 -14 8 z" />
+              <path d="M298 94 l8 -5" class="nib-slit" />
+            </g>
+
+            <!-- transition axis -->
+            <path class="axis" d="M196 240 h120" />
+            <text class="axis-label" x="196" y="258">INK → VECTOR</text>
+
+            <!-- vector path with bezier control handles (right: precision) -->
+            <path class="vector draw" d="M212 150 C 244 108, 272 196, 312 142" />
+            <g class="handles">
+              <line class="handle-arm" x1="212" y1="150" x2="244" y2="108" />
+              <line class="handle-arm" x1="312" y1="142" x2="272" y2="196" />
+              <rect class="node" x="208" y="146" width="8" height="8" />
+              <rect class="node" x="308" y="138" width="8" height="8" />
+              <circle class="ctrl" cx="244" cy="108" r="3.2" />
+              <circle class="ctrl" cx="272" cy="196" r="3.2" />
+            </g>
+
+            <!-- a bracket + caret: where the line becomes language -->
+            <path class="glyph draw" d="M262 60 l-12 8 12 8" />
+            <path class="glyph draw" d="M296 60 l12 8 -12 8" />
+            <line class="caret" x1="279" y1="56" x2="279" y2="80" />
+          </svg>
+          <figcaption>Plate 00 — <span class="mono">study: a line, drawn once</span></figcaption>
+        </figure>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ─── Thesis ───────────────────────────────────────────────── -->
+      <section class="thesis">
+        <p class="kick reveal">The throughline</p>
+        <div class="thesis-grid">
+          <p class="thesis-lead reveal">
+            I am not a professional artist. I am the person who could not put the pen down — who
+            filled sheets with hatching until the hand stopped shaking and the line came out clean.
+            That is the whole trick, in ink and in software: <em>repetition until it looks
+            effortless.</em>
+          </p>
+          <div class="thesis-cols" data-stagger>
+            <div class="col reveal">
+              <span class="col-head">What ink gave me</span>
+              <p>
+                Confidence under constraint. You cannot erase ink, so you learn to see the finished
+                mark before you make it. You plan, you breathe, you commit.
+              </p>
+            </div>
+            <div class="col reveal">
+              <span class="col-head">What I do with it now</span>
+              <p>
+                I build applied-AI products and the distributed systems under them — drawn with the
+                same economy. Every function is a stroke I meant to make.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ─── Plates: the work ─────────────────────────────────────── -->
+      <section class="plates" aria-labelledby="plates-head">
+        <div class="section-head reveal">
+          <h2 id="plates-head">The plates</h2>
+          <p class="section-sub">
+            Personal software, each one a finished study. Every mark below is drawn in code — the
+            same monochrome line I used to ink by hand.
+          </p>
+        </div>
+
+        <div class="plate-grid" data-stagger>
+          {
+            plates.map((plate) => (
+              <a class="plate" href={`/work/${plate.slug}`} aria-label={`${plate.title}: ${plate.description}`}>
+                <div class="plate-window">
+                  <span class="plate-no mono">Nº {plate.n}</span>
+                  <ProjectArtwork variant={plate.mark} />
+                  <span class="plate-corner tl" aria-hidden="true" />
+                  <span class="plate-corner tr" aria-hidden="true" />
+                  <span class="plate-corner bl" aria-hidden="true" />
+                  <span class="plate-corner br" aria-hidden="true" />
+                </div>
+                <div class="plate-copy">
+                  <div class="plate-title-row">
+                    <strong>{plate.title}</strong>
+                    <span class="plate-role mono">{plate.role}</span>
+                  </div>
+                  <p class="plate-desc">{plate.description}</p>
+                  <ul class="plate-tech">
+                    {plate.tech.map((t) => (
+                      <li class="mono">{t}</li>
+                    ))}
+                  </ul>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ─── Principles ───────────────────────────────────────────── -->
+      <section class="principles" aria-labelledby="principles-head">
+        <div class="section-head reveal">
+          <h2 id="principles-head">How the studio works</h2>
+          <p class="section-sub">Four rules. They are the same for a drawing and for a deploy.</p>
+        </div>
+        <ol class="principle-list" data-stagger>
+          {
+            principles.map((p, i) => (
+              <li class="principle reveal">
+                <span class="principle-no mono">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{p.k}</h3>
+                  <p>{p.v}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ─── Commissions ledger ───────────────────────────────────── -->
+      <section class="ledger-section" aria-labelledby="ledger-head">
+        <div class="section-head reveal">
+          <h2 id="ledger-head">Commissions</h2>
+          <p class="section-sub">Where the discipline has been paid to show up.</p>
+        </div>
+        <div class="ledger" data-stagger>
+          {
+            ledger.map((role) => (
+              <div class="ledger-row reveal">
+                <span class="ledger-co">
+                  {role.link ? <a href={role.link}>{role.company}</a> : role.company}
+                </span>
+                <span class="ledger-role">{role.role}</span>
+                <span class="ledger-date mono">{role.date}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- ─── Colophon + chop seal ─────────────────────────────────── -->
+      <footer class="colophon">
+        <div class="colo-copy reveal">
+          <p class="kick">Signed</p>
+          <p class="colo-line">
+            Drawn and built by Kushal Patankar. If the brief is precise, so is the work — and I
+            take it to the finish.
+          </p>
+          <div class="colo-links">
+            <a href="/contact">Commission something <span aria-hidden="true">→</span></a>
+            <a href="https://instagram.com/149.kush" target="_blank" rel="noopener noreferrer"
+              >See the ink <span aria-hidden="true">→</span></a
+            >
+          </div>
+        </div>
+
+        <!-- The chop: the one mark of colour on the sheet -->
+        <div class="chop" aria-label="Artist's seal: 149.KUSH">
+          <span class="chop-149">149</span>
+          <span class="chop-kush">KUSH</span>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // A cubic-bezier(0.2, 0, 0, 1) sampler — the site's --ease, in JS, so the
+      // hand-driven nib eases exactly like the rest of the motion.
+      const easeStd = ((x1, y1, x2, y2) => {
+        const A = (a: number, b: number) => 1 - 3 * b + 3 * a;
+        const B = (a: number, b: number) => 3 * b - 6 * a;
+        const C = (a: number) => 3 * a;
+        const calc = (t: number, a: number, b: number) => ((A(a, b) * t + B(a, b)) * t + C(a)) * t;
+        const slope = (t: number, a: number, b: number) =>
+          3 * A(a, b) * t * t + 2 * B(a, b) * t + C(a);
+        return (x: number) => {
+          if (x <= 0) return 0;
+          if (x >= 1) return 1;
+          let t = x;
+          for (let i = 0; i < 5; i++) {
+            const s = slope(t, x1, x2);
+            if (s === 0) break;
+            t -= (calc(t, x1, x2) - x) / s;
+          }
+          return calc(t, y1, y2);
+        };
+      })(0.2, 0, 0, 1);
+
+      // Stagger index on grouped children → drives transition-delay in CSS.
+      document.querySelectorAll<HTMLElement>('[data-stagger]').forEach((group) => {
+        Array.from(group.children).forEach((child, i) => {
+          (child as HTMLElement).style.setProperty('--i', String(i));
+        });
+      });
+
+      // Prime every draw-on path: hide it behind its own length.
+      const primeDraws = () => {
+        document.querySelectorAll<SVGGeometryElement>('.draw').forEach((el) => {
+          try {
+            const len = el.getTotalLength();
+            el.style.setProperty('--len', `${len}`);
+            el.style.strokeDasharray = `${len}`;
+            el.style.strokeDashoffset = `${len}`;
+          } catch {
+            /* ignore non-geometry nodes */
+          }
+        });
+      };
+
+      const revealTargets = document.querySelectorAll<HTMLElement>('.reveal, .plate');
+      const inkTargets = document.querySelectorAll<HTMLElement>('.inkwork, .plate-window, .chop');
+
+      if (reduce) {
+        revealTargets.forEach((el) => el.classList.add('in'));
+        inkTargets.forEach((el) => el.classList.add('is-inked'));
+        document.querySelectorAll<SVGGeometryElement>('.draw').forEach((el) => {
+          el.style.strokeDashoffset = '0';
+          el.style.opacity = '1';
+        });
+      } else {
+        primeDraws();
+
+        // ── Scroll reveals ───────────────────────────────────────────
+        const ro = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((en) => {
+              if (en.isIntersecting) {
+                en.target.classList.add('in');
+                ro.unobserve(en.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -7% 0px' }
+        );
+        revealTargets.forEach((el) => ro.observe(el));
+
+        // ── The hero: the nib draws the flourish ─────────────────────
+        const runHero = (svg: SVGSVGElement) => {
+          const flourish = svg.querySelector<SVGPathElement>('.flourish');
+          const nib = svg.querySelector<SVGGElement>('.nib');
+          if (!flourish || !nib) return;
+          svg.classList.add('js-hero'); // hands flourish + nib to JS
+
+          const L = flourish.getTotalLength();
+          flourish.style.strokeDasharray = `${L}`;
+          flourish.style.strokeDashoffset = `${L}`;
+          flourish.style.opacity = '1';
+
+          const anchor = flourish.getPointAtLength(L); // the pen's resting tip
+          const angleAt = (s: number) => {
+            const a = flourish.getPointAtLength(Math.max(0, s - 1.5));
+            const b = flourish.getPointAtLength(Math.min(L, s + 1.5));
+            return (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
+          };
+          const endAngle = angleAt(L);
+          nib.style.opacity = '0';
+
+          const DELAY = 360;
+          const DUR = 1500;
+          const start = performance.now() + DELAY;
+          const frame = (now: number) => {
+            const raw = (now - start) / DUR;
+            if (raw < 0) {
+              requestAnimationFrame(frame);
+              return;
+            }
+            const p = Math.min(1, raw);
+            const e = easeStd(p);
+            flourish.style.strokeDashoffset = `${L * (1 - e)}`;
+            const s = L * e;
+            const pt = flourish.getPointAtLength(s);
+            const ang = angleAt(s) - endAngle;
+            nib.style.opacity = '1';
+            nib.setAttribute(
+              'transform',
+              `translate(${(pt.x - anchor.x).toFixed(2)} ${(pt.y - anchor.y).toFixed(2)}) ` +
+                `rotate(${ang.toFixed(2)} ${anchor.x.toFixed(2)} ${anchor.y.toFixed(2)})`
+            );
+            if (p < 1) requestAnimationFrame(frame);
+            else nib.removeAttribute('transform'); // settle to authored rest
+          };
+          requestAnimationFrame(frame);
+        };
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((en) => {
+              if (!en.isIntersecting) return;
+              en.target.classList.add('is-inked');
+              if (en.target.classList.contains('inkwork')) runHero(en.target as SVGSVGElement);
+              io.unobserve(en.target);
+            });
+          },
+          { threshold: 0.25 }
+        );
+        inkTargets.forEach((el) => io.observe(el));
+
+        // ── Plates: precision tilt toward the cursor ─────────────────
+        if (window.matchMedia('(pointer: fine)').matches) {
+          document.querySelectorAll<HTMLElement>('.plate').forEach((plate) => {
+            plate.addEventListener('pointermove', (e) => {
+              const r = plate.getBoundingClientRect();
+              const px = (e.clientX - r.left) / r.width - 0.5;
+              const py = (e.clientY - r.top) / r.height - 0.5;
+              plate.style.setProperty('--ry', `${(px * 6).toFixed(2)}deg`);
+              plate.style.setProperty('--rx', `${(-py * 6).toFixed(2)}deg`);
+            });
+            plate.addEventListener('pointerleave', () => {
+              plate.style.setProperty('--rx', '0deg');
+              plate.style.setProperty('--ry', '0deg');
+            });
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
