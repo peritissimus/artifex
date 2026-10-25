@@ -951,3 +951,351 @@
     transform: scale(1);
   }
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Art-first layout — real artwork from @149.kush
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Every artwork image gets a hairline outline (pure black / white, low alpha)
+// so edges read cleanly on the warm paper — per the design-detail guidance.
+.studio-page .art-open img,
+.studio-page .lb-img {
+  outline: 1px solid rgba(0, 0, 0, 0.1);
+  outline-offset: -1px;
+}
+@media (prefers-color-scheme: dark) {
+  .studio-page .art-open img,
+  .studio-page .lb-img {
+    outline-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Reset the button wrapper that makes each piece openable
+.studio-page .art-open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  position: relative;
+  line-height: 0;
+  color: inherit;
+}
+.studio-page .art-open img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+// ── Masthead hero image ────────────────────────────────────────────────────
+.studio-page .mast-art {
+  margin: 0;
+  background: var(--sheet);
+  border: 1px solid var(--faint-line);
+  padding: 0.75rem 0.75rem 0.6rem;
+  figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.72rem;
+    color: var(--soft);
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    em {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--line);
+    }
+  }
+}
+.studio-page .mast-art .art-open {
+  transition: transform 0.4s var(--ease);
+  will-change: transform;
+}
+.studio-page .mast-art:hover .art-open {
+  transform: scale(1.012);
+}
+
+// ── Ink motif divider ──────────────────────────────────────────────────────
+.studio-page .ink-motif {
+  max-width: 24rem;
+  margin: clamp(2.5rem, 6vw, 4.5rem) auto clamp(1.5rem, 4vw, 2.5rem);
+  padding: 0 1rem;
+}
+.studio-page .ink-motif .inkwork {
+  width: 100%;
+  height: auto;
+}
+
+// ── Origin: pen & ink diptych ──────────────────────────────────────────────
+.studio-page .ink-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+@media (max-width: 640px) {
+  .studio-page .ink-row {
+    grid-template-columns: 1fr;
+  }
+}
+.studio-page .ink-plate {
+  margin: 0;
+  background: var(--sheet);
+  border: 1px solid var(--faint-line);
+  padding: 0.7rem;
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.4s var(--ease);
+  &:hover {
+    border-color: var(--line);
+    box-shadow: 0 20px 44px -30px rgba(0, 0, 0, 0.55);
+  }
+  figcaption {
+    margin-top: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  .ink-title em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+  }
+  .ink-meta {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: var(--soft);
+    text-transform: uppercase;
+    text-align: right;
+  }
+}
+
+// ── Gallery ────────────────────────────────────────────────────────────────
+.studio-page .gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+}
+.studio-page .art {
+  margin: 0;
+  background: var(--sheet);
+  border: 1px solid var(--faint-line);
+  padding: 0.6rem;
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.4s var(--ease),
+    transform 0.4s var(--ease);
+  will-change: transform;
+  &:hover {
+    border-color: var(--line);
+    box-shadow: 0 22px 48px -30px rgba(0, 0, 0, 0.55);
+    transform: translateY(-3px);
+  }
+  figcaption {
+    margin-top: 0.55rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .art-title em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+  .art-meta {
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    color: var(--soft);
+    text-transform: uppercase;
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+// "View" chip that fades up on hover
+.studio-page .art-hover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: rgba(10, 9, 8, 0);
+  opacity: 0;
+  transition:
+    opacity 0.3s var(--ease),
+    background 0.3s var(--ease);
+}
+.studio-page .art-hover::before {
+  content: '';
+  position: absolute;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 1px solid var(--paper);
+  border-radius: 50%;
+}
+.studio-page .art:hover .art-hover {
+  opacity: 1;
+  background: rgba(10, 9, 8, 0.32);
+}
+@media (hover: none) {
+  .studio-page .art-hover {
+    display: none;
+  }
+}
+
+// ── The desk: art → engineering ────────────────────────────────────────────
+.studio-page .desk-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(1.75rem, 5vw, 3.5rem);
+  align-items: center;
+}
+@media (max-width: 760px) {
+  .studio-page .desk-section {
+    grid-template-columns: 1fr;
+  }
+}
+.studio-page .desk-art {
+  margin: 0;
+  background: var(--sheet);
+  border: 1px solid var(--faint-line);
+  padding: 0.75rem 0.75rem 0.6rem;
+  figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.72rem;
+    color: var(--soft);
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    em {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--line);
+    }
+  }
+}
+.studio-page .desk-copy {
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    letter-spacing: -0.015em;
+    margin-bottom: 1rem;
+    text-wrap: balance;
+  }
+  p {
+    color: var(--soft);
+    line-height: 1.68;
+    margin-bottom: 1rem;
+    max-width: 34rem;
+    text-wrap: pretty;
+  }
+}
+.studio-page .desk-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1.4rem;
+  font-size: 0.95rem;
+  a {
+    color: var(--line);
+    border-bottom: 1px solid var(--faint-line);
+    padding-bottom: 2px;
+    transition:
+      color 0.2s var(--ease),
+      border-color 0.2s var(--ease);
+    &:hover {
+      color: var(--seal);
+      border-color: var(--seal);
+    }
+  }
+}
+
+// ── Lightbox ───────────────────────────────────────────────────────────────
+.studio-page .lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 5vw, 4rem);
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.22s var(--ease);
+}
+.studio-page .lightbox[hidden] {
+  display: none;
+}
+.studio-page .lightbox.open {
+  opacity: 1;
+}
+.studio-page .lb-figure {
+  margin: 0;
+  max-width: min(92vw, 820px);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transform: scale(0.98);
+  transition: transform 0.26s var(--ease);
+}
+.studio-page .lightbox.open .lb-figure {
+  transform: scale(1);
+}
+.studio-page .lb-img {
+  display: block;
+  max-width: 100%;
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  background: var(--sheet);
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.7);
+}
+.studio-page .lb-cap {
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--soft);
+}
+.studio-page .lb-close {
+  position: fixed;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--faint-line);
+  background: var(--sheet);
+  color: var(--line);
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition:
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease),
+    transform 0.12s var(--ease);
+  &:hover {
+    border-color: var(--seal);
+    color: var(--seal);
+  }
+  &:active {
+    transform: scale(0.96);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-page .lightbox,
+  .studio-page .lb-figure {
+    transition: none;
+  }
+}
