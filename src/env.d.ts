@@ -14,7 +14,9 @@ declare module "three" {
   export const NearestFilter: number;
   export const NeutralToneMapping: number;
   export const OneFactor: number;
+  export const OneMinusDstColorFactor: number;
   export const OneMinusSrcAlphaFactor: number;
+  export const OneMinusSrcColorFactor: number;
   export const RGBAFormat: number;
   export const SRGBColorSpace: string;
 

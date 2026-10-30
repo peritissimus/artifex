@@ -15,7 +15,6 @@ const ROOMY = '(min-width: 900px) and (min-height: 600px)';
 function supported() {
   return (
     'requestPaint' in HTMLCanvasElement.prototype &&
-    'updateElementGeometry' in HTMLCanvasElement.prototype &&
     typeof WebGL2RenderingContext !== 'undefined' &&
     'texElementSubImage2D' in WebGL2RenderingContext.prototype
   );

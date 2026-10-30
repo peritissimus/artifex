@@ -93,7 +93,7 @@ export class Nib {
     this.group.clear();
     this.host.scene.add(this.group);
     const { pageHeight } = this.host.viewport();
-    const ink = lineMaterial(common, -1);
+    const ink = lineMaterial(common);
     ink.uniforms.uColor.value = new THREE.Vector3(0.78, 0.25, 0.16);
     ink.side = THREE.DoubleSide;
 
@@ -130,7 +130,7 @@ export class Nib {
         1
       )
     );
-    const bodyMaterial = lineMaterial(common, -1);
+    const bodyMaterial = lineMaterial(common);
     bodyMaterial.uniforms.uColor.value = new THREE.Vector3(1, 0.36, 0.2);
     bodyMaterial.side = THREE.DoubleSide;
     this.body = new THREE.Mesh(bodyGeometry, bodyMaterial);
@@ -162,7 +162,7 @@ export class Nib {
     this.outline = lineSegments(
       this.outlineBase.slice(),
       new Float32Array(this.outlineBase.length / 3).fill(1),
-      lineMaterial(common, -1),
+      lineMaterial(common),
       9
     );
     this.outline.visible = false;

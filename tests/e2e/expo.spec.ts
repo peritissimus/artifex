@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test';
 test.describe('the flat page', () => {
   test('lists every pavilion with a working exhibit', async ({ page }) => {
     await page.goto('/expo?flat');
-    await expect(page.locator('h1')).toHaveText('Expo 149');
+    await expect(page.locator('.gate-title')).toHaveText('Expo 149');
     await expect(page.locator('.pavilion')).toHaveCount(11);
     await expect(page.locator('.pavilion .plinth')).toHaveCount(11);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);

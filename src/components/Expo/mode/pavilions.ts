@@ -1,6 +1,8 @@
 // The wireframe buildings along the ribbon. Each is a little architectural joke about its project,
 // written as raw line segments in (x, along the page, up) so the curve can carry them with the paper.
 
+import { Wires, type Rgb } from './wires';
+
 type Segments = number[];
 type Point = [number, number, number];
 
@@ -337,25 +339,40 @@ const BUILDERS: Record<string, (o: Segments, side: number) => void> = {
   },
 };
 
-export type PavilionSite = { id: string; y: number };
+export type PavilionSite = { id: string; y: number; tint: Rgb };
 
-/** Every pavilion, placed at its section, as one big buffer of line segments. */
-export function pavilionSegments(sites: PavilionSite[], sheetWidth: number) {
-  const positions: number[] = [];
-  const brightness: number[] = [];
+/** Where a pavilion stands, so the city can leave it room. */
+export const pavilionFlank = (sheetWidth: number, index: number) =>
+  sheetWidth / 2 + 460 + (index % 3) * 40;
+
+/** Every pavilion, placed at its section, sketching itself in the order it was drawn. */
+export function pavilionWires(sites: PavilionSite[], sheetWidth: number) {
+  const wires = new Wires();
   sites.forEach((site, index) => {
     const build = BUILDERS[site.id];
     if (!build) return;
+    const tint: Rgb = [
+      site.tint[0] * 0.62 + 0.36,
+      site.tint[1] * 0.62 + 0.35,
+      site.tint[2] * 0.62 + 0.33,
+    ];
     // Build the same pavilion on both flanks, the right one a mirror of the left.
     for (const side of [-1, 1]) {
       const local: Segments = [];
       build(local, side);
-      const flank = side * (sheetWidth / 2 + 460 + (index % 3) * 40);
-      for (let i = 0; i < local.length; i += 3) {
-        positions.push(flank + local[i] * side, site.y + local[i + 1], local[i + 2]);
-        brightness.push(0.85);
+      const flank = side * pavilionFlank(sheetWidth, index);
+      const count = local.length / 6;
+      for (let i = 0; i < count; i++) {
+        const at = i * 6;
+        wires.add(
+          [flank + local[at] * side, site.y + local[at + 1], local[at + 2]],
+          [flank + local[at + 3] * side, site.y + local[at + 4], local[at + 5]],
+          tint,
+          0.92,
+          0.05 + (i / count) * 0.8
+        );
       }
     }
   });
-  return { positions: new Float32Array(positions), brightness: new Float32Array(brightness) };
+  return wires;
 }

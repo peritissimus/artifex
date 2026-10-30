@@ -32,6 +32,23 @@ export type Common = {
   uFar: { value: number };
   /** How much the inside of the roll is shaded: none once the finale has opened it up. */
   uRolled: { value: number };
+  /** 1 while line work draws itself in as it arrives, 0 to show it all at once. */
+  uReveal: { value: number };
+  /** The page point under the cursor, and how strongly to react to it. */
+  uCursor: { value: THREE.Vector3 };
+  uCursorLift: { value: number };
+  /** Scroll speed, in page pixels a second. */
+  uVelocity: { value: number };
+  /** The current pavilion's colour, washing into the void. */
+  uTint: { value: THREE.Vector3 };
+  uCurveStart: { value: number };
+  /** How present the line work is: none on the flat page, where it would float over the paper. */
+  uWires: { value: number };
+  /** How tall the line work stands: less so when the whole sheet is in view. */
+  uStand: { value: number };
+  /** Size of a device pixel in clip space. */
+  uPixel: { value: THREE.Vector2 };
+  uTime: { value: number };
 };
 
 /** `#rrggbb` as raw 0..1 values. Three's colour management would convert it, and nothing else here is linear. */
@@ -210,7 +227,14 @@ export function plinthShadow(d: Drawable, common: Common) {
 const LAYERS = 44;
 
 /** A heading built like a stack of paper cut-outs: one texture, drawn many times. */
-export function extrudedHeading(d: Drawable, wall: THREE.Vector3, common: Common) {
+export function extrudedHeading(
+  d: Drawable,
+  wall: THREE.Vector3,
+  ink: THREE.Vector3,
+  stock: THREE.Vector3,
+  common: Common
+) {
+  const colours = { uInk: { value: ink }, uStock: { value: stock } };
   const rows = Math.max(4, Math.ceil(d.h / 26));
   const group = new THREE.Group();
   group.frustumCulled = false;
@@ -235,7 +259,13 @@ export function extrudedHeading(d: Drawable, wall: THREE.Vector3, common: Common
     fragmentShader: extrudeWallFragment,
     side: THREE.DoubleSide,
     ...ABOVE_PAPER,
-    uniforms: { ...common, map: { value: d.map }, uWall: { value: wall }, uDepth: depth },
+    uniforms: {
+      ...common,
+      ...colours,
+      map: { value: d.map },
+      uWall: { value: wall },
+      uDepth: depth,
+    },
   });
   group.add(worldMesh(new THREE.Mesh(walls, wallMaterial), 3));
 
@@ -255,11 +285,10 @@ export function extrudedHeading(d: Drawable, wall: THREE.Vector3, common: Common
     blendSrc: THREE.OneFactor,
     blendDst: THREE.OneMinusSrcAlphaFactor,
     blendEquation: THREE.AddEquation,
-    uniforms: { ...common, map: { value: d.map }, uDepth: depth },
+    uniforms: { ...common, ...colours, map: { value: d.map }, uDepth: depth },
   });
   group.add(worldMesh(new THREE.Mesh(faceGeometry, faceMaterial), 4));
 
-  const margin = 60;
   const shadowGeometry = grid(d.x, d.x + d.w, d.y, d.y + d.h, 1, rows);
   const offset = { value: new THREE.Vector2() };
   const shadowMaterial = new THREE.ShaderMaterial({
@@ -270,10 +299,10 @@ export function extrudedHeading(d: Drawable, wall: THREE.Vector3, common: Common
     side: THREE.DoubleSide,
     uniforms: {
       ...common,
+      ...colours,
       map: { value: d.map },
       uOffset: offset,
       uStrength: { value: 0.42 },
-      uMargin: { value: margin },
     },
   });
   group.add(worldMesh(new THREE.Mesh(shadowGeometry, shadowMaterial), 2));
@@ -281,7 +310,7 @@ export function extrudedHeading(d: Drawable, wall: THREE.Vector3, common: Common
   return { group, depth, offset };
 }
 
-export function lineMaterial(common: Common, grow: number, opacity = 1) {
+export function lineMaterial(common: Common, opacity = 1) {
   return new THREE.ShaderMaterial({
     vertexShader: lineVertex,
     fragmentShader: lineFragment,
@@ -289,7 +318,6 @@ export function lineMaterial(common: Common, grow: number, opacity = 1) {
     depthWrite: false,
     uniforms: {
       ...common,
-      uGrowFrom: { value: grow },
       uColor: { value: new THREE.Vector3(0.96, 0.93, 0.86) },
       uOpacity: { value: opacity },
     },
@@ -322,5 +350,5 @@ export function sheetEdges(width: number, pageHeight: number, common: Common) {
       i * 12
     );
   }
-  return lineSegments(positions, brightness, lineMaterial(common, -1), 2);
+  return lineSegments(positions, brightness, lineMaterial(common), 2);
 }

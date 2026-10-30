@@ -6,8 +6,6 @@ import { Curve, CURVE_SAMPLES } from './curve';
 import {
   extrudedHeading,
   groundMesh,
-  lineMaterial,
-  lineSegments,
   plinthMesh,
   plinthShadow,
   rgb,
@@ -16,9 +14,23 @@ import {
   type Common,
 } from './meshes';
 import { Overlay } from './overlay';
-import { pavilionSegments } from './pavilions';
-import { ORIGIN, Sheet, type Drawable } from './sheet';
+import { pavilionFlank, pavilionWires } from './pavilions';
+import { pageBox, Sheet, type Drawable } from './sheet';
 import { Nib, type NibHost } from './game';
+import {
+  boulevardWires,
+  cityWires,
+  Construction,
+  fatlines,
+  hairlines,
+  motes,
+  Thread,
+  tSquare,
+  vitrineWires,
+  vividTint,
+  type Rgb,
+  type Station,
+} from './wires';
 
 const FOV = 38;
 const VOID = '#0b0a08';
@@ -50,7 +62,7 @@ export function createWorld(
   canvas.style.cssText = `display:block;position:sticky;top:0;width:100%;height:100vh;overflow:visible;background:${VOID}`;
   const root = document.createElement('div');
   root.setAttribute('drawable', '');
-  root.style.cssText = 'position:relative;width:100%';
+  root.style.cssText = 'position:relative;width:100%;transform-origin:0 0';
   const slot = document.createElement('slot');
   slot.style.cssText = 'display:block;position:relative';
   root.append(slot);
@@ -80,6 +92,12 @@ export function createWorld(
   let ground: THREE.Mesh | null = null;
   let common: Common | null = null;
   let curveTexture: THREE.DataTexture | null = null;
+  let tints: Rgb[] = [];
+  let thread: Thread | null = null;
+  let threadMaterial: THREE.ShaderMaterial | null = null;
+  let cityMaterial: THREE.ShaderMaterial | null = null;
+  let boulevardMaterials: THREE.ShaderMaterial[] = [];
+  let construction: Construction | null = null;
   const plinths: { d: Drawable; mesh: THREE.Mesh; shadow: THREE.Mesh; maxLift: number }[] = [];
   const headings: {
     d: Drawable;
@@ -118,7 +136,13 @@ export function createWorld(
   let uploadsAtLastReadout = 0;
   let lastReadout = 0;
   let cursorPick: Pick | null = null;
+  /** Where the cursor meets the sheet or the ground, in or out of the page. */
+  let cursorGround: { x: number; y: number } | null = null;
+  let cursorStrength = 0;
+  let previousNear = 0;
+  let velocity = 0;
   let locked: [number, number] | null = null;
+  let usesGeometry = false;
   let firstPaintTimer = 0;
   let nib: Nib | null = null;
   let listeners = new AbortController();
@@ -191,6 +215,18 @@ export function createWorld(
       uGround: { value: 1 },
       uFar: { value: 1 },
       uRolled: { value: 1 },
+      uReveal: { value: reducedMotion ? 0 : 1 },
+      uCursor: { value: new THREE.Vector3() },
+      uCursorLift: { value: 0 },
+      uVelocity: { value: 0 },
+      uTint: { value: new THREE.Vector3(1, 1, 1) },
+      uCurveStart: { value: curve.start },
+      uWires: { value: 0 },
+      uStand: { value: 1 },
+      uPixel: {
+        value: new THREE.Vector2(2 / (vw * pixelRatio), 2 / (vh * pixelRatio)),
+      },
+      uTime: { value: 0 },
     };
 
     ground = groundMesh(pageHeight, common);
@@ -209,22 +245,85 @@ export function createWorld(
         scene.add(shadow, mesh);
         plinths.push({ d, mesh, shadow, maxLift: Math.min(84, d.w * 0.075) });
       } else {
-        const { group, depth, offset } = extrudedHeading(centred, wall, common);
+        const section = sheet.sections[d.section];
+        const inkColour = getComputedStyle(d.el)
+          .color.match(/[\d.]+/g)
+          ?.map(Number) ?? [0, 0, 0];
+        const { group, depth, offset } = extrudedHeading(
+          centred,
+          wall,
+          new THREE.Vector3(inkColour[0] / 255, inkColour[1] / 255, inkColour[2] / 255),
+          rgb(section?.stock ?? '#ffffff'),
+          common
+        );
         scene.add(group);
         headings.push({ d, depth, offset, maxDepth: Math.min(96, d.h * 0.36) });
       }
     }
 
-    const sites = sheet.sections.map((section) => ({
-      id: section.id.replace('p-', ''),
-      y: section.top + section.height * 0.5,
-    }));
-    const { positions, brightness } = pavilionSegments(sites, vw);
-    scene.add(lineSegments(positions, brightness, lineMaterial(common, 520)));
+    buildLineWork(common);
     nib?.rebuild(common, vw);
 
     firstFrame = true;
     locked = null;
+  }
+
+  /** The whole drafted world around the sheet. */
+  function buildLineWork(c: Common) {
+    tints = sheet.sections.map((section) => {
+      const style = getComputedStyle(section.el);
+      return vividTint(section.stock, style.getPropertyValue('--accent').trim());
+    });
+    const tintAt = (y: number) => {
+      const index = sheet.sections.findLastIndex((section) => section.top <= y);
+      return tints[Math.max(0, index)] ?? [1, 1, 1];
+    };
+    const stations: Station[] = sheet.sections.map((section, i) => ({
+      top: section.top,
+      height: section.height,
+      tint: tints[i],
+    }));
+    const sites = sheet.sections.map((section, i) => ({
+      id: section.id.replace('p-', ''),
+      y: section.top + section.height * 0.5,
+      tint: tints[i],
+    }));
+
+    // Leave the pavilions room to stand, on both flanks.
+    const clearings = sites.flatMap((site, i) =>
+      [-1, 1].map((side) => ({ x: side * pavilionFlank(vw, i), y: site.y, r: 640 }))
+    );
+    const city = hairlines(cityWires(vw, pageHeight, tintAt, clearings), c, 1, 5);
+    cityMaterial = city.material;
+    scene.add(city.object);
+
+    const boulevard = boulevardWires(vw, pageHeight, stations);
+    const hangers = hairlines(boulevard.hair, c, 1, 5);
+    const gates = fatlines(boulevard.fat, c, 1.6 * pixelRatio);
+    boulevardMaterials = [hangers.material, gates.material];
+    scene.add(hangers.object, gates.object);
+    scene.add(fatlines(pavilionWires(sites, vw), c, 1.2 * pixelRatio).object);
+
+    const cases = sheet.drawables
+      .filter((d) => d.kind === 'plinth')
+      .map((d) => ({ x: d.x - vw / 2, y: d.y, w: d.w, h: d.h, tint: tintAt(d.y) }));
+    scene.add(hairlines(vitrineWires(cases), c, 1, 5).object);
+
+    // The pen line ends on the artist's seal.
+    const seal = host.querySelector<HTMLElement>('.colophon-seal');
+    const end = seal ? pageBox(seal, host) : { x: vw / 2, y: pageHeight - 120, w: 0, h: 0 };
+    thread = new Thread(vw, stations, { x: end.x + end.w / 2 - vw / 2, y: end.y + end.h / 2 });
+    const line = fatlines(thread.wires, c, 2.6 * pixelRatio, 1, 7);
+    // Its seeds say where along the line a segment is, not when to sketch it in.
+    line.material.uniforms.uReveal = { value: 0 };
+    threadMaterial = line.material;
+    scene.add(line.object);
+
+    scene.add(motes(vw, pageHeight, c));
+    scene.add(tSquare(c));
+
+    construction = new Construction(sheet.sections.length, -vw / 2 - 60);
+    scene.add(construction.object);
   }
 
   // ── Camera ────────────────────────────────────────────────────────────
@@ -240,11 +339,12 @@ export function createWorld(
   const expoPose = (): Pose => {
     const d = flatDistance() * 1.62;
     const pitch = THREE.MathUtils.degToRad(35);
-    const target = new THREE.Vector3(parallaxX * 40, vh * 0.08 + parallaxY * -10, -vh * 0.82);
+    // Enough sway to feel the depth, not so much that a button drifts away as you reach for it.
+    const target = new THREE.Vector3(parallaxX * 22, vh * 0.08 + parallaxY * -6, -vh * 0.82);
     return {
       pos: new THREE.Vector3(
-        parallaxX * 130,
-        Math.sin(pitch) * d + parallaxY * 34,
+        parallaxX * 72,
+        Math.sin(pitch) * d + parallaxY * 20,
         target.z + Math.cos(pitch) * d
       ),
       target,
@@ -410,6 +510,7 @@ export function createWorld(
     if (!Number.isFinite(bestT)) return null;
     const x = rayOrigin.x + rayDir.x * bestT + vw / 2;
     const y = near - bestS;
+    cursorGround = { x: x - vw / 2, y };
     if (x < 0 || x > vw || y < 0 || y > pageHeight) return null;
 
     // Seen from behind, the paper isn't interactive.
@@ -419,20 +520,31 @@ export function createWorld(
     return { x, y, s: bestS, plinth: bestPlinth };
   }
 
+  /**
+   * Hit-test geometry only moves things under some of Chrome's flags: not with the plain flag, and
+   * not for origin trial visitors. A CSS transform on the drawable always does, and doesn't change
+   * what gets drawn. So ask once which one this browser honours.
+   */
+  function geometryMovesThings() {
+    const probe = sheet.sections[0]?.el;
+    if (!probe || !canvas.updateElementGeometry) return false;
+    const before = probe.getBoundingClientRect().top;
+    canvas.updateElementGeometry(root, { canvasTransform: new DOMMatrix([1, 0, 0, 1, 0, 1000]) });
+    const moved = probe.getBoundingClientRect().top !== before;
+    canvas.updateElementGeometry(root, { canvasTransform: new DOMMatrix() });
+    return moved;
+  }
+
   /** Move the DOM so whatever is drawn under the cursor is really there for hover, click and drag. */
   function lockPointer(tx: number, ty: number) {
-    if (!locked || Math.abs(locked[0] - tx) > 0.02 || Math.abs(locked[1] - ty) > 0.02) {
-      locked = [tx, ty];
-      canvas.updateElementGeometry(root, { canvasTransform: new DOMMatrix([1, 0, 0, 1, tx, ty]) });
-    }
-    // Nested drawables are positioned from the canvas, not from their parent.
-    for (const d of sheet.drawables) {
-      if (d.parked) continue;
-      const x = locked[0] + d.x;
-      const y = locked[1] + d.y;
-      if (d.placed && d.placed !== ORIGIN && d.placed[0] === x && d.placed[1] === y) continue;
-      d.placed = [x, y];
-      canvas.updateElementGeometry(d.el, { canvasTransform: new DOMMatrix([1, 0, 0, 1, x, y]) });
+    if (locked && Math.abs(locked[0] - tx) < 0.02 && Math.abs(locked[1] - ty) < 0.02) return;
+    locked = [tx, ty];
+    if (usesGeometry) {
+      canvas.updateElementGeometry?.(root, {
+        canvasTransform: new DOMMatrix([1, 0, 0, 1, tx, ty]),
+      });
+    } else {
+      root.style.transform = `matrix(1,0,0,1,${tx},${ty})`;
     }
   }
 
@@ -440,9 +552,11 @@ export function createWorld(
     if (keyboardDriven || !pointer) {
       // Without a pointer, describe the page as if it were flat so tabbing can scroll to things.
       cursorPick = null;
+      cursorGround = null;
       lockPointer(0, -smoothedScroll);
       return;
     }
+    cursorGround = null;
     cursorPick = amount > 0.02 ? pick(pointer.x, pointer.y, near) : null;
     if (cursorPick) lockPointer(pointer.x - cursorPick.x, pointer.y - cursorPick.y);
     else if (amount <= 0.02) lockPointer(0, -smoothedScroll);
@@ -517,6 +631,18 @@ export function createWorld(
     const c = common!;
     c.uNear.value = near;
     c.uAmount.value = shown;
+    c.uTime.value = reducedMotion ? 0 : now / 1000;
+    // The line work follows the page out of the flat, and thins while you're reading up close.
+    const instantVelocity = dt > 0 ? (near - previousNear) / dt : 0;
+    previousNear = near;
+    velocity += (instantVelocity - velocity) * damp(7, dt);
+    c.uVelocity.value = reducedMotion ? 0 : velocity;
+    const tint = tints[activeSection];
+    if (tint) {
+      const k = damp(2.2, dt);
+      const v = c.uTint.value;
+      v.set(v.x + (tint[0] - v.x) * k, v.y + (tint[1] - v.y) * k, v.z + (tint[2] - v.z) * k);
+    }
     c.uFar.value = 1 + opened * 7;
     c.uRolled.value = 1 - opened;
     // Standing further back means depth can be spent where it's needed.
@@ -529,6 +655,25 @@ export function createWorld(
     const groundShown = 1 - smooth(finale / 0.3);
     c.uGround.value = groundShown * shown;
     if (ground) ground.visible = groundShown > 0.001;
+
+    // Once it's all in view at the end, the city steps back so the curve can be seen.
+    if (cityMaterial) cityMaterial.uniforms.uOpacity.value = 1 - smooth(finale / 0.6);
+    for (const material of boulevardMaterials) material.uniforms.uOpacity.value = 1 - 0.68 * opened;
+    if (threadMaterial) threadMaterial.uniforms.uWidth.value = (2.6 - 1.5 * opened) * pixelRatio;
+    c.uStand.value = 1 - 0.55 * opened;
+    if (construction) {
+      const drafted = smooth((finale - 0.45) / 0.55);
+      construction.object.visible = drafted > 0.001;
+      construction.material.uniforms.uOpacity.value = drafted * 0.3;
+      if (construction.object.visible) {
+        construction.update(
+          (s) => curve!.at(s),
+          curve!.start,
+          curve!.scale,
+          sheet.sections.map((section) => near - section.top)
+        );
+      }
+    }
 
     // The curve starts to carry things up as they come near, and lays them flat in the roll.
     const rise = smooth((amount - 0.45) / 0.55);
@@ -561,8 +706,15 @@ export function createWorld(
     const owner = typing ? plinths.find((p) => p.d.el.contains(active))?.d : undefined;
     if (owner) stepUpTarget = owner;
     stepUp += ((owner ? 1 : 0) - stepUp) * damp(reducedMotion ? 60 : 5.5, dt);
+    c.uWires.value = smooth((amount - 0.42) / 0.58) * (1 - 0.82 * stepUp);
     if (rail) {
-      const hidden = Math.max(Math.min(1, stepUp * 1.6), nib?.cameraBlend() ?? 0, finale);
+      // It arrives once there's a void to sit on, and leaves when it would be in the way.
+      const hidden = Math.max(
+        Math.min(1, stepUp * 1.6),
+        nib?.cameraBlend() ?? 0,
+        finale,
+        1 - smooth((amount - 0.6) / 0.4)
+      );
       rail.style.opacity = String(1 - hidden);
       rail.inert = hidden > 0.5;
     }
@@ -575,6 +727,10 @@ export function createWorld(
     nib?.update(dt);
     placeCamera(near, finale);
 
+    // The pen has got as far as the part of the page you've reached.
+    const head = thread?.headAt(near - 620);
+    if (threadMaterial && head) threadMaterial.uniforms.uHead.value = head.fraction;
+
     sheet.update(near, curve!.start + 2200, firstFrame);
     firstFrame = false;
 
@@ -583,6 +739,13 @@ export function createWorld(
 
     updatePointer(near);
     setActiveSection(near);
+
+    // The T-square and the glow follow the cursor, off the page as well as on it.
+    const wantsCursor = cursorGround && amount > 0.95 && stepUp < 0.1 && !nib?.controlsScroll();
+    cursorStrength += ((wantsCursor ? 1 : 0) - cursorStrength) * damp(wantsCursor ? 12 : 7, dt);
+    if (cursorGround) c.uCursor.value.set(cursorGround.x, cursorGround.y, cursorStrength);
+    else c.uCursor.value.z = cursorStrength;
+    c.uCursorLift.value = cursorPick?.plinth?.lift ?? 0;
 
     const railLink = railLinks.get(sheet.sections[activeSection]?.id ?? '');
     const box = railLink?.getBoundingClientRect();
@@ -599,6 +762,14 @@ export function createWorld(
       active: activeSection,
       drawables: sheet.drawables,
       finale,
+      curveScale: curve!.scale,
+      progress: near - vh / 2,
+      pen: head
+        ? {
+            ...project(head.point[0], head.point[1], head.point[2], near),
+            length: head.length,
+          }
+        : null,
       hint: 1 - smooth(scroll / 260),
       pavilionCount: sheet.sections.filter((section) => section.el.dataset.pavilion).length,
       project: (x, y, h) => project(x, y, h, near),
@@ -628,7 +799,7 @@ export function createWorld(
         'uploads',
         `${Math.round((sheet.uploads - uploadsAtLastReadout) / seconds)} per second`
       );
-      setTele('drawables', `${sheet.drawables.length + 1}`);
+      setTele('drawables', '1, the whole page');
       setTele(
         'cursor',
         cursorPick ? `${Math.round(cursorPick.x)}, ${Math.round(cursorPick.y)}` : '—'
@@ -658,11 +829,6 @@ export function createWorld(
   function tick() {
     if (!alive || !attached) return;
     requestAnimationFrame(tick);
-    sheet.prepare(
-      canvas,
-      (nib?.controlsScroll() ? nib.scrollAt() : smoothedScroll) + vh,
-      curve!.start + 2200
-    );
     canvas.requestPaint();
   }
 
@@ -674,14 +840,12 @@ export function createWorld(
     document.body.classList.add('is-expo');
     if (rail) rail.hidden = false;
     document.body.append(overlay.canvas);
-    host
-      .querySelectorAll<HTMLElement>('[data-expo]')
-      .forEach((el) => el.setAttribute('drawable', ''));
 
     // In this order: an empty shadow root would hide the page, and there'd be nothing to measure.
     const shadow = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
     shadow.replaceChildren(canvas);
     build();
+    usesGeometry = geometryMovesThings();
     sheet.listen();
     smoothedScroll = window.scrollY;
     lastTime = performance.now();
@@ -703,18 +867,6 @@ export function createWorld(
         if (event.key === 'Tab') keyboardDriven = true;
       },
       { capture: true, signal }
-    );
-    // A drawable waiting at the canvas origin can't be scrolled to by the browser, so tabbing into
-    // one has to walk over there ourselves.
-    host.addEventListener(
-      'focusin',
-      (event) => {
-        if (!keyboardDriven) return;
-        const d = sheet.drawables.find((item) => item.el.contains(event.target as Node));
-        if (!d) return;
-        scrollTo({ top: d.y - vh * 0.5, behavior: reducedMotion ? 'auto' : 'smooth' });
-      },
-      { signal }
     );
     // Same-page links can't trust the DOM's idea of where things are while it follows the cursor.
     document.addEventListener(
@@ -755,10 +907,9 @@ export function createWorld(
     sheet.stop();
     listeners.abort();
     window.clearTimeout(firstPaintTimer);
+    root.style.transform = '';
+    locked = null;
     host.shadowRoot?.replaceChildren(document.createElement('slot'));
-    host
-      .querySelectorAll<HTMLElement>('[data-expo]')
-      .forEach((el) => el.removeAttribute('drawable'));
     host.style.height = '';
     overlay.canvas.remove();
     if (rail) {

@@ -22,6 +22,11 @@ export type OverlayFrame = {
   active: number;
   drawables: Drawable[];
   finale: number;
+  curveScale: number;
+  /** The page position in the middle of the view. */
+  progress: number;
+  /** The tip of the pen line, on screen. */
+  pen: { x: number; y: number; visible: boolean; length: number } | null;
   /** How much of the "scroll" prompt to show. */
   hint: number;
   pavilionCount: number;
@@ -71,6 +76,8 @@ export class Overlay {
     this.sectionMarks(f);
     this.callouts(f);
     this.formula(f);
+    this.penTip(f);
+    this.sheetRuler(f);
     this.readout(f);
     this.prompt(f);
     ctx.globalAlpha = 1;
@@ -88,13 +95,17 @@ export class Overlay {
     ctx.fillText('THE WHOLE SHEET', f.width / 2, f.height - 92);
     ctx.font = FONT_LARGE;
     ctx.fillText(
-      `${f.pageHeight.toLocaleString()} px of paper · ${f.pavilionCount} pavilions · one curve`,
+      `${Math.round(f.pageHeight).toLocaleString()} px of paper · ${f.pavilionCount} pavilions · one curve`,
       f.width / 2,
       f.height - 64
     );
     ctx.fillStyle = `rgba(${INK}, 0.6)`;
     ctx.font = FONT;
-    ctx.fillText('Scroll up to walk back in', f.width / 2, f.height - 42);
+    ctx.fillText(
+      `κ(s) = s / A²   A = ${Math.round(f.curveScale).toLocaleString()}   ·   Scroll up to walk back in`,
+      f.width / 2,
+      f.height - 42
+    );
     ctx.globalAlpha = 1;
   }
 
@@ -240,17 +251,78 @@ export class Overlay {
 
   private formula(f: OverlayFrame) {
     const { ctx } = this;
-    // Pinned to the paper at the point where it starts to lift.
-    const py = f.near - f.curveStart;
-    const a = f.project(f.sheetWidth / 2 + 320, py, 0);
-    if (!a.visible) return;
     ctx.font = FONT;
-    ctx.textAlign = 'left';
-    ctx.fillStyle = `rgba(${INK}, 0.8)`;
-    const x = Math.min(a.x, f.width - 150);
-    ctx.fillText('κ(s) = s / A²', x, a.y);
-    ctx.fillStyle = `rgba(${INK}, 0.5)`;
-    ctx.fillText('Euler spiral begins', x, a.y + 14);
+    ctx.textAlign = 'right';
+    const text = `κ(s) = s / A²   A = ${Math.round(f.curveScale)}`;
+    ctx.fillStyle = 'rgba(11, 10, 8, 0.72)';
+    ctx.fillRect(
+      f.width - 40 - ctx.measureText(text).width,
+      f.height - 53,
+      ctx.measureText(text).width + 12,
+      18
+    );
+    ctx.fillStyle = `rgba(${INK}, 0.72)`;
+    ctx.fillText(text, f.width - 34, f.height - 44);
+  }
+
+  /** Where the pen line has got to, and how much of it there is so far. */
+  private penTip(f: OverlayFrame) {
+    const pen = f.pen;
+    if (!pen?.visible || pen.x < 0 || pen.x > f.width || pen.y < 0 || pen.y > f.height) return;
+    const { ctx } = this;
+    ctx.fillStyle = 'rgb(255, 92, 51)';
+    ctx.beginPath();
+    ctx.arc(pen.x, pen.y, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = `rgba(${INK}, 0.9)`;
+    ctx.beginPath();
+    ctx.arc(pen.x, pen.y, 8, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.font = FONT;
+    ctx.fillStyle = `rgb(${INK})`;
+    const onRight = pen.x < f.width - 170;
+    ctx.textAlign = onRight ? 'left' : 'right';
+    ctx.fillText(
+      `the line, ${Math.round(pen.length).toLocaleString()} px`,
+      pen.x + (onRight ? 14 : -14),
+      pen.y
+    );
+  }
+
+  /** The whole sheet to scale down the right edge, with where you are on it. */
+  private sheetRuler(f: OverlayFrame) {
+    const { ctx } = this;
+    const x = f.width - 12;
+    const top = 76;
+    const bottom = f.height - 64;
+    const toY = (py: number) =>
+      top + (Math.min(f.pageHeight, Math.max(0, py)) / f.pageHeight) * (bottom - top);
+    ctx.strokeStyle = `rgba(${INK}, 0.55)`;
+    ctx.beginPath();
+    for (let py = 0; py <= f.pageHeight; py += 500) {
+      const y = toY(py);
+      ctx.moveTo(x, y);
+      ctx.lineTo(x - (py % 1000 === 0 ? 5 : 3), y);
+    }
+    ctx.stroke();
+    ctx.strokeStyle = `rgba(${INK}, 0.9)`;
+    ctx.beginPath();
+    for (const section of f.sections) {
+      const y = toY(section.top);
+      ctx.moveTo(x, y);
+      ctx.lineTo(x - 10, y);
+    }
+    ctx.stroke();
+    const here = toY(f.progress);
+    ctx.fillStyle = `rgb(${INK})`;
+    ctx.beginPath();
+    ctx.moveTo(x - 12, here);
+    ctx.lineTo(x - 20, here - 4);
+    ctx.lineTo(x - 20, here + 4);
+    ctx.fill();
+    ctx.font = FONT;
+    ctx.textAlign = 'right';
+    ctx.fillText(`${Math.round(Math.max(0, f.progress)).toLocaleString()}`, x - 24, here);
   }
 
   private prompt(f: OverlayFrame) {
@@ -274,8 +346,15 @@ export class Overlay {
     const { ctx } = this;
     ctx.font = FONT;
     ctx.textAlign = 'right';
-    ctx.fillStyle = `rgba(${INK}, 0.85)`;
     const text = `x ${Math.round(f.cursor.x)}   y ${Math.round(f.cursor.y)}   s ${Math.round(f.cursor.s)}   θ ${f.cursor.angle.toFixed(1)}°`;
-    ctx.fillText(text, f.width - 16, f.height - 26);
+    ctx.fillStyle = 'rgba(11, 10, 8, 0.72)';
+    ctx.fillRect(
+      f.width - 40 - ctx.measureText(text).width,
+      f.height - 35,
+      ctx.measureText(text).width + 12,
+      18
+    );
+    ctx.fillStyle = `rgba(${INK}, 0.85)`;
+    ctx.fillText(text, f.width - 34, f.height - 26);
   }
 }

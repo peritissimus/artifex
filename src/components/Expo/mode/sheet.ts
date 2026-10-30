@@ -1,6 +1,6 @@
-// Keeps the page's pixels on the GPU. The sheet itself is cut into horizontal tiles, while plinths
-// and extruded headings are nested drawables with a texture of their own. Uploads are budgeted per
-// frame and driven by what actually changed, because the browser only reports the root as changed.
+// Keeps the page's pixels on the GPU. The whole page is one drawable element: the sheet is cut into
+// horizontal tiles of it, and plinths and headings are copies of their own part. Uploads are budgeted
+// per frame and driven by what actually changed, because the browser only says the root changed.
 
 import * as THREE from 'three';
 
@@ -25,12 +25,6 @@ export type Drawable = {
   dirty: boolean;
   dirtyUntil: number;
   live: boolean;
-  /** Due for a copy this frame: it has been moved inside the canvas so it paints in full. */
-  pending: boolean;
-  /** Out of view: left at the canvas origin and invisible to the pointer. */
-  parked: boolean;
-  /** Where its hit-test geometry currently sits, if anywhere. */
-  placed: [number, number] | null;
   /** Current raised height off the paper, in pixels. */
   lift: number;
 };
@@ -55,21 +49,16 @@ export type SectionInfo = {
   stock: string;
 };
 
-/** Layout position inside the sheet, ignoring transforms and hit-test geometry. */
-export function offsetIn(el: HTMLElement, host: HTMLElement) {
-  let x = 0;
-  let y = 0;
-  let node: HTMLElement | null = el;
-  while (node && node !== host) {
-    x += node.offsetLeft;
-    y += node.offsetTop;
-    node = node.offsetParent as HTMLElement | null;
-  }
-  return { x, y };
+/**
+ * Where an element sits on the sheet, measured against the first section so it holds however far the
+ * DOM has been slid. Not offsetTop: inside the sticky canvas that grows with the scroll position, and
+ * rounding at each ancestor would drift by up to a pixel, when a copy needs to land exactly.
+ */
+export function pageBox(el: Element, host: HTMLElement) {
+  const origin = (host.firstElementChild as HTMLElement).getBoundingClientRect();
+  const box = el.getBoundingClientRect();
+  return { x: box.left - origin.left, y: box.top - origin.top, w: box.width, h: box.height };
 }
-
-/** Shared marker for a drawable waiting at the canvas origin. */
-export const ORIGIN: [number, number] = [0, 0];
 
 const EVENTS = [
   'pointerover',
@@ -143,29 +132,34 @@ export class Sheet {
     this.width = this.host.clientWidth;
     this.highScale = Math.min(pixelRatio, 2);
 
+    const place = (el: HTMLElement) => pageBox(el, this.host);
+
     this.sections = [...this.host.querySelectorAll<HTMLElement>('[data-expo-section]')].map(
-      (el) => ({
-        el,
-        id: el.id,
-        title: el.dataset.title ?? '',
-        top: offsetIn(el, this.host).y,
-        height: el.offsetHeight,
-        stock: getComputedStyle(el).getPropertyValue('--stock').trim(),
-      })
+      (el) => {
+        const box = place(el);
+        return {
+          el,
+          id: el.id,
+          title: el.dataset.title ?? '',
+          top: box.y,
+          height: box.h,
+          stock: getComputedStyle(el).getPropertyValue('--stock').trim(),
+        };
+      }
     );
     const last = this.sections[this.sections.length - 1];
     this.height = last ? last.top + last.height : 0;
 
     this.drawables = [...this.host.querySelectorAll<HTMLElement>('[data-expo]')].map((el) => {
-      const { x, y } = offsetIn(el, this.host);
-      const section = this.sections.findLastIndex((s) => s.top <= y);
+      const { x, y, w, h } = place(el);
+      const section = this.sections.findLastIndex((item) => item.top <= y);
       return {
         el,
         kind: el.dataset.expo as DrawableKind,
         x,
         y,
-        w: el.offsetWidth,
-        h: el.offsetHeight,
+        w,
+        h,
         section,
         map: new THREE.ExternalTexture(this.blank),
         texture: null,
@@ -173,9 +167,6 @@ export class Sheet {
         dirty: false,
         dirtyUntil: 0,
         live: !!el.querySelector('[data-expo-live]'),
-        pending: false,
-        parked: false,
-        placed: null,
         lift: 0,
       };
     });
@@ -214,12 +205,6 @@ export class Sheet {
     );
     this.observer = new MutationObserver((records) => {
       for (const record of records) {
-        // Parking a drawable touches its style, which changes nothing it draws.
-        if (
-          record.attributeName === 'style' &&
-          (record.target as Element).hasAttribute('data-expo')
-        )
-          continue;
         this.markDirty(record.target);
       }
     });
@@ -246,14 +231,9 @@ export class Sheet {
       }
       return;
     }
-    const html =
-      el instanceof HTMLElement
-        ? el
-        : (el.closest('[style], div, p, section') as HTMLElement | null);
-    if (!html) return;
-    const { y } = offsetIn(html, this.host);
+    const { y, h } = pageBox(el, this.host);
     const from = Math.floor(y / TILE_HEIGHT);
-    const to = Math.floor((y + html.offsetHeight) / TILE_HEIGHT);
+    const to = Math.floor((y + h) / TILE_HEIGHT);
     for (let i = from; i <= to; i++) {
       const tile = this.tiles[i];
       if (tile) {
@@ -263,14 +243,8 @@ export class Sheet {
     }
   }
 
-  /**
-   * Run before the browser paints. A nested drawable only paints the part of itself that falls
-   * inside the canvas, and moving it back in later doesn't force a repaint. So nothing is ever left
-   * outside when it might repaint: whatever is out of view waits at the canvas origin, ignored by
-   * the pointer, and whatever is due for a copy goes there too. The world puts the rest back under
-   * the cursor after the copy, before any input can be hit-tested.
-   */
-  prepare(canvas: HTMLCanvasElement, near: number, reach: number) {
+  /** Copy whatever is due for this frame. Pass `all` for the first frame, which can't wait. */
+  update(near: number, reach: number, all = false) {
     const now = performance.now();
     const focused = document.activeElement?.closest?.('[data-expo]');
     // Things that animate forever get every other frame; nobody reads a marquee at 120 Hz.
@@ -278,25 +252,9 @@ export class Sheet {
     for (const d of this.drawables) {
       const s = near - (d.y + d.h / 2);
       const inView = (s > -d.h - 400 && s < reach) || d.el === focused;
-      if (d.parked === inView) {
-        d.parked = !inView;
-        d.el.style.pointerEvents = inView ? '' : 'none';
-      }
-      d.pending = !d.uploaded || (inView && (d.dirty || (d.live && liveFrame) || d.el === focused));
+      const due = !d.uploaded || (inView && (d.dirty || (d.live && liveFrame) || d.el === focused));
       if (d.dirty && now >= d.dirtyUntil && inView) d.dirty = false;
-      if ((d.pending || d.parked) && d.placed !== ORIGIN) {
-        canvas.updateElementGeometry(d.el, { canvasTransform: new DOMMatrix() });
-        d.placed = ORIGIN;
-      }
-    }
-  }
-
-  /** Copy whatever is due for this frame. Pass `all` for the first frame, which can't wait. */
-  update(near: number, reach: number, all = false) {
-    for (const d of this.drawables) {
-      if (!d.pending) continue;
-      d.pending = false;
-      this.uploadDrawable(d);
+      if (due) this.uploadDrawable(d);
     }
 
     // High resolution around the reader, nearest first.
@@ -347,7 +305,6 @@ export class Sheet {
     this.observer?.disconnect();
     this.observer = null;
     this.disposeTextures();
-    for (const d of this.drawables) d.el.style.pointerEvents = '';
     this.tiles = [];
     this.drawables = [];
   }
@@ -438,7 +395,7 @@ export class Sheet {
       d.texture = this.makeTexture(width, height);
       d.map.sourceTexture = d.texture;
     }
-    this.copy(d.texture, d.el, 0, 0, d.w, d.h, width, height);
+    this.copy(d.texture, this.root, d.x, d.y, d.w, d.h, width, height);
     d.uploaded = true;
   }
 }

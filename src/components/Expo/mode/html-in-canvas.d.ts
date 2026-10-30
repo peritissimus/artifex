@@ -8,7 +8,7 @@ interface UpdateElementGeometryOptions {
 
 interface HTMLCanvasElement {
   requestPaint(): void;
-  updateElementGeometry(element: Element, options?: UpdateElementGeometryOptions): void;
+  updateElementGeometry?(element: Element, options?: UpdateElementGeometryOptions): void;
 }
 
 interface WebGL2RenderingContext {
