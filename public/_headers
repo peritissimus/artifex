@@ -40,6 +40,8 @@
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 /terminal
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+/expo
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 /blog
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
 /blog/*

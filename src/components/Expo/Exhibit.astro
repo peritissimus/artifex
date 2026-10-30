@@ -1,0 +1,693 @@
+---
+// The working exhibit for one pavilion. Plain HTML first: `exhibits.ts` wires up the
+// behaviour, and the same elements run on the flat page and inside Expo Mode.
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+
+const shortcuts = [
+  ['Inbox', 'mail'],
+  ['Calendar', 'today'],
+  ['Docs', 'wiki'],
+  ['astro dev', 'localhost:4321'],
+  ['api', 'localhost:8000'],
+  ['Issues', 'tracker'],
+];
+const tabGroups = [
+  { name: 'Work', tabs: ['Pull request', 'Build log', 'Staging'] },
+  { name: 'Reading', tabs: ['Essay draft', 'Paper'] },
+  { name: 'Later', tabs: ['Flat listing', 'Recipe', 'Ticket'] },
+];
+const bookmarks = [
+  {
+    who: '@ledger',
+    topic: 'Databases',
+    text: 'Why a rebuildable SQLite index beats a sync engine for notes.',
+  },
+  {
+    who: '@halftone',
+    topic: 'Design',
+    text: 'Grain, misregistration, and what print can teach screen type.',
+  },
+  {
+    who: '@tinyagent',
+    topic: 'AI',
+    text: 'Small agents with one tool each fail in far more useful ways.',
+  },
+  {
+    who: '@ledger',
+    topic: 'Infra',
+    text: 'Queues are a product decision. Retries are a promise you make.',
+  },
+  {
+    who: '@platen',
+    topic: 'Design',
+    text: 'A table of contents is an interface. Treat it like one.',
+  },
+  {
+    who: '@tinyagent',
+    topic: 'AI',
+    text: 'Summaries are lossy on purpose. Keep the original a click away.',
+  },
+];
+const tickers = ['NIB', 'INK', 'RULE'];
+---
+
+<div class={`ex ex-${id}`} data-exhibit={id}>
+  {
+    id === 'gate' && (
+      <div class="ex-gate-grid">
+        <div class="ex-gate-try">
+          <p class="ex-label">Try it</p>
+          <label class="ex-field">
+            <span>A real text input</span>
+            <input
+              class="ex-input"
+              type="text"
+              data-echo-in
+              value="Type on the ribbon"
+              spellcheck="false"
+            />
+          </label>
+          <p class="ex-gate-echo" data-echo-out>
+            Type on the ribbon
+          </p>
+          <div class="ex-row">
+            <button class="ex-btn" type="button" data-count>
+              Pressed <b data-count-n>0</b> times
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-more aria-expanded="false">
+              More
+            </button>
+          </div>
+          <p class="ex-gate-more" data-more-text hidden>
+            This paragraph was hidden until you pressed that button. Select it with the cursor, it
+            is text.
+          </p>
+        </div>
+        <div class="ex-gate-tele">
+          <p class="ex-label">Live telemetry, drawn in the DOM</p>
+          <dl class="ex-tele">
+            <div>
+              <>
+                <dt>Mode</dt>
+                <dd data-tele="mode">flat page</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Frame</dt>
+                <dd data-tele="fps">—</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Texture uploads</dt>
+                <dd data-tele="uploads">—</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Drawable elements</dt>
+                <dd data-tele="drawables">—</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Page under cursor</dt>
+                <dd data-tele="cursor">—</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Surface angle</dt>
+                <dd data-tele="angle">—</dd>
+              </>
+            </div>
+          </dl>
+          <div class="ex-marquee" aria-hidden="true" data-expo-live>
+            <span>ANIMATED WITH PLAIN CSS · STILL RUNNING IN THE WEBGL TEXTURE · </span>
+            <span>ANIMATED WITH PLAIN CSS · STILL RUNNING IN THE WEBGL TEXTURE · </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    id === 'stone' && (
+      <>
+        <div class="ex-stone-bar">
+          <span>
+            ~/Stone/journal/<span data-note-date>today</span>.md
+          </span>
+          <span data-note-status>saved in this browser</span>
+        </div>
+        <div class="ex-split">
+          <label class="ex-pane">
+            <span class="ex-label">Markdown</span>
+            <textarea
+              class="ex-input ex-note"
+              data-note
+              spellcheck="false"
+              aria-label="Write a note"
+            />
+          </label>
+          <div class="ex-pane">
+            <span class="ex-label">Rendered</span>
+            <div class="ex-note-preview" data-note-preview />
+          </div>
+        </div>
+        <p class="ex-foot">
+          <span data-note-words>0 words</span> · kept in localStorage, on your disk, and nowhere
+          else.
+        </p>
+      </>
+    )
+  }
+
+  {
+    id === 'tabbit' && (
+      <div class="ex-tab">
+        <div class="ex-tab-head">
+          <p class="ex-tab-clock" data-clock>
+            --:--
+          </p>
+          <input
+            class="ex-input ex-tab-search"
+            type="search"
+            placeholder="Filter shortcuts"
+            aria-label="Filter shortcuts"
+            data-tab-search
+            spellcheck="false"
+          />
+        </div>
+        <ul class="ex-tab-grid" data-tab-grid>
+          {shortcuts.map(([name, host]) => (
+            <li data-name={`${name} ${host}`.toLowerCase()}>
+              <a href="#" class="ex-tab-link" data-noop>
+                <b>{name}</b>
+                <span>{host}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="ex-label">Tab groups, press to fold</p>
+        <div class="ex-tab-groups">
+          {tabGroups.map((group) => (
+            <div class="ex-tab-group">
+              <button
+                class="ex-btn ex-btn--ghost"
+                type="button"
+                aria-expanded="true"
+                data-tab-group
+              >
+                {group.name} <span>{group.tabs.length}</span>
+              </button>
+              <ul>
+                {group.tabs.map((tab) => (
+                  <li>{tab}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    id === 'blueprint' && (
+      <div class="ex-plan">
+        <svg
+          class="ex-plan-svg"
+          viewBox="0 0 640 440"
+          role="img"
+          aria-label="Floor plan with sunlight falling through its windows"
+          data-plan
+        >
+          <defs>
+            <clipPath id="plan-floor">
+              <path d="M60 50H580V390H60Z" />
+            </clipPath>
+            <pattern id="plan-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-opacity=".12" />
+            </pattern>
+          </defs>
+          <rect width="640" height="440" fill="url(#plan-grid)" />
+          <g clip-path="url(#plan-floor)" data-plan-light />
+          <g class="ex-plan-furniture">
+            <rect data-drag x="90" y="290" width="150" height="60" />
+            <rect data-drag x="400" y="80" width="130" height="90" />
+            <rect data-drag x="300" y="300" width="80" height="50" />
+          </g>
+          <path class="ex-plan-walls" d="M60 50H580V390H60Z M340 50V210 M340 280V390 M60 220H180" />
+          <g class="ex-plan-windows">
+            <path d="M390 390H530" />
+            <path d="M120 390H220" />
+            <path d="M580 120V260" />
+            <path d="M60 280V350" />
+          </g>
+          <text x="600" y="44" class="ex-plan-n">
+            N ↑
+          </text>
+        </svg>
+        <div class="ex-plan-side">
+          <p class="ex-label">Daylight over Bengaluru, 12.97° N</p>
+          <label class="ex-field">
+            <span>
+              Time <b data-plan-time>10:30</b>
+            </span>
+            <input
+              class="ex-range"
+              type="range"
+              min="6.25"
+              max="18.25"
+              step="0.05"
+              value="10.5"
+              data-plan-range
+            />
+          </label>
+          <div class="ex-row" role="group" aria-label="Season">
+            <button class="ex-btn ex-btn--ghost" type="button" data-season="-23.44">
+              Dec
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-season="0" aria-pressed="true">
+              Mar
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-season="23.44">
+              Jun
+            </button>
+          </div>
+          <dl class="ex-tele">
+            <div>
+              <>
+                <dt>Sun altitude</dt>
+                <dd data-plan-alt>—</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Azimuth</dt>
+                <dd data-plan-az>—</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Light through</dt>
+                <dd data-plan-through>—</dd>
+              </>
+            </div>
+          </dl>
+          <p class="ex-foot">The sun path is computed, not faked. Drag the furniture.</p>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    id === 'turntable' && (
+      <div class="ex-turn" data-turn>
+        <div class="ex-turn-stage">
+          <div class="ex-turn-floor" aria-hidden="true" />
+          <div class="ex-turn-device" data-turn-device aria-hidden="true">
+            <i class="f-front">
+              <span class="ex-turn-notch" />
+              <span class="ex-turn-ui">
+                <b>EXPO</b>
+                <em>149</em>
+              </span>
+            </i>
+            <i class="f-back">
+              <span class="ex-turn-lens" />
+            </i>
+            <i class="f-left" />
+            <i class="f-right" />
+            <i class="f-top" />
+            <i class="f-bottom" />
+          </div>
+        </div>
+        <div class="ex-turn-side">
+          <p class="ex-label">Direct manipulation</p>
+          <label class="ex-field">
+            <span>
+              Orbit <b data-turn-orbit-out>-28°</b>
+            </span>
+            <input class="ex-range" type="range" min="-180" max="180" value="-28" data-turn-orbit />
+          </label>
+          <label class="ex-field">
+            <span>
+              Tilt <b data-turn-tilt-out>14°</b>
+            </span>
+            <input class="ex-range" type="range" min="-40" max="50" value="14" data-turn-tilt />
+          </label>
+          <div class="ex-row">
+            <button class="ex-btn ex-btn--ghost" type="button" data-turn-preset="-28,14">
+              Hero
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-turn-preset="0,50">
+              Flat lay
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-turn-preset="82,0">
+              Profile
+            </button>
+          </div>
+          <button class="ex-btn" type="button" data-turn-spin aria-pressed="true">
+            Spin
+          </button>
+          <p class="ex-foot">A CSS 3D phone, inside an HTML texture, inside a WebGL world.</p>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    id === 'fitroom' && (
+      <div class="ex-fit" data-fit>
+        <div class="ex-fit-stage">
+          <svg
+            viewBox="0 0 520 420"
+            role="img"
+            aria-label="Two figures drawn at true relative height"
+            data-fit-svg
+          >
+            <g data-fit-lines />
+            <g data-fit-a />
+            <g data-fit-b />
+            <path d="M0 400H520" class="ex-fit-floor" />
+          </svg>
+        </div>
+        <div class="ex-fit-side">
+          <p class="ex-label">True relative height</p>
+          <label class="ex-field">
+            <span>
+              First person <b data-fit-a-out>6′0″</b>
+            </span>
+            <input class="ex-range" type="range" min="54" max="80" value="72" data-fit-a-range />
+          </label>
+          <label class="ex-field">
+            <span>
+              Second person <b data-fit-b-out>5′0″</b>
+            </span>
+            <input class="ex-range" type="range" min="54" max="80" value="60" data-fit-b-range />
+          </label>
+          <p class="ex-label">Outfit</p>
+          <div class="ex-row" role="group" aria-label="Outfit">
+            <button
+              class="ex-swatch"
+              type="button"
+              style="--c:#c8402a"
+              data-fit-outfit="#c8402a"
+              aria-label="Vermilion"
+              aria-pressed="true"
+            />
+            <button
+              class="ex-swatch"
+              type="button"
+              style="--c:#1746a2"
+              data-fit-outfit="#1746a2"
+              aria-label="Ultramarine"
+            />
+            <button
+              class="ex-swatch"
+              type="button"
+              style="--c:#16130f"
+              data-fit-outfit="#16130f"
+              aria-label="Ink"
+            />
+            <button
+              class="ex-swatch"
+              type="button"
+              style="--c:#2c6e49"
+              data-fit-outfit="#2c6e49"
+              aria-label="Green"
+            />
+          </div>
+          <p class="ex-gate-echo" data-fit-diff>
+            12 in apart
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    id === 'strid' && (
+      <div class="ex-strid">
+        <div class="ex-split">
+          <label class="ex-pane">
+            <span class="ex-label">Paste something sensitive. These are made up</span>
+            <textarea
+              class="ex-input ex-strid-in"
+              data-strid-in
+              spellcheck="false"
+              aria-label="Text to redact"
+            >
+              Refund ₹4,200 to ravi.k@okhdfc from HDFC0001234. PAN ABCDE1234F, Aadhaar 2345 6789
+              0123. Ring the branch before Friday.
+            </textarea>
+          </label>
+          <div class="ex-pane">
+            <span class="ex-label">Leaves this page as</span>
+            <p class="ex-strid-out" data-strid-out />
+          </div>
+        </div>
+        <div class="ex-strid-foot">
+          <ul class="ex-chips" data-strid-counts />
+          <div class="ex-row" role="group" aria-label="Redaction style">
+            <button
+              class="ex-btn ex-btn--ghost"
+              type="button"
+              data-strid-style="bar"
+              aria-pressed="true"
+            >
+              Bars
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-strid-style="label">
+              Labels
+            </button>
+          </div>
+        </div>
+        <p class="ex-foot">
+          A small regex sketch of the idea. It runs in this tab; nothing is sent anywhere.
+        </p>
+      </div>
+    )
+  }
+
+  {
+    id === 'birdbrain' && (
+      <div class="ex-bird">
+        <div class="ex-bird-head">
+          <input
+            class="ex-input"
+            type="search"
+            placeholder="Search your bookmarks"
+            aria-label="Search bookmarks"
+            data-bird-search
+            spellcheck="false"
+          />
+          <div class="ex-row" role="group" aria-label="Topic">
+            {['All', 'AI', 'Design', 'Databases', 'Infra'].map((topic, i) => (
+              <button
+                class="ex-btn ex-btn--ghost"
+                type="button"
+                data-bird-topic={topic}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+              >
+                {topic}
+              </button>
+            ))}
+          </div>
+        </div>
+        <ul class="ex-bird-list" data-bird-list>
+          {bookmarks.map((mark) => (
+            <li data-topic={mark.topic} data-text={`${mark.who} ${mark.text}`.toLowerCase()}>
+              <span class="ex-label">
+                {mark.who} · {mark.topic}
+              </span>
+              <p>{mark.text}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="ex-foot">
+          <span data-bird-count>6</span> of 6 sample bookmarks. Sample data, written for this
+          exhibit.
+        </p>
+      </div>
+    )
+  }
+
+  {
+    id === 'paperfolio' && (
+      <div class="ex-paper" data-paper>
+        <div class="ex-paper-chart">
+          <div class="ex-row" role="group" aria-label="Ticker">
+            {tickers.map((ticker, i) => (
+              <button
+                class="ex-btn ex-btn--ghost"
+                type="button"
+                data-paper-ticker={ticker}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+              >
+                {ticker}
+              </button>
+            ))}
+          </div>
+          <svg viewBox="0 0 600 260" preserveAspectRatio="none" aria-hidden="true" data-paper-svg>
+            <path data-paper-line />
+          </svg>
+          <p class="ex-paper-price">
+            <b data-paper-price>₹0</b> <span data-paper-move>+0.0%</span>
+          </p>
+        </div>
+        <div class="ex-paper-side">
+          <p class="ex-label">Paper portfolio</p>
+          <dl class="ex-tele">
+            <div>
+              <>
+                <dt>Cash</dt>
+                <dd data-paper-cash>₹1,00,000</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Holding</dt>
+                <dd data-paper-held>0 shares</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Value</dt>
+                <dd data-paper-value>₹1,00,000</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Profit</dt>
+                <dd data-paper-pnl>₹0</dd>
+              </>
+            </div>
+          </dl>
+          <div class="ex-row">
+            <button class="ex-btn" type="button" data-paper-buy>
+              Buy 10
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-paper-sell>
+              Sell 10
+            </button>
+          </div>
+          <p class="ex-foot">
+            Made-up tickers on a random walk. Not market data. Real ideas, paper money.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    id === 'garatch' && (
+      <div class="ex-watch" data-watch>
+        <svg
+          class="ex-watch-face"
+          viewBox="0 0 320 320"
+          role="img"
+          aria-label="Watch face showing the current time"
+          data-watch-face
+        />
+        <div class="ex-watch-side">
+          <p class="ex-label">One glance, three theses</p>
+          <div class="ex-row" role="group" aria-label="Watch face">
+            <button
+              class="ex-btn ex-btn--ghost"
+              type="button"
+              data-watch-thesis="minimal"
+              aria-pressed="true"
+            >
+              Minimal
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-watch-thesis="orbit">
+              Orbit
+            </button>
+            <button class="ex-btn ex-btn--ghost" type="button" data-watch-thesis="telemetry">
+              Telemetry
+            </button>
+          </div>
+          <p class="ex-gate-echo" data-watch-note />
+          <p class="ex-foot">The time is real. Steps, heart rate and battery are sample values.</p>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    id === 'kaze' && (
+      <div class="ex-kaze">
+        <input
+          class="ex-input"
+          type="search"
+          value="how does the page find what is under the mouse"
+          aria-label="Search the code of this page"
+          data-kaze-in
+          spellcheck="false"
+        />
+        <ol class="ex-kaze-list" data-kaze-out />
+        <p class="ex-foot">
+          A toy keyword ranker over this page’s own functions. The real Kaze uses embeddings and
+          Tree-sitter.
+        </p>
+      </div>
+    )
+  }
+
+  {
+    id === 'dotfiles' && (
+      <div class="ex-term" data-term>
+        <div class="ex-term-shell">
+          <pre class="ex-term-out" data-term-out tabindex="0" />
+          <label class="ex-term-prompt">
+            <span aria-hidden="true">~ ❯</span>
+            <input
+              class="ex-input"
+              type="text"
+              aria-label="Terminal command"
+              data-term-in
+              spellcheck="false"
+              autocomplete="off"
+              autocapitalize="off"
+            />
+          </label>
+        </div>
+        <div class="ex-term-side">
+          <p class="ex-label">tmux-herd</p>
+          <dl class="ex-tele">
+            <div>
+              <>
+                <dt>Blocked</dt>
+                <dd data-herd="blocked">0</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Working</dt>
+                <dd data-herd="working">0</dd>
+              </>
+            </div>
+            <div>
+              <>
+                <dt>Done</dt>
+                <dd data-herd="done">0</dd>
+              </>
+            </div>
+          </dl>
+          <p class="ex-foot">
+            Try <code>help</code>, <code>ls</code>, <code>setup</code> or <code>herd</code>. A
+            sketch of the setup, not the real shell.
+          </p>
+        </div>
+      </div>
+    )
+  }
+</div>

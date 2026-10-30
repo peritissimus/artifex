@@ -48,7 +48,9 @@ export default defineConfig({
     sitemap({
       // Keep noindex routes out of the sitemap.
       filter: (page) =>
-        !['/terminal', '/404', '/save-the-date', '/newspaper'].some((route) => page.includes(route)),
+        !['/terminal', '/expo', '/404', '/save-the-date', '/newspaper'].some((route) =>
+          page.includes(route)
+        ),
       serialize(item) {
         const path = new URL(item.url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
         const lastmod = lastmodDates[path];

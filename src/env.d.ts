@@ -4,23 +4,30 @@ declare module "*?raw" {
 }
 
 declare module "three" {
+  export const AddEquation: number;
   export const AdditiveBlending: number;
+  export const CustomBlending: number;
+  export const DoubleSide: number;
+  export const FloatType: number;
   export const LinearFilter: number;
+  export const LinearSRGBColorSpace: string;
+  export const NearestFilter: number;
   export const NeutralToneMapping: number;
+  export const OneFactor: number;
+  export const OneMinusSrcAlphaFactor: number;
+  export const RGBAFormat: number;
   export const SRGBColorSpace: string;
 
-  type Vector3Like = {
-    x: number;
-    y: number;
-    z: number;
-    set(x: number, y: number, z: number): void;
+  export const MathUtils: {
+    degToRad(degrees: number): number;
+    radToDeg(radians: number): number;
   };
 
   export class Vector2 {
     x: number;
     y: number;
     constructor(x?: number, y?: number);
-    set(x: number, y: number): void;
+    set(x: number, y: number): this;
   }
 
   export class Vector3 {
@@ -28,23 +35,48 @@ declare module "three" {
     y: number;
     z: number;
     constructor(x?: number, y?: number, z?: number);
-    set(x: number, y: number, z: number): void;
-    copy(v: Vector3): Vector3;
+    set(x: number, y: number, z: number): this;
+    copy(v: Vector3): this;
+    clone(): Vector3;
+    sub(v: Vector3): this;
+    lerp(v: Vector3, alpha: number): this;
+    normalize(): this;
+    multiplyScalar(scalar: number): this;
+    addScaledVector(v: Vector3, scale: number): this;
+    project(camera: Camera): this;
+    unproject(camera: Camera): this;
   }
 
-  export class Scene {
-    add(...objects: unknown[]): void;
+  export class Color {
+    setRGB(r: number, g: number, b: number): this;
   }
 
-  export class Camera {
-    position: Vector3Like;
-    lookAt(x: number, y: number, z: number): void;
+  export class Object3D {
+    frustumCulled: boolean;
+    position: Vector3;
+    renderOrder: number;
+    up: Vector3;
+    visible: boolean;
+    add(...objects: unknown[]): this;
+    clear(): this;
+    traverse(callback: (object: Object3D) => void): void;
+    updateMatrixWorld(force?: boolean): void;
+  }
+
+  export class Scene extends Object3D {}
+
+  export class Group extends Object3D {}
+
+  export class Camera extends Object3D {
+    lookAt(x: number | Vector3, y?: number, z?: number): void;
     updateProjectionMatrix(): void;
   }
 
   export class PerspectiveCamera extends Camera {
     aspect: number;
+    far: number;
     fov: number;
+    near: number;
     constructor(fov: number, aspect: number, near: number, far: number);
   }
 
@@ -54,54 +86,95 @@ declare module "three" {
     capabilities: { getMaxAnisotropy(): number };
     domElement: HTMLCanvasElement;
     outputColorSpace: string;
+    sortObjects: boolean;
     toneMapping: number;
     toneMappingExposure: number;
     constructor(params?: Record<string, unknown>);
     dispose(): void;
     render(scene: Scene, camera: PerspectiveCamera): void;
-    setClearColor(color: number, alpha?: number): void;
+    resetState(): void;
+    setClearColor(color: number | Color, alpha?: number): void;
     setPixelRatio(pixelRatio: number): void;
     setSize(width: number, height: number, updateStyle?: boolean): void;
   }
 
-  export class CanvasTexture {
-    anisotropy: number;
-    colorSpace: string;
+  export class Texture {
     magFilter: number;
     minFilter: number;
     needsUpdate: boolean;
-    constructor(canvas: HTMLCanvasElement);
     dispose(): void;
   }
 
-  export class PlaneGeometry {
-    constructor(width: number, height: number, widthSegments?: number, heightSegments?: number);
-    dispose(): void;
+  export class CanvasTexture extends Texture {
+    anisotropy: number;
+    colorSpace: string;
+    constructor(canvas: HTMLCanvasElement);
+  }
+
+  export class DataTexture extends Texture {
+    constructor(data: Float32Array, width: number, height: number, format: number, type: number);
+  }
+
+  export class ExternalTexture extends Texture {
+    sourceTexture: WebGLTexture | null;
+    constructor(sourceTexture?: WebGLTexture | null);
   }
 
   export class BufferAttribute {
+    count: number;
+    needsUpdate: boolean;
     constructor(array: Float32Array, itemSize: number);
+    getY(index: number): number;
+    setY(index: number, value: number): this;
+    setXYZ(index: number, x: number, y: number, z: number): this;
   }
+
+  export class Float32BufferAttribute extends BufferAttribute {
+    constructor(array: number[], itemSize: number);
+  }
+
+  export class InstancedBufferAttribute extends BufferAttribute {}
 
   export class BufferGeometry {
+    index: unknown;
     dispose(): void;
-    setAttribute(name: string, attribute: BufferAttribute): void;
+    getAttribute(name: string): BufferAttribute;
+    setAttribute(name: string, attribute: BufferAttribute): this;
+    setIndex(indices: number[]): this;
   }
 
-  export class ShaderMaterial {
+  export class InstancedBufferGeometry extends BufferGeometry {
+    instanceCount: number;
+  }
+
+  export class PlaneGeometry extends BufferGeometry {
+    constructor(width: number, height: number, widthSegments?: number, heightSegments?: number);
+  }
+
+  export class Material {
+    side: number;
+    dispose(): void;
+  }
+
+  export class ShaderMaterial extends Material {
     uniforms: Record<string, { value: any }>;
     constructor(params?: Record<string, unknown>);
-    dispose(): void;
   }
 
-  export class Mesh {
-    geometry: PlaneGeometry;
-    position: Vector3Like;
-    constructor(geometry?: PlaneGeometry, material?: ShaderMaterial);
+  export class Mesh extends Object3D {
+    geometry: BufferGeometry;
+    material: Material;
+    constructor(geometry?: BufferGeometry, material?: Material);
   }
 
-  export class Points {
-    constructor(geometry?: BufferGeometry, material?: ShaderMaterial);
+  export class LineSegments extends Object3D {
+    geometry: BufferGeometry;
+    material: Material;
+    constructor(geometry?: BufferGeometry, material?: Material);
+  }
+
+  export class Points extends Object3D {
+    constructor(geometry?: BufferGeometry, material?: Material);
   }
 }
 

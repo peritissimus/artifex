@@ -1,0 +1,399 @@
+---
+import { getCollection } from 'astro:content';
+import SEO from '../components/SEO.astro';
+import Exhibit from '../components/Expo/Exhibit.astro';
+import { softwareProjects } from '../lib/projects';
+import '@fontsource/barlow-semi-condensed/600.css';
+import '@fontsource/barlow-semi-condensed/700.css';
+import '@fontsource/newsreader/400.css';
+import '@fontsource/newsreader/400-italic.css';
+import '../styles/expo.scss';
+
+// Chrome's HTML-in-Canvas origin trial token for this domain. Without it, visitors need the flag.
+const originTrialToken = import.meta.env.PUBLIC_HTML_IN_CANVAS_TOKEN;
+
+// One spot colour of paper per pavilion, as if each were printed on its own stock.
+const stocks: Record<
+  string,
+  { stock: string; ink: string; accent: string; plinth: string; extrude: string; scheme?: string }
+> = {
+  stone: {
+    stock: '#e6dac2',
+    ink: '#1b1712',
+    accent: '#b5391f',
+    plinth: '#f7f1e3',
+    extrude: '#a8977a',
+  },
+  tabbit: {
+    stock: '#c9d63f',
+    ink: '#191c07',
+    accent: '#1f4a16',
+    plinth: '#f2f5c9',
+    extrude: '#8f9a1e',
+  },
+  blueprint: {
+    stock: '#1746a2',
+    ink: '#eef3ff',
+    accent: '#ffd76a',
+    plinth: '#10357f',
+    extrude: '#0b2663',
+    scheme: 'dark',
+  },
+  turntable: {
+    stock: '#d9412a',
+    ink: '#fff3e6',
+    accent: '#16130f',
+    plinth: '#b5301c',
+    extrude: '#8f2312',
+    scheme: 'dark',
+  },
+  fitroom: {
+    stock: '#efa7b5',
+    ink: '#23121a',
+    accent: '#8d1f3d',
+    plinth: '#fbe3e8',
+    extrude: '#c87688',
+  },
+  strid: {
+    stock: '#141210',
+    ink: '#f4efe3',
+    accent: '#f5d90a',
+    plinth: '#26231f',
+    extrude: '#3b372f',
+    scheme: 'dark',
+  },
+  birdbrain: {
+    stock: '#0e6b66',
+    ink: '#eafaf6',
+    accent: '#ffc4a3',
+    plinth: '#0a4f4c',
+    extrude: '#073835',
+    scheme: 'dark',
+  },
+  paperfolio: {
+    stock: '#f0b429',
+    ink: '#1d1503',
+    accent: '#7a2e00',
+    plinth: '#fbe7ac',
+    extrude: '#b88311',
+  },
+  garatch: {
+    stock: '#231a66',
+    ink: '#f2efff',
+    accent: '#ff7a1a',
+    plinth: '#171046',
+    extrude: '#100b33',
+    scheme: 'dark',
+  },
+  kaze: {
+    stock: '#9fd8d3',
+    ink: '#07211f',
+    accent: '#0d5c58',
+    plinth: '#d9f1ee',
+    extrude: '#6aaca6',
+  },
+  dotfiles: {
+    stock: '#2a2d1f',
+    ink: '#eef2dc',
+    accent: '#b7f36b',
+    plinth: '#14160e',
+    extrude: '#171910',
+    scheme: 'dark',
+  },
+};
+
+// Achievements are written as "**Headline** — detail" in the work collection.
+const parseNote = (line: string) => {
+  const [head, ...rest] = line.split(' — ');
+  const clean = (text: string) => text.replace(/\*\*/g, '').replace(/`/g, '');
+  return rest.length
+    ? { head: clean(head), body: clean(rest.join(' — ')) }
+    : { head: '', body: clean(line) };
+};
+
+const pavilions = softwareProjects(await getCollection('work')).map((project, i) => ({
+  id: project.id,
+  number: String(i + 1).padStart(2, '0'),
+  title: project.data.title,
+  role: project.data.role,
+  date: project.data.dateRange,
+  description: project.data.description,
+  technologies: project.data.technologies.slice(0, 6),
+  notes: (project.data.achievements ?? []).slice(0, 4).map(parseNote),
+  ...stocks[project.id],
+}));
+const count = pavilions.length;
+const inWords =
+  [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+    'ten',
+    'eleven',
+    'twelve',
+  ][count] ?? String(count);
+const capitalWords = inWords.charAt(0).toUpperCase() + inWords.slice(1);
+const paint = (p: {
+  stock: string;
+  ink: string;
+  accent: string;
+  plinth: string;
+  extrude: string;
+  scheme?: string;
+}) =>
+  `--stock:${p.stock};--ink:${p.ink};--accent:${p.accent};--plinth:${p.plinth};--extrude:${p.extrude};--scheme:${p.scheme ?? 'light'}`;
+const gate = {
+  stock: '#f3ecdd',
+  ink: '#16130f',
+  accent: '#c8402a',
+  plinth: '#fbf7ee',
+  extrude: '#c8402a',
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0a08" />
+    {originTrialToken && <meta http-equiv="origin-trial" content={originTrialToken} />}
+    <SEO
+      title="Expo 149 — the personal software exposition"
+      ogTitle="Expo 149"
+      description={`${capitalWords} pieces of personal software by Kushal Patankar, each with a working exhibit, on one long sheet of paper you can walk along in 3D.`}
+      noindex
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body class="expo-page">
+    <header class="expo-nav">
+      <a href="/"><span aria-hidden="true">↖</span> Peritissimus</a>
+      <span class="expo-nav-mid">Expo 149</span>
+      <a href="/software">The index <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <nav class="expo-rail" aria-label="Pavilions" hidden>
+      <ol>
+        <li><a href="#p-gate" data-rail="p-gate"><i aria-hidden="true"></i>Gate</a></li>
+        {
+          pavilions.map((p) => (
+            <li>
+              <a href={`#p-${p.id}`} data-rail={`p-${p.id}`}>
+                <i aria-hidden="true" />
+                {p.title}
+              </a>
+            </li>
+          ))
+        }
+        <li><a href="#p-colophon" data-rail="p-colophon"><i aria-hidden="true"></i>Colophon</a></li>
+      </ol>
+    </nav>
+
+    <div class="expo-corner">
+      <button class="expo-toggle" type="button" data-expo-toggle aria-pressed="false" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2.5 21 7.5v9l-9 5-9-5v-9zM3 7.5l9 5 9-5M12 12.5v9"></path>
+        </svg>
+        <span data-expo-toggle-label>Expo Mode</span>
+        <kbd>~</kbd>
+      </button>
+      <button class="expo-toggle expo-toggle--game" type="button" data-expo-game hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 21 7 10l5-7 5 7zM12 21v-8M12 13a1.6 1.6 0 1 0 0-3.2 1.6 1.6 0 0 0 0 3.2z"
+          ></path>
+        </svg>
+        <span>Run the nib</span>
+        <kbd>G</kbd>
+      </button>
+    </div>
+    <output class="sr-only" data-expo-status aria-live="polite"></output>
+
+    <main id="expo-sheet" class="expo-sheet">
+      <section class="gate" id="p-gate" data-expo-section data-title="Gate" style={paint(gate)}>
+        <div class="pav-meta">
+          <span>Sheet 149</span>
+          <span>The personal software exposition</span>
+          <span>{count} pavilions · Edition of one</span>
+        </div>
+        <h1 class="gate-title" data-expo="extrude">Expo 149</h1>
+        <div class="gate-intro">
+          <p class="gate-lede">
+            {capitalWords} small tools I built for an audience of one, on a single long sheet of paper.
+            Every pavilion has an exhibit you can actually use.
+          </p>
+          <p class="gate-how" data-expo-how>
+            Press <kbd>~</kbd> and the sheet lifts off the page. It stays real HTML while it does: type
+            in the inputs, drag the sliders, select the words.
+          </p>
+          <p class="gate-how" data-expo-unsupported hidden>
+            Expo Mode runs on Chrome’s HTML-in-Canvas API, which this browser doesn’t have yet. To
+            see it, open this page in desktop Chrome with
+            <code>chrome://flags/#canvas-draw-element</code> turned on. The exhibits below work either
+            way.
+          </p>
+        </div>
+        <div class="gate-grid">
+          <ol class="gate-index">
+            {
+              pavilions.map((p) => (
+                <li>
+                  <a href={`#p-${p.id}`}>
+                    <span>{p.number}</span>
+                    <b>{p.title}</b>
+                    <em>{p.date}</em>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+          <figure
+            class="plinth plinth--gate"
+            data-expo="plinth"
+            data-title="This is not a screenshot"
+          >
+            <figcaption><span>Exhibit 00</span><span>This is not a screenshot</span></figcaption>
+            <Exhibit id="gate" />
+          </figure>
+        </div>
+      </section>
+
+      {
+        pavilions.map((p) => (
+          <section
+            class="pavilion"
+            id={`p-${p.id}`}
+            data-expo-section
+            data-title={p.title}
+            data-pavilion={p.id}
+            style={paint(p)}
+          >
+            <div class="pav-meta">
+              <span>Pavilion {p.number}</span>
+              <span>{p.role}</span>
+              <span>{p.date}</span>
+            </div>
+            <h2 class="pav-title" data-expo="extrude">
+              {p.title}
+            </h2>
+            <div class="pav-intro">
+              <p class="pav-desc">{p.description}</p>
+              <ul class="pav-tech">
+                {p.technologies.map((tech) => (
+                  <li>{tech}</li>
+                ))}
+              </ul>
+            </div>
+            <figure class="plinth" data-expo="plinth" data-title={`Exhibit ${p.number}`}>
+              <figcaption>
+                <>
+                  <span>Exhibit {p.number}</span>
+                  <span>Live</span>
+                </>
+              </figcaption>
+              <Exhibit id={p.id} />
+            </figure>
+            <div class="pav-notes">
+              {p.notes.map((note) => (
+                <div>
+                  {note.head && <h3>{note.head}</h3>}
+                  <p>{note.body}</p>
+                </div>
+              ))}
+            </div>
+            <a class="pav-link" href={`/work/${p.id}`}>
+              Walk through the pavilion <span aria-hidden="true">→</span>
+            </a>
+          </section>
+        ))
+      }
+
+      <section
+        class="colophon"
+        id="p-colophon"
+        data-expo-section
+        data-title="Colophon"
+        style={paint(gate)}
+      >
+        <div class="pav-meta">
+          <span>Colophon</span>
+          <span>How this sheet was made</span>
+          <span>End of the roll</span>
+        </div>
+        <h2 class="pav-title" data-expo="extrude">Colophon</h2>
+        <div class="colophon-grid">
+          <div>
+            <h3>One DOM, no copies</h3>
+            <p>
+              Expo Mode slots this exact page into a <code>&lt;canvas content="drawable"&gt;</code> and
+              copies it to WebGL with <code>texElementSubImage2D</code>. Nothing is re-created in
+              the canvas. The exhibits don’t know they’ve moved.
+            </p>
+          </div>
+          <div>
+            <h3>An honest cursor</h3>
+            <p>
+              Every frame a ray finds the point of paper under your pointer, then the DOM slides so
+              that point is really there. It’s why hover, drag and text selection all still work on
+              a curved surface.
+            </p>
+          </div>
+          <div>
+            <h3>The drafter’s curve</h3>
+            <p>
+              The paper winds up along an Euler spiral, the curve railways use to ease into a bend.
+              Its curvature grows in step with distance: <code>κ(s) = s / A²</code>.
+            </p>
+          </div>
+          <div>
+            <h3>With thanks</h3>
+            <p>
+              The idea comes straight from
+              <a
+                href="https://www.shopify.com/editions/fall2026"
+                rel="noopener noreferrer"
+                target="_blank">Shopify Editions’ Expo Mode</a
+              >, which is worth pressing <kbd>~</kbd> on. The pavilions here are mine, as is the ink.
+            </p>
+          </div>
+        </div>
+        <div class="colophon-seal" aria-label="Artist’s seal: 149 Kush">
+          <span>149</span>
+          <span>KUSH</span>
+        </div>
+      </section>
+    </main>
+
+    <div class="expo-game-hud" data-game-hud hidden>
+      <dl>
+        <div><dt>Words inked</dt><dd data-game-words>0</dd></div>
+        <div><dt>Speed</dt><dd data-game-speed>0 px/s</dd></div>
+        <div><dt>To the gate</dt><dd data-game-left>0 px</dd></div>
+      </dl>
+      <p>← → steer · ↑ faster · ↓ brake · space hop · esc quit</p>
+    </div>
+    <div class="expo-game-end" data-game-end role="dialog" aria-labelledby="game-end-title" hidden>
+      <h2 id="game-end-title" data-game-end-title>Finished</h2>
+      <p data-game-end-text></p>
+      <div class="ex-row">
+        <button class="ex-btn" type="button" data-game-again>Run again</button>
+        <button class="ex-btn ex-btn--ghost" type="button" data-game-close>Back to the expo</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  import { startExhibits } from '../components/Expo/exhibits';
+  import { startEntry } from '../components/Expo/mode/entry';
+
+  startExhibits();
+  startEntry();
+</script>
