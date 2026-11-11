@@ -9,23 +9,21 @@ description: How to build hybrid search in SQLite — FTS5 full-text plus embedd
 readTime: 9 min read
 ---
 
-There is one rule in [Stone](/work/stone) that every other storage decision follows from: you can delete the database and lose nothing.
+Every storage decision in [Stone](/work/stone) starts from one rule: you should be able to delete the database and lose nothing.
 
-Stone is a local-first note-taking app. Notes are Markdown files in a folder. A SQLite database sits beside them and makes search fast. The rule says the database holds nothing that cannot be recomputed from the files.
-
-It sounds like a small promise. Keeping it shaped most of the app.
+Stone keeps notes as Markdown files in a folder and uses SQLite to make them searchable. The rule is that the database should contain only what I can rebuild from those files. Following that rule has shaped much of the app.
 
 ## Why the files have to win
 
-A notes app is a long bet. I want to read these notes in ten years, and I do not expect any app — including mine — to last that long unchanged.
+Choosing a notes app is a long-term bet. I want to be able to read my notes ten years from now, and I do not expect any piece of software—including mine—to stay unchanged for that long.
 
-Plain Markdown survives. It opens in any editor, diffs cleanly in Git, and can be searched with tools that existed before I was born. A database file does none of that. Once the durable copy of a note lives in a table, the app has become the only way to read it.
+Plain Markdown is easy to keep. I can open it in any text editor, diff it in Git, and search it with tools older than I am. A database file does not give me those conveniences. If the only copy of a note lives in a table, reading my writing depends on the app.
 
-So the files are the product, and SQLite is a cache with opinions.
+The files are the product. SQLite is a cache with opinions.
 
 ## What is allowed in the database
 
-Each piece of data gets one question: could this be rebuilt from the folder?
+Before anything goes into SQLite, I ask a single question: can I rebuild this from the folder on disk?
 
 | Data | Lives in | Why |
 | --- | --- | --- |
@@ -35,119 +33,121 @@ Each piece of data gets one question: could this be rebuilt from the folder?
 | Link graph | SQLite | Derived from links in the text |
 | Topic clusters | SQLite | Derived from the embeddings |
 
-Text search, vector similarity, and graph queries need a query engine. Everything in the database is there because it needs one, and all of it is derived.
+Full-text search, vector similarity, and link-graph queries need a query engine. That is SQLite's job. The data supporting those queries comes from the Markdown files.
 
-I am not finished. Some metadata, such as tags and pinned flags, still lives in tables only because the database was there when I wrote the feature. The plan is to move those into each note's frontmatter, so they travel with the file.
+I have not finished the migration. Tags and pinned flags still live only in database tables because that was convenient when I built them. I plan to move them into each note's frontmatter so they travel with the file.
 
 ## Indexing by chunk, not by note
 
-A long note covers several subjects. If you embed it as one vector, you get an average of all of them, which is close to none of them.
+Long notes tend to wander across multiple topics. If you collapse an entire note into a single embedding vector, you average all of those topics together and end up with a vector that does not match any of them well.
 
-Stone splits each note into chunks along its headings. Every chunk stores its text, the path of headings above it, a token count, and a hash of its content. Each chunk gets its own embedding and its own row in the full-text index.
+Stone splits each note into chunks along its headings. Each chunk stores its text, the headings above it, a token count, and a content hash. It gets its own embedding and its own full-text index entry.
 
-The hash is what makes re-indexing cheap. When a file changes, Stone re-chunks it and compares hashes. Only chunks whose content changed are embedded again. Fixing a typo in one section does not recompute the whole note.
+When a file changes, Stone splits it into chunks again and compares their hashes with the index. Only changed chunks need new embeddings. Fixing a typo in one section does not mean embedding the whole note again.
 
 ## Recording which model built the index
 
-Embeddings from different models cannot be compared. If I change the model and leave old vectors in place, search quietly gets worse and nothing reports an error.
+Embeddings from different models cannot be compared. If I switch models without replacing the old vectors, search can get worse without reporting an error.
 
-So each note's index record stores the model name and vector dimensions it was built with, along with a status. Stone currently uses `bge-small-en-v1.5`, which produces 384-dimension vectors and runs in a worker thread through transformers.js. When the model changes, records built with the old one are stale by definition and get rebuilt.
+Each note's index record therefore keeps the model name, vector dimensions, and indexing status. Stone currently uses `bge-small-en-v1.5`, which produces 384-dimension vectors through transformers.js in a worker thread. Changing models marks old records as stale so they can be rebuilt.
 
-This only works because of the first rule. Rebuilding is always safe, because the files are still there.
+Rebuilding the index does not put the note text at risk, because the source files are still on disk.
 
 ## Hybrid search in SQLite: FTS5 and embeddings merged with rank fusion
 
-Full-text search and semantic search fail in opposite ways.
+Keyword search and semantic search fail in opposite, complementary ways. Full-text search is great when you remember an exact error string or function name, but it misses notes that describe the same concept in different words. Semantic search catches the underlying concept, yet it can easily miss the literal string you just typed.
 
-Full-text search finds the exact error message or function name, and misses a note that describes the same idea in different words. Semantic search finds the idea, and can miss the exact string you typed.
+Stone runs both searches and merges their results with reciprocal rank fusion. Each chunk scores `1 / (60 + rank)` in each list where it appears, and those scores are added. A chunk near the top of both lists rises in the combined results.
 
-Stone runs both at once and merges them with reciprocal rank fusion. Each chunk scores `1 / (60 + rank)` in each list where it appears, and the scores are added. A chunk that ranks well in both lists rises to the top. Rank fusion needs no tuning to make two unrelated score scales comparable, which is why I chose it over a weighted sum.
+I chose rank fusion over a weighted sum because keyword and semantic scores use different scales. Their positions in the lists can be combined without making those scores comparable.
 
-If the embedding model is not loaded yet, the semantic side returns nothing and search falls back to full-text alone. Search should never be unavailable because a model is still starting.
+If you run a search while the embedding model is still spinning up in the background, the semantic query simply returns an empty list and rank fusion falls back to FTS5 results alone. Waiting on a model to load should never block you from searching your notes.
 
 ## Reranking the shortlist
 
-Fusion gives a good shortlist, not a good final order.
+Reciprocal rank fusion is good at pulling the right candidates into a shortlist, but its final ordering is still rough.
 
-The top 30 merged chunks are passed to a cross-encoder, `ms-marco-MiniLM-L-6-v2`. An embedding model scores the query and the chunk separately. A cross-encoder reads them together, which is slower and noticeably more accurate. Thirty candidates re-score in under a second on a laptop.
+Stone sends the top 30 merged chunks to a cross-encoder, `ms-marco-MiniLM-L-6-v2`. An embedding model reads the query and chunk separately; the cross-encoder reads them together. That is slower, but more accurate. Reranking this shortlist takes under a second on a laptop.
 
-The reranker shares a worker thread with the embedding model, so the main process never blocks on inference.
+Like the embedding model, the cross-encoder runs in that background worker thread so inference does not block the main process.
 
 ## Related notes, and why I stopped using centroids
 
-The related-notes panel was the feature I got wrong the longest.
+The related-notes panel was the feature I kept getting wrong.
 
-The obvious approach is to average a note's chunk vectors into one centroid and find the nearest centroids. It gave bad results. Averaging a note that covers three subjects produces a vector near nothing in particular, and generic notes ended up related to everything.
+My first approach was to average each note's chunk vectors into a centroid and find nearby centroids. The results were poor. A note covering three subjects ended up between them, while generic notes seemed related to everything.
 
-Stone now compares chunk to chunk. Every chunk of a candidate note is matched against every chunk of the note you are reading. The score blends three things:
+I threw out centroids and switched to direct chunk-to-chunk comparisons. Stone now compares every chunk of the note you are reading against every chunk of a candidate note, scoring the relationship by blending three signals:
 
-- **The best pair** — the single strongest match between the two notes.
-- **Depth** — the average of the top few pairs.
-- **Breadth** — the fraction of the candidate's chunks that match strongly.
+- **The best pair** — the single highest similarity score between any two chunks across the two notes.
+- **Depth** — the average similarity of the top few matching chunk pairs.
+- **Breadth** — the fraction of the candidate note's chunks that match strongly.
 
-Breadth uses a fraction, not a count. A count rewards long notes, and daily journals would win every time just by being long.
+Breadth is a fraction because a raw count would reward long notes. Daily journals could win simply by having more chunks to match.
 
 ## Calibrating against your own notes
 
-Small embedding models squeeze every similarity score into a narrow band. Two unrelated notes might score 0.6 and two closely related ones 0.75. A fixed threshold tuned on my notes would be wrong for yours.
+Small local embedding models have an annoying quirk: they pack all their similarity scores into a tight, high band. Two completely unrelated notes might have a cosine similarity of 0.6, while two closely related ones score 0.75. Because that baseline shifts depending on how and what you write, a hardcoded cutoff tuned on my notes would misfire on yours.
 
-So Stone calibrates against the workspace itself. It subtracts the average embedding of the whole corpus from every vector, which removes the direction all the notes share. Then it samples pairs of chunks from different notes to measure what unrelated looks like. The floor for a real match is set at three standard deviations above that noise.
+Stone calibrates against the workspace instead. It subtracts the corpus's average embedding from every vector to remove the direction the notes share. Then it samples pairs of chunks from different notes to estimate the background similarity. A match has to clear a threshold three standard deviations above that noise.
 
-Workspaces with only a handful of notes do not have enough data for this, so they fall back to fixed thresholds.
+Very small workspaces do not have enough chunks to make that statistical sample reliable, so Stone falls back to fixed thresholds until you have written more notes.
 
 ## Structure nudges, meaning decides
 
-Embeddings miss things a person would call obvious. Two notes linked from the same project page are related, even if they share no vocabulary.
+Pure vector similarity still misses connections that are obvious to a human reader. If two notes are both linked from the same project hub page, they are clearly related even if their wording does not overlap at all.
 
-After the semantic score, Stone adds small boosts for:
+Once Stone calculates the base semantic score between two notes, it applies small additive boosts if they share structural traits:
 
 - shared tags,
 - overlap in the link graph, including direct links,
 - distinctive words in common,
 - being in the same notebook.
 
-The boosts are small on purpose. Structure can lift a note that is already somewhat related. It can never surface one that is semantically unrelated. Journal entries are scored slightly lower so they do not crowd out topical notes.
+The boosts are small on purpose: they can lift an already related note, but cannot surface a semantically unrelated one. Journal entries also receive a slight penalty so they do not crowd out topical notes.
 
 ## Keeping files and index in sync
 
-Because the files can change outside the app — a `git pull`, an edit in another editor — Stone watches the workspace folder and re-indexes what changed.
+Files can change outside Stone, through a `git pull` or another editor. A watcher monitors the workspace folder and re-indexes the files that change.
 
-Two boring settings mattered more than I expected. Enabling write-ahead logging and a busy timeout on the SQLite connection stopped background indexing from colliding with the app's own reads and failing with a locked-database error.
+Two SQLite settings made background indexing work alongside interactive reads: write-ahead logging and a busy timeout. They stopped indexing writes from colliding with reads and producing locked-database errors.
 
 ## What this design costs
 
-**A cold start is slow.** A new or rebuilt workspace has to chunk and embed every note before semantic search is useful. Full-text search is ready much sooner.
+Treating SQLite strictly as a disposable index comes with real trade-offs:
 
-**Two copies can disagree.** Between a file changing and the index catching up, search is slightly stale. The file always wins, but the window exists.
+**A cold start is slow.** A new or rebuilt workspace needs to chunk and embed every note before semantic search is useful. Full-text search is ready sooner.
 
-**The embedding model is English-focused.** `bge-small-en-v1.5` is small and fast, and weaker on other languages.
+**Two copies can disagree.** Search can be stale between a file changing and the index catching up. The file remains authoritative.
 
-**Metadata is still migrating.** Until tags and flags move into frontmatter, the rule is not fully true for them. I would rather say so than pretend the design is finished.
+**The embedding model is English-focused.** `bge-small-en-v1.5` is small and fast, but weaker on other languages.
+
+**Metadata is still migrating.** Until I finish moving tags and pinned flags out of SQLite tables and into file frontmatter, deleting the database does lose those specific bits of state. It is better to be upfront about that gap than pretend the migration is finished.
 
 ## Frequently asked questions
 
 ### Should a notes app store notes in SQLite or in files?
 
-Store the notes as files if you care about portability and longevity, and use SQLite for what files are bad at: full-text search, vector search, and graph queries. Treat the database as derived data that can be rebuilt.
+Keep notes as files if you want portability and longevity. Use SQLite for full-text search, vector search, and graph queries, and treat the database as data you can rebuild from the files.
 
 ### What is reciprocal rank fusion?
 
-It is a way to merge several ranked lists. Each item scores `1 / (k + rank)` in every list where it appears, and the scores are summed. It needs no score normalization, which makes it a good fit for combining keyword and vector search.
+It combines ranked lists by giving each item `1 / (k + rank)` points in every list where it appears, then adding those points. Because it uses positions rather than raw scores, it needs no score normalization.
 
 ### Can SQLite do hybrid search?
 
-Yes. Use an FTS5 virtual table for keyword search and store embeddings alongside your rows for vector similarity. Run both queries, then merge the two ranked lists with reciprocal rank fusion. No separate search service is needed.
+Yes. Use an FTS5 table for keyword search and store embeddings alongside the rows for vector similarity. Run both searches and merge their rankings with reciprocal rank fusion. You do not need a separate search service.
 
 ### Do I need a vector database for semantic search over notes?
 
-Not at personal scale. A few thousand notes produce tens of thousands of chunks, and SQLite stores and compares those vectors fast enough on a laptop.
+Not at the scale of personal notes. Even a few thousand Markdown files only break down into tens of thousands of chunks, and SQLite can store and scan that many vectors comfortably fast on a normal laptop.
 
 ### Why split notes into chunks before embedding?
 
-One vector for a long note averages all its subjects together and matches none of them well. Chunking along headings keeps each vector about one thing, and lets search point at the relevant section.
+One vector averages all the subjects in a long note. Splitting along headings keeps each vector focused and lets search point to the relevant section.
 
 ### What happens when I change the embedding model?
 
-Vectors from different models are not comparable, so the index must be rebuilt. Record the model name and dimensions with each indexed note so stale entries can be detected and re-embedded.
+Because vectors generated by different models cannot be meaningfully compared, changing models requires rebuilding your vector index. Storing the model name and vector dimensions on every indexed note makes it straightforward to spot entries built by an older model and re-embed them automatically.
 
-The useful test for a local-first app is a destructive one: delete the database and see what you lost. If the answer is "a few minutes of indexing," the files really are the product. The code is open at [github.com/peritissimus/stone-electron](https://github.com/peritissimus/stone-electron), and the overview of the app is in [Stone: a local-first Markdown note-taking app for Mac](/blog/stone-local-first-note-taking-app).
+The most honest test for any local-first app is destructive: delete its database file and check what you actually lost. When the only damage is a few minutes of background re-indexing, your files really are the source of truth. You can browse the source code at [github.com/peritissimus/stone-electron](https://github.com/peritissimus/stone-electron), or read a broader overview of the app in [Stone: a local-first Markdown note-taking app for Mac](/blog/stone-local-first-note-taking-app).

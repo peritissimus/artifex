@@ -9,52 +9,50 @@ readTime: 4 min read
 draft: false
 ---
 
-I keep coming back to a question about AI coding: if an agent writes much of the implementation, should we still organize software around the same conveniences we designed for ourselves?
+I keep coming back to one question about AI coding: if an agent writes much of the implementation, should we still organize software around the conveniences we originally built for ourselves?
 
-A framework decides what we write explicitly and what can remain a convention. It gives us somewhere to put a feature, a way to share behavior, and a set of assumptions we do not have to explain every time.
+Frameworks decide what we write explicitly and what we can rely on as a convention. They give features a place to go, a way to share behavior, and assumptions we do not have to restate in every file.
 
-Those decisions are worth revisiting. A structure that makes a project comfortable for a human team might not be the easiest one for an agent to change safely. But being built for people does not make a framework obsolete, either.
+Those tradeoffs are worth revisiting now. A project structure that feels comfortable for a human team might not be the easiest one for an agent to modify safely. At the same time, the fact that a framework was designed for people does not automatically make it obsolete.
 
 ## What we still need from a framework
 
-Some abstractions save us from work that matters regardless of who writes the code. Django's querysets, for example, use [parameterized queries to protect against SQL injection](https://docs.djangoproject.com/en/5.2/topics/security/#sql-injection-protection). Generating a replacement would mean taking responsibility for the protection it provided.
+Some abstractions do work we still need, whoever writes the code. Django's querysets, for example, use [parameterized queries to protect against SQL injection](https://docs.djangoproject.com/en/5.2/topics/security/#sql-injection-protection). Asking an agent to generate a custom replacement would just shift the burden of maintaining that protection onto us.
 
-The organizational parts can help too. A consistent way to declare a route or validate an input gives an agent a pattern to follow. I would not discard that just because the agent can produce more code.
+A framework's structure helps in ordinary ways, too. Having one standard way to declare a route or validate input gives an agent a clear pattern to copy. I would not throw away that consistency just because an agent can generate boilerplate quickly.
 
-What interests me is the information an abstraction leaves out of sight. How much must the programmer already know before a small change is safe?
+What concerns me is the context an abstraction hides. How much does a programmer or an agent already need to know to make a small change safely?
 
-Imagine an administrator-only users page. We ask an agent to add a CSV export. It creates a button and a server endpoint, and the file downloads when an administrator clicks it.
+Take a hypothetical example: suppose we have an administrator-only users page, and we ask an agent to add a CSV export. The agent adds a button and a new server endpoint. When an admin clicks the button, the file downloads as expected.
 
-This is a hypothetical example, but it exposes a specific problem: the endpoint is another way to access the data. Protecting the page does not establish that the export is protected. Someone could call it directly.
+The new endpoint creates another path to the same restricted data. Protecting the page does not tell us whether the export is protected: someone could call its URL directly. The access rule has to apply to every server entry point that returns those records.
 
-The requirement belongs to every server entry point that returns that data. The visible feature is only part of the change.
+What I want to know is how an agent is supposed to discover that rule. Is access enforced through a shared policy? Can the agent inspect the codebase to see which handlers use that policy? Is there a test that rejects unauthorized requests, or does protection depend on an experienced developer remembering to check?
 
-I want to know where the agent would discover that requirement. Is it enforced through a shared policy? Can the agent inspect which handlers use it? Is there a test that rejects an unauthorized request? Or is this something an experienced developer remembers to check?
-
-A framework could make that relationship clear and enforceable. It could also leave it scattered across configuration and conventions. Removing the framework would not settle the question. Handwriting the same check in several places creates another opportunity for the implementations to drift.
+A framework can make those relationships explicit and enforceable, or it can scatter them across config files and naming conventions. Ditching the framework does not solve this, either. Writing the same authorization check by hand in multiple places just creates new opportunities for those implementations to drift apart.
 
 ## Familiar is not necessarily the best fit
 
-An agent recommending a familiar stack does not tell me whether it compared the alternatives. It might be a sensible choice with good documentation and tooling. It might also be a default that has not been examined for this particular application.
+An agent recommending a familiar stack does not tell me whether it compared the alternatives. The stack might be a good choice with useful documentation and tooling. It might also be a default the agent has not evaluated for this application.
 
-I would be just as cautious about a new framework described as agent-native. It still needs to make its behavior understandable, and a person still has to maintain the software it helps produce.
+I am equally skeptical of new frameworks described as agent-native. Any framework still has to make its behavior legible, because a human still has to maintain and debug the software it produces.
 
-There is a useful parallel in Anthropic's [work on tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents). It describes designing interfaces around limited context, relevant responses, and explicit inputs, rather than assuming an existing API is already the right interface for an agent.
+There is a useful parallel here in Anthropic's [work on tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents). They describe designing tool interfaces around limited context windows, focused responses, and explicit inputs, rather than assuming an existing API is already the right fit for an agent.
 
-That work concerns tools, not application frameworks. I think the question transfers, even if the answer does not: which information should the interface make available when a decision depends on it?
+Their post concerns agent tools, not application frameworks. I think the question carries over, even if the answer does not: when a safe change depends on existing context, how does the interface help us find it?
 
-For the export feature, a way to inspect effective permissions might help more than a shorter syntax for declaring the endpoint. That capability could sit inside an existing framework.
+In that CSV export scenario, giving the agent a clear way to inspect effective route permissions might help more than offering a terser syntax for declaring endpoints. And there is no reason that kind of visibility could not live inside an existing framework.
 
 ## The next edit is the more interesting test
 
 I would learn more from asking an agent to modify an existing application than from watching it scaffold a new one.
 
-For the export example, I would compare two versions of the same application, using the same framework and permission policy. One would expose which handlers the policy protects; the other would leave that relationship to the framework's usual conventions.
+If I were going to test the CSV export scenario, I would set up two versions of the same application, built on the same framework and underlying permission policy. One version would explicitly expose which handlers are covered by the policy; the other would rely on the framework's standard conventions.
 
-The same agent would get the same feature request, comparable documentation, and a similar budget, across repeated runs. Tests written independently of the agent would check that administrators can export, signed-out and non-admin users cannot, and existing behavior survives. Human review would examine whether the protection is understandable and what needs correcting. Time and cost belong in the comparison too.
+From there, I would run the same agent across repeated trials with the same feature prompt, comparable documentation, and a similar budget. An independent test suite—written separately from the agent—would verify that admins can export the CSV, signed-out and non-admin users get rejected, and no existing behavior breaks. Alongside tracking time and cost, a human reviewer would evaluate how easy the resulting protection is to understand and how much cleanup it needs.
 
-I have not run this experiment. The explicit version might help, or the framework's conventions might already be the clearest option. Better repository documentation could matter more than either design.
+I have not run this experiment, and I do not know how it would turn out. Making permissions explicit might make a clear difference, or the framework's standard conventions might already be plenty clear. It is also possible that better repository documentation would matter more than either code design.
 
-My suspicion is that human-friendly and agent-friendly software will overlap considerably. I want visible dependencies, useful errors, and rules I can verify when I am maintaining code too.
+Still, I suspect that human-friendly and agent-friendly software overlap a lot. When I am maintaining an unfamiliar part of a codebase, I want visible dependencies, useful error messages, and verifiable rules just as much as an agent does.
 
-Perhaps we need to be more deliberate about what we leave implicit. Before replacing a framework, I would take one ordinary change and ask which existing rule it could accidentally bypass. Then I would check whether the framework gives both the agent and me a clear way to find and enforce that rule.
+Perhaps we need to be more deliberate about what we leave implicit. Before replacing a framework, I would take an ordinary feature change, ask which existing rules it could accidentally bypass, and check whether both the agent and I can find and enforce those rules.

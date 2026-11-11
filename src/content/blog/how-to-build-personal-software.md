@@ -8,29 +8,25 @@ description: Build a small tool for one recurring task, with a reusable brief an
 readTime: 5 min read
 ---
 
-To build personal software, pick one recurring task, describe exactly what should happen, choose the smallest useful interface, and test it with the inputs you actually use. AI can help write the code. You still decide what counts as working.
+Start with one recurring task. Describe what should happen, choose the smallest interface that gets the job done, and test it with the inputs you use. An AI coding assistant can help write the code; you decide what counts as working.
 
-This guide uses a small reading-list tool as a worked example. It is a proposed first project, not a claim that I shipped another app. The design choices draw on tools I have built, including [Tabbit](/work/tabbit) and [Birdbrain](/work/birdbrain).
-
-If you are new to the idea, start with [what personal software means](/blog/what-is-personal-software).
+The reading-list tool in this guide is a proposed first project. Its design draws on tools I have built, including [Tabbit](/work/tabbit) and [Birdbrain](/work/birdbrain). If the idea is new to you, start with [what personal software means](/blog/what-is-personal-software).
 
 ## 1. Choose a task with a visible result
 
-“I want a personal operating system” is too broad for a first project. “I want to save a link with a note and find it later” gives you a result you can check.
+Starting with “I want a personal operating system” is far too broad for a first project, whereas “I want to save a link with a note and find it later” gives you a specific result you can actually verify.
 
-For our example, the recurring problem is a pile of reading links scattered across tabs and notes. The first version needs four actions: save a URL, add a reason for saving it, search the list, and mark an item as read.
+In our example, the recurring problem is a pile of reading links scattered across browser tabs and notes apps. A useful first version only needs four actions: save a URL, write down why you saved it, search the list, and mark an item as read. Leave out automatic website scraping, AI summaries, shared accounts, and cross-device sync for now. Every one of those features introduces a new dependency before you even know whether keeping the list helps your workflow.
 
-Exclude automatic website scraping, AI summaries, shared accounts, and cross-device sync. Each creates another dependency before you know whether the list itself helps.
+When picking a first task, look for three properties:
 
-A good first task has three properties:
-
-- You encounter it often enough to test the tool in ordinary use.
-- You can recognize a correct result without asking the AI that produced it.
-- A failed attempt can be undone without losing important data.
+- You run into the problem often enough to test the tool during your normal routine.
+- You can tell whether the output is right on your own, without having to ask the AI that wrote the code.
+- You can undo a failed run without losing anything important.
 
 ## 2. Choose where the tool belongs
 
-The interface should follow the task.
+Let the task dictate the interface rather than starting with a favorite framework. Tabbit is a browser extension because the tabs it manages already live in the browser. Birdbrain needs a persistent archive because the value comes from searching bookmarks collected over months.
 
 | Where the problem happens                | A reasonable first form                        |
 | ---------------------------------------- | ---------------------------------------------- |
@@ -39,23 +35,21 @@ The interface should follow the task.
 | A small list, calculator, or comparison  | A local web page                               |
 | Regular access to desktop files or audio | A desktop app, with more setup and permissions |
 
-Tabbit belongs in the browser because the tabs already live there. Birdbrain needs an archive because the useful activity happens over months. Neither choice starts with a favorite framework.
-
-For the reading list, choose a web page used in one browser on one computer. Use a consistent local address when running it. You do not need a public deployment to learn whether the workflow is useful.
+For a simple reading list, a local web page running in a single browser on one computer is plenty. Just make sure you serve it from a consistent local address. You do not need to deploy anything publicly to find out if the workflow sticks.
 
 ## 3. Write the storage rules before the screen
 
-Decide what one saved item contains. For this example: an ID, URL, title, personal note, saved date, and read status.
+Before thinking about layout, decide what a single saved record looks like and how it will survive over time. Here, each item needs an ID, a URL, a title, a personal note, the date it was saved, and its read status.
 
-The record needs to survive a refresh. It also needs a way out of the app. Browser storage can be a reasonable first choice for this small list, but it is tied to the browser and site origin, as [MDN explains for localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). Clearing site data can remove it. A different port can appear to have an empty list.
+That data has to survive a page refresh, and you need a reliable way to get it out of the app. Browser storage can be a reasonable starting point for this small list, provided you account for its limits. As [MDN explains for localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), the data is tied to a specific browser and site origin—clearing your site data can wipe it out, and opening the page on a different local port can make your list look empty.
 
-Add JSON export and import. An export file is the backup you can move and inspect. An import should validate its contents before changing existing records, show how many items will be added, and avoid duplicate IDs.
+To protect your data, build JSON export and import right away. An export file gives you a plain-text backup you can move around and inspect. On the way back in, the import step should validate the file before touching your existing data, preview how many items it is about to add, and check for duplicate IDs.
 
-This principle scales up. In [Stone](/blog/stone-local-first-note-taking-app), the durable records are Markdown files and search indexes can be rebuilt. The implementation differs; the question is the same: what survives if the interface goes away?
+This habit scales well to larger projects. In [Stone](/blog/stone-local-first-note-taking-app), for instance, the durable records are plain Markdown files on disk, while the search indexes can always be rebuilt from scratch. The storage mechanism is different, but the question is the same: what survives if the interface disappears?
 
 ## 4. Give the builder a small, testable brief
 
-Use a coding assistant or build it yourself. The important input is the brief. Here is one you can adapt:
+Whether you hand the work to a coding assistant or write the code yourself, the most important step is writing a clear specification. Here is a brief you can adapt:
 
 ```text
 Build a personal reading list for one person, in one browser.
@@ -83,13 +77,13 @@ First explain the files and data flow. Then implement it.
 Include exact run steps and a short manual verification list.
 ```
 
-Ask the assistant to explain any dependency or permission it introduces. If it adds an account system, ask which requirement needs one. Keep the brief beside the code so later changes have a reference point.
+One prompt is unlikely to produce a finished tool. Read the code, test the behavior, and revise it.
 
-This is a specification, not a guarantee that one prompt will produce a finished tool. Expect to inspect the result and revise it.
+Ask the assistant to explain each dependency or permission it adds. If it builds an account system, ask which requirement needs one. Keep the brief beside the code as a reference for later changes.
 
 ## 5. Verify the boring behavior
 
-Use dummy links and notes before real data. Check these behaviors yourself:
+Before trusting the app with real links you care about, put it through its paces with dummy data. Run through these checks yourself:
 
 | Check                                                  | What should happen                                |
 | ------------------------------------------------------ | ------------------------------------------------- |
@@ -103,24 +97,22 @@ Use dummy links and notes before real data. Check these behaviors yourself:
 | Delete an item, then undo                              | The item returns                                  |
 | Use the form with only the keyboard                    | Every action is reachable and focus is visible    |
 
-Also ask the builder to exercise a storage failure. The interface must show that saving failed, rather than leave a success message over lost work.
+Also simulate a browser storage failure, either manually or with your coding assistant. The app must report that saving failed instead of showing a success message over lost work.
 
-An attractive screenshot proves the page rendered. The export-and-restore check proves something more useful: you can recover the records.
+A screenshot shows that the page rendered. Exporting the records and restoring them into a fresh profile checks that you can recover them.
 
 ## 6. Add AI only when the missing step needs it
 
-AI used to build an app and AI used inside the app are separate decisions. This reading list can work without sending a single saved link to a model.
+Using AI to write the code does not mean you need AI running inside the app. Our reading list works fine without ever sending a saved link to a language model.
 
-If manual notes later become the bottleneck, consider summaries as an optional enhancement. Save the original record first. Show a pending or failed state if enrichment does not finish. State which fields go to an external provider and what that costs.
+If writing notes by hand eventually slows you down too much, you can always add generated summaries later as an optional layer. Design it so the app saves your raw link first, and displays a clear pending or failed state if the summary request hangs or errors out. Be explicit with yourself about which fields get sent to an external API and what those calls cost.
 
-Birdbrain follows this general shape: stored posts plus generated labels and summaries. Its current classifier uses a hosted provider, so a local archive does not mean fully offline processing. The [Birdbrain case study](/blog/searchable-x-bookmark-archive) explains the distinction.
+Birdbrain works along these lines, pairing locally stored posts with generated labels and summaries. Because its current classifier relies on a hosted model provider, having a local archive does not mean the processing itself happens offline—a distinction I cover in the [Birdbrain case study](/blog/searchable-x-bookmark-archive).
 
 ## 7. Use it before expanding it
 
-Try the tool in the routine that caused the problem. Notice where you still reach for the old method. Perhaps entering a title takes too long. Perhaps search is enough and categories would only add work.
+Once the basic checks pass, put the tool into your normal routine and pay attention to where you still fall back on old habits. Maybe typing out page titles manually is annoying, or maybe plain text search turns out to be fast enough that building a tagging system would just create extra chores.
 
-Write down those observations before requesting more features. Change one source of friction at a time, keeping a working version you can return to.
+Jot down those friction points before asking your assistant for new features. Fix one annoyance at a time, and keep a working version you can return to if an experiment makes the tool worse.
 
-You are ready to rely on the first version when it completes the core task, keeps its data through ordinary use, recovers from a tested backup, and makes failures clear. You are ready to share it when you have also considered other people's data, setup, and support needs.
-
-A useful personal tool can stay small. The next feature should earn its place by solving a problem you have actually encountered.
+You know the first version is solid enough to rely on when it handles the core task, holds onto your data through everyday use, restores cleanly from a backup, and surfaces errors honestly. Before sharing it, also consider other people's data, setup, and support needs. If it is just for you, though, a useful tool can stay small—only add the next feature when you hit a real problem that demands it.

@@ -8,13 +8,13 @@ description: What personal software means, why it matters now, and five tools I 
 readTime: 5 min read
 ---
 
-Personal software is software built around the needs of a particular person or small group. Its scope comes from a real routine: organizing a browser window, finding a saved reference, comparing outfits, or keeping meeting notes in files you own.
+Personal software is built around the needs of one person or a small group. A real routine sets its scope: organizing a browser window, finding a saved reference, comparing outfits, or keeping meeting notes in files you own.
 
-It can be a script, an extension, a spreadsheet, or a complete app. It does not need AI inside it. It does not need a business model. The useful question is whether it fits the person using it.
+It can be a script, an extension, a spreadsheet, or an app. It does not need AI or a business model. What matters is whether it fits the person using it.
 
-This use of the term is separate from the Personal Software Process, the software engineering methodology. Here, personal describes who the tool is made for.
+This use of the term is separate from the Personal Software Process methodology. Here, personal describes who the tool is made for.
 
-That is the thread connecting my [personal software projects](/software). They look different because the problems are different.
+That focus is what connects my [personal software projects](/software). They look different because each solves a different problem in my routine.
 
 ## Why people are talking about personal software now
 
@@ -24,86 +24,86 @@ On October 11, 2026, Pieter Levels wrote:
 
 — [Pieter Levels, on X](https://x.com/levelsio/status/2109262337500705094), also [archived on his site](https://levels.io/era-of-personal-software).
 
-The interesting part of that prediction is the change in who decides what gets built. A recurring annoyance used to need enough commercial demand to justify someone else's roadmap, or enough spare time to justify writing the tool yourself. AI-assisted development makes more of those small projects worth attempting.
+What makes that prediction interesting is the shift in who decides what gets built. Until recently, fixing a recurring annoyance required either enough commercial demand to get onto someone else's product roadmap, or enough spare time to justify writing the code yourself. AI-assisted development lowers that threshold, making far more of these small projects worth attempting.
 
-That does not make the cost of software zero. Someone still has to decide what the tool should do, check its output, and keep it working. But the first working version is becoming easier to reach. That changes which ideas get a chance.
+That does not drop the cost of software to zero. You still have to decide what the tool should do, verify its output, and keep it running when things break. Reaching a first working version is getting much easier, though, and that changes which ideas get a chance to exist.
 
-Lee Robinson makes the change concrete in his January 2025 essay:
+Lee Robinson grounded this shift in a concrete example in his January 2025 essay:
 
 > Software can now adapt to you, not the other way around.
 
 — [Lee Robinson, “Personal Software”](https://leerob.com/personal-software).
 
-His example is a tool for tracking his baby's sleeping and eating. The particular needs of two parents define the product. There is no reason to add every feature a commercial parenting app might need.
+His example is a tool for tracking his baby's sleeping and eating. The routines of two parents define the product, so it does not need every feature a commercial parenting app might offer.
 
 ## This idea is older than AI coding
 
-In February 2020, Robin Sloan described a messaging app he made for his family:
+People were building small, single-household tools long before language models started writing code. In February 2020, Robin Sloan described a messaging app he made just for his family:
 
 > I am the programming equivalent of a home cook.
 
 — [Robin Sloan, “An app can be a home-cooked meal”](https://www.robinsloan.com/notes/home-cooked-app/).
 
-That comparison matters. Cooking for yourself is a complete activity. It does not become worthwhile only when you open a restaurant. Software can have the same relationship to a household, a hobby, or one person's work.
+Cooking dinner at home is worthwhile on its own; you do not have to open a restaurant to justify it. Software can have the same relationship to a household, a hobby, or one person's daily work.
 
-In March 2023, Geoffrey Litt explored how language models could widen access to this kind of creation. His argument included modifying existing tools and building temporary interfaces, alongside creating apps from scratch. He described the broader change as:
+In March 2023, Geoffrey Litt looked at how language models could bring this kind of toolmaking to more people. Beyond building standalone apps from scratch, he talked about modifying existing software and spinning up temporary interfaces on the fly. He summed up the shift as:
 
 > changing when software gets created, by whom, for what purpose.
 
 — [Geoffrey Litt, “Malleable software in the age of LLMs”](https://www.geoffreylitt.com/2023/03/25/llm-end-user-programming.html).
 
-Personal software describes who a tool serves. Malleable software describes how easily people can reshape it. A useful personal tool should leave room for its owner's habits to change.
+Personal software describes who a tool serves; malleable software describes how easily you can reshape it. A personal tool should leave room for its owner's habits to change.
 
 ## Five personal software examples from my own projects
 
 ### Tabbit: organize the browser I already use
 
-[Tabbit](/work/tabbit) groups browser tabs using Chrome's native tab groups. The problem was small: the browser already had the organization feature, but maintaining it was a chore.
+[Tabbit](/work/tabbit) organizes open tabs using Chrome's native tab groups. The underlying problem was minor: Chrome already had the grouping feature I wanted, but maintaining those groups manually was a chore.
 
-It preserves the existing interface. Local development tabs get their own group. Grouping has a fallback when the model call fails. Those decisions come from the actual browser window the extension has to handle.
+It keeps Chrome's existing interface. Local development tabs get their own group, and grouping has a fallback when a model call fails. Those choices come from the browser windows I use.
 
 ### Birdbrain: find something I saved months ago
 
-[Birdbrain](/work/birdbrain) captures X bookmarks into a local archive and adds topic labels and summaries. The goal is to recover a useful reference without remembering its author's handle or the exact words in the post.
+[Birdbrain](/work/birdbrain) pulls my X bookmarks into a local archive and adds topic labels and summaries. I built it so I could dig up a useful link months later without having to remember the author's handle or the exact phrasing of the post.
 
-It keeps capture close to the habit I already have: bookmarking on X. I wrote a separate [case study of the archive, search, and privacy tradeoffs](/blog/searchable-x-bookmark-archive).
+It works with the habit I already have: bookmarking on X. I wrote a separate [case study of the archive, search, and privacy tradeoffs](/blog/searchable-x-bookmark-archive) if you want the architectural details.
 
 ### Fitroom: compare outfits for two particular people
 
-[Fitroom](/work/fitroom) renders two people in selected outfits together. The useful constraints are specific: preserve their relative heights, keep their references, and compare combinations in one picture.
+[Fitroom](/work/fitroom) renders two people side by side in selected outfits. The constraints that make it useful are narrow and specific: reuse the reference photos, preserve the two people's relative heights, and compare combinations in a single image.
 
-This is a visual decision aid. It cannot prove that a garment will fit or that generated fabric details are accurate. A narrow purpose still needs clear limits.
+It is a visual decision aid, with limits even for that narrow job. A generated image cannot prove that a garment will fit or that the fabric details are accurate.
 
 ### Turntable: make images for the things I build
 
-[Turntable](/work/turntable) turns interface screenshots into 3D device mockups in the browser. It exists because making another launch image is a recurring task. Predictable export sizes and a scene that survives a refresh matter more here than a broad design suite.
+[Turntable](/work/turntable) turns UI screenshots into 3D device mockups right in the browser. I built it because putting together launch images for projects is something I end up doing over and over. For that job, having predictable export dimensions and a scene state that survives a page refresh matters much more than having a sprawling design suite.
 
 ![Turntable showing a browser-based 3D device mockup studio](/project-screenshots/turntable.webp)
 
 ### Stone: keep working context in files I own
 
-[Stone](/work/stone) combines notes, journals, tasks, and meeting records around Markdown files. Those records need to remain useful even if I change editors later.
+[Stone](/work/stone) brings my notes, journals, tasks, and meeting records together around plain Markdown files. My main requirement was longevity: those records need to stay readable and useful even if I switch editors down the road.
 
-The storage decision is more important than any single AI feature. Local search and transcription work on the machine; optional cloud text generation is a separate choice. The [Stone introduction](/blog/stone-local-first-note-taking-app) explains that boundary.
+Because of that, the storage format matters far more than any AI capability. Local search and transcription run directly on my machine, while cloud text generation is kept separate and optional. My [Stone introduction](/blog/stone-local-first-note-taking-app) walks through how I drew that boundary.
 
 ## Personal software and vibe coding are different ideas
 
-Personal software describes the purpose and audience. Vibe coding describes an approach to making software with AI. A hand-written shell script can be personal software. An AI-generated commercial product can serve thousands of customers.
+Personal software and vibe coding often come up together, but they describe different things. Personal software is about purpose and audience. Vibe coding is an approach to generating code with AI. A hand-written shell script can be personal software, while an AI-generated commercial app can serve thousands of customers.
 
-Keeping the distinction clear helps set the quality bar. A small audience can justify fewer features. It cannot justify silently losing the only copy of your notes.
+Keeping those two ideas separate helps you set the right engineering bar. Having an audience of one justifies skipping features you will never use, but it does not justify silently corrupting the only copy of your notes.
 
-For a one-off formatter, checking the output may be enough. For a tool that edits files or keeps an archive, I want recovery, visible failures, and a way to inspect the saved data. The consequences of failure should determine the amount of engineering.
+The consequences of a bug should dictate how much engineering rigor you apply. If I am writing a one-off text formatter, eyeballing the output is usually enough verification. If I am building a tool that mutates local files or maintains a long-term archive, I want visible error states, recovery paths, and an easy way to inspect the raw data on disk.
 
 ## When should you build instead of buy?
 
-Building is attractive when the job is narrow, existing tools force an awkward routine, and you can tell whether the result is correct. It is especially useful when the missing feature belongs inside a tool you already use.
+Building your own tool makes the most sense when the job is narrow, off-the-shelf software forces you into an awkward workflow, and you can easily tell whether the output is right. It is an especially good fit when the missing capability belongs right inside a tool or file format you already use every day.
 
-Buying is often better when the existing product fits, you need reliable collaboration, or you do not want to maintain the result. Support, updates, sync, and recovery are part of what a subscription can pay for.
+Buying is usually the better call when an existing product already fits your workflow, when you need reliable multi-user collaboration, or when you simply do not want another thing to maintain. Ongoing support, OS updates, cross-device sync, and data recovery are real work, and that is part of what a subscription pays for.
 
-Count the whole cost: building time, model usage, hosting, repairs, and attention. Avoid claiming savings just because the first version was quick to generate.
+If you are weighing the two, count the full cost of ownership: initial build time, API and model usage, hosting, inevitable repairs, and your own ongoing attention. A quick first version does not establish that building was cheaper.
 
 ## Start with one recurring annoyance
 
-Choose something you did manually twice this week. Describe the input, the desired output, and the mistake that would make you stop trusting the tool. Then build the smallest version you can use in that situation.
+If you want to try building something for yourself, pick a small task you did manually at least twice this week. Write down what goes in, what should come out, and the specific kind of mistake that would make you stop trusting the tool. Then build the smallest version that actually handles that situation.
 
-The personal software wave becomes meaningful when those small tools earn a place in ordinary life. My next piece walks through [how to build a first personal tool](/blog/how-to-build-personal-software), including a concrete brief and checks to run before trusting it.
+These small tools matter when they earn a place in your daily routine. My next post walks through [how to build a first personal tool](/blog/how-to-build-personal-software), complete with a concrete brief and the checks worth running before you rely on it.

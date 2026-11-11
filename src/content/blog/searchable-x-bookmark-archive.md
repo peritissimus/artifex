@@ -8,74 +8,70 @@ description: 'Inside Birdbrain: capturing X bookmarks, searching saved posts, an
 readTime: 5 min read
 ---
 
-Birdbrain is a personal Twitter/X bookmark archive. A browser extension captures bookmark data as I browse, a local service stores it in SQLite, and background jobs add topic labels and summaries. A separate interface lets me search what was saved.
+I built Birdbrain because saving a useful post on Twitter/X was easier than finding it again. I wanted an archive that worked with the bookmarking habit I already had.
 
-The reason for building it was simple: saving a useful post was easier than finding it again. I wanted the archive to fit the bookmarking habit I already had.
+A browser extension captures bookmark data as I browse. A local service saves it in SQLite, background jobs add topic labels and summaries, and a separate interface lets me search the archive.
 
-This is an engineering case study of the [published Birdbrain source](https://github.com/peritissimus/birdbrain/tree/fbe2db3f968409f941dfbfe66122a6eaccb73485), reviewed on October 12, 2026. It describes how the implementation works and its limits. It is not a claim that capture has been freshly tested against every current X response.
+This post is an engineering walkthrough of the [published Birdbrain source](https://github.com/peritissimus/birdbrain/tree/fbe2db3f968409f941dfbfe66122a6eaccb73485) as reviewed on October 12, 2026. It covers how the implementation works and where its limits are. That source review does not establish that capture works against every current X response format.
 
 ## Start with retrieval, not a new feed
 
-A saved post has two kinds of value: what the author wrote, and why I might want it later. A timeline preserves the first imperfectly and often says little about the second.
+A saved post matters for two reasons: what the author actually wrote, and why I might need it later. A standard timeline is already an imperfect way to preserve the original post, and it rarely captures why I cared about it in the first place.
 
-Birdbrain keeps the source text, author information, original post ID, and raw response data. Generated topics and summaries sit beside those records. They help with retrieval, but they are interpretations of the source.
+To handle both, Birdbrain stores the source text, author details, original post ID, and raw response data right alongside generated topics and summaries. Those generated fields make retrieval easier, while staying clearly separated as interpretations rather than replacements for the source.
 
-The scope is deliberately personal. There is no publishing workflow or shared recommendation feed. The useful result is recovering a reference when it becomes relevant to work.
+I also kept the scope strictly personal. There is no publishing workflow and no shared recommendation feed. The whole point is just to pull up a reference when it becomes useful for something I am working on.
 
 ## Capture happens while browsing bookmarks
 
-The extension's [capture hook](https://github.com/peritissimus/birdbrain/blob/fbe2db3f968409f941dfbfe66122a6eaccb73485/chrome_extension/hook.js) watches matching responses from X's bookmark and post-detail requests. It handles both fetch and XMLHttpRequest responses, then passes the captured data to the extension's next stage.
+Instead of requiring a separate manual save step, the browser extension's [capture hook](https://github.com/peritissimus/birdbrain/blob/fbe2db3f968409f941dfbfe66122a6eaccb73485/chrome_extension/hook.js) intercepts matching network responses from X's bookmark and post-detail requests. It watches both fetch and XMLHttpRequest traffic and passes the payload along to the next stage of the extension.
 
-This means capture depends on what X loads in the browser. Scrolling the bookmark list brings more records into view. It is not a promise that installing the extension downloads the entire account history.
+Because it piggybacks on normal browsing, Birdbrain only sees what X actually loads into the page. Scrolling down through my bookmarks pulls more posts into view and into the archive, so simply installing the extension will not automatically download an entire account history.
 
-That tradeoff is central to the design. It avoids a separate manual saving action, but depends on response shapes controlled by another product. If X changes those shapes, the parser may need repair. A personal tool can accept that maintenance burden; a hosted service making guarantees to strangers would need more.
+Capture happens without an extra save button, but it depends on response formats X controls. If those change, the parser may need repair. That is a maintenance burden I can accept for a personal tool; a hosted service making promises to other people would need more.
 
 ## Store the source before enriching it
 
-The path through the app is:
+Data moves through the system in five steps:
 
-1. The extension captures bookmark response data.
-2. The API parses posts and saves them in SQLite.
-3. If classification is enabled and configured, it queues background work.
-4. A worker asks a hosted model for topic labels and a short summary.
-5. The interface displays the archive with search and filters.
+1. The extension captures raw bookmark response data from the browser.
+2. The local API parses the posts and writes them to SQLite.
+3. If AI classification is configured and turned on, the API queues a background job.
+4. A worker sends the post to a hosted model to get topic labels and a short summary.
+5. The web interface exposes the archive with search and topic filters.
 
-The [repository](https://github.com/peritissimus/birdbrain/blob/fbe2db3f968409f941dfbfe66122a6eaccb73485/src/adapters/db/repository.py) looks up a post by its original ID before saving it. Capturing the same post again updates the existing row rather than intentionally creating another copy.
+Before writing to SQLite, the [repository](https://github.com/peritissimus/birdbrain/blob/fbe2db3f968409f941dfbfe66122a6eaccb73485/src/adapters/db/repository.py) checks whether a post with that original ID already exists. Re-capturing a bookmark updates the existing row rather than intentionally duplicating it.
 
-Persisting the source before calling the classifier gives the two activities separate responsibilities. An AI response should improve a saved record, not be the condition for having one. This implementation still has rough edges: a queue failure after persistence can leave the caller seeing an error even though the data was saved. The storage order is useful, but it is not an end-to-end reliability guarantee.
+Birdbrain saves the post before asking the model to classify it. The model should improve a record we already have. There are still rough edges: if the database write succeeds and queueing fails, the API can return an error even though the post was saved. The order is useful, but it does not guarantee end-to-end reliability.
 
 ## Search is simpler than the AI label suggests
 
-The current [search endpoint](https://github.com/peritissimus/birdbrain/blob/fbe2db3f968409f941dfbfe66122a6eaccb73485/src/infrastructure/api/server.py) matches text against post content, author handle, author name, and summary. Topics are a separate filter.
+When I query the archive, the [search endpoint](https://github.com/peritissimus/birdbrain/blob/fbe2db3f968409f941dfbfe66122a6eaccb73485/src/infrastructure/api/server.py) runs plain SQL text matching across the post content, author handle, author name, and generated summary, with topics available as a separate filter.
 
-It uses SQL text matching. It is not vector search or an FTS5 index. Summaries can add useful words to search over, but the search itself does not infer the meaning of a query.
+There is no vector database here, and not even a SQLite FTS5 index. While the AI-generated summaries help by adding extra keywords that might not appear in the tweet itself, the query engine is just matching strings rather than inferring intent.
 
-That is an important distinction when describing an “AI bookmark manager.” AI can help organize records without making every part of retrieval semantic. A simple search over saved text may be enough for a personal collection; larger collections would justify measuring latency and relevance before adding a different index.
-
-For a more elaborate local retrieval system, I wrote separately about [hybrid search in Stone](/blog/markdown-notes-sqlite-search-index).
+That distinction tends to get lost when people talk about an “AI bookmark manager.” Using a model to label and summarize records on ingest does not mean retrieval has to be semantic too. Plain text matching may be enough for a personal collection. For a larger archive, I would measure latency and relevance before choosing another index. (If you are curious what a more involved local setup looks like, I wrote a separate post on [hybrid search in Stone](/blog/markdown-notes-sqlite-search-index).)
 
 ## Incomplete posts remain an explicit problem
 
-A bookmark response may contain truncated text or omit a quoted post. Birdbrain tracks those conditions instead of assuming every captured record is complete.
+Bookmark feed responses from X do not always include everything—long posts can arrive truncated, and quoted posts are sometimes missing altogether. Rather than pretending every captured bookmark is complete, Birdbrain tracks these gaps explicitly.
 
-When a fuller post-detail response becomes available, the hydration route can replace shorter text and fill in missing quoted-post data. When the main text gets longer, it clears the old classification and marks the record pending again. A summary based on incomplete text should not quietly remain authoritative after the source changes.
+If the extension later observes a full post-detail response for an incomplete record, a hydration route swaps in the longer text and fills in any missing quoted-post data. Whenever the main body of a post grows during hydration, Birdbrain also wipes the old classification and marks the item pending again, so a summary written from half a post does not quietly stay attached to the full version.
 
-Hydration depends on receiving the missing content. It cannot recover a post the browser cannot access, and it does not turn media URLs into permanent copies of the media files. A local database is useful ownership, but it is not a complete preservation system.
+Hydration depends on the browser receiving the missing content. It cannot recover posts the browser cannot access, and it does not turn media URLs into permanent copies of media files. A local database gives me control over the records, but it is not a complete preservation system.
 
 ## Local storage and cloud classification are separate choices
 
-The archive lives in SQLite. The current [classifier](https://github.com/peritissimus/birdbrain/blob/fbe2db3f968409f941dfbfe66122a6eaccb73485/src/adapters/ai/groq_classifier.py) sends the author's handle and up to 2,000 characters of post text to Groq to request topics and a summary.
+Even though the database lives locally in SQLite, classification leaves my machine. The current [classifier](https://github.com/peritissimus/birdbrain/blob/fbe2db3f968409f941dfbfe66122a6eaccb73485/src/adapters/ai/groq_classifier.py) sends the author's handle and up to 2,000 characters of post text to Groq to generate topics and a summary.
 
-That boundary deserves a plain description: **local storage, hosted AI enrichment**. Classification involves provider usage and can incur cost. The stored source remains more complete than the classifier's input for longer posts, so generated summaries also have a coverage limit.
+The cleanest way to think about that split is **local storage, hosted AI enrichment**. Calling an external provider means classification involves provider usage and can incur cost. The input cap also means the SQLite row holds more text than the model ever sees on very long posts, which puts a ceiling on how thorough the generated summaries can be.
 
-The API is designed as a local development service. Its routes do not implement user authentication, and its CORS configuration is broad. It should not be presented as a hardened, publicly deployable bookmark service. Protecting local records also requires backups and control over which processes can reach the service.
+On the operational side, the API is built strictly as a local development service. It has broad CORS settings and no user authentication on its routes, so it has no business being exposed to the public internet as a shared bookmark service. Even on a personal machine, keeping the archive safe still comes down to running regular backups and being careful about what local processes can talk to the port.
 
 ## What I would copy for another personal tool
 
-I would keep the separation between capture, durable records, and optional enrichment. I would preserve original IDs and source text. I would make incomplete and failed states visible. Those choices make it possible to understand a record instead of trusting a polished summary blindly.
+If I were building another personal archive tomorrow, I would keep the clear split between capture, durable storage, and optional enrichment. Keeping original IDs, preserving raw source text, and surfacing incomplete or failed states openly makes it easy to inspect what actually happened to a record instead of blindly trusting a neat summary.
 
-I would not copy the whole stack for a first reading list. Birdbrain uses a frontend, an API, Redis, and a worker. A manual list can start much smaller. The extra machinery becomes reasonable when background work and automatic capture actually save effort.
+What I would skip for a simple first reading list is the surrounding infrastructure. Birdbrain runs a web frontend, an API server, Redis, and a background worker. For manual bookmarking, you can get away with far less; all those moving parts only earn their keep once automatic capture and background classification save enough effort to justify them.
 
-The [repository README](https://github.com/peritissimus/birdbrain#readme) has setup instructions. The [project page](/work/birdbrain) gives the shorter overview. For a smaller starting point, follow the [first-tool guide](/blog/how-to-build-personal-software).
-
-This is what I mean by [personal software](/blog/what-is-personal-software): a tool shaped around a real habit, with its value and maintenance costs judged by the person who uses it.
+If you want to poke around further, the [repository README](https://github.com/peritissimus/birdbrain#readme) covers local setup, and the [project page](/work/birdbrain) has a quick overview. If you would rather build something much smaller first, check out my [first-tool guide](/blog/how-to-build-personal-software). Birdbrain is what I mean by [personal software](/blog/what-is-personal-software): a tool built around an existing habit, where the person using it gets to decide whether the convenience is worth the maintenance.

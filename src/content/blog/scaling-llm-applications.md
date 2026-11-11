@@ -9,56 +9,54 @@ description: What 100K+ daily requests and AI workflows for 1,000+ businesses ta
 readTime: 11 min read
 ---
 
-At 100K+ requests per day, our hardest LLM failures rarely looked like model failures. They looked like missing context, duplicate jobs, growing queue latency, and prompts whose cost increased faster than their usefulness.
+At 100K+ requests per day, our hardest LLM failures rarely looked like model problems. They look like missing context, duplicate jobs, climbing queue latency, and prompts whose cost grows much faster than their usefulness.
 
-At [Brihaspati](/work/brihaspati), context-aware personalization helped improve D7 retention by 20%. At [Zoca](/work/zoca), AI content and website-generation systems grew to serve more than 1,000 businesses. Those products had different users and stacks, but they taught me the same lesson: an LLM application scales when the model call becomes one bounded step in a larger system.
+At [Brihaspati](/work/brihaspati), context-aware personalization helped lift D7 retention by 20%. At [Zoca](/work/zoca), our AI content and website-generation systems grew to serve more than 1,000 businesses. Those products had different users and stacks, but they taught me the same lesson: an LLM application scales when the model call is treated as one bounded step inside a larger system.
 
 ## Scaling an LLM application means controlling everything around the model
 
-Model throughput is only one constraint. A production system must also decide which context belongs in a request, when work should leave the request-response cycle, how retries avoid duplicate output, and what quality means after the response arrives.
+Model throughput is only one constraint. A production system also has to decide what context goes into a request, when work should move out of the request-response cycle, how retries avoid creating duplicate output, and how to judge quality once a response comes back.
 
-By LLM application infrastructure, I mean the services around inference: APIs, retrieval, queues, workers, job state, and monitoring. The examples here concern that layer. Hosting model weights, scheduling GPU fleets, and training models introduce a different set of capacity and hardware problems, even when they sit behind the same product.
+When I say LLM application infrastructure, I mean the services wrapped around inference: APIs, retrieval, queues, workers, job state, and monitoring. Everything in this post lives at that layer. Hosting model weights, scheduling GPU fleets, and training models bring a different set of capacity and hardware problems, even when they power the same product.
 
-I now think about four separate budgets:
+To keep that application layer predictable, I break the design down into four competing budgets:
 
 1. **Context budget:** how much relevant information the model receives.
 2. **Latency budget:** how long the user can reasonably wait.
 3. **Cost budget:** how many tokens and model calls the feature can spend.
 4. **Quality budget:** how much uncertainty or inconsistency the workflow can tolerate.
 
-These budgets compete. More context can improve relevance but increase latency and cost. A larger model can handle difficult cases but makes retries expensive. Aggressive caching reduces spend but can return stale or incorrectly personalized output.
-
-The architecture has to make those trade-offs explicit.
+Pushing on one budget usually squeezes another. Adding context can improve relevance, but it drives up latency and cost. Routing to a larger model helps with hard edge cases, yet it makes retries expensive. Caching aggressively cuts spend, at the risk of serving stale or badly personalized answers. Good architecture forces these trade-offs out into the open instead of letting them happen by accident.
 
 ## More context is not the same as better context
 
-The first version of an LLM feature often sends everything available: conversation history, profile data, documents, and several paragraphs of instructions. This works in a demo because the history is short.
+The first version of an LLM feature often sends everything available: full conversation history, user profile data, reference documents, and several paragraphs of instructions. That works fine in a demo when the history is short.
 
-It degrades in production. The prompt becomes expensive, important facts get buried, and old details conflict with the current request.
+That gets harder to sustain as the history grows. Prompts get expensive, key facts get buried in the middle, and older details start contradicting what the user is asking for right now.
 
-A better context pipeline separates three kinds of information:
+A healthier context pipeline separates inputs into three distinct buckets:
 
-- **Immediate context:** the current request and the state needed to answer it.
-- **Working memory:** recent interactions that preserve continuity.
-- **Retrieved memory:** older facts selected because they are relevant now.
+- **Immediate context:** the current request and the exact state needed to answer it.
+- **Working memory:** recent turns that keep the interaction coherent.
+- **Retrieved memory:** older facts pulled in specifically because they matter to the current task.
 
-Retrieval is a ranking problem, not a database feature. Semantic similarity helps find related material, but similarity alone does not tell you whether a fact is current, trustworthy, or useful for this task. Recency, source, user scope, and domain rules belong in the ranking decision too.
+Pulling that third bucket together is a ranking problem, not just a database query. Vector similarity is useful for finding related text, but similarity alone cannot tell you whether a fact is current, trustworthy, or relevant to the task at hand. Recency, source authority, user scope, and domain rules all belong in the ranking logic.
 
-At Brihaspati, dynamic prompts and context-aware memory retrieval made personalization useful enough to affect retention. The important part was not storing more memory. It was selecting a small set of relevant memories for each generation.
+At Brihaspati, pairing dynamic prompts with context-aware memory retrieval made personalization good enough to move retention. What mattered wasn't storing more memory—it was filtering down to a small set of relevant memories for each generation.
 
 ## Long-running generations should not own an HTTP request
 
-An API request is a poor container for work that depends on a model provider, retrieval, external data, and post-processing. Any one of those steps can slow down or fail.
+An open HTTP request is a fragile place to run work that depends on an external model provider, a retrieval step, third-party data, and post-processing. Any one of those steps can stall or fail.
 
-The synchronous version looks simple:
+On paper, keeping it synchronous looks straightforward:
 
 ```text
 client -> API -> retrieve context -> call model -> save output -> response
 ```
 
-The failure modes are less simple. A gateway can time out while the model keeps running. The client retries, creating a second generation. The first generation eventually completes, and now two valid outputs compete for the same record.
+In practice, the failure modes get messy fast. Your API gateway can time out while the model is still generating tokens upstream. Seeing a timeout, the client retries and kicks off a second generation. Then the first call finally finishes, and suddenly you have two valid outputs racing to overwrite the same database record.
 
-At Zoca, moving AI workflows behind a message queue and workers separated user-facing requests from generation work:
+At Zoca, putting AI workflows behind a message queue and background workers cleanly separated user-facing HTTP traffic from the actual generation work:
 
 ```text
                          +-------------------+
@@ -68,81 +66,81 @@ client -> NestJS API ->  |   message queue   | -> worker -> LLM provider
             +---------- job status <---------- durable job store
 ```
 
-The API creates a job and returns its identifier. A worker owns the generation lifecycle. The client polls or subscribes to status changes.
+Now the API just creates a job record and returns an ID. A worker owns the generation lifecycle from start to finish, while the client polls or subscribes to status updates.
 
-This adds machinery, but it gives the system a place to enforce the rules that matter:
+This adds moving parts, but it gives the system a place to enforce rules that are awkward to manage inside a long HTTP request:
 
-- An idempotency key prevents duplicate work.
-- Retry limits distinguish temporary provider errors from bad inputs.
-- Queue age exposes capacity problems before users report them.
-- Job state makes cancellation and recovery possible.
-- Deployments no longer need to keep long HTTP requests alive.
+- Idempotency keys stop duplicate runs before they hit the provider.
+- Retry policies can separate transient provider hiccups from bad inputs that will never succeed.
+- Queue age surfaces capacity bottlenecks before users start complaining.
+- Durable job state makes it possible to cancel or recover in-flight work.
+- Deployments can cycle web servers without dropping long-running HTTP connections.
 
-The queue does not make generation faster. It makes slow and unreliable work manageable.
+A queue doesn't make the model generate tokens any faster. It just makes slow, unreliable work manageable.
 
-The [Celery and Redis media pipeline](/blog/celery-redis-media-pipeline) shows the same boundary in a different workload, including what acknowledgment settings and redelivery mean for a long-running job.
+For the same problem in a different workload, my post on the [Celery and Redis media pipeline](/blog/celery-redis-media-pipeline) digs into what acknowledgment settings and message redelivery actually mean for long-running jobs.
 
 ## Prompts need versions, schemas, and token budgets
 
-Prompts behave like code but often receive less discipline. A sentence changes, output quality shifts, and nobody can connect the regression to a deployed version.
+A prompt change can cause a regression just as a code change can. If prompts have no version, it is hard to connect a drop in output quality to the sentence that changed.
 
-Production prompts should have:
+In production, every prompt should come with a clear contract:
 
-- A version stored with every generated result.
+- An explicit version saved alongside every generated result.
 - A defined input contract.
-- A machine-readable output schema where the workflow needs structured data.
-- A token budget for instructions, retrieved context, and output.
-- A fallback path when parsing or validation fails.
+- A machine-readable output schema whenever downstream code expects structured data.
+- Token budgets for instructions, retrieved context, and completion length.
+- A fallback path for when output parsing or validation fails.
 
-Dynamic prompting should assemble known components rather than concatenate arbitrary strings. The system can choose a template, retrieve context, apply user preferences, and record the final prompt inputs without scattering prompt logic across controllers and background tasks.
+Instead of concatenating raw strings across controllers and background jobs, dynamic prompting should assemble well-defined components in one place. Your prompt builder can pick a template, slot in retrieved context, apply user preferences, and log the exact inputs used for that run.
 
-This also makes model changes safer. If the prompt contract stays stable, a routing layer can send ordinary work to a smaller model and reserve a larger model for requests that need it.
+Treating prompts as versioned contracts also makes model upgrades much less stressful. When inputs and output schemas stay fixed, a routing layer can send routine tasks to a smaller model and reserve a larger one for harder requests.
 
 ## Cache inputs and intermediate work before caching personalized answers
 
-Caching an LLM response is tempting because model calls dominate cost. It is also easy to get wrong.
+Model calls often dominate cost, which makes caching their answers tempting. The difficulty is knowing when an answer is safe to reuse.
 
-Two prompts that look similar can belong to different users, contain different permissions, or depend on data that changed five minutes ago. A broad cache key can turn a cost optimization into a privacy bug.
+Two prompts that look nearly identical might belong to different tenants, operate under different permission scopes, or rely on underlying records updated five minutes ago. Get the cache key slightly too broad, and a cost optimization quietly turns into a data leak.
 
-The safer targets are often earlier in the pipeline:
+Earlier stages are often safer places to cache:
 
 - Normalized source documents.
 - Scraped and cleaned business data.
-- Embeddings for unchanged content.
-- Retrieval results with a short lifetime.
-- Deterministic transformations and validation.
+- Embeddings for content that hasn't changed.
+- Short-lived retrieval results.
+- Deterministic data transformations and validation checks.
 
-If the final response is cacheable, its key should include every input that affects the answer, including prompt version, model, user scope, and source-data version. The more personalized the output, the less likely a shared response cache is the right tool.
+If you do cache final completions, the cache key needs to include every input that affects the answer: prompt version, model ID, user or tenant scope, and source-data version. As a rule of thumb, the more tailored an output is to a specific user, the less likely a shared response cache is to fit.
 
 ## Measure user value separately from system health
 
-Token usage and latency tell you whether the system is operating efficiently. They do not tell you whether the generated result helped anyone.
+Dashboards full of token counts and latency percentiles tell you whether your infrastructure is running smoothly. They tell you nothing about whether the generated text actually helped the user.
 
-At Brihaspati, the useful product signal was D7 retention, not the number of generations. At Zoca, the test is whether a business can use the generated content or website change with little correction.
+At Brihaspati, the metric that mattered was D7 retention, not raw generation volume. At Zoca, the real test is whether a business owner can publish generated content or a website update with little correction.
 
-I track the two groups separately.
+Because infrastructure health and product usefulness can move in opposite directions, I track them separately.
 
 **System metrics**
 
-- Queue age and job duration.
+- Queue age and total job duration.
 - p50 and p95 model latency.
-- Tokens and cost per completed job.
-- Retry, timeout, and parse-failure rates.
-- Context size by prompt version.
+- Token usage and cost per completed job.
+- Retry, timeout, and schema parse-failure rates.
+- Context size broken down by prompt version.
 
 **Product metrics**
 
-- Acceptance or edit rate.
-- Time from request to usable output.
+- Output acceptance rate or user edit distance.
+- Wall-clock time from user request to usable output.
 - Repeat usage after the first generation.
-- User correction patterns.
-- Retention for users who receive personalized output.
+- Common patterns in manual user edits.
+- Retention among users receiving personalized output.
 
-A prompt can reduce latency while making the product worse. A more expensive model can be justified if it reduces rework. You need both sets of metrics to see the trade.
+A prompt change can reduce latency and still make the output less useful. A more expensive model may be worth using if it saves enough correction. Looking at system and product metrics together lets you judge that trade-off.
 
 ## Establish a cost, latency, and quality baseline before optimizing
 
-Before trying a cheaper model or a new cache, I would keep a versioned set of representative tasks and write down what makes an output acceptable. For a content-generation workflow, that might mean correct business facts, valid structured output, and text a business can use without substantial correction. The comparison below is a proposed measurement plan, not another measured result from these products.
+Before swapping in a cheaper model or building a new caching layer, I would lock down a versioned evaluation set of representative tasks and define upfront what counts as an acceptable result. In a content-generation pipeline, "acceptable" might require accurate business details, valid structured output, and copy a customer can publish with minimal editing. The comparison below is a proposed measurement plan, not another measured result from these products.
 
 | Measure | What to record for the same set of tasks |
 | --- | --- |
@@ -150,71 +148,71 @@ Before trying a cheaper model or a new cache, I would keep a versioned set of re
 | End-to-end latency | p50 and p95 time from accepting a request to usable output. Record queue wait and provider time separately so moving work into a queue does not hide the user's wait. |
 | Quality | Accepted results divided by attempted tasks, using the same acceptance rule. Keep failure categories such as wrong business facts, invalid output, and corrections needed. |
 
-Keep failed, timed-out, and cancelled jobs in the record. Report their rates beside completed-job latency rather than dropping them from the comparison. If no result meets the acceptance rule, cost per accepted result is undefined, not zero.
+Don't filter out failed, timed-out, or cancelled jobs when compiling these numbers. Report failure rates right alongside completed-job latency so a flaky optimization doesn't look artificially fast. And if zero outputs pass your acceptance bar on a test run, the cost per accepted result is undefined—not zero.
 
-For each run, record the model, prompt and source-data versions, token counts, concurrency, cache state, and the date and prices used for costing. Repeat trials to expose output variation, and report the sample size. Use redacted or synthetic inputs when production data should not enter a replay.
+For every benchmark run, log the exact model ID, prompt version, source-data snapshot, token counts, concurrency level, cache state, and the pricing table used at that date. Run multiple trials per task to capture generation variance, and always include the sample size. If production payloads contain sensitive customer data, run replays against redacted or synthetic inputs instead.
 
-Then change one thing, such as context selection or model routing, and compare the same tasks again. For caching, report cache hits and misses separately. I would call a change an improvement only if it meets the quality threshold and reduces the cost or waiting time that matters to the user. A lower token bill alone is not enough if the result needs more correction.
+Once that baseline is recorded, change one variable at a time—like retrieval ranking or model routing—and re-run the exact same task set. When testing a cache, split hit and miss metrics rather than blending them together. I would only count an experiment as a win if it holds the quality bar while cutting either real cost or user-facing wait time. Lowering your token bill isn't an optimization if users end up fixing the output by hand.
 
 ## The approaches that stop working first
 
-Several choices are reasonable at small scale and expensive later:
+Plenty of shortcuts make total sense when you are shipping an MVP, then turn painful once traffic picks up:
 
 ### Sending the full conversation every time
 
-It preserves continuity until the history becomes large, contradictory, and costly. Working memory plus retrieval gives the system a deliberate forgetting mechanism.
+Appending every message preserves continuity early on, right up until threads get long, contradictory, and expensive to process. Combining working memory with targeted retrieval gives your application a controlled way to forget.
 
 ### Running generation inside the API process
 
-It avoids queue infrastructure but couples provider latency to web capacity and makes retries hard to reason about.
+Skipping a queue keeps your initial setup simple, but it ties web worker capacity directly to third-party model latency and turns client retries into a race-condition factory.
 
 ### Using the largest model for every request
 
-It simplifies routing but spends the highest price on ordinary work. Start with the smallest model that meets the quality threshold, then escalate difficult cases.
+Sending everything to a frontier model spares you from building routing logic, at the cost of paying top dollar for routine tasks. Start with the smallest model that clears your quality bar, and escalate only the requests that fall short or need heavier reasoning.
 
 ### Treating provider failure as the only failure
 
-A successful model response can still contain invalid JSON, outdated context, unsupported claims, or content that a user rewrites completely. Validation and product feedback belong in the definition of success.
+A successful model response can still contain invalid JSON, outdated context, unsupported claims, or text the user has to rewrite. Schema validation and downstream user signals belong right inside your definition of job success.
 
 ## A practical production checklist
 
-Before increasing traffic to an LLM feature, I want clear answers to these questions:
+Before ramping up traffic on any LLM feature, I want concrete answers to eight questions:
 
 1. Can the same request safely run twice?
-2. Can a user cancel or resume the work?
-3. Which context sources can enter the prompt, and how are they ranked?
-4. Is every result traceable to a prompt version, model, and source-data version?
-5. What happens when the provider times out or returns invalid output?
-6. Which metric represents user value rather than model activity?
-7. What is the maximum acceptable cost per useful result?
-8. Can we replace the model or queue without rewriting the product workflow?
+2. Can a user cleanly cancel or resume an in-flight job?
+3. Which data sources are allowed into the prompt, and how are they ranked?
+4. Can we trace every saved output back to its exact prompt version, model, and source-data state?
+5. What happens step by step when the provider times out or returns malformed output?
+6. Which metric tells us users got value, rather than just telling us the model ran?
+7. What is our ceiling on total cost per useful result?
+8. Can we swap out the underlying model or queue broker without rewriting product logic?
 
-If those answers live only in an engineer's head, the system is not ready to scale.
+If those answers only exist in one engineer's head, the feature isn't ready for real load.
 
 ## Where this architecture still breaks down
 
-Queues and retrieval do not solve every LLM problem. They introduce their own operational cost. Workers need capacity planning, job schemas need migrations, and retrieval quality can drift as the knowledge base changes.
+Queues and retrieval bring their own work. You have to plan worker capacity, migrate job schemas when they change, and watch for retrieval quality drifting as the knowledge base changes.
 
-The 20% retention improvement at Brihaspati also does not prove that memory retrieval alone caused the result. Personalization was part of a broader product experience. The number is evidence that the system contributed value, not a universal benchmark for context-aware applications.
+The 20% D7 retention improvement at Brihaspati does not prove that memory retrieval alone caused it. Personalization was part of a broader product experience. The number is evidence that the system contributed value, rather than a benchmark other context-aware applications should expect to match.
 
-LLM providers and model economics also change quickly. Architecture should isolate provider-specific code, but abstraction has limits. Different models interpret instructions, schemas, and context differently, so switching models still requires evaluation.
+Finally, model capabilities and API pricing move fast. Wrapping provider SDKs behind clean internal interfaces helps, but abstractions only go so far. Different models read instructions, formatting rules, and retrieved context differently—meaning a model swap still demands a fresh evaluation pass, even if your code barely changes.
 
 ## Frequently asked questions about scaling LLM applications
 
 ### When should an LLM call move to a background worker?
 
-Move it when the work can exceed your normal API latency budget, needs retries, calls multiple external services, or should survive a deployment. Keep synchronous calls for short interactions where the user needs an immediate response and duplicate execution is harmless.
+Move it out of the request cycle whenever generation might blow past your normal API timeout budget, requires automated retries, stitches together multiple external calls, or needs to survive a server deploy. Keep calls synchronous only for quick, low-latency turns where the user is actively waiting on screen and an occasional duplicate run won't hurt anything.
 
 ### How much conversation history should an LLM receive?
 
-There is no useful fixed number. Keep the recent turns needed for coherence, summarize older working context, and retrieve specific long-term memories for the current task. Measure whether each additional context source improves the output.
+There is no magic turn count. Pass the last few turns verbatim so the conversation flows naturally, summarize older session state if needed, and rely on retrieval to pull in specific older facts relevant to the current prompt. Then test whether each slice of context actually improves completions instead of assuming more is better.
 
 ### Should every LLM application use a vector database?
 
-No. Start with the smallest retrieval system that fits the data. Full-text search, structured filters, and recent records may be enough. Add semantic retrieval when users ask for information that keyword or relational queries consistently miss.
+No. Start with the simplest retrieval tool that fits your data shape. Standard full-text search, structured filters, and recent records may be enough. Reach for embeddings and vector search only when users ask questions that keyword matching and relational queries keep missing.
 
 ### What is the most important production metric?
 
-Cost per useful result is more informative than cost per model call. Define “useful” through a product signal such as acceptance, low edit distance, task completion, or repeat use, then measure system cost against it.
+Cost per useful result tells you much more than raw cost per API call. First, anchor "useful" to a concrete product signal—like user acceptance, low edit distance, task completion, or repeat usage—and then divide your total infrastructure and token spend by the outputs that actually clear that bar.
 
-The model call is the visible part of an LLM feature, but it is rarely the part that determines whether the product survives real traffic. Context selection, job ownership, prompt contracts, and measurement do that work. Build those boundaries early, and the model can change without taking the rest of the product with it.
+The model call gets most of the attention when you build an LLM feature, yet it is rarely what decides whether the system holds up under real traffic. Context ranking, durable job ownership, prompt contracts, and measurement carry that weight. Put those boundaries in place early, and you can upgrade or swap models later without tearing up the rest of your application.
