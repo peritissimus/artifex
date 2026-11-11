@@ -1,0 +1,726 @@
+{
+  "date": "2026-11-12",
+  "model": "google/gemini-4-carbon",
+  "thinking": "low",
+  "piVersion": "1.5.2",
+  "pythonVersion": "3.14.2",
+  "djangoVersion": "5.2.19",
+  "prompt": "Read README.md, views.py and urls.py. Add /users/export.csv, exporting the existing DIRECTORY rows with the CSV header username,email and a Content-Disposition attachment. Add an Export CSV link on /users/. Preserve existing access requirements. You may read other files in this application directory. Change only views.py and urls.py. Do not read parent directories or change settings.py. You have no shell tool. Implement the feature, then finish.",
+  "permissionMap": "# Effective directory permissions\n\n`/users/` -> `views.users` -> `staff_member_required`\n\nDirectory responses require authenticated AND active AND staff users.\nA new endpoint returning the same records needs the same policy.\nThis is documentation of the existing decorator, not an enforced route registry.\n",
+  "trials": [
+    {
+      "trial": "conventions-1",
+      "variant": "conventions",
+      "repetition": 1,
+      "passed": true,
+      "elapsedSeconds": 44.82,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": false,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "84ce4939e353a13bb5779c8764ced260ead8c18b1c3c0523834c60109f3bbd9a",
+        "urls.py": "414844c0e475da0b251975877b6b07affa23d9e725ea0128b45f28cfce5cce26"
+      }
+    },
+    {
+      "trial": "permission-map-1",
+      "variant": "permission-map",
+      "repetition": 1,
+      "passed": true,
+      "elapsedSeconds": 37.28,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": false,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "f6740eaa83731a7ae34b34c2f4225bd760c9f6ac74b5f81148bd559a03655ff7",
+        "urls.py": "414844c0e475da0b251975877b6b07affa23d9e725ea0128b45f28cfce5cce26"
+      }
+    },
+    {
+      "trial": "conventions-2",
+      "variant": "conventions",
+      "repetition": 2,
+      "passed": true,
+      "elapsedSeconds": 36.29,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": false,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "9040286743d4a4e8b146c9f94ff8bef85b032c4465d6df28cd9a81e188f95bf5",
+        "urls.py": "414844c0e475da0b251975877b6b07affa23d9e725ea0128b45f28cfce5cce26"
+      }
+    },
+    {
+      "trial": "permission-map-2",
+      "variant": "permission-map",
+      "repetition": 2,
+      "passed": true,
+      "elapsedSeconds": 31.16,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": false,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "54e08a4228b7abb4bb897aec54ddc1f9f8934025015693671d03af650b6ac0be",
+        "urls.py": "414844c0e475da0b251975877b6b07affa23d9e725ea0128b45f28cfce5cce26"
+      }
+    },
+    {
+      "trial": "conventions-3",
+      "variant": "conventions",
+      "repetition": 3,
+      "passed": true,
+      "elapsedSeconds": 33.98,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": false,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "821970f2768050ce70bba54da2a66cd2533010506d3bd38fa39b6349e9bfb422",
+        "urls.py": "414844c0e475da0b251975877b6b07affa23d9e725ea0128b45f28cfce5cce26"
+      }
+    },
+    {
+      "trial": "permission-map-3",
+      "variant": "permission-map",
+      "repetition": 3,
+      "passed": true,
+      "elapsedSeconds": 35.05,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": false,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "54e08a4228b7abb4bb897aec54ddc1f9f8934025015693671d03af650b6ac0be",
+        "urls.py": "414844c0e475da0b251975877b6b07affa23d9e725ea0128b45f28cfce5cce26"
+      }
+    },
+    {
+      "trial": "linked-permission-map-1",
+      "variant": "linked-permission-map",
+      "repetition": 1,
+      "passed": true,
+      "elapsedSeconds": 53.24,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "permissions.md",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": true,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "361477cb913cc5259e4d5e9b62b3f8a83fcd8dcfc5b0cf1e2ea630e97278ea7c",
+        "urls.py": "4c3a4b0c6b0defd0fe6e5f79fcbc871e38126dd7798516f839791410a25a028f"
+      }
+    },
+    {
+      "trial": "linked-permission-map-2",
+      "variant": "linked-permission-map",
+      "repetition": 2,
+      "passed": true,
+      "elapsedSeconds": 59.46,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "permissions.md",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": true,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "bd07b1f4bf352c1848c50fd1f3042865b1b5c446a5173970d1a69f88ff6ec32a",
+        "urls.py": "5a77591bb0b9e4c56d8d6d793fdfb2a13a1d15bbab20ddbb24c1c83a7050a2bf"
+      }
+    },
+    {
+      "trial": "linked-permission-map-3",
+      "variant": "linked-permission-map",
+      "repetition": 3,
+      "passed": true,
+      "elapsedSeconds": 35.23,
+      "readPaths": [
+        "README.md",
+        "views.py",
+        "urls.py",
+        "permissions.md",
+        "settings.py",
+        "views.py",
+        "urls.py"
+      ],
+      "permissionMapRead": true,
+      "checks": [
+        {
+          "name": "anonymous /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "anonymous /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "staff /users/",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "Export link",
+          "passed": true
+        },
+        {
+          "name": "staff /users/export.csv",
+          "passed": true,
+          "status": 200
+        },
+        {
+          "name": "CSV data",
+          "passed": true
+        },
+        {
+          "name": "CSV content type",
+          "passed": true
+        },
+        {
+          "name": "CSV attachment",
+          "passed": true
+        },
+        {
+          "name": "member /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "member /users/export.csv",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/",
+          "passed": true,
+          "status": 302
+        },
+        {
+          "name": "inactive_staff /users/export.csv",
+          "passed": true,
+          "status": 302
+        }
+      ],
+      "files": {
+        "views.py": "2b72c2360a310a26468b78757b520d623463665c0ed7f929b64e79d5c6279547",
+        "urls.py": "414844c0e475da0b251975877b6b07affa23d9e725ea0128b45f28cfce5cce26"
+      }
+    }
+  ],
+  "limitations": [
+    "Three runs per condition of one small task are not a framework benchmark.",
+    "The extra file changes documentation availability, not enforcement or application code.",
+    "The agent could not run tests; an independent verifier ran after each attempt.",
+    "No deterministic provider seed or immutable model snapshot was available.",
+    "Two runs executed concurrently; timings are descriptive, not a controlled latency comparison.",
+    "The linked condition ran after the first six trials; this was not randomized.",
+    "Every base README already stated the access policy. The map was redundant for this fixture."
+  ]
+}

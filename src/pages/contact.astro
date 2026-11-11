@@ -8,9 +8,9 @@ import {
   contactIntroduction,
   inquiryDescription,
   inquiryHref,
-  servicePath,
 } from '../lib/consulting';
 import { personSchema, serviceSchema } from '../lib/schema';
+import { infrastructureReview } from '../lib/infrastructure-review';
 ---
 
 <Base
@@ -24,7 +24,7 @@ import { personSchema, serviceSchema } from '../lib/schema';
       serviceSchema({
         name: service.title,
         description: service.description,
-        path: servicePath(service),
+        path: `/contact#${service.slug}`,
       })
     ),
   ]}
@@ -48,6 +48,7 @@ import { personSchema, serviceSchema } from '../lib/schema';
         >
           <h2 id="work-areas-heading">Working together</h2>
           <p>{consultingWorkingStyle}</p>
+          <p><a href={infrastructureReview.path}>{infrastructureReview.contactLabel} →</a></p>
           {
             consultingServices.map((service) => (
               <details class="contact-service" id={service.slug}>

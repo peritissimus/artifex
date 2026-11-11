@@ -28,8 +28,8 @@ export const contactIntroduction =
 export const relatedInquiryIntroduction =
   'For a similar project, we can discuss a focused implementation, architecture review, or investigation.';
 
-// Work areas live in Contact, not separate landing pages. Shared data keeps
-// the expandable HTML sections, Markdown copy, and inquiry topics aligned.
+// Contact lists the work areas; infrastructure also has a focused detail page.
+// Shared data keeps HTML, Markdown, and inquiry topics aligned.
 export const consultingServices: ConsultingService[] = [
   {
     slug: 'applied-ai-engineering',
@@ -326,6 +326,7 @@ export const consultingServices: ConsultingService[] = [
 ];
 
 export function servicePath(service: ConsultingService): string {
+  if (service.slug === 'scalable-ai-infrastructure') return '/consulting/llm-infrastructure';
   return `/contact#${service.slug}`;
 }
 

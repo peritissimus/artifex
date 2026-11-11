@@ -1,6 +1,7 @@
 ---
 title: 'How to Build Personal Software: A Practical First-Tool Guide'
 date: 2026-10-12
+updated: 2026-11-12
 author: Kushal Patankar
 category: Personal Software
 tags: [Personal Software, AI-Assisted Development, Building Tools]
@@ -82,6 +83,8 @@ One prompt is unlikely to produce a finished tool. Read the code, test the behav
 Ask the assistant to explain each dependency or permission it adds. If it builds an account system, ask which requirement needs one. Keep the brief beside the code as a reference for later changes.
 
 ## 5. Verify the boring behavior
+
+The same question applies when a tool grows beyond its first version: which existing rule could the next edit bypass? I explore that problem in [frameworks for AI coding and the rules they leave implicit](/blog/frameworks-for-ai-coding).
 
 Before trusting the app with real links you care about, put it through its paces with dummy data. Run through these checks yourself:
 

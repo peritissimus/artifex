@@ -69,7 +69,7 @@ test('unknown inquiry topics fall back to the general draft', async ({ page }) =
 
 test.describe('Contact and the homepage on a narrow phone', () => {
   test.use({ viewport: { width: 360, height: 800 } });
-  for (const path of ['/', '/contact']) {
+  for (const path of ['/', '/contact', '/consulting/llm-infrastructure']) {
     test(`${path} stays within the viewport`, async ({ page }) => {
       await page.goto(path);
       expect(
@@ -90,4 +90,20 @@ test.describe('Contact and the homepage on a narrow phone', () => {
       }
     });
   }
+});
+
+test('the infrastructure page leads to the scoped inquiry and its engineering evidence', async ({
+  page,
+}) => {
+  await page.goto('/contact');
+  await page.getByRole('link', { name: /Read about a focused LLM infrastructure review/ }).click();
+  await expect(page).toHaveURL(/\/consulting\/llm-infrastructure$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('LLM infrastructure consulting');
+  const inquiry = page.getByRole('link', { name: /Discuss an infrastructure problem/ });
+  await expect(inquiry).toHaveAttribute('data-consulting-service', 'scalable-ai-infrastructure');
+  const draft = new URL((await inquiry.getAttribute('href'))!);
+  expect(draft.protocol).toBe('mailto:');
+  expect(draft.searchParams.get('subject')).toContain('Scalable AI infrastructure');
+  await page.getByRole('link', { name: 'Celery and Redis media processing', exact: true }).click();
+  await expect(page).toHaveURL(/\/blog\/celery-redis-media-pipeline$/);
 });

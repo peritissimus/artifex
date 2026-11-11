@@ -65,3 +65,17 @@ test('homepage exposes three recent articles with matching Markdown links', () =
     assert.ok(existsSync(new URL(`${href.slice(1)}.html`, dist)));
   }
 });
+
+test('the framework essay keeps its editorial title and receives contextual reading links', () => {
+  const path = '/blog/frameworks-for-ai-coding';
+  const html = read(`${path.slice(1)}.html`);
+  assert.match(html, /<title>Frameworks for AI Coding: What Should Stay Implicit\?/);
+  assert.match(html, /<h1[^>]*>Who Are Our Frameworks For Now\?/);
+  for (const source of ['how-to-build-personal-software', 'scaling-llm-applications']) {
+    const related = read(`blog/${source}.html`).match(
+      /aria-labelledby="related-reading-title"[^>]*>([\s\S]*?)<\/nav>/
+    )?.[1];
+    assert.ok(related?.includes(`href="${path}"`), `${source} must recommend the framework essay`);
+    assert.ok(read(`blog/${source}.md`).includes(path));
+  }
+});

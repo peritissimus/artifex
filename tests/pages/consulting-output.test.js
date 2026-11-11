@@ -34,6 +34,9 @@ const CONTENT_SERVICES = {
   ],
 };
 const REMOVED_ROUTES = ['/consulting', ...SERVICES.map(({ slug }) => `/consulting/${slug}`)];
+const PILOT_PATH = '/consulting/llm-infrastructure';
+const targetFor = (slug) =>
+  slug === 'scalable-ai-infrastructure' ? PILOT_PATH : `/contact#${slug}`;
 const read = (path) => readFileSync(new URL(path, DIST), 'utf8');
 
 function decode(text) {
@@ -100,10 +103,13 @@ function assertNoPriceOrRating(value) {
   }
 }
 
-test('consulting content has no separate routes, navigation item, or homepage section', () => {
+test('one focused infrastructure page is discoverable without restoring the old consulting section', () => {
   const sitemap = [...read('sitemap-0.xml').matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, url]) => url);
   assert.ok(sitemap.includes(`${SITE_URL}/contact`));
-  assert.ok(!sitemap.some((url) => new URL(url).pathname.startsWith('/consulting')));
+  assert.deepEqual(
+    sitemap.filter((url) => new URL(url).pathname.startsWith('/consulting')),
+    [`${SITE_URL}${PILOT_PATH}`]
+  );
   for (const path of REMOVED_ROUTES) {
     for (const extension of ['html', 'md']) {
       assert.ok(
@@ -130,9 +136,13 @@ test('consulting content has no separate routes, navigation item, or homepage se
     'about.html',
     'about.md',
   ]) {
-    assert.doesNotMatch(
-      read(document),
-      /(?:href="|\]\()(?:https:\/\/peritissimus\.com)?\/consulting\b/,
+    const links = [
+      ...read(document).matchAll(
+        /(?:href="|\]\()(?:https:\/\/peritissimus\.com)?(\/consulting[^"\s)]*)/g
+      ),
+    ];
+    assert.ok(
+      links.every(([, href]) => href === PILOT_PATH),
       document
     );
   }
@@ -263,7 +273,7 @@ test('LLM services retain existing-model scope and qualified cost claims', () =>
   assert.match(infrastructure, /savingsdependonyourworkload|savingsarenotguaranteed/);
 });
 
-test('relevant engineering pages link to the matching Contact evidence with descriptive titles in both formats', () => {
+test('engineering pages link to the matching offer with descriptive titles in both formats', () => {
   const contact = read('contact.html');
   for (const [path, slugs] of Object.entries(CONTENT_SERVICES)) {
     const html = read(`${path.slice(1)}.html`);
@@ -276,15 +286,17 @@ test('relevant engineering pages link to the matching Contact evidence with desc
     const links = [...related.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)];
     assert.deepEqual(
       links.map(([, attrs]) => attribute(attrs, 'href')).sort(),
-      slugs.map((slug) => `/contact#${slug}`).sort(),
+      slugs.map(targetFor).sort(),
       `Incorrect related services: ${path}`
     );
     const markdownLinks = [
-      ...markdown.matchAll(/\[([^\]]+)\]\((https:\/\/peritissimus\.com\/contact#[^)]+)\)/g),
+      ...markdown.matchAll(
+        /\[([^\]]+)\]\((https:\/\/peritissimus\.com\/(?:contact#|consulting\/)[^)]+)\)/g
+      ),
     ];
     for (const slug of slugs) {
       const service = SERVICES.find((item) => item.slug === slug);
-      const target = `/contact#${slug}`;
+      const target = targetFor(slug);
       const label = links.find(([, attrs]) => attribute(attrs, 'href') === target)?.[2] ?? '';
       assert.equal(plain(label).replace(/[→↗]/g, ''), plain(service.title), path);
       assert.ok(
@@ -331,4 +343,40 @@ test('Contact has a general draft and distinct prefilled service options', () =>
   assert.ok(cta, 'Missing project email action');
   assert.equal(attribute(cta, 'data-consulting-service'), 'general');
   assert.equal(attribute(cta, 'href'), attribute(options[0], 'data-email'));
+});
+
+test('the infrastructure pilot has a matching Markdown page, evidence, and an attributed inquiry', () => {
+  const html = read(`${PILOT_PATH.slice(1)}.html`);
+  const markdown = read(`${PILOT_PATH.slice(1)}.md`);
+  assert.ok(html.includes(`rel="canonical" href="${SITE_URL}${PILOT_PATH}"`));
+  assert.equal([...main(html).matchAll(/<h1\b/g)].length, 1);
+  for (const [, copy] of main(html).matchAll(
+    /<(?:p|li|h[1-3])\b[^>]*>([\s\S]*?)<\/(?:p|li|h[1-3])>/g
+  )) {
+    if (plain(copy) === 'productionllmapplications') continue;
+    assert.ok(plain(markdown).includes(plain(copy)), `Missing pilot Markdown copy: ${plain(copy)}`);
+  }
+  const ctas = anchors(main(html)).filter((tag) => attribute(tag, 'href').startsWith('mailto:'));
+  assert.equal(ctas.length, 2);
+  for (const tag of ctas) {
+    assert.equal(attribute(tag, 'data-consulting-service'), 'scalable-ai-infrastructure');
+    assert.match(
+      new URL(attribute(tag, 'href')).searchParams.get('subject'),
+      /Scalable AI infrastructure/
+    );
+  }
+  const schemas = serviceSchemas(html);
+  assert.equal(schemas.length, 1);
+  assert.equal(schemas[0].url, `${SITE_URL}${PILOT_PATH}`);
+  assertNoPriceOrRating(schemas[0]);
+  for (const path of [
+    '/blog/scaling-llm-applications',
+    '/blog/celery-redis-media-pipeline',
+    '/work/zoca',
+  ]) {
+    assert.ok(
+      anchors(main(html)).some((tag) => attribute(tag, 'href') === path),
+      path
+    );
+  }
 });

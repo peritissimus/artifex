@@ -20,11 +20,26 @@ const readingPaths = [
     'celery-redis-media-pipeline',
     'scaling-llm-applications',
   ],
-  ['frameworks-for-ai-coding', 'how-to-build-personal-software', 'scaling-llm-applications'],
+  [
+    'frameworks-for-ai-coding',
+    'ai-coding-django-permissions-pilot',
+    'how-to-build-personal-software',
+    'scaling-llm-applications',
+  ],
 ];
 
 export function relatedPosts(postId: string, posts: CollectionEntry<'blog'>[]) {
-  const ids = [...new Set(readingPaths.filter((path) => path.includes(postId)).flat())];
+  // Interleave paths so an earlier, longer group cannot hide a later topic.
+  const paths = readingPaths
+    .filter((path) => path.includes(postId))
+    .map((path) => path.filter((id) => id !== postId));
+  const ids = [
+    ...new Set(
+      Array.from({ length: Math.max(0, ...paths.map((path) => path.length)) }, (_, index) =>
+        paths.map((path) => path[index]).filter(Boolean)
+      ).flat()
+    ),
+  ];
   return ids
     .filter((id) => id !== postId)
     .map((id) => posts.find((post) => post.id === id && !post.data.draft))

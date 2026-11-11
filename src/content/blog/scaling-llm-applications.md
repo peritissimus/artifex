@@ -1,7 +1,7 @@
 ---
 title: "Scaling LLM Applications: Context, Queues, and the Cost of Personalization"
 date: 2025-01-15
-updated: 2026-10-17
+updated: 2026-11-12
 author: Kushal Patankar
 category: AI/LLM
 tags: [LLM, Production, Architecture, Context, Message Queues]
@@ -81,6 +81,8 @@ A queue doesn't make the model generate tokens any faster. It just makes slow, u
 For the same problem in a different workload, my post on the [Celery and Redis media pipeline](/blog/celery-redis-media-pipeline) digs into what acknowledgment settings and message redelivery actually mean for long-running jobs.
 
 ## Prompts need versions, schemas, and token budgets
+
+The code around a model call needs discoverable rules too. In [frameworks for AI coding](/blog/frameworks-for-ai-coding), I use an administrator-only export to ask how an agent finds the permissions an ordinary change must preserve.
 
 A prompt change can cause a regression just as a code change can. If prompts have no version, it is hard to connect a drop in output quality to the sentence that changed.
 

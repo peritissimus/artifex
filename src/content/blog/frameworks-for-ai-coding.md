@@ -1,10 +1,12 @@
 ---
 title: 'Who Are Our Frameworks For Now?'
+seoTitle: 'Frameworks for AI Coding: What Should Stay Implicit?'
 date: 2026-10-18
+updated: 2026-11-12
 author: Kushal Patankar
 category: AI/LLM
 tags: [AI Coding, Software Engineering, Frameworks]
-description: Whether frameworks built around human programmers still make sense for AI coding, and what a safe change asks of either.
+description: How framework conventions shape AI code changes, with an admin-only CSV export example and a test plan for checking permissions.
 readTime: 4 min read
 draft: false
 ---
@@ -16,6 +18,8 @@ Frameworks decide what we write explicitly and what we can rely on as a conventi
 Those tradeoffs are worth revisiting now. A project structure that feels comfortable for a human team might not be the easiest one for an agent to modify safely. At the same time, the fact that a framework was designed for people does not automatically make it obsolete.
 
 ## What we still need from a framework
+
+For AI coding, I would judge a framework by whether both the agent and the human reviewer can find the rules a change must preserve. Shorter syntax matters less if permissions, dependencies, or failure behavior are difficult to inspect. This is also why a [small, testable implementation brief](/blog/how-to-build-personal-software) matters before the first generated file.
 
 Some abstractions do work we still need, whoever writes the code. Django's querysets, for example, use [parameterized queries to protect against SQL injection](https://docs.djangoproject.com/en/5.2/topics/security/#sql-injection-protection). Asking an agent to generate a custom replacement would just shift the burden of maintaining that protection onto us.
 
@@ -51,7 +55,7 @@ If I were going to test the CSV export scenario, I would set up two versions of 
 
 From there, I would run the same agent across repeated trials with the same feature prompt, comparable documentation, and a similar budget. An independent test suite—written separately from the agent—would verify that admins can export the CSV, signed-out and non-admin users get rejected, and no existing behavior breaks. Alongside tracking time and cost, a human reviewer would evaluate how easy the resulting protection is to understand and how much cleanup it needs.
 
-I have not run this experiment, and I do not know how it would turn out. Making permissions explicit might make a clear difference, or the framework's standard conventions might already be plenty clear. It is also possible that better repository documentation would matter more than either code design.
+I have not run that full comparison. I started with a [nine-run Django permissions pilot](/blog/ai-coding-django-permissions-pilot): every generated export passed the access checks. An unlinked permission map was ignored; linking it from the README caused the agent to read it, without changing the pass rate. That small result does not settle which framework design is better. It does make me want to inspect the information the agent actually sees before crediting an abstraction for the outcome.
 
 Still, I suspect that human-friendly and agent-friendly software overlap a lot. When I am maintaining an unfamiliar part of a codebase, I want visible dependencies, useful error messages, and verifiable rules just as much as an agent does.
 

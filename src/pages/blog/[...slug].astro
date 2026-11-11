@@ -49,7 +49,7 @@ function formatDate(date: Date): string {
 ---
 
 <Base
-  title={`${post.data.title} - peritissimus`}
+  title={`${post.data.seoTitle || post.data.title} - peritissimus`}
   ogTitle={post.data.title}
   description={post.data.description}
   ogImage={ogImage}

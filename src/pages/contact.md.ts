@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { CONTACT_EMAIL } from '../lib/schema';
+import { infrastructureReview } from '../lib/infrastructure-review';
 import {
   consultingServices,
   consultingWorkingStyle,
@@ -22,6 +23,7 @@ export const GET: APIRoute = () =>
         `Currently building at ${link('Zoca', '/work/zoca')}. We can discuss scope and availability once the problem is clear. Founding and staff engineering conversations are welcome too.`,
         '## Working together',
         consultingWorkingStyle,
+        link(`${infrastructureReview.contactLabel} →`, infrastructureReview.path),
         ...consultingServices.map((service) =>
           [
             `### ${service.name}`,

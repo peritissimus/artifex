@@ -61,6 +61,16 @@ Each result is saved as a new, dated JSON file in ignored `output/seo/`. Files i
 
 These are search-result snapshots, not GSC metrics. A missing domain match means only that the site was absent from the returned results. Related searches and questions do not measure monthly search demand. Search volume and SEO difficulty remain `null` because this endpoint does not supply them. See [Serper](https://serper.dev/) for the service and `pnpm seo:lookup --help` for options.
 
+## Reproducible engineering examples
+
+- `public/examples/sqlite-hybrid-search.py` runs an FTS5, toy-vector, and reciprocal-rank-fusion example with Python's standard library. It checks its expected rankings and prints the result. The vectors are hand-authored; this is a mechanics example, not an embedding-quality benchmark.
+- `public/examples/redis-redelivery.py` starts and stops an isolated local Redis process to reproduce unacknowledged-message restoration through Kombu. Its dependencies and scope are documented in the Celery/Redis article.
+- `public/examples/permission-pilot.zip` includes the Django permission fixture, independent verifier, nine recorded implementations, results, and a Pi runner. The recorded implementations can be verified without model calls; a fresh nine-run pilot requires a configured Google provider in Pi and consumes provider usage. See the included README.
+
+The focused LLM infrastructure offer lives at `/consulting/llm-infrastructure`, with an HTML/Markdown pair generated from shared copy. Other project inquiries still start at Contact. Blog frontmatter can set `seoTitle` independently of the visible editorial `title`.
+
+See [the SEO measurement guide](docs/seo-measurement.md) for separate reader and consulting outcomes after deployment.
+
 ## Structure
 
 ```

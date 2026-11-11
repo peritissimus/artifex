@@ -1,7 +1,7 @@
 ---
 title: "Processing 2,000 Hours of Media a Day with Celery and Redis"
 date: 2026-07-26
-updated: 2026-10-17
+updated: 2026-11-12
 author: Kushal Patankar
 category: Infrastructure
 tags: [Celery, Redis, Distributed Systems, Python, Architecture, Queues, acks_late, Visibility Timeout]
@@ -151,19 +151,41 @@ Enabling late acknowledgments does introduce one hard requirement: your tasks ha
 
 If you run Celery with `task_acks_late=True` on top of Redis, there is a hidden timer that is very easy to miss. Because Redis lists do not have native message acknowledgments, Celery emulates them using a `visibility_timeout` (which defaults to one hour). If a delivered message is not acknowledged before that timer runs out, Celery assumes the worker died and hands the message to someone else.
 
-With late acknowledgments turned on, a message stays unacknowledged for the entire duration of the task. That means if a heavy transcode takes 70 minutes, Redis will quietly redeliver it at the 60-minute mark while the first worker is still crunching away. Suddenly you have two workers burning CPU on the exact same job even though nothing failed.
+With late acknowledgments turned on, a message stays unacknowledged for the entire duration of the task. A 70-minute transcode can therefore become eligible for redelivery after 60 minutes, while its first worker is still running. When the transport's restoration check runs, another worker can receive the same job even though the first attempt has not failed.
 
-To prevent duplicate runs, set the visibility timeout comfortably higher than your longest task, with room to spare:
+To reduce timeout-driven redelivery, set the visibility timeout above your bounded task duration, with room for expected delays. This does not provide exactly-once execution. Current [Celery Redis guidance](https://docs.celeryq.dev/en/stable/getting-started/backends-and-brokers/redis.html#visibility-timeout) also recommends keeping the broker, backend, and application values aligned:
 
 ```python
-celery_app.conf.broker_transport_options = {
-    "visibility_timeout": 6 * 60 * 60,  # longer than the slowest job
-}
+timeout = 6 * 60 * 60  # an example bound; choose it from your workload
+celery_app.conf.broker_transport_options = {"visibility_timeout": timeout}
+celery_app.conf.result_backend_transport_options = {"visibility_timeout": timeout}
+celery_app.conf.visibility_timeout = timeout
 ```
 
-Raising this timeout creates a trade-off in the other direction, though. When a worker is killed outright, the broker will not redeliver its unacknowledged task until the full six hours expire. This is another place where tracking job state in your own database pays off: you can run a lightweight sweeper job that spots tasks stuck in progress well past their expected runtime and requeues them in minutes, rather than waiting hours for Redis to time out.
+Raising this timeout creates a recovery trade-off. After an unclean worker loss, a delivery may wait until its visibility window expires before another worker receives it; a clean shutdown can restore messages sooner. Tracking job state can help a recovery process identify abandoned work, but elapsed time alone does not prove a worker is dead. Use ownership or heartbeat information and keep retries idempotent before requeueing a job that might still be running.
 
-Keep in mind that tasks scheduled in the future with `eta` or `countdown` share this exact same visibility timer. Any task scheduled further out than the visibility timeout will get redelivered early and execute multiple times.
+Tasks scheduled with `eta` or `countdown` also remain unacknowledged while waiting. A delay longer than the visibility timeout can cause repeated redelivery; it is not a reason to execute the task before its scheduled time. Use a durable scheduler for long delays rather than raising the timeout indefinitely.
+
+### Diagnose duplicate Celery tasks on Redis
+
+First compare task IDs. A repeated delivery of the same ID points to a different problem from two separate publishes for the same business job. Record the business job ID too: two distinct messages can still repeat one external side effect.
+
+For a repeated task ID, check these in order:
+
+1. **Elapsed time and acknowledgment.** Was the message still unacknowledged when its configured visibility timeout elapsed? Include time spent waiting for an ETA.
+2. **Worker lifecycle.** Did a worker, connection, or deployment stop during execution? Check the broker's redelivery marker alongside worker logs.
+3. **Shared broker configuration.** Check every application using that Redis broker. A shorter visibility timeout elsewhere can affect restoration behavior.
+4. **Application behavior.** Look for explicit retries, duplicate publishes, or a recovery process scheduling a job that is still running. Increasing a timeout does not fix these cases.
+
+The [Kombu/Redis reproduction](/examples/redis-redelivery.py) isolates the broker mechanism. It starts a disposable Redis process on a loopback port, leaves one delivery unacknowledged, waits past a one-second timeout, and explicitly invokes Kombu's restoration check. The second delivery has the same payload and the redelivery flag. No Celery worker or production Redis is involved.
+
+```sh
+# In a disposable virtual environment; redis-server must be on PATH.
+python -m pip install 'kombu==5.7.0' 'redis==7.4.1' packaging
+python redis-redelivery.py
+```
+
+The useful output is `"same_payload": true` and `"redelivered": true`. The example demonstrates broker restoration; it does not measure real worker polling delays, task throughput, or recovery time. Before changing production settings, reproduce the application's actual failure and verify that repeated execution is safe.
 
 ## Where the 50% reduction in generation time came from
 

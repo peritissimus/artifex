@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import { infrastructureReview as review } from '../../lib/infrastructure-review';
+import { consultingServices, inquiryHref } from '../../lib/consulting';
+import { breadcrumbSchema, personSchema, serviceSchema } from '../../lib/schema';
+
+const service = consultingServices.find((item) => item.slug === 'scalable-ai-infrastructure')!;
+---
+
+<Base
+  title={review.title}
+  description={review.description}
+  currentPath={review.path}
+  ogImage="/og/contact.png"
+  jsonLd={[
+    personSchema,
+    serviceSchema({ name: service.title, description: service.description, path: review.path }),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: review.heading, path: review.path },
+    ]),
+  ]}
+>
+  <article class="content-section blog-post">
+    <div class="section-inner">
+      <header class="post-header">
+        <p class="page-kicker">Production LLM applications</p>
+        <h1 class="post-title">{review.heading}</h1>
+        <p class="lede">{review.introduction}</p>
+      </header>
+      <div class="post-content">
+        <h2>When a review is useful</h2>
+        <ul>{review.fit.map((item) => <li>{item}</li>)}</ul>
+        <a
+          class="contact-topic-email"
+          href={inquiryHref(service.slug)}
+          data-consulting-service={service.slug}
+          >Discuss an infrastructure problem <span aria-hidden="true">↗</span></a
+        >
+
+        <h2>How I approach the work</h2>
+        <ol>
+          {
+            review.steps.map((step) => (
+              <li>
+                <strong>{step.title}</strong> {step.body}
+              </li>
+            ))
+          }
+        </ol>
+        <h2>What we can scope together</h2>
+        <ul>{review.deliverables.map((item) => <li>{item}</li>)}</ul>
+        <h2>Relevant engineering work</h2>
+        {
+          review.evidence.map((item) => (
+            <section>
+              <h3>
+                <a href={item.path}>{item.title}</a>
+              </h3>
+              <p>{item.body}</p>
+            </section>
+          ))
+        }
+        <h2>Where this work fits</h2>
+        <p>{review.boundaries}</p>
+        <h2>Start with one concrete problem</h2>
+        <p>{review.preparation}</p>
+        <a
+          class="contact-topic-email"
+          href={inquiryHref(service.slug)}
+          data-consulting-service={service.slug}
+          >Email me about LLM infrastructure <span aria-hidden="true">↗</span></a
+        >
+        <p>This opens a draft in your email app. Nothing is submitted through the website.</p>
+        <p>For other projects or engineering roles, <a href="/contact">get in touch</a>.</p>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post-title {
+    text-wrap: balance;
+  }
+
+  .contact-topic-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 44px;
+    padding-block: 0.25rem;
+    text-underline-offset: 4px;
+  }
+</style>
