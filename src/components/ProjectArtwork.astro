@@ -335,14 +335,16 @@ const { variant, detail = 'card' } = Astro.props;
         <rect class="artwork-surface" x="52" y="0" width="96" height="128" />
         <path d="M52 0v128M148 0v128" opacity=".5" />
         <circle class="artwork-card-depth artwork-shadow-plane" cx="32.5" cy="34.5" r="12" />
-        <g class="anim-bird" transform="translate(0 4)">
-          <circle class="artwork-surface artwork-structure" cx="30" cy="28" r="12" />
-          <path d="M23.6 33.3c4.6 1 7.8-1.2 7.8-5.3v-.6l1.6-1-1.8-.3c-.7-1.3-2.3-1.8-3.6-1.1-1.1.6-1.6 1.9-1.2 3.1-2.4-.1-4.5-1.2-6-3-.8 1.4-.4 3.2 1 4.1l-1.4-.4c0 1.5 1 2.8 2.5 3.1h-1.3c.4 1.2 1.5 2.1 2.4 2.4z" />
+        <g transform="translate(0 4)">
+          <g class="anim-bird">
+            <circle class="artwork-surface artwork-structure" cx="30" cy="28" r="12" />
+            <path d="M23.6 33.3c4.6 1 7.8-1.2 7.8-5.3v-.6l1.6-1-1.8-.3c-.7-1.3-2.3-1.8-3.6-1.1-1.1.6-1.6 1.9-1.2 3.1-2.4-.1-4.5-1.2-6-3-.8 1.4-.4 3.2 1 4.1l-1.4-.4c0 1.5 1 2.8 2.5 3.1h-1.3c.4 1.2 1.5 2.1 2.4 2.4z" />
+          </g>
         </g>
-        <path d="M135 23h8v11l-4-3-4 3z" />
+        <path class="anim-tug" d="M135 23h8v11l-4-3-4 3z" />
         <path class="artwork-hero" d="M60 25h24" />
         <path d="M88 25h13M104.5 25h7" opacity=".45" />
-        <path d="M60 33h80M60 38.5h62" opacity=".85" />
+        <path d="M60 33h71M60 38.5h62" opacity=".85" />
         <rect class="artwork-card-depth artwork-shadow-plane" x="60.5" y="48" width="84" height="26" rx="5" />
         <rect class="artwork-surface artwork-structure" x="58" y="45.5" width="84" height="26" rx="5" />
         <path class="anim-sparkle" d="m65.4 49.6.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z" />
@@ -699,8 +701,9 @@ const { variant, detail = 'card' } = Astro.props;
         <path
           class="artwork-hero anim-hands"
           style="transform-box:view-box;transform-origin:36px 56px"
-          d="M36 56V44.5M36 56l8 5"
+          d="M36 56V44.5"
         />
+        <path class="artwork-hero" d="M36 56l8 5" />
         <circle cx="36" cy="56" r="1.3" />
         <rect class="artwork-card-depth artwork-shadow-plane" x="68" y="28" width="54" height="70" rx="13" />
         <g class="artwork-card-depth artwork-hatch">
@@ -711,18 +714,24 @@ const { variant, detail = 'card' } = Astro.props;
         <rect class="artwork-structure" x="68.5" y="28.5" width="45" height="61" rx="9" />
         <path d="m77.6 34.4-1.4 2.6h1.4l-.9 2.4 2.2-2.9h-1.4l1.3-2.1z" />
         <path d="M83.5 36.5h13" opacity=".6" />
-        <circle cx="76.5" cy="45" r="1.3" />
-        <rect x="81.5" y="43.5" width="5.5" height="3" rx="0.8" />
-        <rect x="88.5" y="43.5" width="5.5" height="3" rx="0.8" opacity=".35" />
-        <rect x="95.5" y="43.5" width="5.5" height="3" rx="0.8" opacity=".35" />
-        <circle cx="76.5" cy="52" r="1.3" />
-        <rect x="81.5" y="50.5" width="5.5" height="3" rx="0.8" />
-        <rect x="88.5" y="50.5" width="5.5" height="3" rx="0.8" />
-        <rect x="95.5" y="50.5" width="5.5" height="3" rx="0.8" opacity=".35" />
-        <circle cx="76.5" cy="59" r="1.3" />
-        <rect x="81.5" y="57.5" width="5.5" height="3" rx="0.8" opacity=".35" />
-        <rect x="88.5" y="57.5" width="5.5" height="3" rx="0.8" opacity=".35" />
-        <rect x="95.5" y="57.5" width="5.5" height="3" rx="0.8" opacity=".35" />
+        <g class="anim-row">
+          <circle cx="76.5" cy="45" r="1.3" />
+          <rect x="81.5" y="43.5" width="5.5" height="3" rx="0.8" />
+          <rect x="88.5" y="43.5" width="5.5" height="3" rx="0.8" opacity=".35" />
+          <rect x="95.5" y="43.5" width="5.5" height="3" rx="0.8" opacity=".35" />
+        </g>
+        <g class="anim-row">
+          <circle cx="76.5" cy="52" r="1.3" />
+          <rect x="81.5" y="50.5" width="5.5" height="3" rx="0.8" />
+          <rect x="88.5" y="50.5" width="5.5" height="3" rx="0.8" />
+          <rect x="95.5" y="50.5" width="5.5" height="3" rx="0.8" opacity=".35" />
+        </g>
+        <g class="anim-row">
+          <circle cx="76.5" cy="59" r="1.3" />
+          <rect x="81.5" y="57.5" width="5.5" height="3" rx="0.8" opacity=".35" />
+          <rect x="88.5" y="57.5" width="5.5" height="3" rx="0.8" opacity=".35" />
+          <rect x="95.5" y="57.5" width="5.5" height="3" rx="0.8" opacity=".35" />
+        </g>
         <text class="artwork-card-essential" x="91" y="78" font-size="11" font-weight="700" text-anchor="middle">05:49</text>
         <path d="M76 84h30" opacity=".4" />
         <path class="artwork-hero" d="M76 84h19" />
@@ -741,7 +750,7 @@ const { variant, detail = 'card' } = Astro.props;
   }
   {
     variant === 'fit' && detail === 'card' && (
-      <svg viewBox="0 0 180 128" role="presentation">
+      <svg viewBox="0 0 180 128" role="presentation" data-lead="chip">
         <defs>
           <pattern id="pt-fit" width="12" height="3.2" patternUnits="userSpaceOnUse">
             <path d="M0 1.6q3-1.8 6 0t6 0" opacity=".45" />
@@ -765,12 +774,12 @@ const { variant, detail = 'card' } = Astro.props;
         <path d="M38 34h2.5M38 46h2.5M38 58h2.5M38 70h2.5M38 82h2.5" opacity=".55" />
         <path d="M41 30.5h25" stroke-dasharray="2 2.5" opacity=".5" />
         <path d="M41 45h55" stroke-dasharray="2 2.5" opacity=".5" />
-        <g class="anim-person">
+        <g class="anim-person" style="transform-box:fill-box;transform-origin:50% 100%">
           <circle class="artwork-hero" cx="72" cy="36.5" r="6" />
           <path class="artwork-hero" d="M72 44.5c-4.4 0-7.4 2.5-8.3 6.5L61 89h22l-2.7-38c-.9-4-3.9-6.5-8.3-6.5z" />
           <path d="M68 89v12M76 89v12M66 101h4.4M74 101h4.4" />
         </g>
-        <g class="anim-person">
+        <g class="anim-person" style="transform-box:fill-box;transform-origin:50% 100%">
           <circle class="artwork-hero" cx="102" cy="50.5" r="5.5" />
           <path class="artwork-hero" d="M102 57.5c-3.7 0-6.2 2-7 5.4L90 87h24l-5-24.1c-.8-3.4-3.3-5.4-7-5.4z" />
           <path d="M98.5 87v14M105.5 87v14M96.5 101h4.4M103.5 101h4.4" />
@@ -904,7 +913,7 @@ const { variant, detail = 'card' } = Astro.props;
         <rect class="artwork-soft-surface artwork-structure" x="69" y="62" width="51" height="8" rx="2" />
         <rect class="artwork-soft-surface artwork-structure" x="48" y="76" width="38" height="8" rx="2" />
         <path d="M49 94h68M49 101h46" opacity=".42" />
-        <g class="anim-sparkle">
+        <g class="anim-frame">
           <path d="M28 29v-9h9M143 20h9v9M28 96v9h9M143 105h9v-9" />
         </g>
         <path class="artwork-hero" d="M145 48c8 3 12 4 12 4v12c0 9-5 15-12 19-7-4-12-10-12-19V52s4-1 12-4z" />
@@ -995,17 +1004,15 @@ const { variant, detail = 'card' } = Astro.props;
         <rect class="artwork-surface artwork-structure" x="15" y="17" width="150" height="94" rx="7" />
         <path d="M27 91h126M27 70h126M27 49h126M27 28h126" opacity=".18" />
         <path d="M45 24v73M72 24v73M99 24v73M126 24v73" opacity=".12" />
-        <g class="anim-row">
-          <path d="M35 73v19M31 78h8v9h-8z" />
-          <path d="M52 60v24M48 66h8v11h-8z" />
-          <path d="M69 67v22M65 72h8v10h-8z" />
-          <path d="M86 47v30M82 55h8v14h-8z" />
-          <path d="M103 51v26M99 58h8v12h-8z" />
-          <path d="M120 34v31M116 41h8v15h-8z" />
-          <path d="M137 29v28M133 35h8v14h-8z" />
-        </g>
+        <path class="anim-bar" d="M35 73v19M31 78h8v9h-8z" />
+        <path class="anim-bar" d="M52 60v24M48 66h8v11h-8z" />
+        <path class="anim-bar" d="M69 67v22M65 72h8v10h-8z" />
+        <path class="anim-bar" d="M86 47v30M82 55h8v14h-8z" />
+        <path class="anim-bar" d="M103 51v26M99 58h8v12h-8z" />
+        <path class="anim-bar" d="M120 34v31M116 41h8v15h-8z" />
+        <path class="anim-bar" d="M137 29v28M133 35h8v14h-8z" />
         <path class="artwork-hero" d="m31 84 21-13 17 7 17-18 17 4 17-16 19-8" />
-        <circle class="artwork-surface artwork-hero anim-sparkle" cx="139" cy="40" r="4" />
+        <circle class="artwork-surface artwork-hero anim-pulse" vector-effect="non-scaling-stroke" cx="139" cy="40" r="4" />
         <rect class="artwork-card-depth artwork-shadow-plane" x="108" y="84" width="48" height="19" rx="5" />
         <rect class="artwork-surface artwork-hero" x="105" y="81" width="48" height="19" rx="5" />
         <path d="M112 88h19M112 94h31" opacity=".62" />
@@ -1066,7 +1073,7 @@ const { variant, detail = 'card' } = Astro.props;
           <path d="M96 78h18v14H96zM120 80h14v10h-14z" opacity=".8" />
         </g>
         <path d="M36 108h106M36 106v4M142 106v4M88 106v4" opacity=".45" />
-        <g class="anim-orbit">
+        <g class="anim-sun">
           <circle class="artwork-surface artwork-hero" cx="158" cy="22" r="5" />
           <path d="M158 12v3M158 29v3M148 22h3M165 22h3M151 15l2 2M163 27l2 2M165 15l-2 2M153 27l-2 2" />
         </g>
@@ -1095,13 +1102,13 @@ const { variant, detail = 'card' } = Astro.props;
         <path d="M24 36h40" stroke-dasharray="2 2.5" opacity=".55" />
         <path d="M24 49h50" stroke-dasharray="2 2.5" opacity=".55" />
 
-        <g class="anim-person">
+        <g class="anim-person" style="transform-box:fill-box;transform-origin:50% 100%">
           <circle class="artwork-hero" cx="58" cy="42.5" r="6.5" />
           <path class="artwork-hero" d="M58 51c-5 0-8.2 2.8-9.2 7.2L45 96h26l-3.8-37.8C66.2 53.8 63 51 58 51z" />
           <path d="M53.5 96v10M62.5 96v10M51 106h5.2M60 106h5.2" />
           <path d="M49 72h18" opacity=".45" />
         </g>
-        <g class="anim-person">
+        <g class="anim-person" style="transform-box:fill-box;transform-origin:50% 100%">
           <circle class="artwork-hero" cx="92" cy="55.5" r="6" />
           <path class="artwork-hero" d="M92 63c-4.2 0-6.9 2.3-7.8 6L79 95h26l-5.2-26c-.9-3.7-3.6-6-7.8-6z" />
           <path d="M88 95v11M96 95v11M85.8 106h5M93.6 106h5" />
@@ -1559,22 +1566,77 @@ const { variant, detail = 'card' } = Astro.props;
 
   // One-shot flourishes. Every animation starts and ends at the identity
   // state, so it can simply run to completion — no snap-back on exit.
+  //
+  // Motion grammar: things leave fast and come home soft. `nudge` is a quick
+  // decelerating push followed by a longer settle that overshoots rest by a
+  // hair, so elements feel like they have a little weight instead of bobbing
+  // on a sine wave. Durations stay proportional to distance travelled.
+  const OUT = 'out(3)';
+  const SETTLE = 'outBack(1.4)';
+  const nudge = (to: number, out = 150, back = 420, rest = 0) => [
+    { to, duration: out, ease: OUT },
+    { to: rest, duration: back, ease: SETTLE },
+  ];
+
+  // Everything that can open a card's sequence. Chips answer it, the
+  // sparkle closes it — unless the drawing's own story runs the other way.
+  const LEAD =
+    '.anim-key, .anim-row, .anim-bar, .anim-person, .anim-bird, .anim-float, .anim-knob, .anim-frame, .anim-hands, .anim-orbit, .anim-sun, .anim-tug';
+
   function play(svg: SVGElement) {
     const q = (s: string) => svg.querySelectorAll(s);
     const run: Promise<unknown>[] = [];
     const go = (targets: NodeListOf<Element>, params: Record<string, unknown>) => {
       if (targets.length) run.push(Promise.resolve(animate(targets, params)));
     };
-    go(q('.anim-sparkle'), { rotate: [0, 180], scale: [1, 1.25, 1], duration: 750, ease: 'outCubic' });
-    go(q('.anim-key'), { translateY: [0, -3.5, 0], duration: 560, delay: stagger(80), ease: 'inOutQuad' });
-    go(q('.anim-row'), { translateX: [0, -3.5, 0], duration: 480, delay: stagger(60), ease: 'inOutQuad' });
-    go(q('.anim-hands'), { rotate: '1turn', duration: 950, ease: 'inOutCubic' });
-    go(q('.anim-orbit'), { rotate: '1turn', duration: 1300, ease: 'inOutSine' });
-    go(q('.anim-person'), { translateY: [0, -3, 0], duration: 620, delay: stagger(140), ease: 'inOutSine' });
-    go(q('.anim-bird'), { translateY: [0, -3.5, 0], rotate: [0, -8, 0], duration: 650, ease: 'inOutSine' });
-    go(q('.anim-float'), { rotate: [0, -3, 0], translateY: [0, -2.5, 0], duration: 800, ease: 'inOutSine' });
-    go(q('.anim-chip'), { translateY: [0, -3, 0], duration: 500, delay: stagger(110), ease: 'inOutQuad' });
-    go(q('.anim-knob'), { translateX: [0, -7, 0], duration: 700, ease: 'inOutQuad' });
+
+    // Beats are laid out per drawing so nothing waits on a group that is not
+    // there. `data-lead="chip"` flips the order where the chips are the cause
+    // (Fitroom: outfits first, then the couple wearing them).
+    const hasLead = q(LEAD).length > 0;
+    const hasChip = q('.anim-chip').length > 0;
+    const chipFirst = svg.dataset.lead === 'chip' && hasChip;
+    const leadAt = chipFirst ? 110 : 0;
+    const chipAt = chipFirst || !hasLead ? 0 : 70;
+    const sparkAt = hasLead || hasChip ? Math.max(leadAt, chipAt) + 90 : 0;
+    const from = (each: number, start = leadAt) => stagger(each, { start });
+
+    // Lead: the subject of each drawing moves first, the way the object would.
+    // Keys press down into their shadow rather than lifting off it.
+    go(q('.anim-key'), { translateX: nudge(0.9, 90, 280), translateY: nudge(1.5, 90, 280), delay: from(45) });
+    // Rows shift inward, away from the margin they align to.
+    go(q('.anim-row'), { translateX: nudge(2.2, 130, 380), delay: from(50) });
+    go(q('.anim-bar'), { translateY: nudge(-2, 120, 340), delay: from(35) });
+    // Figures stand taller from the floor; their origin is the foot line.
+    go(q('.anim-person'), { scaleY: nudge(1.035, 170, 460, 1), delay: from(90) });
+    go(q('.anim-bird'), { translateY: nudge(-2, 170, 480), rotate: nudge(-6, 170, 480), delay: leadAt });
+    go(q('.anim-tug'), { translateY: nudge(2, 140, 380), delay: leadAt + 60 });
+    // The slider drives the device: knob first, the tilt follows it.
+    go(q('.anim-knob'), { translateX: nudge(-5, 240, 460), delay: leadAt });
+    go(q('.anim-float'), {
+      translateY: nudge(-2.4, 240, 620),
+      rotate: nudge(-5, 240, 620),
+      delay: leadAt + (q('.anim-knob').length ? 40 : 0),
+    });
+    go(q('.anim-frame'), { scale: nudge(0.94, 180, 460, 1), delay: leadAt });
+    // Turns ease in and out on a steeper curve so they read as one
+    // deliberate sweep rather than a constant spin.
+    go(q('.anim-hands'), { rotate: '1turn', duration: 900, ease: 'inOut(2.4)', delay: leadAt });
+    go(q('.anim-orbit'), { rotate: '1turn', duration: 1100, ease: 'inOut(2.2)', delay: leadAt });
+    // A quarter turn is an exact identity for the sun's rays, so it never unwinds.
+    go(q('.anim-sun'), { rotate: { from: 0, to: 90, duration: 1000, ease: OUT }, delay: leadAt });
+
+    // Support: chips answer a beat after the lead.
+    go(q('.anim-chip'), { translateY: nudge(-2, 140, 400), delay: from(55, chipAt) });
+
+    // Punctuation lands last. A quarter turn is the identity for a
+    // four-point star, so the rotation never has to unwind.
+    go(q('.anim-sparkle'), {
+      rotate: { from: 0, to: 90, duration: 640, ease: 'out(4)' },
+      scale: nudge(1.25, 180, 460, 1),
+      delay: sparkAt,
+    });
+    go(q('.anim-pulse'), { scale: nudge(1.2, 180, 460, 1), delay: sparkAt + 120 });
     return run;
   }
 
@@ -1593,7 +1655,7 @@ const { variant, detail = 'card' } = Astro.props;
       // Small hover-intent delay so pass-over mouses don't trigger the show.
       intent = window.setTimeout(() => {
         if (caret.length && !caretLoop)
-          caretLoop = animate(caret, { opacity: [1, 0], duration: 430, loop: true, alternate: true, ease: 'inOutSine' });
+          caretLoop = animate(caret, { opacity: [1, 0], duration: 480, loop: true, alternate: true, ease: 'inOut(14)' });
         if (!inFlight) {
           inFlight = true;
           Promise.allSettled(play(svg)).then(() => {
@@ -1608,7 +1670,7 @@ const { variant, detail = 'card' } = Astro.props;
       if (caretLoop) {
         caretLoop.cancel();
         caretLoop = null;
-        animate(caret, { opacity: 1, duration: 180, ease: 'outQuad' });
+        animate(caret, { opacity: 1, duration: 140, ease: OUT });
       }
     };
     card.addEventListener('mouseenter', start);
