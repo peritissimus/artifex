@@ -21,6 +21,7 @@ export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = async ({ props: 
       description: data.description,
       path: `/blog/${post.id}`,
       body: [
+        absolutizeLinks(post.body ?? ''),
         [
           `- Author: ${data.author}`,
           `- Published: ${isoDate(data.date)}`,
@@ -31,7 +32,6 @@ export const GET: APIRoute<{ post: CollectionEntry<'blog'> }> = async ({ props: 
         ]
           .filter(Boolean)
           .join('\n'),
-        absolutizeLinks(post.body ?? ''),
         related.length > 0 &&
           absolutizeLinks(
             [

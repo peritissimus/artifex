@@ -14,15 +14,6 @@ export const GET: APIRoute = async () => {
       description: personalSoftware.description,
       path: '/software',
       body: [
-        personalSoftware.intro,
-        `## ${personalSoftware.heading}`,
-        personalSoftware.explanation,
-        personalSoftware.guides
-          .map(
-            (guide, index) =>
-              `${index + 1}. ${link(guide.title, guide.href)} — ${guide.description}`
-          )
-          .join('\n'),
         projects
           .map(
             (project) =>

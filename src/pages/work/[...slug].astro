@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import ConsultingRelated from '../../components/ConsultingRelated.astro';
 import { getCollection, render } from 'astro:content';
 import ProjectArtwork from '../../components/ProjectArtwork.astro';
+import StoneArtwork from '../../components/StoneArtwork.astro';
 import { workSchema, breadcrumbSchema } from '../../lib/schema';
 
 export async function getStaticPaths() {
@@ -79,21 +80,13 @@ const breadcrumbs = breadcrumbSchema([
     ]}
   >
     <div class="section-inner">
-      <div class="work-header">
+      <header class="work-header">
         <div class="work-back">
           <a href={work.data.kind === 'personal' ? '/software' : '/about'}>
             ← {work.data.kind === 'personal' ? 'Back to Personal Software' : 'Back to Timeline'}
           </a>
         </div>
-        {work.data.kind === 'personal' && <p class="page-kicker work-kind">Personal project</p>}
         <h1 class="work-company">{work.data.title}</h1>
-        <div class="work-meta">
-          <span class="work-role">{work.data.role}</span>
-          <span class="work-separator">•</span>
-          <span class="work-date">{work.data.dateRange}</span>
-          <span class="work-separator">•</span>
-          <span class="work-location">{work.data.location}</span>
-        </div>
         {
           work.data.externalUrl && (
             <a
@@ -106,19 +99,25 @@ const breadcrumbs = breadcrumbSchema([
             </a>
           )
         }
-        {
-          work.data.kind === 'personal' && artworkVariant && (
-            <figure class={`project-blueprint project-blueprint--${work.id}`}>
-              <div class="project-blueprint-labels" aria-hidden="true">
-                <span>Product study</span>
-                <span>Archive {String(work.data.order - 100).padStart(2, '0')}</span>
-              </div>
-              <ProjectArtwork variant={artworkVariant} detail="blueprint" />
-              <figcaption>{work.data.description}</figcaption>
-            </figure>
-          )
-        }
-      </div>
+      </header>
+      {
+        work.data.kind === 'personal' && artworkVariant && (
+          <figure class={`project-blueprint project-blueprint--${work.id}`}>
+            {work.id === 'stone' ? (
+              <StoneArtwork />
+            ) : (
+              <>
+                <div class="project-blueprint-labels" aria-hidden="true">
+                  <span>Product study</span>
+                  <span>Archive {String(work.data.order - 100).padStart(2, '0')}</span>
+                </div>
+                <ProjectArtwork variant={artworkVariant} detail="blueprint" />
+              </>
+            )}
+            <figcaption>{work.data.description}</figcaption>
+          </figure>
+        )
+      }
 
       <div class="post-content">
         <div class="work-section">
@@ -158,19 +157,6 @@ const breadcrumbs = breadcrumbSchema([
         }
 
         {
-          work.data.technologies.length > 0 && (
-            <div class="work-section">
-              <h3>Technologies</h3>
-              <div class="tech-grid">
-                {work.data.technologies.map((tech) => (
-                  <span class="tech-tag">{tech}</span>
-                ))}
-              </div>
-            </div>
-          )
-        }
-
-        {
           work.data.stats && work.data.stats.length > 0 && (
             <div class="work-section">
               <h3>Impact</h3>
@@ -195,6 +181,34 @@ const breadcrumbs = breadcrumbSchema([
           )
         }
       </div>
+      <footer class="detail-meta" aria-label="Project details">
+        <dl>
+          <div>
+            <dt>Type</dt>
+            <dd>{kindLabel}</dd>
+          </div>
+          <div>
+            <dt>Role</dt>
+            <dd>{work.data.role}</dd>
+          </div>
+          <div>
+            <dt>Period</dt>
+            <dd>{work.data.dateRange}</dd>
+          </div>
+          <div>
+            <dt>Location</dt>
+            <dd>{work.data.location}</dd>
+          </div>
+          {
+            work.data.technologies.length > 0 && (
+              <div>
+                <dt>Technologies</dt>
+                <dd>{work.data.technologies.join(', ')}</dd>
+              </div>
+            )
+          }
+        </dl>
+      </footer>
       <ConsultingRelated path={`/work/${work.id}`} />
     </div>
   </article>

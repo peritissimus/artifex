@@ -82,6 +82,18 @@ a {
   color: var(--bg);
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 // Serif display helper
 %serif-display {
   font-family: var(--serif);
@@ -701,112 +713,10 @@ a {
   }
 }
 
-.page-software .section-title {
-  margin-bottom: 1.25rem;
-}
-
-.software-intro {
-  max-width: 38rem;
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.65;
-  text-wrap: pretty;
-}
-
-// A compact reading path in the same column as the page introduction.
-.software-reading {
-  margin: 2.5rem 0 0;
-
-  h2 {
-    font-family: var(--sans);
-    font-size: 1.125rem;
-    font-weight: 600;
-    text-wrap: balance;
-  }
-
-  > p {
-    margin: 0.75rem 0 1.25rem;
-    color: var(--muted);
-    line-height: 1.65;
-    text-wrap: pretty;
-  }
-
-  ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border-top: 1px solid var(--border);
-  }
-
-  li {
-    border-bottom: 1px solid var(--border);
-  }
-
-  a {
-    display: grid;
-    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
-    align-items: baseline;
-    gap: 1rem;
-    min-height: 44px;
-    padding: 1rem 0;
-    color: var(--fg);
-    text-decoration: none;
-
-    &:hover strong,
-    &:focus-visible strong {
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--fg);
-      outline-offset: 4px;
-    }
-  }
-}
-
-.software-reading-label {
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  color: var(--muted);
-}
-
-.software-reading-copy {
-  strong {
-    display: block;
-    font-family: var(--sans);
-    font-size: 0.9375rem;
-    font-weight: 600;
-    line-height: 1.4;
-    text-wrap: pretty;
-  }
-
-  > span {
-    display: block;
-    margin-top: 0.35rem;
-    color: var(--muted);
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    text-wrap: pretty;
-  }
-}
-
-@media (max-width: 540px) {
-  .software-reading a {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.5rem;
-  }
-
-  .software-reading-label {
-    grid-column: 1 / -1;
-  }
-}
-
 .software-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: 1.75rem;
-  margin-top: 3rem;
 }
 
 // Projects-page card: same artwork, calmer vessel than the homepage deck —
@@ -1095,10 +1005,13 @@ a {
 // ── Blog post ───────────────────────────────────────────────────────────────
 .post-back,
 .work-back {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   font-size: 0.9rem;
 
   a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
     color: var(--muted);
     transition: color 0.15s var(--ease);
 
@@ -1108,15 +1021,12 @@ a {
   }
 }
 
-.post-meta-header {
-  @extend %kicker;
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
+.blog-post .post-header {
+  margin-bottom: 2rem;
 
-.post-date {
-  font-variant-numeric: tabular-nums;
+  .post-title {
+    margin-bottom: 0;
+  }
 }
 
 .post-title {
@@ -1126,16 +1036,43 @@ a {
   text-wrap: balance;
 }
 
-.post-info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-  font-size: 0.9rem;
-  color: var(--faint);
-  padding-bottom: 2rem;
-  margin-bottom: 2.5rem;
-  border-bottom: 1px solid var(--border);
+.detail-meta {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+
+  dl {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  dl > div {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  dt {
+    color: var(--faint);
+  }
+
+  dd {
+    color: var(--muted);
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
 }
 
 // Rendered markdown
@@ -1588,38 +1525,26 @@ a {
 .work-company {
   @extend %serif-display;
   font-size: clamp(2.25rem, 5.5vw, 3.25rem);
-  margin-bottom: 1rem;
-}
-
-.work-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  align-items: center;
-  font-size: 0.95rem;
-  color: var(--muted);
-  margin-bottom: 1rem;
-}
-
-.work-separator {
-  color: var(--faint);
+  margin-bottom: 0;
+  text-wrap: balance;
 }
 
 .work-header {
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
-.work-detail--personal .work-link {
-  display: block;
+.work-header .work-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  margin-top: 0.5rem;
 }
 
 .project-blueprint {
   --plate-accent: #80745d;
 
   position: relative;
-  margin-top: 2.75rem;
+  margin: 0 0 2.5rem;
   padding: 1rem 1.1rem 0.9rem;
   overflow: hidden;
   color: #eee9df;
@@ -1656,6 +1581,12 @@ a {
 
 .project-blueprint--stone {
   --plate-accent: #d95b2b;
+  padding: 0.75rem 0.75rem 0.9rem;
+  background: #191816;
+
+  figcaption {
+    margin-inline: 1rem;
+  }
 }
 
 .project-blueprint--turntable {
@@ -1954,20 +1885,7 @@ a {
   }
 
   .project-blueprint {
-    margin-top: 2rem;
-    padding: 0.85rem 0.8rem 0.75rem;
-    border-radius: 0.65rem;
-
-    .project-artwork {
-      width: 110%;
-      margin: 0.55rem 0 0.15rem -5%;
-    }
-
-    figcaption {
-      margin-top: 0.5rem;
-      padding-top: 0.6rem;
-      font-size: 0.68rem;
-    }
+    display: none;
   }
 
   .project-screenshot {

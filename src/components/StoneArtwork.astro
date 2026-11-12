@@ -1,0 +1,212 @@
+---
+const navigation = ['Today', 'Journals', 'Tasks', 'Knowledge', 'Meetings'];
+---
+
+<svg class="stone-study" viewBox="0 0 960 570" aria-hidden="true">
+  <defs>
+    <clipPath id="stone-window">
+      <rect x="16" y="16" width="928" height="538" rx="12"></rect>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#stone-window)">
+    <rect x="16" y="16" width="928" height="538" fill="#242321"></rect>
+    <rect x="16" y="16" width="206" height="538" fill="#1e1d1b"></rect>
+    <path class="divider" d="M222 16v538M222 64h722M222 416h722M16 524h928"></path>
+    <g fill="#706b64">
+      <circle cx="37" cy="39" r="4"></circle>
+      <circle cx="52" cy="39" r="4"></circle>
+      <circle cx="67" cy="39" r="4"></circle>
+    </g>
+    <text class="brand" x="45" y="87">Stone</text>
+    <path class="icon" d="M185 76h12m-6-6v12"></path>
+    {
+      navigation.map((label, i) => (
+        <g>
+          <g class="icon" transform={`translate(42 ${118 + i * 30})`}>
+            {i === 0 && (
+              <>
+                <circle r="4" />
+                <path d="M0-8v1M0 7v1M-8 0h1M7 0h1M-6-6l1 1M5 5l1 1M-6 6l1-1M5-5l1-1" />
+              </>
+            )}
+            {i === 1 && (
+              <>
+                <rect x="-6" y="-6" width="12" height="12" rx="2" />
+                <path d="M-2-6V6" />
+              </>
+            )}
+            {i === 2 && (
+              <>
+                <rect x="-6" y="-6" width="12" height="12" rx="2" />
+                <path d="m-3 0 2 2 4-4" />
+              </>
+            )}
+            {i === 3 && (
+              <>
+                <path d="m0-7 7 4v7L0 8l-7-4v-7zM-7-3 0 1l7-4M0 1v7" />
+              </>
+            )}
+            {i === 4 && (
+              <>
+                <rect x="-3" y="-7" width="6" height="10" rx="3" />
+                <path d="M-6 0a6 6 0 0 0 12 0M0 6v3m-3 0h6" />
+              </>
+            )}
+          </g>
+          <text class="nav-text" x="61" y={122 + i * 30}>
+            {label}
+          </text>
+        </g>
+      ))
+    }
+    <path class="divider" d="M32 270h174"></path>
+    <text class="caption" x="36" y="297">WORKSPACE</text>
+    <g class="icon">
+      <path d="m34 316 3 3-3 3M46 315h5l2 2h8v10H46z"></path>
+      <path d="m34 346 3 3-3 3M46 345h5l2 2h8v10H46z"></path>
+      <path d="m33 377 3 3 3-3M46 375h5l2 2h8v10H46z"></path>
+      <path d="m34 466 3 3-3 3M46 465h5l2 2h8v10H46z"></path>
+    </g>
+    <text class="nav-text" x="70" y="325">Journal</text>
+    <text class="nav-text" x="70" y="355">Personal</text>
+    <text class="nav-text" x="70" y="385">Stone</text>
+    <rect x="30" y="397" width="178" height="28" rx="5" fill="#38312b"></rect>
+    <rect x="30" y="403" width="2" height="16" rx="1" fill="#d59c74"></rect>
+    <path class="icon" d="M52 405h7l3 3v10H52zM59 405v4h3M52 435h7l3 3v10H52zM59 435v4h3"></path>
+    <text class="selected" x="70" y="416">Plain files, useful memory</text>
+    <text class="nav-text" x="70" y="446">Meeting notes</text>
+    <text class="nav-text" x="70" y="475">Work</text>
+    <text class="breadcrumb" x="248" y="44"
+      >Stone <tspan fill="#625e58"> / </tspan> Plain files, useful memory</text
+    >
+    <g class="icon">
+      <path d="m881 36-4 4 4 4m10-8 4 4-4 4m-6 2 2-8"></path>
+      <circle cx="919" cy="35" r=".7"></circle><circle cx="919" cy="40" r=".7"></circle><circle
+        cx="919"
+        cy="45"
+        r=".7"></circle>
+    </g>
+    <text class="caption" x="278" y="109">WORKING NOTES</text>
+    <text class="note-title" x="276" y="151">Plain files, useful memory.</text>
+    <text class="body" x="278" y="184"
+      >The workspace is a folder. Everything else can be rebuilt.</text
+    >
+    <path class="divider" d="M278 206h610"></path>
+    <text class="subheading" x="278" y="238">Keep the source simple</text>
+    <text class="body" x="278" y="265"
+      >Notes and journals stay in Markdown. Open them in any editor,</text
+    >
+    <text class="body" x="278" y="288"
+      >track changes with Git, or take the whole folder with you.</text
+    >
+    <g class="check" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="279" y="313" width="13" height="13" rx="3"></rect>
+      <path d="m282 319 3 3 4-5"></path>
+      <rect x="279" y="342" width="13" height="13" rx="3"></rect>
+      <path d="m282 348 3 3 4-5"></path>
+      <rect x="279" y="371" width="13" height="13" rx="3"></rect>
+    </g>
+    <text class="body" x="304" y="324">Plain files as the source of truth</text>
+    <text class="body" x="304" y="353">Local search, with a rebuildable SQLite index</text>
+    <text class="body" x="304" y="382">Bring the next meeting back into context</text>
+    <text class="caption" x="248" y="444">RELATED NOTES</text>
+    <text class="related-title" x="278" y="476">Meeting notes</text>
+    <text class="related-copy" x="278" y="496">Capture the conversation. Keep the context.</text>
+    <text class="related-title" x="598" y="476">Search that stays local</text>
+    <text class="related-copy" x="598" y="496">Markdown → SQLite → useful memory.</text>
+    <g class="icon">
+      <path d="M250 464h9l4 4v13h-13zM259 464v5h4M570 464h9l4 4v13h-13zM579 464v5h4"></path>
+    </g>
+    <circle cx="37" cy="540" r="2.5" fill="#9baf8e"></circle>
+    <text class="status" x="47" y="544">All changes saved locally</text>
+    <text class="status" x="248" y="544">Markdown</text>
+    <text class="status" x="923" y="544" text-anchor="end"
+      >Stone / Plain files, useful memory.md</text
+    >
+  </g>
+  <rect
+    x="16.5"
+    y="16.5"
+    width="927"
+    height="537"
+    rx="11.5"
+    fill="none"
+    stroke="white"
+    stroke-opacity=".12"></rect>
+</svg>
+
+<style>
+  .stone-study {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-family: var(--sans);
+    text-rendering: optimizeLegibility;
+  }
+  .divider {
+    fill: none;
+    stroke: white;
+    stroke-opacity: 0.07;
+  }
+  .icon {
+    fill: none;
+    stroke: #8c877e;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .brand {
+    fill: #e6e1d7;
+    font-family: var(--serif);
+    font-size: 23px;
+  }
+  .nav-text {
+    fill: #a39d93;
+    font-size: 12px;
+  }
+  .caption {
+    fill: #938a7d;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 1.2px;
+  }
+  .selected {
+    fill: #e1c2a9;
+    font-size: 10.5px;
+  }
+  .breadcrumb {
+    fill: #aaa49b;
+    font-size: 11px;
+  }
+  .note-title {
+    fill: #e8e2d7;
+    font-family: var(--serif);
+    font-size: 35px;
+    letter-spacing: -0.5px;
+  }
+  .body {
+    fill: #aba69c;
+    font-size: 13px;
+  }
+  .subheading {
+    fill: #dcd5ca;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .check {
+    stroke: #92816b;
+    stroke-width: 1.2;
+  }
+  .related-title {
+    fill: #c7c0b4;
+    font-size: 12px;
+  }
+  .related-copy {
+    fill: #8e887e;
+    font-size: 10px;
+  }
+  .status {
+    fill: #837c72;
+    font-size: 9px;
+  }
+</style>

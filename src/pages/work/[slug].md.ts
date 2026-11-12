@@ -25,15 +25,7 @@ export const GET: APIRoute<{ work: CollectionEntry<'work'> }> = ({ props: { work
       description: data.description,
       path: `/work/${work.id}`,
       body: [
-        [
-          `- Type: ${data.kind === 'personal' ? 'Personal project' : 'Work experience'}`,
-          `- Role: ${data.role}`,
-          `- Dates: ${data.dateRange}`,
-          `- Location: ${data.location}`,
-          data.externalUrl && `- Link: ${data.externalUrl}`,
-        ]
-          .filter(Boolean)
-          .join('\n'),
+        data.externalUrl && `- Link: ${data.externalUrl}`,
         '## Overview',
         absolutizeLinks(work.body ?? ''),
         screenshot &&
@@ -41,11 +33,20 @@ export const GET: APIRoute<{ work: CollectionEntry<'work'> }> = ({ props: { work
         data.achievements.length > 0 &&
           (data.kind === 'personal' ? '## Technical highlights' : '## Key achievements'),
         data.achievements.map((achievement) => `- ${achievement}`).join('\n'),
-        data.technologies.length > 0 && `## Technologies\n\n${data.technologies.join(', ')}`,
         data.stats &&
           data.stats.length > 0 &&
           `## Impact\n\n${data.stats.map((stat) => `- **${stat.value}** ${stat.label}`).join('\n')}`,
         data.outcome && `## Outcome\n\n${data.outcome}`,
+        [
+          '## Project details',
+          `- Type: ${data.kind === 'personal' ? 'Personal project' : 'Work experience'}`,
+          `- Role: ${data.role}`,
+          `- Dates: ${data.dateRange}`,
+          `- Location: ${data.location}`,
+          data.technologies.length > 0 && `- Technologies: ${data.technologies.join(', ')}`,
+        ]
+          .filter(Boolean)
+          .join('\n'),
         services.length > 0 && '## Working on a similar problem?',
         services.length > 0 && relatedInquiryIntroduction,
         services

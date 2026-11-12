@@ -62,30 +62,13 @@ function formatDate(date: Date): string {
 >
   <article class="content-section blog-post">
     <div class="section-inner">
-      <div class="post-header">
+      <header class="post-header">
         <div class="post-back">
           <a href="/blog">← Back to blog</a>
         </div>
 
-        <div class="post-meta-header">
-          <time class="post-date" datetime={formatDate(post.data.date)}>
-            {formatDate(post.data.date)}
-          </time>
-          <span class="post-tag">{post.data.category || 'AI/LLM'}</span>
-        </div>
-
         <h1 class="post-title">{post.data.title}</h1>
-
-        <div class="post-info">
-          <a class="post-author" href="/about" rel="author"
-            >{post.data.author || 'Kushal Patankar'}</a
-          >
-          <span class="meta-separator" aria-hidden="true">/</span>
-          <span class="post-read-time">{post.data.readTime || '5 min read'}</span>
-          <span class="meta-separator" aria-hidden="true">/</span>
-          <span class="post-topics">{post.data.tags.join(', ')}</span>
-        </div>
-      </div>
+      </header>
 
       {
         contents.length > 2 && (
@@ -107,6 +90,45 @@ function formatDate(date: Date): string {
       <div class="post-content">
         <Content />
       </div>
+
+      <footer class="detail-meta" aria-label="Article details">
+        <dl>
+          <div>
+            <dt>Written by</dt>
+            <dd><a href="/about" rel="author">{post.data.author || 'Kushal Patankar'}</a></dd>
+          </div>
+          <div>
+            <dt>Published</dt>
+            <dd><time datetime={publishedIso}>{formatDate(post.data.date)}</time></dd>
+          </div>
+          {
+            post.data.updated && (
+              <div>
+                <dt>Updated</dt>
+                <dd>
+                  <time datetime={modifiedIso}>{formatDate(post.data.updated)}</time>
+                </dd>
+              </div>
+            )
+          }
+          <div>
+            <dt>Reading time</dt>
+            <dd>{post.data.readTime || '5 min read'}</dd>
+          </div>
+          <div>
+            <dt>Category</dt>
+            <dd>{post.data.category || 'AI/LLM'}</dd>
+          </div>
+          {
+            post.data.tags.length > 0 && (
+              <div>
+                <dt>Topics</dt>
+                <dd>{post.data.tags.join(', ')}</dd>
+              </div>
+            )
+          }
+        </dl>
+      </footer>
 
       {
         related.length > 0 && (

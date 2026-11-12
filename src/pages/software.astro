@@ -16,32 +16,7 @@ const projects = softwareProjects(await getCollection('work'));
 >
   <section class="content-section page-software">
     <div class="section-inner">
-      <header class="software-header">
-        <p class="page-kicker">Independent work</p>
-        <h1 class="section-title">Personal software</h1>
-        <p class="software-intro">{personalSoftware.intro}</p>
-      </header>
-
-      <section class="software-reading" aria-labelledby="software-reading-title">
-        <h2 id="software-reading-title">{personalSoftware.heading}</h2>
-        <p>{personalSoftware.explanation}</p>
-        <ol>
-          {
-            personalSoftware.guides.map((guide) => (
-              <li>
-                <a href={guide.href}>
-                  <span class="software-reading-label">{guide.label}</span>
-                  <span class="software-reading-copy">
-                    <strong>{guide.title}</strong>
-                    <span>{guide.description}</span>
-                  </span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </li>
-            ))
-          }
-        </ol>
-      </section>
+      <h1 class="visually-hidden">Personal software</h1>
 
       <div class="software-grid">
         {
