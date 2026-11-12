@@ -3,30 +3,31 @@ title: Garatch
 company: Garatch
 kind: personal
 role: Watch-face Designer & Engineer
-description: A collection of information-dense Garmin watch faces exploring typography, glanceability, and wearable data.
-seoTitle: "Garatch – Information-Dense Garmin Watch Faces"
+description: 'Garmin watch faces for exploring how to make time, activity, and other data readable at a glance.'
+seoTitle: 'Garatch – Information-Dense Garmin Watch Faces'
 dateRange: 2025 – Present
 sortDate: 2025-06-21
 location: Independent
 order: 105
 technologies: [Monkey C, Connect IQ, Garmin SDK, Wearable UI]
 achievements:
-  - "**Twelve design theses** — minimal, orbit, blueprint, telemetry, atelier, cosmic, analog, sixdash, metrics, and instrument-grid each argue a different answer to the same question"
-  - "**Glanceable density** — Time, steps, heart rate, calories, battery, temperature, and goal progress arranged so one glance is enough"
-  - "**Device-aware layouts** — Information hierarchy adapts across round and rectangular Garmin displays instead of letterboxing one design"
-  - "**Purpose-built assets and tooling** — Custom bitmap type, icons, and progress segments, plus a monorepo that builds and simulates any face on any device with one command"
+  - '**Layouts** — Multiple Garmin watch faces with different approaches to information density'
+  - '**Assets** — Custom bitmap fonts, icons, and progress segments'
+  - '**Development** — Shared builds, Connect IQ simulation, and a desktop layout preview tool'
 externalUrl: https://github.com/peritissimus/garatch
-outcome: "Garatch is an ongoing laboratory for designing useful interfaces at wrist scale, where every pixel, every milliwatt, and every glance matters."
+updated: 2026-11-12
 ---
 
-A watch face is the hardest interface brief there is: a canvas a few centimeters wide, read in under a second, on a battery budget measured in milliwatts. Garatch takes that brief seriously and answers it twelve different ways — a collection of Garmin faces that each test how much information a wrist can carry before it stops feeling calm.
+I wanted a Garmin watch face with more useful data, but I still needed to read it during a walk. Garatch is a collection of faces I built to explore that balance: how much can fit on the display before the time or heart rate becomes hard to find?
 
-**The project started on my wrist.** I wanted more useful data than a minimal face could show, but most dense faces felt like dashboards reduced to watch size. Designing my own made the constraint concrete: the information had to survive motion, sunlight, a quick glance, and the habits of one actual wearer.
+Wearing a face gives me feedback that a mockup cannot. If a number takes too long to find, I change its position or size. If an always-on display is too bright at night, I revisit the colors.
 
-**Why it is personal software.** I can evaluate a face by living with it rather than by approving a static mockup. If the heart-rate value takes too long to find during a walk, the hierarchy is wrong. If an always-on state feels too bright at night, the palette is wrong. Daily wear turns taste into feedback and gives each new face a reason to exist.
+## Different layouts for the same data
 
-**Each face is a thesis.** *Sixdash* stacks six data rows with segmented goal bars over an oversized time display. *Orbit* puts your metrics in planetary rings. *Blueprint* renders the day as a technical drawing; *telemetry* as an instrument panel; *atelier* as a type specimen; *cosmic* and *analog* push toward ornament and tradition. The collection is the point — the same data, re-argued through typography, measurement, and hierarchy until the trade-offs are visible.
+Sixdash puts six rows and segmented goal bars beneath a large time display. Orbit arranges metrics in rings. Blueprint uses a technical-drawing style, Telemetry resembles an instrument panel, and Atelier focuses on typography. Each is a different way to arrange time, activity, battery, and other readings.
 
-**The constraints are the craft.** Low-power wearable displays punish laziness: burn-in rules out static brightness, memory budgets rule out lazy rendering, and 1 Hz second hands have to be earned. Garatch faces use purpose-built bitmap type, custom icons, and hand-tuned progress segments instead of scaled-down phone UI, and each face adapts its hierarchy to round and rectangular Garmin displays rather than letterboxing one layout everywhere.
+## Working within the watch's limits
 
-**The tooling is half the project.** A monorepo Makefile builds any face for any supported device and launches it in the Connect IQ simulator with one command, while annotated layout mockups pin down every coordinate before a line of Monkey C is written. A custom desktop designer companion previews compositions at device resolution, keeping the design loop out of the compile loop.
+Small displays, limited memory, and always-on behavior affect the layout and rendering. Custom bitmap fonts, icons, and progress segments let me tune the result at the device's actual resolution. Layouts adapt to supported round and rectangular displays.
+
+The faces use Monkey C and Garmin's Connect IQ SDK. A shared Makefile builds a selected face for a supported device and opens the simulator. Annotated layout drawings and a desktop designer companion let me check compositions before compiling them for the watch.

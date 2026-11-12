@@ -147,7 +147,7 @@ const breadcrumbs = breadcrumbSchema([
         {
           work.data.achievements.length > 0 && (
             <div class="work-section">
-              <h3>Key Achievements</h3>
+              <h3>{work.data.kind === 'personal' ? 'Technical highlights' : 'Key Achievements'}</h3>
               <ul class="achievement-list">
                 {work.data.achievements.map((achievement) => (
                   <li set:html={parseMarkdown(achievement)} />

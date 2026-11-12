@@ -1,10 +1,10 @@
 ---
-updated: 2026-10-12
+updated: 2026-11-12
 title: Fitroom
 company: Fitroom
 kind: personal
 role: Designer & Engineer
-description: An AI couple try-on studio that renders two people in chosen outfits as a single true-to-height portrait.
+description: 'An AI try-on studio for comparing two people in chosen outfits, using reference photos and saved heights.'
 seoTitle: 'Fitroom – AI Couple Outfit Try-On Studio'
 dateRange: '2026'
 sortDate: 2026-07-07
@@ -12,10 +12,9 @@ location: Independent
 order: 106
 technologies: [Next.js, React, TypeScript, Tailwind CSS, OpenAI Images, Gemini]
 achievements:
-  - '**Couple composer** — Pairs a person and an outfit for each partner and renders both in one photorealistic side-by-side portrait'
-  - '**True relative height** — Uses each person''s saved height to scale partners correctly, so a 6''0" and a 5''0" partner read the way they do in life'
-  - "**Garment isolation** — Pre-processes every outfit down to the garment alone, so an outfit model's face or physique can never leak into a render"
-  - '**Model picker with job queue** — Switches per render between OpenAI and Gemini image models, with generation running as polled background jobs'
+  - '**Inputs** — Two person photos, two outfit images, and saved height information'
+  - '**Preparation** — Garment isolation reduces the influence of the clothing model'
+  - '**Generation** — OpenAI or Gemini image models, with polled jobs and saved render history'
 screenshot:
   src: '/project-screenshots/fitroom.webp'
   alt: 'Fitroom private studio sign-in screen beside a full-height portrait of a couple'
@@ -23,21 +22,24 @@ screenshot:
   width: 1280
   height: 720
 externalUrl: https://github.com/peritissimus/fitroom
-outcome: 'Fitroom turns virtual try-on into a shared ritual: compose a couple, pick the outfits, and get one portrait that respects who they actually are.'
 ---
 
-Virtual try-on tools are built for one person at a time, and they quietly lie: faces drift, bodies get idealized, and everyone comes out model-height. Fitroom starts from a different premise — that trying on outfits is something couples do together — and treats fidelity to the two real people as the entire product.
+I wanted to compare outfits with my partner in one picture. The try-on tools I found handled one person at a time, and generated images often changed our faces, builds, or relative heights. Fitroom is a private studio for saving our references and trying clothing combinations together.
 
-**How the idea started.** I wanted to compare outfits with my partner, but every try-on product I found treated us as two unrelated solo sessions. Even when the clothes looked plausible, the people stopped looking like us: heights converged, physiques were idealized, and details from the clothing model leaked into the result. Fitroom began as a very specific fix for that gap — put both of us, both outfits, and our real proportions into one shared image.
+## Four references, one image
 
-**Why it is personal software.** This is not a fashion marketplace or a generic avatar service. It is a private wardrobe built around people I know, clothes we are actually considering, and the small facts that make the output believable to us. I use it as a visual decision tool: save our references once, try combinations together, and keep the renders worth returning to. The model picker, persistent library, and protected deployment exist because I pay the generation cost and use the product myself.
+Each render uses a photo of each person and an image of each outfit. All four go into one image-edit request, so generation works from the original references. The prompt separates who the people are from what they should wear.
 
-**One pass, four references.** Both people and both outfits go into a single image-edit call, so the model works directly from the original photos instead of a lossy intermediate. That is what lets faces, skin, and body builds survive the generation. Physique preservation is asserted forcefully in the prompt: the render must show _these_ two people, not the fashion-average bodies image models default to.
+Before rendering, an outfit image goes through a garment-isolation step to reduce the influence of the person modeling the clothes. People and outfits are saved server-side, so I can reuse them across sessions.
 
-**Height is data, not vibes.** Every saved person carries their real height, and the composite is scaled from it — a 6'0" partner and a 5'0" partner read correctly, side by side, the way they do in photographs. It is a small detail that decides whether the output feels like _them_ or like stock imagery.
+## Giving the model proportions
 
-**The wardrobe is persistent and clean.** People and outfits are saved server-side and reused across sessions, and every outfit is pre-processed down to the garment alone. That isolation step means a prominent model in a product photo can never leak their face or build into your couple's portrait.
+A saved person includes their height. Fitroom calculates the height difference and includes it in the prompt: for example, one partner should appear about 20% taller than the other. It also asks the model to preserve faces and body builds. These instructions guide generation; they do not guarantee accurate proportions or identity in every result.
 
-**The plumbing respects reality.** Generation and isolation run as polled background jobs rather than long-lived requests, so nothing trips serverless timeouts, and orphaned jobs are swept up on restart. A model picker switches per render between OpenAI's gpt-image models and Google's Nano Banana family, every render is stored with its prompt and model, and the composer keeps the ritual quick: ⌘Enter to generate, draft or high-quality, cancel in flight, download as PNG.
+## Waiting for a render
+
+Generation and garment isolation run as background jobs. The page polls for progress instead of keeping one request open throughout generation, and interrupted jobs are handled on restart. I can choose an OpenAI or Gemini image model per render, select a quality level, cancel, and download the result as a PNG. Saved renders include their prompt and model.
+
+The studio uses Next.js, React, and TypeScript. Its library is private to the deployment. Garment isolation sends outfit photos to OpenAI, and portrait generation sends person and outfit references to the selected image provider. I use the output to compare combinations; it cannot tell me how a garment will physically fit.
 
 Fitroom is one of the examples in [what personal software means and why I build it](/blog/what-is-personal-software).

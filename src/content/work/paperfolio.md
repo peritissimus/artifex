@@ -3,31 +3,38 @@ title: Paperfolio
 company: Paperfolio
 kind: personal
 role: Designer & Engineer
-description: A paper-trading and research platform for screening Indian equities and testing portfolio strategies.
-seoTitle: "Paperfolio – Paper Trading and Screening for Indian Equities"
+description: 'A paper-trading and research platform for screening Indian equities and examining historical strategies.'
+seoTitle: 'Paperfolio – Paper Trading and Screening for Indian Equities'
 dateRange: 'January 2026'
 sortDate: 2026-01-06
 location: Independent
 order: 112
 technologies: [Python, Django, Celery, Redis, PostgreSQL, Pydantic, httpx, Yahoo Finance]
 achievements:
-  - '**Market-wide research** — Collects fundamentals and price history for more than 1,200 Indian equities, with Tickertape as the primary source and Yahoo Finance as a fallback'
-  - '**Paper portfolios** — Models holdings, buy and sell transactions, average cost, and portfolio value without putting real capital at risk'
-  - '**Strategy testing** — Runs historical simulations and records trades and daily performance snapshots for later analysis'
-  - '**Useful measurement** — Calculates CAGR, volatility, Sharpe ratio, and maximum drawdown alongside multi-timeframe technical and fundamental signals'
-outcome: 'Paperfolio brings market data, screening, simulated execution, and performance analysis into one private research loop for exploring an investment thesis before risking real money.'
+  - '**Research** — Fundamentals and prices for more than 1,200 Indian equities'
+  - '**Simulation** — Paper transactions, historical trades, and daily portfolio snapshots'
+  - '**Data pipeline** — Django and PostgreSQL, with Celery/Redis ingestion and provider fallback'
+updated: 2026-11-12
 ---
 
-Investment ideas are easy to invent and surprisingly hard to examine honestly. A promising screen, a clean-looking chart, and one memorable winner can quickly become a strategy in your head. Paperfolio was built to put some distance between the idea and the conviction: collect the evidence, simulate the decisions, and measure what actually happened.
+I built Paperfolio to examine investing ideas before putting money behind them. Moving between data sites, spreadsheets, and separate backtests made it easy to remember the evidence I liked and lose track of the rest. I wanted market data, simulated trades, and performance history in one place.
 
-**It began as a discipline problem.** I wanted one private place where an investing idea had to survive the whole loop: screen the market, state the rule, simulate the trades, and examine the drawdowns. Moving between data sites, spreadsheets, and isolated backtests made it too easy to remember the supporting evidence and lose the rest.
+## Starting with a screen
 
-**Why it is personal software.** Paperfolio is not a brokerage and does not recommend trades. It is the lab I use before real capital enters the conversation. The market coverage, Indian-equity sources, saved portfolios, and performance measures reflect the questions I actually ask, while paper execution keeps experimentation separate from financial action.
+Paperfolio collects fundamentals and historical prices for more than 1,200 Indian equities. I can filter by valuation, profitability, debt, dividends, and price ranges, then look at a stock's fundamentals and technical signals across several timeframes. Tickertape is the primary data source, with Yahoo Finance used as a fallback.
 
-**The research surface starts with the market, not a watchlist.** Paperfolio collects fundamentals and historical prices for more than 1,200 Indian equities. Screeners expose valuation, profitability, leverage, dividends, and distance from 52-week ranges; stock pages combine those fundamentals with technical signals across multiple timeframes. Tickertape provides the richer primary dataset, while Yahoo Finance fills gaps and keeps price history available when the first source cannot.
+## Following the transactions
 
-**A paper portfolio makes every opinion accountable.** Buys and sells become transactions, transactions become holdings with an average cost, and holdings roll up into a portfolio whose value can be followed over time. The simulator uses the same underlying market data to replay a strategy historically, preserving individual trades and daily performance snapshots rather than returning only a flattering final percentage.
+Paper buys and sells become holdings with an average cost and a portfolio value I can follow over time. Historical simulations keep individual trades and daily snapshots, so I can inspect how a strategy reached its final result.
 
-**Returns need context.** Paperfolio measures CAGR, volatility, Sharpe ratio, and maximum drawdown so two strategies with similar ending values do not look equivalent when one took a much rougher path. Post-trade analysis also checks what happened after an entry over several horizons, making it possible to inspect whether a signal was early, useful, or simply lucky.
+## Looking beyond the ending value
 
-**Data collection is treated as production work.** Slow external APIs and incomplete records run through Celery and Redis rather than blocking the interface. Responses are validated before persistence, synchronization can be resumed in batches, and the secondary provider acts as a deliberate fallback instead of an emergency patch. The result is less a stock-picking oracle than a personal laboratory: a place to turn intuition into a claim that can be tested.
+The analysis includes compound annual growth, volatility, Sharpe ratio, and maximum drawdown. These describe how quickly a portfolio grew, how much returns varied, returns relative to volatility, and the largest peak-to-trough fall. Two simulations can end at a similar value while taking very different paths.
+
+Post-trade analysis also checks prices over several periods after an entry. That gives me another way to examine whether a signal helped, rather than relying on a few memorable winners.
+
+## Collecting the data
+
+A Django app stores the research in PostgreSQL. Celery and Redis run slow collection jobs in the background, responses are validated before storage, and synchronization can resume in batches. Provider fallbacks help with missing records, though the analysis still depends on the data received.
+
+Paperfolio is a private research tool with paper execution. A historical simulation records what the rules would have done on that dataset; it does not establish what a future portfolio will earn.

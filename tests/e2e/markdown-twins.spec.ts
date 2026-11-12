@@ -75,7 +75,7 @@ test('collection twins carry the source markdown with absolute links', async ({ 
   expect(post).not.toMatch(/\]\(\/[^/]/);
 
   const work = await (await request.get('/work/stone.md')).text();
-  expect(work).toContain('## Key achievements');
+  expect(work).toContain('## Technical highlights');
   expect(work).toContain('- Link: https://github.com/peritissimus/stone-electron');
   expect(work).not.toMatch(/\]\(\/[^/]/);
 });

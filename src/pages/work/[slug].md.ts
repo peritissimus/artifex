@@ -38,7 +38,8 @@ export const GET: APIRoute<{ work: CollectionEntry<'work'> }> = ({ props: { work
         absolutizeLinks(work.body ?? ''),
         screenshot &&
           `![${screenshot.alt}](${absoluteUrl(screenshot.src)})\n\n*${screenshot.caption}*`,
-        data.achievements.length > 0 && '## Key achievements',
+        data.achievements.length > 0 &&
+          (data.kind === 'personal' ? '## Technical highlights' : '## Key achievements'),
         data.achievements.map((achievement) => `- ${achievement}`).join('\n'),
         data.technologies.length > 0 && `## Technologies\n\n${data.technologies.join(', ')}`,
         data.stats &&
