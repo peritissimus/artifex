@@ -1140,7 +1140,7 @@ a {
 
 // Rendered markdown
 .post-content {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.75;
   color: var(--muted);
 
@@ -1789,52 +1789,8 @@ a {
   }
 }
 
-.work-content {
-  font-size: 1.0625rem;
-  color: var(--fg);
-}
-
 .work-section {
   margin-bottom: 2.75rem;
-
-  h3 {
-    @extend %kicker;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    margin-bottom: 1.25rem;
-    color: var(--muted);
-    text-wrap: pretty;
-  }
-}
-
-.achievement-list {
-  list-style: none;
-
-  li {
-    position: relative;
-    padding-left: 1.35rem;
-    margin-bottom: 0.8rem;
-    color: var(--muted);
-    text-wrap: pretty;
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.65em;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--faint);
-    }
-
-    strong {
-      color: var(--fg);
-      font-weight: 600;
-    }
-  }
 }
 
 .tech-grid {
