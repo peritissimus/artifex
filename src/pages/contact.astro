@@ -31,7 +31,6 @@ import { infrastructureReview } from '../lib/infrastructure-review';
 >
   <section id="contact" class="content-section page-contact">
     <div class="section-inner">
-      <p class="page-kicker">A conversation is a good start</p>
       <h1 class="section-title">Contact</h1>
       <div class="section-content">
         <p class="lede">{contactIntroduction}</p>
@@ -53,12 +52,11 @@ import { infrastructureReview } from '../lib/infrastructure-review';
             consultingServices.map((service) => (
               <details class="contact-service" id={service.slug}>
                 <summary>
-                  <span class="contact-service-name">{service.name}</span>
+                  <h3 class="contact-service-name">{service.title}</h3>
                   <span class="contact-service-summary">{service.summary}</span>
                   <span class="contact-service-indicator" aria-hidden="true" />
                 </summary>
                 <div class="contact-service-body">
-                  <h3>{service.title}</h3>
                   <p>{service.introduction}</p>
                   <h3>{service.question}</h3>
                   {service.problems.map((problem) => (

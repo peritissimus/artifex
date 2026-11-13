@@ -37,7 +37,9 @@
 }
 
 .contact-service-name {
+  margin: 0;
   color: var(--fg);
+  font-size: inherit;
   font-weight: 600;
   text-wrap: balance;
 }

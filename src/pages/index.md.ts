@@ -28,7 +28,6 @@ export const GET: APIRoute = async () => {
           `- ${link('Get in touch', '/contact')}`,
         ].join('\n'),
         '## Personal software',
-        'Local-first personal software and independent experiments I design and build outside of work.',
         [
           ...featuredProjects.map(
             (project) => `- ${link(project.name, `/work/${project.slug}`)}: ${project.description}`

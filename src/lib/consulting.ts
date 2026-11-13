@@ -25,8 +25,6 @@ export const contactDescription =
   'LLM application development services and LLM infrastructure consulting with Kushal Patankar: product integration, reliable background work, latency, and cost.';
 export const contactIntroduction =
   'Have a product to build or a system to untangle? I help teams build LLM applications and make them reliable in production. My work spans applied AI engineering, application infrastructure, and distributed systems.';
-export const relatedInquiryIntroduction =
-  'For a similar project, we can discuss a focused implementation, architecture review, or investigation.';
 
 // Contact lists the work areas; infrastructure also has a focused detail page.
 // Shared data keeps HTML, Markdown, and inquiry topics aligned.

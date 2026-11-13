@@ -218,8 +218,7 @@ a {
   margin: 0 auto;
 }
 
-.page-kicker,
-.blog-label {
+.page-kicker {
   @extend %kicker;
   display: block;
   margin-bottom: 1.25rem;
@@ -312,14 +311,6 @@ a {
 
 .project-deck-section {
   margin-top: 5rem;
-}
-
-.project-deck-intro {
-  margin: -0.25rem 0 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.55;
-  text-wrap: pretty;
 }
 
 // Only the phone stack is swipeable, so the hint only exists there.
@@ -907,10 +898,6 @@ a {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.25rem;
-}
-
-.blog-label {
-  margin-bottom: 0;
 }
 
 .blog-count {
@@ -1639,36 +1626,6 @@ nav.post-content {
 
 .project-blueprint--paperfolio {
   --plate-accent: #c9a24a;
-}
-
-.project-blueprint-labels {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  color: rgba(238, 233, 223, 0.55);
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-
-  span:first-child {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-
-    &::before {
-      content: '';
-      width: 0.38rem;
-      height: 0.38rem;
-      flex: 0 0 auto;
-      border-radius: 50%;
-      background: var(--plate-accent);
-    }
-  }
 }
 
 .project-screenshot {

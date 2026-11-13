@@ -1,6 +1,6 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { servicePath, servicesForContent, relatedInquiryIntroduction } from '../../lib/consulting';
+import { servicePath, servicesForContent } from '../../lib/consulting';
 import {
   absoluteUrl,
   absolutizeLinks,
@@ -26,7 +26,6 @@ export const GET: APIRoute<{ work: CollectionEntry<'work'> }> = ({ props: { work
       path: `/work/${work.id}`,
       body: [
         data.externalUrl && `- Link: ${data.externalUrl}`,
-        '## Overview',
         absolutizeLinks(work.body ?? ''),
         screenshot &&
           `![${screenshot.alt}](${absoluteUrl(screenshot.src)})\n\n*${screenshot.caption}*`,
@@ -48,7 +47,6 @@ export const GET: APIRoute<{ work: CollectionEntry<'work'> }> = ({ props: { work
           .filter(Boolean)
           .join('\n'),
         services.length > 0 && '## Working on a similar problem?',
-        services.length > 0 && relatedInquiryIntroduction,
         services
           .map(
             (service) => `- [${service.title} →](https://peritissimus.com${servicePath(service)})`

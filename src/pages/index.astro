@@ -47,10 +47,6 @@ const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
           <h2 id="projects-heading">Personal software</h2>
           <a href="/software">All projects →</a>
         </div>
-        <p class="project-deck-intro">
-          Local-first personal software and independent experiments I design and build outside of
-          work.
-        </p>
         <div class="project-deck">
           {
             projects.map((project, i) => (

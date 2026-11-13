@@ -106,13 +106,7 @@ const breadcrumbs = breadcrumbSchema([
             {work.id === 'stone' ? (
               <StoneArtwork />
             ) : (
-              <>
-                <div class="project-blueprint-labels" aria-hidden="true">
-                  <span>Product study</span>
-                  <span>Archive {String(work.data.order - 100).padStart(2, '0')}</span>
-                </div>
-                <ProjectArtwork variant={artworkVariant} detail="blueprint" />
-              </>
+              <ProjectArtwork variant={artworkVariant} detail="blueprint" />
             )}
             <figcaption>{work.data.description}</figcaption>
           </figure>
@@ -121,7 +115,6 @@ const breadcrumbs = breadcrumbSchema([
 
       <div class="post-content">
         <div class="work-section">
-          <h3>Overview</h3>
           <Content />
         </div>
       </div>

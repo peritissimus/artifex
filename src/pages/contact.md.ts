@@ -26,9 +26,8 @@ export const GET: APIRoute = () =>
         link(`${infrastructureReview.contactLabel} →`, infrastructureReview.path),
         ...consultingServices.map((service) =>
           [
-            `### ${service.name}`,
+            `### ${service.title}`,
             service.summary,
-            `#### ${service.title}`,
             service.introduction,
             `#### ${service.question}`,
             ...service.problems.map((problem) => `##### ${problem.title}\n\n${problem.detail}`),

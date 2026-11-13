@@ -8,7 +8,7 @@ export type CommandFn = () => string | string[];
 export const INTRO_LINES: { text: string; kind: 'in' | 'out' }[] = [
   { text: 'peritissimus@web ~ whoami', kind: 'in' },
   { text: 'kushal patankar — founding engineer & system architect', kind: 'out' },
-  { text: 'building next-gen ai products @ zoca · bengaluru, in', kind: 'out' },
+  { text: 'building ai products @ zoca · bengaluru, in', kind: 'out' },
   { text: '', kind: 'out' },
   { text: "iit kharagpur '21 · 6+ yrs · 1m+ users reached", kind: 'out' },
   { text: '', kind: 'out' },
@@ -35,7 +35,7 @@ export const COMMANDS: Record<string, CommandFn> = {
     'kushal patankar',
     '────────────────',
     'founding engineer & system architect.',
-    'currently building next-gen ai products at zoca.',
+    'currently building ai products at zoca.',
     '',
     'previously dubverse, brihaspati, simplesound.',
     'iit kharagpur · 4+ companies built · 0→1 specialist.',

@@ -195,9 +195,9 @@ test('Contact exposes three native service disclosures with valid project and ar
   for (const { slug, name, title } of SERVICES) {
     const content = serviceDisclosure(html, slug);
     const summary = content.match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/)?.[1] ?? '';
-    assert.ok(plain(summary).includes(plain(name)), `Missing service summary: ${slug}`);
+    assert.ok(plain(summary).includes(plain(title)), `Missing service summary: ${slug}`);
     assert.ok(plain(markdown).includes(plain(name)), `Missing Markdown service: ${slug}`);
-    const summaryCopy = plain(summary).replace(plain(name), '');
+    const summaryCopy = plain(summary).replace(plain(title), '');
     assert.ok(summaryCopy, `Missing descriptive service summary: ${slug}`);
     assert.ok(plain(markdown).includes(summaryCopy), `Missing Markdown summary: ${slug}`);
     const headings = [...content.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/g)].map(([, text]) =>
