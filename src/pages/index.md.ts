@@ -5,10 +5,6 @@ import { link, markdownDocument, markdownResponse } from '../lib/markdown';
 
 /** Markdown twin of `/` — keep in step with `index.astro`. */
 export const GET: APIRoute = async () => {
-  const selectedWork = (await getCollection('work', ({ data }) => data.kind === 'professional'))
-    .sort((a, b) => a.data.order - b.data.order)
-    .slice(0, 3);
-
   const latestPosts = (await getCollection('blog', ({ data }) => !data.draft))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
     .slice(0, 3);
@@ -34,18 +30,11 @@ export const GET: APIRoute = async () => {
           ),
           `- ${link('All projects', '/software')}`,
         ].join('\n'),
-        '## Selected work',
-        selectedWork
-          .map(
-            (work) =>
-              `- ${link(work.data.company, `/work/${work.id}`)} (${work.data.dateRange}): ${work.data.description}`
-          )
-          .join('\n'),
         latestPosts.length > 0 && '## Latest writing',
         latestPosts
           .map(
             (latestPost) =>
-              `- ${link(latestPost.data.title, `/blog/${latestPost.id}`)} (${latestPost.data.readTime || '5 min read'}): ${latestPost.data.description}`
+              `- ${link(latestPost.data.title, `/blog/${latestPost.id}`)} (${latestPost.data.date.toISOString().slice(0, 10)})`
           )
           .join('\n'),
       ],

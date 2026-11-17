@@ -16,7 +16,7 @@ export const GET: APIRoute = () =>
       [
         `- ${link('llms.txt', '/llms.txt')}: what this site covers and when to use it, with links to every section.`,
         `- ${link('Sitemap', '/sitemap-index.xml')}: every public URL.`,
-        `- ${link('Home', '/')}: overview, selected work, and latest writing.`,
+        `- ${link('Home', '/')}: overview, personal software, and latest writing.`,
         `- ${link('Blog', '/blog')}: technical articles.`,
         `- ${link('Personal software', '/software')}: independent projects, including Stone.`,
         `- ${link('About', '/about')}, ${link('Résumé', '/resume')}, and ${link('Contact', '/contact')}: background, experience, and contact details.`,

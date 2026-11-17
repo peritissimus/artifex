@@ -84,7 +84,7 @@ ${[
 ## Pages
 
 ${[
-  entry('Home', '/', 'Overview, selected work, and latest writing.'),
+  entry('Home', '/', 'Overview, personal software, and latest writing.'),
   entry('About', '/about', 'Background, experience, and technical focus.'),
   entry('Résumé', '/resume', 'Experience, skills, and education.'),
   entry('Software', '/software', 'Independent software projects and experiments.'),
