@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────
 // Artifex — minimal editorial stylesheet
-// Newsreader display, Inter prose, system sans interface.
+// Newsreader display, Allo prose, system sans interface.
 // Light/dark driven entirely by system preference (prefers-color-scheme).
 // Inspired by interfacecraft.dev; Newsreader keeps Signifier's editorial character
 // without its condensed proportions.
@@ -9,10 +9,7 @@
 @use './contact-projects';
 @import '@fontsource/newsreader/400.css';
 @import '@fontsource/newsreader/400-italic.css';
-@import '@fontsource/inter/latin-400.css';
-@import '@fontsource/inter/latin-400-italic.css';
-@import '@fontsource/inter/latin-600.css';
-@import '@fontsource/inter/latin-600-italic.css';
+@import 'allo-font/allo.css';
 
 // ── Design tokens ──────────────────────────────────────────────────────────
 :root {
@@ -30,7 +27,7 @@
   --prose-link: #262626;
 
   --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --prose: 'Inter', var(--sans);
+  --prose: 'Allo', var(--sans);
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
 
