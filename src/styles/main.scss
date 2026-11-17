@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────
 // Artifex — minimal editorial stylesheet
-// Newsreader display, Inter prose, system sans interface.
+// Newsreader display, Allo prose and interface.
 // Light/dark driven entirely by system preference (prefers-color-scheme).
 // Inspired by interfacecraft.dev; Newsreader keeps Signifier's editorial character
 // without its condensed proportions.
@@ -9,10 +9,7 @@
 @use './contact-projects';
 @import '@fontsource/newsreader/400.css';
 @import '@fontsource/newsreader/400-italic.css';
-@import '@fontsource/inter/latin-400.css';
-@import '@fontsource/inter/latin-400-italic.css';
-@import '@fontsource/inter/latin-600.css';
-@import '@fontsource/inter/latin-600-italic.css';
+@import 'allo-font/allo.css';
 
 // ── Design tokens ──────────────────────────────────────────────────────────
 :root {
@@ -30,8 +27,8 @@
   --prose-link: #262626;
 
   --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --prose: 'Inter', var(--sans);
-  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --prose: var(--sans);
+  --sans: 'Allo', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
 
   --measure: 42rem; // reading column
@@ -70,6 +67,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--sans);
+  font-feature-settings: 'ss01' 1; // Allo single-story a
   font-size: 1rem;
   line-height: 1.6;
   min-height: 100vh;
@@ -77,6 +75,14 @@ body {
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+// Keep monospace fallbacks (e.g. JetBrains Mono) on their default glyphs.
+code,
+pre,
+kbd,
+samp {
+  font-feature-settings: normal;
 }
 
 a {
